@@ -1,0 +1,174 @@
+:root{
+  --bg:#f7f8fa; --panel:#ffffff; --ink:#1b2430; --ink-soft:#5b6572; --ink-muted:#8993a1;
+  --border:#e2e5ea; --accent:#4c78a8; --accent2:#f58518; --accent3:#54a24b; --accent4:#e45756;
+  --code-bg:#f0f2f5; --accent-current-bg:var(--accent); --accent-current-text:#ffffff;
+  --hl-yellow:#fff2a8; --hl-green:#b9e6b0; --hl-red:#f3b0ae; --hl-blue:#a9d4f5;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#13161b; --panel:#1b1f27; --ink:#e8eaed; --ink-soft:#aab1bc; --ink-muted:#7a8291;
+         --border:#2b313c; --code-bg:#262c36; --accent:#6fa3d8; --accent-current-bg:#2d547e; --accent-current-text:#eaf2fb;
+         --hl-yellow:#5c5321; --hl-green:#214f2a; --hl-red:#5a2626; --hl-blue:#223f5c; }
+}
+*{box-sizing:border-box;}
+html,body{margin:0; padding:0;}
+body{background:var(--bg); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+     line-height:1.65;}
+
+/* ---------- top bar ---------- */
+.topbar{position:sticky; top:0; background:var(--panel); border-bottom:1px solid var(--border); padding:10px 20px;
+        display:flex; justify-content:space-between; align-items:center; font-size:13px; z-index:50; gap:10px;}
+.topbar .left a{color:var(--accent); text-decoration:none; margin-right:14px; white-space:nowrap;}
+.topbar .right{display:flex; gap:8px; align-items:center;}
+.iconbtn{background:var(--code-bg); border:1px solid var(--border); color:var(--ink); border-radius:8px;
+         padding:7px 11px; font-size:13px; cursor:pointer; font-family:inherit;}
+.iconbtn:hover{border-color:var(--accent);}
+
+/* ---------- hamburger (mobile sidebar toggle) ---------- */
+.hamburger{display:none;}
+@media (max-width:760px){
+  .hamburger{display:inline-block;}
+}
+
+/* ---------- sidebar (full book navigation) ---------- */
+.sidebar{flex:0 0 240px; position:sticky; top:52px; align-self:flex-start; max-height:calc(100vh - 52px);
+         overflow-y:auto; padding:18px 14px; border-right:1px solid var(--border); font-size:13.5px;}
+.sidebar input{width:100%; padding:7px 9px; border-radius:7px; border:1px solid var(--border);
+               background:var(--code-bg); color:var(--ink); font-size:12.5px; margin-bottom:12px; font-family:inherit;}
+.sidebar details{margin-bottom:4px;}
+.sidebar summary{cursor:pointer; font-size:11px; text-transform:uppercase; letter-spacing:.04em;
+                 color:var(--ink-muted); padding:7px 4px; list-style:revert;}
+.sidebar ul{list-style:none; margin:0; padding:0 0 4px 6px;}
+.sidebar li{margin-bottom:2px;}
+.sidebar li a{display:block; padding:7px 10px; border-radius:8px; color:var(--ink-soft); text-decoration:none;
+              font-size:12.8px; line-height:1.4; border-left:3px solid transparent;
+              transition:background-color .12s ease, color .12s ease, border-color .12s ease;}
+.sidebar li a:hover{background-color:rgba(130,145,165,.18); color:var(--ink);}
+.sidebar li a:focus-visible{outline:2px solid var(--accent); outline-offset:1px;}
+.sidebar li.current a{background-color:var(--accent-current-bg); color:var(--accent-current-text);
+                       font-weight:600; border-left-color:var(--accent-current-text);}
+.sidebar li.current a:hover{background-color:var(--accent-current-bg);}
+.sidebar li.hidden{display:none;}
+
+@media (max-width:760px){
+  .sidebar{position:fixed; top:0; left:0; height:100vh; width:280px; max-width:85vw; background:var(--panel);
+           z-index:300; transform:translateX(-100%); transition:transform .2s ease; box-shadow:8px 0 24px rgba(0,0,0,.18);
+           padding-top:60px;}
+  .sidebar.open{transform:translateX(0);}
+}
+#sidebarOverlay{position:fixed; inset:0; background:rgba(0,0,0,.25); z-index:290; display:none;}
+#sidebarOverlay.open{display:block;}
+
+/* ---------- two-pane (article + image rail) layout ---------- */
+.layout{display:flex; align-items:flex-start; max-width:1500px; margin:0 auto;}
+.pane-left{flex:1 1 680px; min-width:0; padding:30px 28px 120px; max-width:760px;}
+.pane-right{flex:0 0 360px; position:sticky; top:52px; max-height:calc(100vh - 52px); overflow-y:auto;
+            padding:24px 20px 60px; border-left:1px solid var(--border);}
+.pane-right h4{font-size:11.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-muted); margin:0 0 14px;}
+.railFigure{margin-bottom:22px; border-radius:10px; padding:4px; border:2px solid transparent; transition:border-color .15s;}
+.railFigure.active{border-color:var(--accent);}
+.railFigure img{width:100%; border-radius:8px; border:1px solid var(--border); display:block;}
+.railFigure .cap{font-size:12px; color:var(--ink-soft); margin-top:6px; line-height:1.4;}
+.railEmpty{color:var(--ink-muted); font-size:13px;}
+
+@media (max-width: 980px){
+  .pane-right{display:none;}
+  .pane-left{max-width:100%;}
+}
+
+/* ---------- article typography ---------- */
+.article h1{font-size:26px; line-height:1.3;}
+.article h2{font-size:20px; border-bottom:1px solid var(--border); padding-bottom:6px; margin-top:38px;}
+.article h3{color:var(--ink-soft); text-transform:uppercase; letter-spacing:.03em; font-size:13px; margin-top:26px;}
+.article p,.article li{font-size:15.5px;}
+.article code{background:var(--code-bg); padding:1px 5px; border-radius:4px; font-size:13.5px;}
+.article pre{background:var(--code-bg); padding:14px 16px; border-radius:10px; overflow-x:auto;}
+.article pre code{background:none; padding:0;}
+.article a{color:var(--accent);}
+.article em{color:var(--ink-soft); font-size:13.5px;}
+.article blockquote{border-left:3px solid var(--accent); margin:0; padding:4px 16px; color:var(--ink-soft);}
+
+/* figures: ALWAYS shown inline in the article text, at every screen size.
+   On wide screens they're also cloned into the right-hand rail as a
+   scroll-synced quick-reference; on narrow screens the rail just hides
+   (see .pane-right rule above) and the inline figure is all you see. */
+.article img.has-rail{max-width:100%; border-radius:8px; border:1px solid var(--border); display:block; margin:14px auto;}
+.article .img-caption.has-rail{text-align:center;}
+
+.navfooter{display:flex; justify-content:space-between; margin-top:50px; padding-top:20px; border-top:1px solid var(--border); font-size:14px;}
+
+/* ---------- highlights ---------- */
+mark.hl{padding:1px 0; border-radius:3px; cursor:pointer;}
+mark.hl-yellow{background:var(--hl-yellow);}
+mark.hl-green{background:var(--hl-green);}
+mark.hl-red{background:var(--hl-red);}
+mark.hl-blue{background:var(--hl-blue);}
+.noteIcon{display:inline-block; cursor:pointer; font-size:12px; margin-left:1px; user-select:none;}
+
+/* floating selection toolbar */
+#selToolbar{position:absolute; z-index:200; background:var(--panel); border:1px solid var(--border); border-radius:10px;
+            box-shadow:0 6px 18px rgba(0,0,0,.18); padding:6px; display:none; gap:4px;}
+#selToolbar button{border:none; background:none; cursor:pointer; font-size:17px; padding:5px 7px; border-radius:6px;}
+#selToolbar button:hover{background:var(--code-bg);}
+
+/* popup bubble for a note */
+#notePopup{position:absolute; z-index:210; background:var(--panel); border:1px solid var(--border); border-radius:10px;
+           box-shadow:0 6px 18px rgba(0,0,0,.18); padding:12px; width:260px; display:none;}
+#notePopup textarea{width:100%; min-height:70px; font-family:inherit; font-size:13px; border-radius:6px;
+                     border:1px solid var(--border); background:var(--code-bg); color:var(--ink); padding:8px; resize:vertical;}
+#notePopup .row{display:flex; justify-content:space-between; margin-top:8px; gap:6px;}
+#notePopup button{font-size:12.5px; padding:6px 10px; border-radius:7px; border:1px solid var(--border); background:var(--code-bg);
+                   color:var(--ink); cursor:pointer; font-family:inherit;}
+#notePopup button.primary{background:var(--accent); color:white; border:none;}
+#notePopup button.danger{color:var(--accent4); border-color:var(--accent4);}
+
+/* notes panel (slide-in) */
+#notesPanel{position:fixed; top:0; right:0; height:100vh; width:340px; max-width:92vw; background:var(--panel);
+            border-left:1px solid var(--border); box-shadow:-8px 0 24px rgba(0,0,0,.18); z-index:300;
+            transform:translateX(100%); transition:transform .2s ease; display:flex; flex-direction:column;}
+#notesPanel.open{transform:translateX(0);}
+#notesPanel .header{padding:16px 18px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center;}
+#notesPanel .header b{font-size:15px;}
+#notesPanel .list{flex:1; overflow-y:auto; padding:10px 14px;}
+.noteCard{border:1px solid var(--border); border-radius:10px; padding:10px 12px; margin-bottom:10px; font-size:13px;}
+.noteCard .snippet{font-style:italic; color:var(--ink-soft); margin-bottom:6px; border-left:3px solid var(--border); padding-left:8px;}
+.noteCard .noteText{margin-bottom:6px;}
+.noteCard .meta{display:flex; justify-content:space-between; align-items:center; color:var(--ink-muted); font-size:11px;}
+.noteCard .meta a{color:var(--accent); cursor:pointer; text-decoration:none;}
+#notesPanel .footer{padding:12px 16px; border-top:1px solid var(--border); display:flex; gap:8px;}
+#notesPanel .footer button{flex:1; font-size:12.5px; padding:8px; border-radius:8px; border:1px solid var(--border);
+                            background:var(--code-bg); color:var(--ink); cursor:pointer; font-family:inherit;}
+#notesOverlay{position:fixed; inset:0; background:rgba(0,0,0,.25); z-index:290; display:none;}
+#notesOverlay.open{display:block;}
+
+@media (max-width:600px){
+  .pane-left{padding:20px 16px 100px;}
+  .topbar{padding:8px 12px;}
+  .topbar .left a{margin-right:8px; font-size:12px;}
+}
+
+/* ---------- embedded interactive lab modules (inline in chapter text) ---------- */
+.labcard{background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:18px 20px; margin:18px 0;}
+.labcard .labkicker{font-size:11.5px; text-transform:uppercase; letter-spacing:.04em; color:var(--ink-muted); margin-bottom:12px;}
+.labcontrols{display:flex; flex-wrap:wrap; gap:16px; margin-bottom:10px;}
+.labctrl{flex:1; min-width:180px;}
+.labctrl label{display:flex; justify-content:space-between; font-size:13px; color:var(--ink-soft); margin-bottom:5px;}
+.labctrl label b{color:var(--ink); font-weight:600;}
+.labcard input[type=range]{width:100%; accent-color:var(--accent);}
+.labcard select, .labcard textarea{font-family:inherit; font-size:13.5px; padding:7px 9px; border-radius:8px;
+                                    border:1px solid var(--border); background:var(--code-bg); color:var(--ink); width:100%;}
+.labcard .labrow{display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin:10px 0;}
+.labcard button.labbtn{background:var(--accent); color:white; border:none; cursor:pointer; font-weight:600;
+                        padding:8px 14px; border-radius:8px; font-size:13px; font-family:inherit;}
+.labcard button.labbtn.secondary{background:var(--code-bg); color:var(--ink); border:1px solid var(--border); font-weight:500;}
+.labcard button.labbtn:hover{opacity:.9;}
+.labcard label.labcheck{display:flex; align-items:center; gap:7px; font-size:13px; color:var(--ink-soft);}
+.labcanvas-wrap{width:100%; overflow-x:auto;}
+.labcanvas-wrap canvas{display:block; width:100%; height:auto; background:var(--panel); border-radius:8px;}
+.labstat-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(110px,1fr)); gap:10px; margin-top:12px;}
+.labstat{background:var(--code-bg); border-radius:10px; padding:9px 11px;}
+.labstat .lbl{font-size:10.5px; color:var(--ink-muted); text-transform:uppercase; letter-spacing:.03em;}
+.labstat .val{font-size:18px; font-weight:700; margin-top:1px;}
+.lablegend{display:flex; gap:14px; flex-wrap:wrap; font-size:12px; color:var(--ink-soft); margin-top:8px;}
+.lablegend span{display:inline-flex; align-items:center; gap:5px;}
+.labswatch{width:9px; height:9px; border-radius:3px; display:inline-block;}
+.labnote{font-size:12.5px; color:var(--ink-muted); margin-top:10px; line-height:1.5;}
