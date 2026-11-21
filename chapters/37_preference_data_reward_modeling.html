@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 37: Preference Data and Reward Modeling - Statistics From Human Judgments</title>
+<link rel="stylesheet" href="../assets/app.css">
+<script>
+window.MathJax = { tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']], processEscapes: true } };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+</head>
+<body data-chapter="37_preference_data_reward_modeling">
+<div class="topbar">
+  <div class="left">
+    <button class="iconbtn hamburger" id="btnSidebarToggle">☰</button>
+    <a href="../index.html">Statistics for AI</a>
+  </div>
+  <div class="right">
+    <button class="iconbtn" id="btnNotesPanel">📒 My Notes</button>
+  </div>
+</div>
+<div id="sidebarOverlay"></div>
+<div class="layout">
+  <nav class="sidebar" id="sidebar">
+    <input type="text" id="sidebarFilter" placeholder="Filter chapters...">
+<details open><summary>Orientation</summary><ul>
+<li class="" data-title="chapter 0: how to use this book, and the math notation you'll see"><a href="00_how_to_use_this_book.html">Chapter 0: How to Use This Book, and the Math Notation You'll See</a></li>
+</ul></details>
+<details open><summary>Part I - Describing the World</summary><ul>
+<li class="" data-title="chapter 1: data, populations, and samples - thinking like a statistician"><a href="01_data_populations_samples.html">Chapter 1: Data, Populations, and Samples - Thinking Like a Statistician</a></li>
+<li class="" data-title="chapter 2: describing data - center, spread, and shape"><a href="02_descriptive_statistics.html">Chapter 2: Describing Data - Center, Spread, and Shape</a></li>
+<li class="" data-title="chapter 3: probability foundations - events, rules, and conditioning"><a href="03_probability_foundations.html">Chapter 3: Probability Foundations - Events, Rules, and Conditioning</a></li>
+<li class="" data-title="chapter 4: bayes' theorem - updating beliefs with evidence"><a href="04_bayes_theorem.html">Chapter 4: Bayes' Theorem - Updating Beliefs With Evidence</a></li>
+<li class="" data-title="chapter 5: random variables and discrete distributions"><a href="05_random_variables_discrete.html">Chapter 5: Random Variables and Discrete Distributions</a></li>
+<li class="" data-title="chapter 6: continuous distributions and the normal distribution"><a href="06_continuous_distributions.html">Chapter 6: Continuous Distributions and the Normal Distribution</a></li>
+<li class="" data-title="chapter 7: expectation, variance, covariance, and correlation"><a href="07_expectation_variance_covariance.html">Chapter 7: Expectation, Variance, Covariance, and Correlation</a></li>
+<li class="" data-title="chapter 8: the central limit theorem - the secret engine of statistics"><a href="08_central_limit_theorem.html">Chapter 8: The Central Limit Theorem - The Secret Engine of Statistics</a></li>
+</ul></details>
+<details open><summary>Part II - Inferring From Data</summary><ul>
+<li class="" data-title="chapter 9: sampling and estimation"><a href="09_sampling_and_estimation.html">Chapter 9: Sampling and Estimation</a></li>
+<li class="" data-title="chapter 10: maximum likelihood estimation"><a href="10_maximum_likelihood_estimation.html">Chapter 10: Maximum Likelihood Estimation</a></li>
+<li class="" data-title="chapter 11: confidence intervals"><a href="11_confidence_intervals.html">Chapter 11: Confidence Intervals</a></li>
+<li class="" data-title="chapter 12: hypothesis testing and p-values"><a href="12_hypothesis_testing.html">Chapter 12: Hypothesis Testing and p-values</a></li>
+<li class="" data-title="chapter 13: t-tests, chi-square, and anova"><a href="13_ttests_chisquare_anova.html">Chapter 13: t-tests, Chi-square, and ANOVA</a></li>
+<li class="" data-title="chapter 14: correlation and simple linear regression"><a href="14_simple_linear_regression.html">Chapter 14: Correlation and Simple Linear Regression</a></li>
+<li class="" data-title="chapter 15: multiple regression, r², and overfitting"><a href="15_multiple_regression.html">Chapter 15: Multiple Regression, R², and Overfitting</a></li>
+</ul></details>
+<details open><summary>Part III - The Bridge Into Machine Learning</summary><ul>
+<li class="" data-title="chapter 16: bias-variance tradeoff, cross-validation, and regularization"><a href="16_bias_variance_regularization.html">Chapter 16: Bias-Variance Tradeoff, Cross-Validation, and Regularization</a></li>
+<li class="" data-title="chapter 17: bayesian statistics in depth"><a href="17_bayesian_statistics.html">Chapter 17: Bayesian Statistics in Depth</a></li>
+<li class="" data-title="chapter 18: resampling - bootstrap and permutation tests"><a href="18_resampling_methods.html">Chapter 18: Resampling - Bootstrap and Permutation Tests</a></li>
+<li class="" data-title="chapter 19: linear algebra essentials for statistics and ml"><a href="19_linear_algebra_essentials.html">Chapter 19: Linear Algebra Essentials for Statistics and ML</a></li>
+<li class="" data-title="chapter 20: multivariate statistics - covariance matrices and pca"><a href="20_multivariate_pca.html">Chapter 20: Multivariate Statistics - Covariance Matrices and PCA</a></li>
+</ul></details>
+<details open><summary>Part IV - The Statistics Inside Modern AI</summary><ul>
+<li class="" data-title="chapter 21: information theory - entropy, cross-entropy, and kl divergence"><a href="21_information_theory.html">Chapter 21: Information Theory - Entropy, Cross-Entropy, and KL Divergence</a></li>
+<li class="" data-title="chapter 22: statistical learning theory - why generalization works at all"><a href="22_statistical_learning_theory.html">Chapter 22: Statistical Learning Theory - Why Generalization Works At All</a></li>
+<li class="" data-title="chapter 23: probabilistic models and latent variables (mixtures, em)"><a href="23_latent_variable_models.html">Chapter 23: Probabilistic Models and Latent Variables (Mixtures, EM)</a></li>
+<li class="" data-title="chapter 24: markov chains and monte carlo methods"><a href="24_markov_chains_monte_carlo.html">Chapter 24: Markov Chains and Monte Carlo Methods</a></li>
+<li class="" data-title="chapter 25: the statistics hiding inside neural networks"><a href="25_statistics_in_neural_networks.html">Chapter 25: The Statistics Hiding Inside Neural Networks</a></li>
+<li class="" data-title="chapter 26: where to go next"><a href="26_where_to_go_next.html">Chapter 26: Where to Go Next</a></li>
+</ul></details>
+<details open><summary>Part V - The Statistical Frontier of Modern AI</summary><ul>
+<li class="" data-title="chapter 27: the statistical frontier - how modern ai actually uses these ideas today"><a href="27_frontier_ai_statistics.html">Chapter 27: The Statistical Frontier - How Modern AI Actually Uses These Ideas Today</a></li>
+</ul></details>
+<details open><summary>Part VI - Advanced AI Algorithms: The Statistical Engine Room</summary><ul>
+<li class="" data-title="chapter 28: diffusion models and score matching - statistics as generation"><a href="28_diffusion_models_score_matching.html">Chapter 28: Diffusion Models and Score Matching - Statistics as Generation</a></li>
+<li class="" data-title="chapter 29: transformers and attention - statistics you can calculate (almost) by hand"><a href="29_transformers_attention_statistics.html">Chapter 29: Transformers and Attention - Statistics You Can Calculate (Almost) by Hand</a></li>
+<li class="" data-title="chapter 30: reinforcement learning and policy gradients - statistics that learn from rewards"><a href="30_reinforcement_learning_policy_gradients.html">Chapter 30: Reinforcement Learning and Policy Gradients - Statistics That Learn From Rewards</a></li>
+<li class="" data-title="chapter 31: variational inference and the elbo - approximate bayes at scale"><a href="31_variational_inference_elbo.html">Chapter 31: Variational Inference and the ELBO - Approximate Bayes at Scale</a></li>
+<li class="" data-title="chapter 32: contrastive learning and infonce - statistics that learns embeddings"><a href="32_contrastive_learning_infonce.html">Chapter 32: Contrastive Learning and InfoNCE - Statistics That Learns Embeddings</a></li>
+<li class="" data-title="chapter 33: causal inference and do-calculus - when correlation is not enough"><a href="33_causal_inference_do_calculus.html">Chapter 33: Causal Inference and Do-Calculus - When Correlation Is Not Enough</a></li>
+<li class="" data-title="chapter 34: graphical models and message passing - statistics as graphs"><a href="34_graphical_models_message_passing.html">Chapter 34: Graphical Models and Message Passing - Statistics as Graphs</a></li>
+<li class="" data-title="chapter 35: optimization, generalization, and double descent - why big models work"><a href="35_optimization_generalization_double_descent.html">Chapter 35: Optimization, Generalization, and Double Descent - Why Big Models Work</a></li>
+<li class="" data-title="chapter 36: time series and modern sequence models - statistics over time"><a href="36_time_series_sequence_models.html">Chapter 36: Time Series and Modern Sequence Models - Statistics Over Time</a></li>
+</ul></details>
+<details open><summary>Part VII - Aligning AI With Human Preferences: The Statistics of RLHF</summary><ul>
+<li class="current" data-title="chapter 37: preference data and reward modeling - statistics from human judgments"><a href="37_preference_data_reward_modeling.html">Chapter 37: Preference Data and Reward Modeling - Statistics From Human Judgments</a></li>
+<li class="" data-title="chapter 38: rlhf, dpo, and preference optimization - turning preferences into a loss function"><a href="38_dpo_and_preference_optimization.html">Chapter 38: RLHF, DPO, and Preference Optimization - Turning Preferences Into a Loss Function</a></li>
+<li class="" data-title="chapter 39: reinforcement learning with verifiable rewards - and how reasoning models are trained"><a href="39_rl_verifiable_rewards_reasoning.html">Chapter 39: Reinforcement Learning With Verifiable Rewards - and How Reasoning Models Are Trained</a></li>
+</ul></details>
+  </nav>
+  <div class="pane-left">
+    <div class="article" id="article">
+<h1 id="chapter-37-preference-data-and-reward-modeling-statistics-from-human-judgments">Chapter 37: Preference Data and Reward Modeling - Statistics From Human Judgments</h1>
+<h2 data-bid="b1" id="the-idea-this-chapter-builds-toward">The idea this chapter builds toward</h2>
+<p data-bid="b2">Every estimator so far has been fit to <em>numbers</em> - heights, counts, click-through rates. But the thing modern AI actually wants to learn is vaguer: <strong>which of two responses a person would prefer.</strong> This chapter shows that "which do you like better?" is still a statistical measurement problem, and that the measurements - pairwise comparisons - carry surprising amounts of usable signal even though each one is cheap, noisy, and subjective. The model that consumes them is a <strong>reward model</strong>, and fitting it is exactly Chapter 10's maximum likelihood applied to the <strong>Bradley-Terry</strong> model, which is just logistic regression (Chapter 25) wearing a ranking costume. By the end you'll see why the whole frontier of AI alignment rests on the statistical properties of a pile of human "I like this one better" clicks - and where that pile can lie to you.</p>
+<blockquote data-bid="b3">
+<p data-bid="b4"><strong>Intuition, in one breath:</strong> People are terrible at scoring things on an absolute 1-10 scale but remarkably consistent at saying "this one's better than that one" - so we measure preferences as head-to-head comparisons, then infer a hidden quality score for each item that best explains who won.</p>
+</blockquote>
+<h2 data-bid="b5" id="why-pairwise-beats-absolute-scoring-a-measurement-lesson-chapters-12-and-13">Why pairwise beats absolute scoring - a measurement lesson (Chapters 12 and 13)</h2>
+<p data-bid="b6">Ask an annotator to score a response "quality" on a 1-7 scale, and you inherit every problem Chapter 12 and Chapter 13 warned about. The scale is arbitrary (is 5 "good" or "average"?), the boundaries between 4 and 5 are fuzzy, and each person has their own internal calibration - one rater's 6 is another's 4. That's a classic <strong>measurement-instrument</strong> problem: you're not observing quality directly, you're observing quality through a person's private, drifting ruler. Absolute labels also invite scale compression: raters cluster in the middle and avoid extremes.</p>
+<p data-bid="b7">A <strong>pairwise comparison</strong> ("which of these two is better?") sidesteps all of it. You never need the ruler, only the <em>ordering</em>, and humans are far more reliable at comparisons than at absolute scores - the same reason Chapter 12's rank-based tests (sign test, Wilcoxon) trade a little power for robustness to the scale being wrong. The deeper statistical move is that a preference <em>is</em> a binary outcome. It's a Bernoulli trial (Chapter 5) whose probability depends on the (hidden) qualities of the two items. So each comparison is one bit of data we can feed to a likelihood - and Chapter 10 already told us exactly what to do with a pile of Bernoulli outcomes: maximize the likelihood.</p>
+<p data-bid="b8">This is why the entire RLHF pipeline (Chapter 30) collects comparisons, not scores: it converts a squishy subjective judgment into a clean, well-understood statistical estimation problem.</p>
+<h2 data-bid="b9" id="the-bradley-terry-model-1952-logistic-regression-in-disguise">The Bradley-Terry model (1952) - logistic regression in disguise</h2>
+<p data-bid="b10">Give each item $i$ a latent <strong>quality score</strong> $r_i$ (the thing we're trying to estimate). The Bradley-Terry model - invented by Ralph Bradley and Milton Terry in 1952 to rank chess players and sports teams from match results - says the probability that item $a$ beats item $b$ is</p>
+<p data-bid="b11">$$P(a \text{ beats } b) = \frac{e^{r_a}}{e^{r_a} + e^{r_b}} = \sigma(r_a - r_b),$$</p>
+<p data-bid="b12"><strong>Reading it piece by piece:</strong>
+- <strong>$P(a \text{ beats } b)$</strong> - the probability that item $a$ is preferred over item $b$, the Bernoulli outcome each comparison produces.
+- <strong>$r_a$ and $r_b$</strong> - the latent quality scores of the two items, the hidden quantities we want to estimate.
+- <strong>$e^{r_a}/(e^{r_a}+e^{r_b})$</strong> - $a$'s share of the total "quality weight," so a higher $r_a$ tilts the odds toward $a$.
+- <strong>$\sigma(r_a - r_b)$</strong> - the same thing rewritten as a logistic sigmoid of the quality <em>difference</em>, showing only the gap matters.</p>
+<p data-bid="b13">where $\sigma(z) = \frac{1}{1+e^{-z}}$ is the logistic sigmoid. <strong>Stop and notice what this is:</strong> divide numerator and denominator by $e^{r_a}$ and you get $\frac{1}{1 + e^{-(r_a-r_b)}}$ - a sigmoid of a <em>linear</em> difference. That is logistic regression (Chapter 25) with the design matrix encoding "which two items were compared," and the coefficient vector being the qualities. This is exactly the connection Chapter 27 flagged when it called reward models Bradley-Terry models, and it's why Chapter 30 could slot a "learned scorer" into RLHF without inventing new theory.</p>
+<p data-bid="b14">To fit the $r_i$, write the likelihood over all observed comparisons and maximize it - Chapter 10's recipe verbatim. For a single comparison where $a$ actually beat $b$, the log-likelihood contribution is</p>
+<p data-bid="b15">$$\log P(a \text{ beat } b) = \log \sigma(r_a - r_b).$$</p>
+<p data-bid="b16"><strong>Reading it piece by piece:</strong>
+- <strong>$\log P(a \text{ beat } b)$</strong> - the log-likelihood contribution of one observed comparison, the per-observation chunk we will sum.
+- <strong>$\sigma(r_a - r_b)$</strong> - the model's predicted chance that $a$ wins, driven only by the quality gap.
+- <strong>$\log$</strong> - turns the product of many probabilities into a sum, which is what makes the fit tractable.</p>
+<p data-bid="b17">Sum over all $N$ comparisons and maximize over the $r$'s. Because only <em>differences</em> ever appear, the qualities are identified only up to a shift - add a constant to every $r_i$ and nothing changes - so standard practice pins the scale by fixing one item's quality to zero (e.g. $r_{\text{base}} = 0$), exactly like dropping a reference level in a regression with categorical predictors (Chapter 15).</p>
+<h2 data-bid="b18" id="the-random-utility-interpretation-where-the-gaussian-noise-comes-from-chapter-6">The random-utility interpretation - where the Gaussian noise comes from (Chapter 6)</h2>
+<p data-bid="b19">Bradley-Terry looks like a definition, but it has a <em>derivation</em>, and the derivation is the same random-utility story Chapter 6 uses for measurement error. Suppose each item $i$ has a deterministic true quality $q_i$, but when a person evaluates it under a particular context they experience a noisy value</p>
+<p data-bid="b20">$$U_i = q_i + \varepsilon_i, \quad \varepsilon_i \sim \text{Gumbel or Gaussian},$$</p>
+<p data-bid="b21"><strong>Reading it piece by piece:</strong>
+- <strong>$U_i$</strong> - the noisy value a person actually experiences when judging item $i$ in a given context.
+- <strong>$q_i$</strong> - the item's deterministic true quality, the stable part.
+- <strong>$\varepsilon_i$</strong> - the random measurement noise around that true quality, the wobble in each human judgment.
+- <strong>Gumbel or Gaussian</strong> - the choice of noise distribution: Gaussian gives a probit model, Gumbel gives logistic Bradley-Terry.</p>
+<p data-bid="b22">and the person picks whichever item feels better, $U_a > U_b$. If the noise is Gaussian with equal variance, the probability that $U_a > U_b$ is $\Phi\!\left(\frac{q_a - q_b}{\sigma\sqrt2}\right)$ - a <strong>probit</strong> model. If the noise is Gumbel (the extreme-value distribution Chapter 27 met while studying maxima), you get exactly the logistic sigmoid of Bradley-Terry. So Bradley-Terry is the Gumbel-noise twin of a probit model, and both are the natural answer to "probability that a noisy comparison goes one way." This matters because it tells you what the noise term <em>means</em>: each human comparison is one noisy draw from Chapter 6's distributions, and observing many of them lets you average the noise away - the CLT logic of Chapter 8 applied to preferences.</p>
+<h2 data-bid="b23" id="elo-ratings-the-streaming-version-of-bradley-terry">Elo ratings - the streaming version of Bradley-Terry</h2>
+<p data-bid="b24">You can't rerun an MLE over millions of comparisons every time a new one arrives. <strong>Elo</strong> (Arpad Elo, 1960s, originally for chess) is Bradley-Terry solved <em>online</em>, one comparison at a time. Keep a running rating $R_i$ for each item, convert to a 10-based scale $r_i = R_i \ln 10 / 400$, and after a comparison between $a$ and $b$, update</p>
+<p data-bid="b25">$$R_a \leftarrow R_a + K\,(S_a - \hat{P}_a), \qquad R_b \leftarrow R_b + K\,(S_b - \hat{P}_b),$$</p>
+<p data-bid="b26"><strong>Reading it piece by piece:</strong>
+- <strong>$R_a$ and $R_b$</strong> - the running ratings of the two items, updated in place after each match.
+- <strong>$K$</strong> - the step size (learning rate) controlling how far one result moves a rating.
+- <strong>$S_a$ and $S_b$</strong> - the actual outcomes, $1$ for the winner and $0$ for the loser.
+- <strong>$\hat{P}_a$ and $\hat{P}_b$</strong> - the predicted win probabilities before the match, from the current rating gap.
+- <strong>$S - \hat{P}$</strong> - the prediction error (surprise); a big upset moves ratings much more than an expected result.</p>
+<p data-bid="b27">where $S_a \in \{0,1\}$ is the actual outcome ($1$ if $a$ won), $\hat{P}_a = \sigma(r_a-r_b)$ is the predicted win probability, and $K$ is a step size. Notice the form: it's a <strong>gradient step on the Bradley-Terry log-likelihood</strong> - the update is the prediction error $S - \hat P$ times a learning rate, the stochastic-gradient cousin of Chapter 10's MLE. Elo is what you'd get if you ran Bradley-Terry MLE with a single-example batch, forever, which is why it's the desktop of every online rating system: chess, tennis seeds, online games, and - increasingly - fast-moving human-preference leaderboards for language models, where new votes arrive continuously and re-fitting everything is wasteful.</p>
+<div class="labcard">
+<div class="labkicker">Live - turn a head-to-head record into a rating gap</div>
+<div class="labcontrols">
+  <div class="labctrl"><label>Wins of A over B <b id="ch37_winsA_label">4</b></label><input type="range" id="ch37_winsA" min="0" max="20" step="1" value="4"></div>
+  <div class="labctrl"><label>Wins of B over A <b id="ch37_winsB_label">1</b></label><input type="range" id="ch37_winsB" min="0" max="20" step="1" value="1"></div>
+</div>
+<div class="labrow">
+  <button class="labbtn" id="ch37_run">Run fit</button>
+  <button class="labbtn secondary" id="ch37_reset">Reset</button>
+</div>
+<div class="labcanvas-wrap"><canvas id="ch37_canvas" width="820" height="240"></canvas></div>
+<div class="labstat-grid">
+  <div class="labstat"><div class="lbl">MLE quality gap d = rA - rB</div><div class="val" id="ch37_mle">-</div></div>
+  <div class="labstat"><div class="lbl">Implied P(A beats B)</div><div class="val" id="ch37_prob">-</div></div>
+  <div class="labstat"><div class="lbl">Elo update (1500 vs 1500, A wins)</div><div class="val" id="ch37_elo">-</div></div>
+</div>
+<p data-bid="b28" class="labnote">Make the record more lopsided and watch the MLE gap d = logit(win rate) grow without bound; a 50/50 record gives d = 0 and a coin-flip win probability. The Elo row shows one online step at K = 32 from 1500 vs 1500.</p>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  var SL = window.StatsLab;
+  function sigmoid(z){ return 1/(1+Math.exp(-z)); }
+  function update(){
+    var wa = parseInt(document.getElementById('ch37_winsA').value, 10);
+    var wb = parseInt(document.getElementById('ch37_winsB').value, 10);
+    document.getElementById('ch37_winsA_label').textContent = wa;
+    document.getElementById('ch37_winsB_label').textContent = wb;
+    var n = wa + wb;
+    var rate = n > 0 ? wa/n : 0.5;
+    var p = rate;
+    p = Math.min(Math.max(p, 1e-6), 1 - 1e-6);
+    var d = Math.log(p/(1-p));
+    if(n === 0) d = 0;
+    document.getElementById('ch37_mle').textContent = (n === 0 ? '0.000' : d.toFixed(3));
+    document.getElementById('ch37_prob').textContent = (sigmoid(d)*100).toFixed(1)+'%';
+    var K = 32;
+    var eloA = 1500 + K*(1 - 0.5);
+    var eloB = 1500 + K*(0 - 0.5);
+    document.getElementById('ch37_elo').textContent = 'A ' + eloA.toFixed(0) + ' / B ' + eloB.toFixed(0);
+
+    var plot = SL.makePlot(document.getElementById('ch37_canvas'));
+    var maxV = Math.max(wa, wb, 1);
+    plot.setDomain([0,2],[0, maxV*1.2]);
+    plot.clear(); plot.axes('','wins');
+    plot.bars([[0.5, wa], [1.5, wb]], SL.colors.accent, 0.5);
+    var ctx = plot.ctx;
+    ctx.fillStyle = SL.colors.ink; ctx.textAlign = 'center'; ctx.font = '12px -apple-system,sans-serif';
+    ctx.fillText('A wins = ' + wa, plot.px(0.5), plot.py(wa)-6);
+    ctx.fillText('B wins = ' + wb, plot.px(1.5), plot.py(wb)-6);
+    ctx.fillStyle = SL.colors.inkSoft;
+    ctx.fillText('A', plot.px(0.5), plot.py(0)+16);
+    ctx.fillText('B', plot.px(1.5), plot.py(0)+16);
+  }
+  document.getElementById('ch37_winsA').addEventListener('input', update);
+  document.getElementById('ch37_winsB').addEventListener('input', update);
+  document.getElementById('ch37_run').addEventListener('click', update);
+  document.getElementById('ch37_reset').addEventListener('click', function(){
+    document.getElementById('ch37_winsA').value = 4;
+    document.getElementById('ch37_winsB').value = 1;
+    update();
+  });
+  update();
+});
+</script>
+
+<h2 data-bid="b29" id="how-many-comparisons-do-you-need-statistical-power-chapters-9-and-11">How many comparisons do you need? Statistical power (Chapters 9 and 11)</h2>
+<p data-bid="b30">Quality differences are estimated from a finite pile of comparisons, so each $\hat r_i$ has a standard error (Chapter 9's estimator uncertainty). The scale is set by Bernoulli variance and the number of comparisons involving the item. A useful rule of thumb: to reliably detect a quality gap corresponding to win-probability difference $\delta$, you need on the order of $N \sim 4/\delta^2$ comparisons per item pair to see it at conventional confidence levels (Chapter 11's logic: standard error falls like $1/\sqrt N$, so detecting a half-standard-deviation effect costs roughly that many samples). Ranking 100 items requires enough comparisons to make <em>every</em> pair's difference distinguishable, not just the top few - the same "compare $k$ groups, control family-wise error" worry from Chapter 13's ANOVA and multiple-comparison discussion. Under-collecting data produces confident-looking leaderboards where adjacent items are statistically indistinguishable; the fix is more comparisons, not a prettier chart.</p>
+<h2 data-bid="b31" id="noise-annotator-disagreement-and-label-noise-chapters-2-and-22">Noise: annotator disagreement and label noise (Chapters 2 and 22)</h2>
+<p data-bid="b32">Real preference data is noisy in two distinct ways. First, individual annotators genuinely differ: some prefer terse answers, others prefer detail, so a "true quality" is partly a matter of the population you sampled. Second, annotator agreement is only moderate - research on heavy human-labeling tasks (e.g. the WebGPT/InstructGPT-era work, and the earlier "Learning to summarize from human feedback" paper) found inter-annotator agreement around 70% on many pairwise tasks, and roughly a third of comparison pairs get contradictory labels from different raters. That's <strong>label noise</strong>, the same phenomenon Chapter 22 studied in statistical learning theory as irreducible Bayes error - a floor on achievable accuracy. Chapter 2's outlier logic also applies: a few annotators clicking carelessly or with an odd agenda inject comparisons that no smooth quality model can explain. The consequence is that the best any reward model can do is match the <em>reducible</em> part of the signal; the disagreement is genuine variance, not a bug you can fit away.</p>
+<h2 data-bid="b33" id="overfitting-the-reward-model-held-out-accuracy-and-calibration-chapters-16-and-25">Overfitting the reward model - held-out accuracy and calibration (Chapters 16 and 25)</h2>
+<p data-bid="b34">A reward model is itself a learned predictor, and everything Chapter 16 said about overfitting applies. It's easy to fit the <em>training</em> comparisons and then fail on new ones, so the diagnostic that matters is <strong>held-out preference accuracy</strong>: how often does the model correctly predict a comparison it never saw? Even more important is <strong>calibration</strong> (Chapter 25): does $P(a \text{ beats } b) = 0.8$ actually happen 80% of the time? A reward model that's accurate but miscalibrated, or accurate on average but overconfident near the top, will be exploited by downstream optimization - Chapter 27's reward hacking is precisely the failure that follows from a reward model being "good on held-out data" yet still a fallible proxy. The practical mandate: report held-out accuracy, check calibration curves, and never trust an accuracy number measured on the same comparisons you trained on.</p>
+<h2 data-bid="b35" id="ties-and-non-transitivity-when-the-model-is-simply-wrong">Ties and non-transitivity - when the model is simply wrong</h2>
+<p data-bid="b36">Two biological facts of human preference break Bradley-Terry's neat assumptions. First, many comparisons end in a <strong>tie</strong> ("both are fine"), which the strict $S \in \{0,1\}$ model can't represent; you handle it by splitting the comparison (count it as half a win for each) or by fitting a tie-aware extension that adds a threshold around which $|q_a-q_b|$ is too small to call. Second, human preferences can be <strong>non-transitive</strong>: it's entirely possible that people prefer $A$ over $B$, $B$ over $C$, but $C$ over $A$ (cyclical voting, Condorcet's paradox from social-choice theory). Bradley-Terry assumes a single scalar quality per item, which <em>forces</em> transitivity - so a cyclically-preferred dataset is one the model structurally cannot represent and will fit poorly. The statistical lesson: a strong likelihood score on transitive data is evidence the scalar model is adequate; persistent non-transitivity is evidence you need richer structure (multiple quality dimensions, or context-dependent preferences).</p>
+<h2 data-bid="b37" id="worked-example-by-hand-larger">Worked example - by hand, larger</h2>
+<p data-bid="b38">Suppose we've collected comparisons between just two items, A and B. The data: $A$ beat $B$ <strong>4 times</strong> and $B$ beat $A$ <strong>1 time</strong> - five comparisons total. We'll fit Bradley-Terry by hand and then run one Elo update.</p>
+<p data-bid="b39"><strong>Step 1 - set up the likelihood with one parameter.</strong> Let $d = r_A - r_B$ be the only quantity that matters (only differences are identified). From $A$'s perspective, each $A$-win has probability $\sigma(d)$ and each $B$-win has probability $\sigma(-d) = 1-\sigma(d)$. With 4 wins and 1 loss for $A$:</p>
+<p data-bid="b40">$$L(d) = \sigma(d)^4\,(1-\sigma(d))^1, \qquad \log L(d) = 4\log\sigma(d) + 1\log(1-\sigma(d)).$$</p>
+<p data-bid="b41"><strong>Step 2 - differentiate and set to zero.</strong> Using the clean logistic derivatives $\frac{d}{dd}\log\sigma(d) = 1-\sigma(d)$ and $\frac{d}{dd}\log(1-\sigma(d)) = -\sigma(d)$ (this is the same $\pm$ structure Chapter 30 used for policy gradients):</p>
+<p data-bid="b42">$$\frac{d}{dd}\log L = 4\,(1-\sigma(d)) - 1\cdot\sigma(d) = 0 \implies 4 - 4\sigma(d) - \sigma(d) = 0 \implies \sigma(d) = \frac{4}{5} = 0.8.$$</p>
+<p data-bid="b43">So the MLE says the <em>predicted</em> win probability of A over B is exactly the observed win rate, $4/5$ - gloriously intuitive, and exactly what Chapter 10's coin-flip MLE would have told you in disguise.</p>
+<p data-bid="b44"><strong>Step 3 - recover the quality difference.</strong> Invert the sigmoid: $d = \sigma^{-1}(0.8) = \log\frac{0.8}{1-0.8} = \log\frac{0.8}{0.2} = \log 4 = 1.3863$ (natural log). So the estimated quality gap is $\hat d = r_A - r_B = 1.3863$. If we pin the reference $r_B = 0$, then $r_A = 1.3863$. The 4-to-1 record translates to a log-odds quality lead of 1.386 - the logit of the observed win fraction, precisely the quantity logistic regression calls the linear predictor.</p>
+<p data-bid="b45"><strong>Step 4 - one Elo update by hand.</strong> Same data, but imagine it arrived one match at a time with an online rating. Start both at $R_A = R_B = 1500$, $K = 32$. Convert to the natural-log scale: $r_i = R_i \ln 10/400 = 1500 \times 2.302585/400 = 8.6347$ each, so $r_A - r_B = 0$ and the predicted win probability is $\hat P_A = \sigma(0) = 0.5$. Now the <em>first</em> comparison arrives: <strong>A wins</strong>, so $S_A = 1$. Update A: $R_A \leftarrow 1500 + 32(1 - 0.5) = 1500 + 16 = 1516$. Update B: $S_B = 0$, so $R_B \leftarrow 1500 + 32(0 - 0.5) = 1484$. After one game the ratings have split by 32 points, and A's win probability next time is $\sigma$ of the new gap. Repeat with the other four results (another 3 A-wins, 1 B-win) and the ratings would drift toward A being clearly stronger - the online, incremental echo of the batch MLE.</p>
+<p data-bid="b46"><strong>The takeaway: a pile of pairwise human judgments collapses into a single hidden quality gap via the same logistic-MLE machinery used for ordinary classification - the MLE is just the logit of the observed win rate - and Elo is nothing more exotic than that same fit performed one comparison at a time.</strong></p>
+<h2 data-bid="b47" id="check-your-understanding">Check your understanding</h2>
+<ul>
+<li data-bid="b48">Why can the qualities in a Bradley-Terry model only be determined up to an additive shift, and what does that force us to pin down when fitting?</li>
+<li data-bid="b49">Explain why pairwise preference data is statistically preferable to absolute 1-7 quality scores, in terms of the measurement problems from Chapters 12 and 13.</li>
+<li data-bid="b50">A reward model achieves 85% held-out preference accuracy but is poorly calibrated near the top of its score range. Why is that dangerous for a downstream RLHF loop (Chapter 27), even though the accuracy number looks good?</li>
+</ul>
+<h2 data-bid="b51" id="exercises">Exercises</h2>
+<h3 data-bid="b52" id="exercise-1-fit-a-two-item-bradley-terry-by-hand">Exercise 1 - Fit a two-item Bradley-Terry by hand</h3>
+<p data-bid="b53">Item A beat item B 7 times and item B beat item A 3 times. Compute the MLE quality difference $d = r_A - r_B$ by finding the predicted win probability and inverting the sigmoid. Express the answer both as a win probability and as a log-odds.</p>
+<details><summary>Show solution</summary>
+
+The likelihood is $L(d) = \sigma(d)^7(1-\sigma(d))^3$, so $\log L = 7\log\sigma(d) + 3\log(1-\sigma(d))$. Differentiate with the logistic derivatives:
+
+$$\frac{d}{dd}\log L = 7(1-\sigma(d)) - 3\sigma(d) = 0 \implies 7 - 10\sigma(d) = 0 \implies \sigma(d) = \frac{7}{10} = 0.7.$$
+
+So again the predicted win probability equals the observed win rate: $P(A \text{ beats } B) = 0.7$. Invert the sigmoid:
+
+$$d = \log\frac{0.7}{0.3} = \log 2.333 = 0.8473.$$
+
+So $r_A - r_B = 0.8473$: item A is favored with win probability 0.7, i.e. a log-odds quality lead of about 0.85. Note the general pattern: for $k$ wins in $n$ comparisons, $\hat d = \log\frac{k}{n-k} = \text{logit}(k/n)$ - the exact logistic-regression linear predictor for a single binary predictor.
+
+</details>
+
+<h3 data-bid="b54" id="exercise-2-elo-update-for-a-predicted-vs-actual-upset">Exercise 2 - Elo update for a predicted vs. actual upset</h3>
+<p data-bid="b55">Two items start at $R_A = 1800$, $R_B = 1600$, with $K = 24$. Compute the predicted win probability for A, then compute both ratings after the (a) expected result and (b) upset where B wins.</p>
+<details><summary>Show solution</summary>
+
+Convert to the natural-log scale: the rating gap is $1800 - 1600 = 200$ points. Since $r_i = R_i\ln 10/400$, the difference is $r_A - r_B = 200 \times \ln 10/400 = 200 \times 0.005756 = 1.1513$. Predicted probability A wins:
+
+$$\hat P_A = \sigma(1.1513) = \frac{1}{1+e^{-1.1513}} = \frac{1}{1+0.3162} = \frac{1}{1.3162} = 0.7598.$$
+
+So A is expected to win about 76% of the time, and $\hat P_B = 0.2402$.
+
+(a) **Expected result (A wins)**: $S_A = 1$, so $R_A \leftarrow 1800 + 24(1 - 0.7598) = 1800 + 24(0.2402) = 1800 + 5.76 = 1805.76$. And $S_B = 0$: $R_B \leftarrow 1600 + 24(0 - 0.2402) = 1600 - 5.76 = 1594.24$. A win barely moves the needle because it was already expected.
+
+(b) **Upset (B wins)**: $S_A = 0$, so $R_A \leftarrow 1800 + 24(0 - 0.7598) = 1800 - 18.24 = 1781.76$. And $S_B = 1$: $R_B \leftarrow 1600 + 24(1 - 0.2402) = 1600 + 18.24 = 1618.24$. The upset moves the ratings much more - the update size is proportional to the *surprise* $S - \hat P$, exactly the prediction-error logic of gradient descent on the likelihood.
+
+</details>
+
+<h3 data-bid="b56" id="exercise-3-conceptual-ties-and-cycles">Exercise 3 - Conceptual: ties and cycles</h3>
+<p data-bid="b57">Explain (a) why a strict Bradley-Terry model cannot represent a tie, and one standard fix, and (b) why non-transitive preferences (A beats B, B beats C, C beats A) are a genuine model-misspecification problem rather than just noise.</p>
+<details><summary>Show solution</summary>
+
+(a) Bradley-Terry assigns every comparison a probability $\sigma(r_a - r_b) \in (0,1)$ that one side wins; it never assigns positive probability mass to "neither." A tie is therefore an outcome the model gives essentially zero likelihood to (it can only be mimicked by making $r_a$ and $r_b$ nearly equal, which still predicts a near-coin-flip winner, not a tie). Standard fixes: (i) count a tie as half a win for each item (fractional outcomes), or (ii) use a tie-aware extension that declares a tie whenever $|r_a - r_b|$ falls below a learned threshold, adding a tie-zone parameter to the model.
+
+(b) Transitivity is *forced* by the scalar structure: from $r_A > r_B$ and $r_B > r_C$ it follows automatically that $r_A > r_C$, so the model's predicted win probability for A over C is at least as high as its A-over-B probability. A genuine cycle in the data has no single scalar assignment that fits it well, so the MLE is pulled toward a compromise that mispredicts all three edges. That's misspecification - the data-generating process is richer than the model class (preferences depend on context or on multiple quality dimensions), not merely noisy. The remedy is a richer model: multiple latent quality axes (multidimensional Bradley-Terry), or context-dependent comparisons, rather than more data.
+
+</details>
+
+<h2 data-bid="b58" id="why-this-matters-in-ai-and-in-everyday-life">Why This Matters - In AI and In Everyday Life</h2>
+<p data-bid="b59"><strong>In AI / machine learning:</strong></p>
+<ul>
+<li data-bid="b60"><strong>RLHF and instruction tuning</strong>: InstructGPT, Claude, and essentially every aligned chat model start from a Bradley-Terry reward model (this chapter) fit to human comparisons - the reward model is the statistical heart of the entire pipeline (Chapter 30).</li>
+<li data-bid="b61"><strong>Leaderboards and evaluations</strong>: Elo and Bradley-Terry are how chatbots, models, and players get ranked online - LMSYS Chatbot Arena and similar human-preference arenas are this chapter's streaming Elo, run on millions of fresh pairwise votes.</li>
+<li data-bid="b62"><strong>Annotator disagreement and label noise</strong>: measuring inter-annotator agreement and modeling preference noise directly bounds the best accuracy any reward model (and any downstream policy) can achieve, exactly the irreducible-error floor of Chapter 22.</li>
+<li data-bid="b63"><strong>Reward-model overfitting and reward hacking</strong>: held-out preference accuracy and calibration are the diagnostics that tell you whether a reward model is safe to optimize against - the first line of defense against the winner's curse and Goodharting of Chapter 27.</li>
+</ul>
+<p data-bid="b64"><strong>In everyday, non-AI life:</strong></p>
+<ul>
+<li data-bid="b65"><strong>Any "which is better?" poll</strong> - taste-tests, A/B ad preference panels, ranking job candidates - is a preference-measurement problem, and its noise and disagreement structure look exactly like the annotator noise described here.</li>
+<li data-bid="b66"><strong>Sports and tournament rankings</strong>: Elo and Bradley-Terry literally came from ranking chess and sports teams, and the same "compare, don't score" logic explains why head-to-head results beat expert ratings.</li>
+</ul>
+<h2 data-bid="b67" id="whats-next">What's next</h2>
+<p data-bid="b68">You now have a reward model: a learned scalar that predicts human preference from a pile of noisy comparisons. Chapter 38 takes that reward model and asks the RLHF question - how do you actually <em>optimize a policy</em> against it without wrecking the policy, and how can you skip the reward model entirely? The surprising answer is that the KL-regularized reward-maximization objective has a closed-form optimum, which lets you turn preference data straight into a simple binary-classification loss on the language model itself: <strong>Direct Preference Optimization (DPO).</strong></p>
+    </div>
+    <div class="navfooter">
+      <span><a href="36_time_series_sequence_models.html">&larr; Previous chapter</a></span>
+      <span><a href="38_dpo_and_preference_optimization.html">Next chapter &rarr;</a></span>
+    </div>
+  </div>
+  <div class="pane-right">
+    <h4>Figures in this chapter</h4>
+    <div id="railContent"></div>
+  </div>
+</div>
+
+<!-- floating selection toolbar -->
+<div id="selToolbar">
+  <button data-color="yellow" title="Mark interesting">🟡</button>
+  <button data-color="green" title="Mark understood">🟢</button>
+  <button data-color="red" title="Mark confusing">🔴</button>
+  <button data-color="blue" title="Mark to review later">🔵</button>
+  <button id="btnAddNote" title="Highlight + add a note">📝</button>
+</div>
+
+<!-- note edit popup -->
+<div id="notePopup">
+  <textarea placeholder="Write a note to yourself..."></textarea>
+  <div class="row">
+    <button class="danger" id="btnDeleteHl">Remove highlight</button>
+    <div>
+      <button id="btnCloseNote">Close</button>
+      <button class="primary" id="btnSaveNote">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- notes side panel -->
+<div id="notesOverlay"></div>
+<div id="notesPanel">
+  <div class="header">
+    <b>My Notes - this page</b>
+    <button class="iconbtn" id="btnCloseNotesPanel">✕</button>
+  </div>
+  <div class="list" id="notesList"></div>
+  <div class="footer">
+    <button id="btnExportNotes">⬇ Export all notes</button>
+    <button id="btnImportNotes">⬆ Import notes</button>
+    <input type="file" id="importFile" accept="application/json" style="display:none;">
+  </div>
+</div>
+
+<script src="../assets/app.js"></script>
+</body>
+</html>

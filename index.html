@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Statistics for AI</title>
+<link rel="stylesheet" href="assets/app.css">
+<script>
+window.MathJax = { tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']], processEscapes: true } };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+</head>
+<body data-chapter="__index__">
+<div class="topbar">
+  <div class="left">
+    <button class="iconbtn hamburger" id="btnSidebarToggle">☰</button>
+    <a href="index.html">Statistics for AI</a>
+  </div>
+  <div class="right">
+    <button class="iconbtn" id="btnNotesPanel">📒 My Notes</button>
+  </div>
+</div>
+<div id="sidebarOverlay"></div>
+<div class="layout">
+  <nav class="sidebar" id="sidebar">
+    <input type="text" id="sidebarFilter" placeholder="Filter chapters...">
+<details open><summary>Orientation</summary><ul>
+<li class="" data-title="chapter 0: how to use this book, and the math notation you'll see"><a href="chapters/00_how_to_use_this_book.html">Chapter 0: How to Use This Book, and the Math Notation You'll See</a></li>
+</ul></details>
+<details open><summary>Part I - Describing the World</summary><ul>
+<li class="" data-title="chapter 1: data, populations, and samples - thinking like a statistician"><a href="chapters/01_data_populations_samples.html">Chapter 1: Data, Populations, and Samples - Thinking Like a Statistician</a></li>
+<li class="" data-title="chapter 2: describing data - center, spread, and shape"><a href="chapters/02_descriptive_statistics.html">Chapter 2: Describing Data - Center, Spread, and Shape</a></li>
+<li class="" data-title="chapter 3: probability foundations - events, rules, and conditioning"><a href="chapters/03_probability_foundations.html">Chapter 3: Probability Foundations - Events, Rules, and Conditioning</a></li>
+<li class="" data-title="chapter 4: bayes' theorem - updating beliefs with evidence"><a href="chapters/04_bayes_theorem.html">Chapter 4: Bayes' Theorem - Updating Beliefs With Evidence</a></li>
+<li class="" data-title="chapter 5: random variables and discrete distributions"><a href="chapters/05_random_variables_discrete.html">Chapter 5: Random Variables and Discrete Distributions</a></li>
+<li class="" data-title="chapter 6: continuous distributions and the normal distribution"><a href="chapters/06_continuous_distributions.html">Chapter 6: Continuous Distributions and the Normal Distribution</a></li>
+<li class="" data-title="chapter 7: expectation, variance, covariance, and correlation"><a href="chapters/07_expectation_variance_covariance.html">Chapter 7: Expectation, Variance, Covariance, and Correlation</a></li>
+<li class="" data-title="chapter 8: the central limit theorem - the secret engine of statistics"><a href="chapters/08_central_limit_theorem.html">Chapter 8: The Central Limit Theorem - The Secret Engine of Statistics</a></li>
+</ul></details>
+<details open><summary>Part II - Inferring From Data</summary><ul>
+<li class="" data-title="chapter 9: sampling and estimation"><a href="chapters/09_sampling_and_estimation.html">Chapter 9: Sampling and Estimation</a></li>
+<li class="" data-title="chapter 10: maximum likelihood estimation"><a href="chapters/10_maximum_likelihood_estimation.html">Chapter 10: Maximum Likelihood Estimation</a></li>
+<li class="" data-title="chapter 11: confidence intervals"><a href="chapters/11_confidence_intervals.html">Chapter 11: Confidence Intervals</a></li>
+<li class="" data-title="chapter 12: hypothesis testing and p-values"><a href="chapters/12_hypothesis_testing.html">Chapter 12: Hypothesis Testing and p-values</a></li>
+<li class="" data-title="chapter 13: t-tests, chi-square, and anova"><a href="chapters/13_ttests_chisquare_anova.html">Chapter 13: t-tests, Chi-square, and ANOVA</a></li>
+<li class="" data-title="chapter 14: correlation and simple linear regression"><a href="chapters/14_simple_linear_regression.html">Chapter 14: Correlation and Simple Linear Regression</a></li>
+<li class="" data-title="chapter 15: multiple regression, r², and overfitting"><a href="chapters/15_multiple_regression.html">Chapter 15: Multiple Regression, R², and Overfitting</a></li>
+</ul></details>
+<details open><summary>Part III - The Bridge Into Machine Learning</summary><ul>
+<li class="" data-title="chapter 16: bias-variance tradeoff, cross-validation, and regularization"><a href="chapters/16_bias_variance_regularization.html">Chapter 16: Bias-Variance Tradeoff, Cross-Validation, and Regularization</a></li>
+<li class="" data-title="chapter 17: bayesian statistics in depth"><a href="chapters/17_bayesian_statistics.html">Chapter 17: Bayesian Statistics in Depth</a></li>
+<li class="" data-title="chapter 18: resampling - bootstrap and permutation tests"><a href="chapters/18_resampling_methods.html">Chapter 18: Resampling - Bootstrap and Permutation Tests</a></li>
+<li class="" data-title="chapter 19: linear algebra essentials for statistics and ml"><a href="chapters/19_linear_algebra_essentials.html">Chapter 19: Linear Algebra Essentials for Statistics and ML</a></li>
+<li class="" data-title="chapter 20: multivariate statistics - covariance matrices and pca"><a href="chapters/20_multivariate_pca.html">Chapter 20: Multivariate Statistics - Covariance Matrices and PCA</a></li>
+</ul></details>
+<details open><summary>Part IV - The Statistics Inside Modern AI</summary><ul>
+<li class="" data-title="chapter 21: information theory - entropy, cross-entropy, and kl divergence"><a href="chapters/21_information_theory.html">Chapter 21: Information Theory - Entropy, Cross-Entropy, and KL Divergence</a></li>
+<li class="" data-title="chapter 22: statistical learning theory - why generalization works at all"><a href="chapters/22_statistical_learning_theory.html">Chapter 22: Statistical Learning Theory - Why Generalization Works At All</a></li>
+<li class="" data-title="chapter 23: probabilistic models and latent variables (mixtures, em)"><a href="chapters/23_latent_variable_models.html">Chapter 23: Probabilistic Models and Latent Variables (Mixtures, EM)</a></li>
+<li class="" data-title="chapter 24: markov chains and monte carlo methods"><a href="chapters/24_markov_chains_monte_carlo.html">Chapter 24: Markov Chains and Monte Carlo Methods</a></li>
+<li class="" data-title="chapter 25: the statistics hiding inside neural networks"><a href="chapters/25_statistics_in_neural_networks.html">Chapter 25: The Statistics Hiding Inside Neural Networks</a></li>
+<li class="" data-title="chapter 26: where to go next"><a href="chapters/26_where_to_go_next.html">Chapter 26: Where to Go Next</a></li>
+</ul></details>
+<details open><summary>Part V - The Statistical Frontier of Modern AI</summary><ul>
+<li class="" data-title="chapter 27: the statistical frontier - how modern ai actually uses these ideas today"><a href="chapters/27_frontier_ai_statistics.html">Chapter 27: The Statistical Frontier - How Modern AI Actually Uses These Ideas Today</a></li>
+</ul></details>
+<details open><summary>Part VI - Advanced AI Algorithms: The Statistical Engine Room</summary><ul>
+<li class="" data-title="chapter 28: diffusion models and score matching - statistics as generation"><a href="chapters/28_diffusion_models_score_matching.html">Chapter 28: Diffusion Models and Score Matching - Statistics as Generation</a></li>
+<li class="" data-title="chapter 29: transformers and attention - statistics you can calculate (almost) by hand"><a href="chapters/29_transformers_attention_statistics.html">Chapter 29: Transformers and Attention - Statistics You Can Calculate (Almost) by Hand</a></li>
+<li class="" data-title="chapter 30: reinforcement learning and policy gradients - statistics that learn from rewards"><a href="chapters/30_reinforcement_learning_policy_gradients.html">Chapter 30: Reinforcement Learning and Policy Gradients - Statistics That Learn From Rewards</a></li>
+<li class="" data-title="chapter 31: variational inference and the elbo - approximate bayes at scale"><a href="chapters/31_variational_inference_elbo.html">Chapter 31: Variational Inference and the ELBO - Approximate Bayes at Scale</a></li>
+<li class="" data-title="chapter 32: contrastive learning and infonce - statistics that learns embeddings"><a href="chapters/32_contrastive_learning_infonce.html">Chapter 32: Contrastive Learning and InfoNCE - Statistics That Learns Embeddings</a></li>
+<li class="" data-title="chapter 33: causal inference and do-calculus - when correlation is not enough"><a href="chapters/33_causal_inference_do_calculus.html">Chapter 33: Causal Inference and Do-Calculus - When Correlation Is Not Enough</a></li>
+<li class="" data-title="chapter 34: graphical models and message passing - statistics as graphs"><a href="chapters/34_graphical_models_message_passing.html">Chapter 34: Graphical Models and Message Passing - Statistics as Graphs</a></li>
+<li class="" data-title="chapter 35: optimization, generalization, and double descent - why big models work"><a href="chapters/35_optimization_generalization_double_descent.html">Chapter 35: Optimization, Generalization, and Double Descent - Why Big Models Work</a></li>
+<li class="" data-title="chapter 36: time series and modern sequence models - statistics over time"><a href="chapters/36_time_series_sequence_models.html">Chapter 36: Time Series and Modern Sequence Models - Statistics Over Time</a></li>
+</ul></details>
+<details open><summary>Part VII - Aligning AI With Human Preferences: The Statistics of RLHF</summary><ul>
+<li class="" data-title="chapter 37: preference data and reward modeling - statistics from human judgments"><a href="chapters/37_preference_data_reward_modeling.html">Chapter 37: Preference Data and Reward Modeling - Statistics From Human Judgments</a></li>
+<li class="" data-title="chapter 38: rlhf, dpo, and preference optimization - turning preferences into a loss function"><a href="chapters/38_dpo_and_preference_optimization.html">Chapter 38: RLHF, DPO, and Preference Optimization - Turning Preferences Into a Loss Function</a></li>
+<li class="" data-title="chapter 39: reinforcement learning with verifiable rewards - and how reasoning models are trained"><a href="chapters/39_rl_verifiable_rewards_reasoning.html">Chapter 39: Reinforcement Learning With Verifiable Rewards - and How Reasoning Models Are Trained</a></li>
+</ul></details>
+  </nav>
+  <div class="pane-left">
+    <div class="article" id="article">
+
+<h1>Statistics for AI - A Book From Zero to Deep Learning Foundations</h1>
+<p data-bid="idx1">Pick any chapter from the sidebar on the left to start reading. Many chapters have a
+live, interactive module built right into the text wherever a concept benefits from it - drag a slider and
+watch the math recompute. Select any text to highlight it or leave yourself a note (saved locally in this
+browser) - click the 📒 My Notes button any time to review everything you've marked.</p>
+<p data-bid="idx2">New here? Start with <b>Chapter 0</b> at the top of the sidebar.</p>
+
+    </div>
+    <div class="navfooter">
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+  <div class="pane-right">
+    <h4>Figures in this chapter</h4>
+    <div id="railContent"></div>
+  </div>
+</div>
+
+<!-- floating selection toolbar -->
+<div id="selToolbar">
+  <button data-color="yellow" title="Mark interesting">🟡</button>
+  <button data-color="green" title="Mark understood">🟢</button>
+  <button data-color="red" title="Mark confusing">🔴</button>
+  <button data-color="blue" title="Mark to review later">🔵</button>
+  <button id="btnAddNote" title="Highlight + add a note">📝</button>
+</div>
+
+<!-- note edit popup -->
+<div id="notePopup">
+  <textarea placeholder="Write a note to yourself..."></textarea>
+  <div class="row">
+    <button class="danger" id="btnDeleteHl">Remove highlight</button>
+    <div>
+      <button id="btnCloseNote">Close</button>
+      <button class="primary" id="btnSaveNote">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- notes side panel -->
+<div id="notesOverlay"></div>
+<div id="notesPanel">
+  <div class="header">
+    <b>My Notes - this page</b>
+    <button class="iconbtn" id="btnCloseNotesPanel">✕</button>
+  </div>
+  <div class="list" id="notesList"></div>
+  <div class="footer">
+    <button id="btnExportNotes">⬇ Export all notes</button>
+    <button id="btnImportNotes">⬆ Import notes</button>
+    <input type="file" id="importFile" accept="application/json" style="display:none;">
+  </div>
+</div>
+
+<script src="assets/app.js"></script>
+</body>
+</html>

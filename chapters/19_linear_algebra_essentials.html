@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 19: Linear Algebra Essentials for Statistics and ML</title>
+<link rel="stylesheet" href="../assets/app.css">
+<script>
+window.MathJax = { tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']], processEscapes: true } };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+</head>
+<body data-chapter="19_linear_algebra_essentials">
+<div class="topbar">
+  <div class="left">
+    <button class="iconbtn hamburger" id="btnSidebarToggle">☰</button>
+    <a href="../index.html">Statistics for AI</a>
+  </div>
+  <div class="right">
+    <button class="iconbtn" id="btnNotesPanel">📒 My Notes</button>
+  </div>
+</div>
+<div id="sidebarOverlay"></div>
+<div class="layout">
+  <nav class="sidebar" id="sidebar">
+    <input type="text" id="sidebarFilter" placeholder="Filter chapters...">
+<details open><summary>Orientation</summary><ul>
+<li class="" data-title="chapter 0: how to use this book, and the math notation you'll see"><a href="00_how_to_use_this_book.html">Chapter 0: How to Use This Book, and the Math Notation You'll See</a></li>
+</ul></details>
+<details open><summary>Part I - Describing the World</summary><ul>
+<li class="" data-title="chapter 1: data, populations, and samples - thinking like a statistician"><a href="01_data_populations_samples.html">Chapter 1: Data, Populations, and Samples - Thinking Like a Statistician</a></li>
+<li class="" data-title="chapter 2: describing data - center, spread, and shape"><a href="02_descriptive_statistics.html">Chapter 2: Describing Data - Center, Spread, and Shape</a></li>
+<li class="" data-title="chapter 3: probability foundations - events, rules, and conditioning"><a href="03_probability_foundations.html">Chapter 3: Probability Foundations - Events, Rules, and Conditioning</a></li>
+<li class="" data-title="chapter 4: bayes' theorem - updating beliefs with evidence"><a href="04_bayes_theorem.html">Chapter 4: Bayes' Theorem - Updating Beliefs With Evidence</a></li>
+<li class="" data-title="chapter 5: random variables and discrete distributions"><a href="05_random_variables_discrete.html">Chapter 5: Random Variables and Discrete Distributions</a></li>
+<li class="" data-title="chapter 6: continuous distributions and the normal distribution"><a href="06_continuous_distributions.html">Chapter 6: Continuous Distributions and the Normal Distribution</a></li>
+<li class="" data-title="chapter 7: expectation, variance, covariance, and correlation"><a href="07_expectation_variance_covariance.html">Chapter 7: Expectation, Variance, Covariance, and Correlation</a></li>
+<li class="" data-title="chapter 8: the central limit theorem - the secret engine of statistics"><a href="08_central_limit_theorem.html">Chapter 8: The Central Limit Theorem - The Secret Engine of Statistics</a></li>
+</ul></details>
+<details open><summary>Part II - Inferring From Data</summary><ul>
+<li class="" data-title="chapter 9: sampling and estimation"><a href="09_sampling_and_estimation.html">Chapter 9: Sampling and Estimation</a></li>
+<li class="" data-title="chapter 10: maximum likelihood estimation"><a href="10_maximum_likelihood_estimation.html">Chapter 10: Maximum Likelihood Estimation</a></li>
+<li class="" data-title="chapter 11: confidence intervals"><a href="11_confidence_intervals.html">Chapter 11: Confidence Intervals</a></li>
+<li class="" data-title="chapter 12: hypothesis testing and p-values"><a href="12_hypothesis_testing.html">Chapter 12: Hypothesis Testing and p-values</a></li>
+<li class="" data-title="chapter 13: t-tests, chi-square, and anova"><a href="13_ttests_chisquare_anova.html">Chapter 13: t-tests, Chi-square, and ANOVA</a></li>
+<li class="" data-title="chapter 14: correlation and simple linear regression"><a href="14_simple_linear_regression.html">Chapter 14: Correlation and Simple Linear Regression</a></li>
+<li class="" data-title="chapter 15: multiple regression, r², and overfitting"><a href="15_multiple_regression.html">Chapter 15: Multiple Regression, R², and Overfitting</a></li>
+</ul></details>
+<details open><summary>Part III - The Bridge Into Machine Learning</summary><ul>
+<li class="" data-title="chapter 16: bias-variance tradeoff, cross-validation, and regularization"><a href="16_bias_variance_regularization.html">Chapter 16: Bias-Variance Tradeoff, Cross-Validation, and Regularization</a></li>
+<li class="" data-title="chapter 17: bayesian statistics in depth"><a href="17_bayesian_statistics.html">Chapter 17: Bayesian Statistics in Depth</a></li>
+<li class="" data-title="chapter 18: resampling - bootstrap and permutation tests"><a href="18_resampling_methods.html">Chapter 18: Resampling - Bootstrap and Permutation Tests</a></li>
+<li class="current" data-title="chapter 19: linear algebra essentials for statistics and ml"><a href="19_linear_algebra_essentials.html">Chapter 19: Linear Algebra Essentials for Statistics and ML</a></li>
+<li class="" data-title="chapter 20: multivariate statistics - covariance matrices and pca"><a href="20_multivariate_pca.html">Chapter 20: Multivariate Statistics - Covariance Matrices and PCA</a></li>
+</ul></details>
+<details open><summary>Part IV - The Statistics Inside Modern AI</summary><ul>
+<li class="" data-title="chapter 21: information theory - entropy, cross-entropy, and kl divergence"><a href="21_information_theory.html">Chapter 21: Information Theory - Entropy, Cross-Entropy, and KL Divergence</a></li>
+<li class="" data-title="chapter 22: statistical learning theory - why generalization works at all"><a href="22_statistical_learning_theory.html">Chapter 22: Statistical Learning Theory - Why Generalization Works At All</a></li>
+<li class="" data-title="chapter 23: probabilistic models and latent variables (mixtures, em)"><a href="23_latent_variable_models.html">Chapter 23: Probabilistic Models and Latent Variables (Mixtures, EM)</a></li>
+<li class="" data-title="chapter 24: markov chains and monte carlo methods"><a href="24_markov_chains_monte_carlo.html">Chapter 24: Markov Chains and Monte Carlo Methods</a></li>
+<li class="" data-title="chapter 25: the statistics hiding inside neural networks"><a href="25_statistics_in_neural_networks.html">Chapter 25: The Statistics Hiding Inside Neural Networks</a></li>
+<li class="" data-title="chapter 26: where to go next"><a href="26_where_to_go_next.html">Chapter 26: Where to Go Next</a></li>
+</ul></details>
+<details open><summary>Part V - The Statistical Frontier of Modern AI</summary><ul>
+<li class="" data-title="chapter 27: the statistical frontier - how modern ai actually uses these ideas today"><a href="27_frontier_ai_statistics.html">Chapter 27: The Statistical Frontier - How Modern AI Actually Uses These Ideas Today</a></li>
+</ul></details>
+<details open><summary>Part VI - Advanced AI Algorithms: The Statistical Engine Room</summary><ul>
+<li class="" data-title="chapter 28: diffusion models and score matching - statistics as generation"><a href="28_diffusion_models_score_matching.html">Chapter 28: Diffusion Models and Score Matching - Statistics as Generation</a></li>
+<li class="" data-title="chapter 29: transformers and attention - statistics you can calculate (almost) by hand"><a href="29_transformers_attention_statistics.html">Chapter 29: Transformers and Attention - Statistics You Can Calculate (Almost) by Hand</a></li>
+<li class="" data-title="chapter 30: reinforcement learning and policy gradients - statistics that learn from rewards"><a href="30_reinforcement_learning_policy_gradients.html">Chapter 30: Reinforcement Learning and Policy Gradients - Statistics That Learn From Rewards</a></li>
+<li class="" data-title="chapter 31: variational inference and the elbo - approximate bayes at scale"><a href="31_variational_inference_elbo.html">Chapter 31: Variational Inference and the ELBO - Approximate Bayes at Scale</a></li>
+<li class="" data-title="chapter 32: contrastive learning and infonce - statistics that learns embeddings"><a href="32_contrastive_learning_infonce.html">Chapter 32: Contrastive Learning and InfoNCE - Statistics That Learns Embeddings</a></li>
+<li class="" data-title="chapter 33: causal inference and do-calculus - when correlation is not enough"><a href="33_causal_inference_do_calculus.html">Chapter 33: Causal Inference and Do-Calculus - When Correlation Is Not Enough</a></li>
+<li class="" data-title="chapter 34: graphical models and message passing - statistics as graphs"><a href="34_graphical_models_message_passing.html">Chapter 34: Graphical Models and Message Passing - Statistics as Graphs</a></li>
+<li class="" data-title="chapter 35: optimization, generalization, and double descent - why big models work"><a href="35_optimization_generalization_double_descent.html">Chapter 35: Optimization, Generalization, and Double Descent - Why Big Models Work</a></li>
+<li class="" data-title="chapter 36: time series and modern sequence models - statistics over time"><a href="36_time_series_sequence_models.html">Chapter 36: Time Series and Modern Sequence Models - Statistics Over Time</a></li>
+</ul></details>
+<details open><summary>Part VII - Aligning AI With Human Preferences: The Statistics of RLHF</summary><ul>
+<li class="" data-title="chapter 37: preference data and reward modeling - statistics from human judgments"><a href="37_preference_data_reward_modeling.html">Chapter 37: Preference Data and Reward Modeling - Statistics From Human Judgments</a></li>
+<li class="" data-title="chapter 38: rlhf, dpo, and preference optimization - turning preferences into a loss function"><a href="38_dpo_and_preference_optimization.html">Chapter 38: RLHF, DPO, and Preference Optimization - Turning Preferences Into a Loss Function</a></li>
+<li class="" data-title="chapter 39: reinforcement learning with verifiable rewards - and how reasoning models are trained"><a href="39_rl_verifiable_rewards_reasoning.html">Chapter 39: Reinforcement Learning With Verifiable Rewards - and How Reasoning Models Are Trained</a></li>
+</ul></details>
+  </nav>
+  <div class="pane-left">
+    <div class="article" id="article">
+<h1 id="chapter-19-linear-algebra-essentials-for-statistics-and-ml">Chapter 19: Linear Algebra Essentials for Statistics and ML</h1>
+<h2 data-bid="b1" id="the-idea-this-chapter-builds-toward">The idea this chapter builds toward</h2>
+<p data-bid="b2">Everything from here on - multivariate statistics, PCA, the inner workings of neural networks - is written in the language of vectors and matrices, because it is a dramatically more compact and computationally natural way to describe "many numbers interacting with many other numbers at once" than writing out giant sums of individually-subscripted variables. This chapter is a focused, intuition-first crash course covering only what you need for the rest of the book, building each idea from a concrete picture rather than abstract symbol manipulation.</p>
+<blockquote data-bid="b3">
+<p data-bid="b4"><strong>Intuition, in one breath:</strong> a vector is an arrow, a matrix is a machine that moves every arrow in space, and the dot product just asks how much two arrows point the same way. Almost everything else is bookeeping on top of those three pictures.</p>
+</blockquote>
+<h2 data-bid="b5" id="vectors-just-an-ordered-list-of-numbers-with-a-picture-attached">Vectors - just an ordered list of numbers, with a picture attached</h2>
+<p data-bid="b6">A vector like $\mathbf{v} = [3, 4]$ can be thought of two equivalent ways: as a simple list of two numbers, or - more usefully - as an arrow from the origin $(0,0)$ to the point $(3,4)$ on a plane. This geometric picture is what makes linear algebra intuitive rather than purely symbolic.</p>
+<h3 data-bid="b7" id="vector-addition-and-scalar-multiplication">Vector addition and scalar multiplication</h3>
+<p data-bid="b8">Adding two vectors, $[3,4] + [1,-2] = [4,2]$, corresponds geometrically to placing the second arrow's tail at the first arrow's tip and seeing where you land - the "tip-to-tail" rule. Multiplying a vector by a scalar (a plain number), like $2 \times [3,4] = [6,8]$, stretches the arrow to twice its length in the same direction (a negative scalar flips its direction).</p>
+<h3 data-bid="b9" id="the-dot-product-the-single-most-important-vector-operation-in-this-whole-book">The dot product - the single most important vector operation in this whole book</h3>
+<p data-bid="b10">$$\mathbf{a}\cdot\mathbf{b} = \sum_i a_i b_i = a_1b_1 + a_2b_2 + \cdots$$</p>
+<p data-bid="b11">This is pure algebra on the surface (multiply corresponding entries, sum them up), but it has a beautiful geometric meaning: $\mathbf{a}\cdot\mathbf{b} = |\mathbf{a}||\mathbf{b}|\cos\theta$, where $|\mathbf{a}|$ is the vector's length and $\theta$ is the angle between the two vectors. This means the dot product measures <strong>how much two vectors point in the same direction</strong>: it's large and positive when vectors point roughly the same way, zero when they're exactly perpendicular (90°, $\cos 90°=0$), and negative when they point roughly opposite ways. <strong>This is not a coincidence - it's the exact same idea as covariance from Chapter 7</strong>: covariance is (up to centering and scaling) a dot product between two "deviation from the mean" vectors, and correlation is that dot product normalized by both vectors' lengths - which is <em>exactly</em> $\cos\theta$. This single realization unifies a huge amount of statistics and geometry: correlation IS the cosine of the angle between two centered data vectors, which is why $\rho$ is always between -1 and +1, the exact range cosine can take.</p>
+<h2 data-bid="b12" id="matrices-a-grid-of-numbers-and-what-they-actually-do">Matrices - a grid of numbers, and what they actually <em>do</em></h2>
+<p data-bid="b13">A matrix is a rectangular grid of numbers, like $X = \begin{bmatrix}1 & 2\\3 & 4\\5 & 6\end{bmatrix}$ - here, a 3×2 matrix (3 rows, 2 columns). In statistics, a dataset is almost always stored exactly this way: each <strong>row</strong> is one observation, each <strong>column</strong> is one feature/variable - so this specific example could represent 3 data points, each with 2 features, which is exactly how <code>X</code> is structured in every regression and ML model you'll ever fit (recall Chapter 15's multiple regression, where $X$ held your predictors - now you know the shape convention).</p>
+<h3 data-bid="b14" id="matrix-vector-multiplication-the-operation-that-makes-everything-click">Matrix-vector multiplication - the operation that makes everything click</h3>
+<p data-bid="b15">$$X\mathbf{\beta} = \begin{bmatrix}1&2\\3&4\\5&6\end{bmatrix}\begin{bmatrix}\beta_1\\\beta_2\end{bmatrix} = \begin{bmatrix}1\beta_1+2\beta_2\\3\beta_1+4\beta_2\\5\beta_1+6\beta_2\end{bmatrix}$$</p>
+<p data-bid="b16">Notice each output row is exactly a <strong>dot product</strong> between that row of $X$ and the vector $\beta$. This is precisely why multiple regression's prediction equation, $\hat y_i = \beta_0 + \beta_1x_{i1}+\cdots+\beta_px_{ip}$ from Chapter 15, collapses into one clean line of matrix notation: $\hat y = X\beta$ - every single prediction, for every data point, computed simultaneously as one matrix-vector multiplication. This compactness is not just notational convenience - it's exactly how numerical libraries (<code>numpy</code>, <code>PyTorch</code>, <code>TensorFlow</code>) actually compute these operations efficiently, using hardware (and GPUs) specifically optimized for this kind of bulk, parallel arithmetic.</p>
+<h3 data-bid="b17" id="another-way-to-see-matrix-multiplication-as-a-transformation-of-space">Another way to see matrix multiplication: as a transformation of space</h3>
+<p data-bid="b18">A matrix can also be understood as a function that transforms vectors - feed it a vector, it spits out a new, transformed vector (rotated, stretched, squished, reflected, or some combination). This "matrix as a geometric transformation of the whole plane/space" picture is the one that becomes indispensable once you reach PCA (Chapter 20) and neural network layers (Chapter 25) - a neural network layer is, at its core, exactly a matrix transformation (plus a nonlinearity), applied to an input vector.</p>
+<h2 data-bid="b19" id="worked-example-by-hand-larger">Worked example - by hand, larger</h2>
+<p data-bid="b20">Let's compute a full matrix-vector product and then a regression prediction from it, all by hand. Take a dataset of 3 examples with 2 features each, plus an intercept column of ones (so the design matrix is 3×3, with a leading column of 1s):</p>
+<p data-bid="b21">$$X = \begin{bmatrix}1 & 2 & 1\\1 & 0 & 3\\1 & 4 & 2\end{bmatrix} \qquad \beta = \begin{bmatrix}\beta_0\\\beta_1\\\beta_2\end{bmatrix} = \begin{bmatrix}4\\-1\\2\end{bmatrix}$$</p>
+<p data-bid="b22">Each row of $X\beta$ is the dot product of that row with $\beta$:</p>
+<ul>
+<li data-bid="b23">Row 1: $1(4) + 2(-1) + 1(2) = 4 - 2 + 2 = 4$</li>
+<li data-bid="b24">Row 2: $1(4) + 0(-1) + 3(2) = 4 + 0 + 6 = 10$</li>
+<li data-bid="b25">Row 3: $1(4) + 4(-1) + 2(2) = 4 - 4 + 4 = 4$</li>
+</ul>
+<p data-bid="b26">So $X\beta = [4, 10, 4]^T$ - the model's three predictions, all computed at once. If the true targets were $y = [5, 10, 3]^T$, the residuals are $y - X\beta = [1, 0, -1]^T$ and the sum of squared errors is $1^2 + 0^2 + (-1)^2 = 2$.</p>
+<p data-bid="b27">Now let's see <em>why</em> $(X^TX)^{-1}$ even appears, all by hand. Compute $X^TX$ (each entry is a dot product of two columns of $X$):</p>
+<p data-bid="b28">$$X^TX = \begin{bmatrix}3 & 6 & 6\\6 & 20 & 10\\6 & 10 & 14\end{bmatrix}$$</p>
+<p data-bid="b29">The diagonal entries are sums of squares, the off-diagonals are sums of cross-products - exactly the quantities the least-squares normal equations need. Now compute $X^Ty$:</p>
+<p data-bid="b30">$$X^Ty = \begin{bmatrix}1\cdot5 + 1\cdot10 + 1\cdot3\\2\cdot5 + 0\cdot10 + 4\cdot3\\1\cdot5 + 3\cdot10 + 2\cdot3\end{bmatrix} = \begin{bmatrix}18\\22\\41\end{bmatrix}$$</p>
+<p data-bid="b31">The least-squares estimate solves $(X^TX)\hat\beta = X^Ty$. We can check our earlier guess $\beta = [4,-1,2]$ against this: $X^TX \cdot [4,-1,2] = [3(4)+6(-1)+6(2),\ 6(4)+20(-1)+10(2),\ 6(4)+10(-1)+14(2)] = [12-6+12,\ 24-20+20,\ 24-10+28] = [18, 24, 42]$. Compare to $X^Ty = [18,22,41]$ - close but <em>not equal</em>, which confirms $[4,-1,2]$ was a hand-picked guess, not the true least-squares solution. The true $\hat\beta$ is whatever satisfies the equation exactly, and inverting the 3×3 $X^TX$ is precisely the by-hand (or software) step that finds it.</p>
+<p data-bid="b32"><strong>Takeaway: a matrix-vector product is just a stack of dot products producing all predictions at once, and the normal-equations machinery is nothing more than stuffing the right sums-of-squares and sums-of-cross-products into a grid and solving the resulting linear system.</strong></p>
+<h2 data-bid="b33" id="why-the-normal-equations-from-chapter-15-use-xmathplaceholder46x">Why the normal equations from Chapter 15 use $(X^TX)^{-1}$</h2>
+<p data-bid="b34">Recall Chapter 15 promised the closed-form multiple regression solution $\hat\beta=(X^TX)^{-1}X^Ty$ once you had matrix vocabulary. Here's the intuitive reading, piece by piece:</p>
+<ul>
+<li data-bid="b35">$X^T$ ("X transpose") flips $X$'s rows and columns - needed so the dimensions line up correctly for the multiplications that follow (a purely mechanical bookkeeping requirement of matrix multiplication rules).</li>
+<li data-bid="b36">$X^TX$ produces a square matrix that turns out to contain, in its entries, exactly the sums-of-products needed for the least-squares normal equations (the same "set derivative to zero and solve" equations from Chapter 14, just for many predictors simultaneously, packaged compactly).</li>
+<li data-bid="b37">$(\cdot)^{-1}$, the <strong>matrix inverse</strong>, is the matrix equivalent of "divide" - for an ordinary number, $a^{-1}=1/a$ undoes multiplication by $a$ (since $a \times a^{-1}=1$); a matrix inverse similarly "undoes" the matrix's transformation, satisfying $X^{-1}X = I$ (the <strong>identity matrix</strong>, matrix algebra's version of the number 1 - a matrix that leaves anything it multiplies unchanged).</li>
+</ul>
+<p data-bid="b38">You will essentially never compute a matrix inverse by hand (and in modern numerical practice, direct inversion is often avoided even by software, in favor of more numerically stable algorithms) - the point here is purely to let the formula $\hat\beta=(X^TX)^{-1}X^Ty$ stop looking like a magic incantation and start looking like a compact, mechanical restatement of ideas you already fully understand from Chapter 14.</p>
+<h2 data-bid="b39" id="eigenvalues-and-eigenvectors-the-idea-you-need-for-chapter-20-built-from-a-picture">Eigenvalues and eigenvectors - the idea you need for Chapter 20, built from a picture</h2>
+<p data-bid="b40">Most vectors, when transformed by a matrix, change direction. An <strong>eigenvector</strong> of a matrix is special: a vector that, when transformed by that matrix, <strong>doesn't change direction at all</strong> - it only gets stretched or shrunk (possibly flipped). The amount it gets stretched by is called its corresponding <strong>eigenvalue</strong>.</p>
+<p data-bid="b41">$$A\mathbf{v} = \lambda\mathbf{v}$$</p>
+<p data-bid="b42">($A$ is the matrix, $\mathbf{v}$ is the eigenvector, $\lambda$ ["lambda"] is the eigenvalue - the scalar stretch factor.)</p>
+<p data-bid="b43"><strong>Why should you care?</strong> For a covariance matrix specifically (which you'll meet properly in Chapter 20), the eigenvectors point along the directions in your data where variance is purely "stretching" with no "twisting" - the natural axes along which your data's spread is most cleanly describable, and the eigenvalues tell you exactly how much variance lies along each of those directions. This is the <em>entire</em> mechanism behind Principal Component Analysis (Chapter 20): PCA is nothing more or less than finding a covariance matrix's eigenvectors and eigenvalues and using them to re-describe your data along its most informative natural axes.</p>
+<h3 data-bid="b44" id="reconstructing-it-yourself-actually-solving-for-eigenvalues-by-hand-once">Reconstructing it yourself - actually solving for eigenvalues by hand, once</h3>
+<p data-bid="b45">The definition $A\mathbf v=\lambda\mathbf v$ tells you what an eigenvector <em>is</em>, but not how anyone would ever <em>find</em> one. <strong>If your guess is "rearrange the definition until it looks like a system you can solve for when a nonzero solution exists" - that's exactly the standard trick.</strong> Rewrite $A\mathbf v = \lambda\mathbf v$ as $A\mathbf v - \lambda\mathbf v = 0$, factor out $\mathbf v$: $(A-\lambda I)\mathbf v = 0$. A matrix equation $(M)\mathbf v=0$ has a <em>nonzero</em> solution $\mathbf v$ only when $M$ is <strong>not invertible</strong> (if $M$ were invertible, you could multiply both sides by $M^{-1}$ and get $\mathbf v=0$ - the only, uninteresting, solution). And a matrix fails to be invertible exactly when its determinant is zero. So eigenvalues are precisely the values of $\lambda$ satisfying:</p>
+<p data-bid="b46">$$\det(A-\lambda I) = 0 \quad \text{(the "characteristic equation")}$$</p>
+<p data-bid="b47"><strong>Worked example</strong>: take $A=\begin{bmatrix}2&1\\1&2\end{bmatrix}$ (a simple covariance-matrix-shaped example, symmetric with positive correlation). Then $A-\lambda I = \begin{bmatrix}2-\lambda&1\\1&2-\lambda\end{bmatrix}$, and for a 2×2 matrix $\begin{bmatrix}a&b\\c&d\end{bmatrix}$, the determinant is $ad-bc$:</p>
+<p data-bid="b48">$$\det(A-\lambda I) = (2-\lambda)^2 - 1 = 0 \;\implies\; (2-\lambda)^2=1 \;\implies\; 2-\lambda=\pm1 \;\implies\; \lambda = 1 \text{ or } \lambda=3$$</p>
+<p data-bid="b49">For $\lambda=3$: solve $(A-3I)\mathbf v=0$, i.e. $\begin{bmatrix}-1&1\\1&-1\end{bmatrix}\mathbf v=0$, which says $v_1=v_2$ - any vector along the direction $(1,1)$ works, e.g. $\mathbf v=(1,1)$. For $\lambda=1$: solve $\begin{bmatrix}1&1\\1&1\end{bmatrix}\mathbf v=0$, which says $v_1=-v_2$ - the perpendicular direction $(1,-1)$. <strong>The two eigenvectors came out exactly perpendicular to each other</strong> - not a coincidence for this particular matrix, but a guaranteed property of any <em>symmetric</em> matrix (which every covariance matrix always is, since $\text{Cov}(X,Y)=\text{Cov}(Y,X)$), which is precisely why Chapter 20's principal components always come out mutually uncorrelated by construction, with no extra step required to force it.</p>
+<h2 data-bid="b50" id="the-backstory-linear-algebras-slow-convergence-from-several-unrelated-sources">The backstory - linear algebra's slow convergence from several unrelated sources</h2>
+<p data-bid="b51">Unlike most topics in this book, linear algebra doesn't trace back to one or two named inventors with one motivating problem - it coalesced from several independent threads: solving systems of linear equations (a problem going back to ancient Chinese and Babylonian mathematics, millennia before "matrices" were formalized as objects), the 19th-century development of matrix notation itself by <strong>Arthur Cayley</strong> (1850s, largely as a bookkeeping convenience for representing systems of linear equations more compactly), and the eigenvalue concept's origins in solving differential equations describing vibrating physical systems (18th-19th century physics - eigenvectors there describe a vibrating system's natural "modes," the stable patterns of vibration that don't change shape, just amplitude - a strikingly direct physical analog to the "doesn't change direction" statistical intuition above). Linear algebra only became the unified, abstract field taught today in the late 19th/early 20th century, and its explosive relevance to statistics and computing specifically exploded again in the mid-20th century once digital computers made large matrix computations (regression on real datasets, image transformations, and eventually neural networks) practically feasible at scale.</p>
+<h2 data-bid="b52" id="figures">Figures</h2>
+<img class="has-rail" data-figid="f1" alt="Vector addition visualized: a, b, and a+b as arrows from the origin, with the angle between a and b labeled." src="../images/ch19_linear_algebra_essentials_fig1.png" /><p data-bid="b53" class="img-caption has-rail" data-figid="f1"><em>Vector addition visualized: a, b, and a+b as arrows from the origin, with the angle between a and b labeled.</em></p>
+<img class="has-rail" data-figid="f2" alt="Eigenvectors of a covariance matrix, drawn as red arrows over the correlated data they describe -- pointing exactly along the data's natural axes of spread." src="../images/ch19_linear_algebra_essentials_fig2.png" /><p data-bid="b54" class="img-caption has-rail" data-figid="f2"><em>Eigenvectors of a covariance matrix, drawn as red arrows over the correlated data they describe -- pointing exactly along the data's natural axes of spread.</em></p>
+<h2 data-bid="b55" id="run-it-yourself">Run it yourself</h2>
+<p data-bid="b56"><code>book/code/ch19_linear_algebra_essentials.py</code> visualizes vector addition and the dot-product-as-cosine-angle relationship directly on a 2D plot, demonstrates that correlation (Chapter 7) is exactly the cosine of the angle between two centered data vectors by computing it both ways and confirming they match, verifies the $(X^TX)^{-1}X^Ty$ regression formula against <code>sklearn</code>'s fitted coefficients from Chapter 15's housing example, and visualizes eigenvectors of a simple covariance matrix as arrows overlaid on a scatter of correlated data - a direct visual preview of what Chapter 20's PCA is about to do.</p>
+<p data-bid="b57"re><code class="language-bash">python book/code/ch19_linear_algebra_essentials.py
+</code></pre>
+<h2 data-bid="b58" id="why-this-matters-in-ai-and-in-everyday-life">Why This Matters - In AI and In Everyday Life</h2>
+<p data-bid="b59"><strong>In AI / machine learning:</strong></p>
+<ul>
+<li data-bid="b60"><strong>Every single neural network forward pass</strong>: a layer's computation is literally a matrix-vector multiplication (this chapter's core operation) followed by a nonlinearity -- there is no deep learning without this chapter.</li>
+<li data-bid="b61"><strong>Word/image embeddings</strong>: representing words, images, or users as vectors, and measuring their similarity via the dot product/cosine similarity from this chapter, underlies search, recommendation, and language models alike.</li>
+<li data-bid="b62"><strong>Attention in transformers</strong>: the scaled dot-product attention that powers GPT-style models is, at its core, exactly this chapter's dot product applied to query and key vectors to measure how aligned they are, then used to weight a sum of value vectors - correlation-as-cosine, operationalized at massive scale.</li>
+<li data-bid="b63"><strong>Low-rank matrix structure in LoRA and model compression</strong>: fine-tuning techniques like LoRA exploit the fact that effective weight updates are approximately low-rank, and SVD-style eigen/singular decompositions of large weight matrices are the standard tools for pruning and compressing modern vision and language models.</li>
+</ul>
+<p data-bid="b64"><strong>In everyday, non-AI life:</strong></p>
+<ul>
+<li data-bid="b65"><strong>Rotating and scaling a photo</strong>: every image-editing transformation (rotate, zoom, skew) is a matrix applied to the image's pixel coordinate vectors -- the "matrix as a transformation of space" idea from this chapter.</li>
+<li data-bid="b66"><strong>GPS triangulation</strong>: computing your location from satellite signals is solved as a system of linear equations, the same normal-equations machinery used for regression in this chapter.</li>
+</ul>
+<h2 data-bid="b67" id="check-your-understanding">Check your understanding</h2>
+<ul>
+<li data-bid="b68">Why is the dot product zero exactly when two vectors are perpendicular, connecting the algebraic formula to the $\cos\theta$ geometric picture?</li>
+<li data-bid="b69">In your own words, explain why correlation being "the cosine of an angle between data vectors" guarantees it must lie between -1 and +1.</li>
+<li data-bid="b70">What does it mean, physically/geometrically, for a vector to be an eigenvector of a matrix - why is "doesn't change direction" the defining property rather than something about its length?</li>
+</ul>
+<h2 data-bid="b71" id="exercises">Exercises</h2>
+<h3 data-bid="b72" id="exercise-1-dot-product-and-cosine-similarity">Exercise 1 - Dot product and cosine similarity</h3>
+<p data-bid="b73">Two embedding vectors for words are $\mathbf{a} = [3, 4]$ and $\mathbf{b} = [4, 3]$. Compute their dot product, both lengths, and the cosine similarity (correlation-style). Are they more similar than $\mathbf{a}$ and $\mathbf{c} = [3, -4]$?</p>
+<details><summary>Show solution</summary>
+
+Dot product: $\mathbf{a}\cdot\mathbf{b} = 3(4) + 4(3) = 12 + 12 = 24$.
+
+Lengths: $|\mathbf{a}| = \sqrt{9+16} = 5$, $|\mathbf{b}| = \sqrt{16+9} = 5$.
+
+Cosine similarity: $\cos\theta = \frac{24}{5 \times 5} = \frac{24}{25} = 0.96$ - a small angle, so very similar.
+
+For $\mathbf{c}=[3,-4]$: $\mathbf{a}\cdot\mathbf{c} = 3(3) + 4(-4) = 9 - 16 = -7$, $|\mathbf{c}| = 5$, so $\cos\theta = \frac{-7}{25} = -0.28$ - nearly perpendicular, slightly opposed.
+
+Yes: $\mathbf{a}$ is far more similar to $\mathbf{b}$ ($0.96$) than to $\mathbf{c}$ ($-0.28$). This is exactly how embeddings get compared in search and recommendation - high cosine similarity means "pointing the same way," i.e. semantically related.
+
+</details>
+
+<h3 data-bid="b74" id="exercise-2-matrix-vector-prediction-by-hand">Exercise 2 - Matrix-vector prediction by hand</h3>
+<p data-bid="b75">Using $X = \begin{bmatrix}1 & 1\\1 & 2\\1 & 3\end{bmatrix}$ and $\beta = [2, 5]^T$ (intercept 2, slope 5), compute the three predictions $X\beta$ and the residuals if $y = [7, 12, 17]^T$.</p>
+<details><summary>Show solution</summary>
+
+$X\beta$ row by row:
+
+- $1(2) + 1(5) = 7$
+- $1(2) + 2(5) = 12$
+- $1(2) + 3(5) = 17$
+
+So predictions are $[7, 12, 17]^T$, which equal $y$ exactly - residuals $[0,0,0]^T$ and SSE $= 0$. This is a perfectly linear dataset that the model fits with zero error (a clean, noiseless line), which is why a straight-line fit nails all three points. In real data the residuals would be nonzero and $X\beta$ a least-squares compromise rather than an exact fit.
+
+</details>
+
+<h3 data-bid="b76" id="exercise-3-conceptual-what-an-eigenvector-means-for-a-covariance-matrix">Exercise 3 - Conceptual: what an eigenvector means for a covariance matrix</h3>
+<p data-bid="b77">A 2D dataset's covariance matrix has eigenvectors $(1,1)/\sqrt2$ with eigenvalue $10$ and $(1,-1)/\sqrt2$ with eigenvalue $2$. Describe the shape of the data's scatter and where most of its variance lives, in plain words.</p>
+<details><summary>Show solution</summary>
+
+The data forms an **elongated ellipse tilted at 45°**, stretched along the $(1,1)$ direction (the "northeast-southwest" diagonal) and squashed along the perpendicular $(1,-1)$ direction. The eigenvalue $10$ on $(1,1)$ means 10 units of variance lie along that diagonal; the eigenvalue $2$ on $(1,-1)$ means only 2 units lie along the anti-diagonal.
+
+So the two original variables (X and Y) are strongly *positively correlated*: when one goes up, the other tends to go up, which is why the cloud leans along the positive diagonal. Total variance $= 10 + 2 = 12$ (the trace), and the first principal component explains $10/12 \approx 83\%$ of it - so a 2D dataset is effectively nearly 1D, captured by that one diagonal direction. This is exactly the situation PCA exploits for compression.
+
+</details>
+
+<h2 data-bid="b78" id="whats-next">What's next</h2>
+<p data-bid="b79">Chapter 20 puts this linear algebra directly to work: building the <strong>covariance matrix</strong> for many variables at once, extending the Normal distribution to multiple dimensions, and using eigenvectors/eigenvalues to perform <strong>Principal Component Analysis (PCA)</strong> - the standard technique for understanding and reducing the dimensionality of real, multi-feature datasets.</p>
+    </div>
+    <div class="navfooter">
+      <span><a href="18_resampling_methods.html">&larr; Previous chapter</a></span>
+      <span><a href="20_multivariate_pca.html">Next chapter &rarr;</a></span>
+    </div>
+  </div>
+  <div class="pane-right">
+    <h4>Figures in this chapter</h4>
+    <div id="railContent"></div>
+  </div>
+</div>
+
+<!-- floating selection toolbar -->
+<div id="selToolbar">
+  <button data-color="yellow" title="Mark interesting">🟡</button>
+  <button data-color="green" title="Mark understood">🟢</button>
+  <button data-color="red" title="Mark confusing">🔴</button>
+  <button data-color="blue" title="Mark to review later">🔵</button>
+  <button id="btnAddNote" title="Highlight + add a note">📝</button>
+</div>
+
+<!-- note edit popup -->
+<div id="notePopup">
+  <textarea placeholder="Write a note to yourself..."></textarea>
+  <div class="row">
+    <button class="danger" id="btnDeleteHl">Remove highlight</button>
+    <div>
+      <button id="btnCloseNote">Close</button>
+      <button class="primary" id="btnSaveNote">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- notes side panel -->
+<div id="notesOverlay"></div>
+<div id="notesPanel">
+  <div class="header">
+    <b>My Notes - this page</b>
+    <button class="iconbtn" id="btnCloseNotesPanel">✕</button>
+  </div>
+  <div class="list" id="notesList"></div>
+  <div class="footer">
+    <button id="btnExportNotes">⬇ Export all notes</button>
+    <button id="btnImportNotes">⬆ Import notes</button>
+    <input type="file" id="importFile" accept="application/json" style="display:none;">
+  </div>
+</div>
+
+<script src="../assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 25: The Statistics Hiding Inside Neural Networks</title>
+<link rel="stylesheet" href="../assets/app.css">
+<script>
+window.MathJax = { tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']], processEscapes: true } };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+</head>
+<body data-chapter="25_statistics_in_neural_networks">
+<div class="topbar">
+  <div class="left">
+    <button class="iconbtn hamburger" id="btnSidebarToggle">☰</button>
+    <a href="../index.html">Statistics for AI</a>
+  </div>
+  <div class="right">
+    <button class="iconbtn" id="btnNotesPanel">📒 My Notes</button>
+  </div>
+</div>
+<div id="sidebarOverlay"></div>
+<div class="layout">
+  <nav class="sidebar" id="sidebar">
+    <input type="text" id="sidebarFilter" placeholder="Filter chapters...">
+<details open><summary>Orientation</summary><ul>
+<li class="" data-title="chapter 0: how to use this book, and the math notation you'll see"><a href="00_how_to_use_this_book.html">Chapter 0: How to Use This Book, and the Math Notation You'll See</a></li>
+</ul></details>
+<details open><summary>Part I - Describing the World</summary><ul>
+<li class="" data-title="chapter 1: data, populations, and samples - thinking like a statistician"><a href="01_data_populations_samples.html">Chapter 1: Data, Populations, and Samples - Thinking Like a Statistician</a></li>
+<li class="" data-title="chapter 2: describing data - center, spread, and shape"><a href="02_descriptive_statistics.html">Chapter 2: Describing Data - Center, Spread, and Shape</a></li>
+<li class="" data-title="chapter 3: probability foundations - events, rules, and conditioning"><a href="03_probability_foundations.html">Chapter 3: Probability Foundations - Events, Rules, and Conditioning</a></li>
+<li class="" data-title="chapter 4: bayes' theorem - updating beliefs with evidence"><a href="04_bayes_theorem.html">Chapter 4: Bayes' Theorem - Updating Beliefs With Evidence</a></li>
+<li class="" data-title="chapter 5: random variables and discrete distributions"><a href="05_random_variables_discrete.html">Chapter 5: Random Variables and Discrete Distributions</a></li>
+<li class="" data-title="chapter 6: continuous distributions and the normal distribution"><a href="06_continuous_distributions.html">Chapter 6: Continuous Distributions and the Normal Distribution</a></li>
+<li class="" data-title="chapter 7: expectation, variance, covariance, and correlation"><a href="07_expectation_variance_covariance.html">Chapter 7: Expectation, Variance, Covariance, and Correlation</a></li>
+<li class="" data-title="chapter 8: the central limit theorem - the secret engine of statistics"><a href="08_central_limit_theorem.html">Chapter 8: The Central Limit Theorem - The Secret Engine of Statistics</a></li>
+</ul></details>
+<details open><summary>Part II - Inferring From Data</summary><ul>
+<li class="" data-title="chapter 9: sampling and estimation"><a href="09_sampling_and_estimation.html">Chapter 9: Sampling and Estimation</a></li>
+<li class="" data-title="chapter 10: maximum likelihood estimation"><a href="10_maximum_likelihood_estimation.html">Chapter 10: Maximum Likelihood Estimation</a></li>
+<li class="" data-title="chapter 11: confidence intervals"><a href="11_confidence_intervals.html">Chapter 11: Confidence Intervals</a></li>
+<li class="" data-title="chapter 12: hypothesis testing and p-values"><a href="12_hypothesis_testing.html">Chapter 12: Hypothesis Testing and p-values</a></li>
+<li class="" data-title="chapter 13: t-tests, chi-square, and anova"><a href="13_ttests_chisquare_anova.html">Chapter 13: t-tests, Chi-square, and ANOVA</a></li>
+<li class="" data-title="chapter 14: correlation and simple linear regression"><a href="14_simple_linear_regression.html">Chapter 14: Correlation and Simple Linear Regression</a></li>
+<li class="" data-title="chapter 15: multiple regression, r², and overfitting"><a href="15_multiple_regression.html">Chapter 15: Multiple Regression, R², and Overfitting</a></li>
+</ul></details>
+<details open><summary>Part III - The Bridge Into Machine Learning</summary><ul>
+<li class="" data-title="chapter 16: bias-variance tradeoff, cross-validation, and regularization"><a href="16_bias_variance_regularization.html">Chapter 16: Bias-Variance Tradeoff, Cross-Validation, and Regularization</a></li>
+<li class="" data-title="chapter 17: bayesian statistics in depth"><a href="17_bayesian_statistics.html">Chapter 17: Bayesian Statistics in Depth</a></li>
+<li class="" data-title="chapter 18: resampling - bootstrap and permutation tests"><a href="18_resampling_methods.html">Chapter 18: Resampling - Bootstrap and Permutation Tests</a></li>
+<li class="" data-title="chapter 19: linear algebra essentials for statistics and ml"><a href="19_linear_algebra_essentials.html">Chapter 19: Linear Algebra Essentials for Statistics and ML</a></li>
+<li class="" data-title="chapter 20: multivariate statistics - covariance matrices and pca"><a href="20_multivariate_pca.html">Chapter 20: Multivariate Statistics - Covariance Matrices and PCA</a></li>
+</ul></details>
+<details open><summary>Part IV - The Statistics Inside Modern AI</summary><ul>
+<li class="" data-title="chapter 21: information theory - entropy, cross-entropy, and kl divergence"><a href="21_information_theory.html">Chapter 21: Information Theory - Entropy, Cross-Entropy, and KL Divergence</a></li>
+<li class="" data-title="chapter 22: statistical learning theory - why generalization works at all"><a href="22_statistical_learning_theory.html">Chapter 22: Statistical Learning Theory - Why Generalization Works At All</a></li>
+<li class="" data-title="chapter 23: probabilistic models and latent variables (mixtures, em)"><a href="23_latent_variable_models.html">Chapter 23: Probabilistic Models and Latent Variables (Mixtures, EM)</a></li>
+<li class="" data-title="chapter 24: markov chains and monte carlo methods"><a href="24_markov_chains_monte_carlo.html">Chapter 24: Markov Chains and Monte Carlo Methods</a></li>
+<li class="current" data-title="chapter 25: the statistics hiding inside neural networks"><a href="25_statistics_in_neural_networks.html">Chapter 25: The Statistics Hiding Inside Neural Networks</a></li>
+<li class="" data-title="chapter 26: where to go next"><a href="26_where_to_go_next.html">Chapter 26: Where to Go Next</a></li>
+</ul></details>
+<details open><summary>Part V - The Statistical Frontier of Modern AI</summary><ul>
+<li class="" data-title="chapter 27: the statistical frontier - how modern ai actually uses these ideas today"><a href="27_frontier_ai_statistics.html">Chapter 27: The Statistical Frontier - How Modern AI Actually Uses These Ideas Today</a></li>
+</ul></details>
+<details open><summary>Part VI - Advanced AI Algorithms: The Statistical Engine Room</summary><ul>
+<li class="" data-title="chapter 28: diffusion models and score matching - statistics as generation"><a href="28_diffusion_models_score_matching.html">Chapter 28: Diffusion Models and Score Matching - Statistics as Generation</a></li>
+<li class="" data-title="chapter 29: transformers and attention - statistics you can calculate (almost) by hand"><a href="29_transformers_attention_statistics.html">Chapter 29: Transformers and Attention - Statistics You Can Calculate (Almost) by Hand</a></li>
+<li class="" data-title="chapter 30: reinforcement learning and policy gradients - statistics that learn from rewards"><a href="30_reinforcement_learning_policy_gradients.html">Chapter 30: Reinforcement Learning and Policy Gradients - Statistics That Learn From Rewards</a></li>
+<li class="" data-title="chapter 31: variational inference and the elbo - approximate bayes at scale"><a href="31_variational_inference_elbo.html">Chapter 31: Variational Inference and the ELBO - Approximate Bayes at Scale</a></li>
+<li class="" data-title="chapter 32: contrastive learning and infonce - statistics that learns embeddings"><a href="32_contrastive_learning_infonce.html">Chapter 32: Contrastive Learning and InfoNCE - Statistics That Learns Embeddings</a></li>
+<li class="" data-title="chapter 33: causal inference and do-calculus - when correlation is not enough"><a href="33_causal_inference_do_calculus.html">Chapter 33: Causal Inference and Do-Calculus - When Correlation Is Not Enough</a></li>
+<li class="" data-title="chapter 34: graphical models and message passing - statistics as graphs"><a href="34_graphical_models_message_passing.html">Chapter 34: Graphical Models and Message Passing - Statistics as Graphs</a></li>
+<li class="" data-title="chapter 35: optimization, generalization, and double descent - why big models work"><a href="35_optimization_generalization_double_descent.html">Chapter 35: Optimization, Generalization, and Double Descent - Why Big Models Work</a></li>
+<li class="" data-title="chapter 36: time series and modern sequence models - statistics over time"><a href="36_time_series_sequence_models.html">Chapter 36: Time Series and Modern Sequence Models - Statistics Over Time</a></li>
+</ul></details>
+<details open><summary>Part VII - Aligning AI With Human Preferences: The Statistics of RLHF</summary><ul>
+<li class="" data-title="chapter 37: preference data and reward modeling - statistics from human judgments"><a href="37_preference_data_reward_modeling.html">Chapter 37: Preference Data and Reward Modeling - Statistics From Human Judgments</a></li>
+<li class="" data-title="chapter 38: rlhf, dpo, and preference optimization - turning preferences into a loss function"><a href="38_dpo_and_preference_optimization.html">Chapter 38: RLHF, DPO, and Preference Optimization - Turning Preferences Into a Loss Function</a></li>
+<li class="" data-title="chapter 39: reinforcement learning with verifiable rewards - and how reasoning models are trained"><a href="39_rl_verifiable_rewards_reasoning.html">Chapter 39: Reinforcement Learning With Verifiable Rewards - and How Reasoning Models Are Trained</a></li>
+</ul></details>
+  </nav>
+  <div class="pane-left">
+    <div class="article" id="article">
+<h1 id="chapter-25-the-statistics-hiding-inside-neural-networks">Chapter 25: The Statistics Hiding Inside Neural Networks</h1>
+<h2 data-bid="b1" id="the-idea-this-chapter-builds-toward">The idea this chapter builds toward</h2>
+<p data-bid="b2">This is the synthesis chapter - no fundamentally new statistical machinery, but a deliberate, explicit walk through exactly where every major idea from this entire book shows up, by name and by mechanism, inside the design and training of neural networks. If you've followed the book this far, almost nothing in this chapter will feel genuinely new; the goal is for the "aha, deep learning is just statistics wearing a different vocabulary" feeling to become fully concrete and permanent.</p>
+<blockquote data-bid="b3">
+<p data-bid="b4"><strong>Intuition, in one breath:</strong> A neural network is not a new kind of object that makes statistics obsolete - it is a very large, very flexible statistical model, and every familiar tool (likelihood, priors, regularization, calibration) is still doing exactly the job it did in the earlier chapters, just with more parameters.</p>
+</blockquote>
+<h2 data-bid="b5" id="loss-functions-are-negative-log-likelihoods-chapter-10-chapter-21">Loss functions are negative log-likelihoods (Chapter 10, Chapter 21)</h2>
+<p data-bid="b6">Every standard neural network loss function is a direct instance of Chapter 10's MLE recipe, just with the model's parameters being millions of network weights instead of a handful of regression coefficients:</p>
+<ul>
+<li data-bid="b7"><strong>Mean squared error</strong> (regression networks) = negative log-likelihood under an assumed Gaussian error distribution (derived explicitly in Chapter 10).</li>
+<li data-bid="b8"><strong>Binary cross-entropy</strong> (binary classifiers) = negative log-likelihood under a Bernoulli label distribution (derived explicitly in Chapter 10, reframed via entropy in Chapter 21).</li>
+<li data-bid="b9"><strong>Categorical cross-entropy</strong> (multi-class classifiers, including every token-prediction step in a language model) = the direct multi-outcome generalization of the same Bernoulli argument, using a Categorical distribution (the multi-outcome generalization of Bernoulli from Chapter 5) instead of a two-outcome one.</li>
+</ul>
+<p data-bid="b10">A genuinely useful habit once you know this: whenever you see a new, unfamiliar loss function in a paper, ask "what probability distribution over the data is this the negative log-likelihood of?" - the answer almost always exists and almost always clarifies <em>why</em> that specific loss was chosen over alternatives, rather than leaving it as an arbitrary-feeling formula.</p>
+<h2 data-bid="b11" id="softmax-is-just-the-categorical-distributions-parameterization-made-differentiable">Softmax is just the Categorical distribution's parameterization, made differentiable</h2>
+<p data-bid="b12">A multi-class classifier's final layer typically outputs raw scores ("logits") that get passed through <strong>softmax</strong>: $\hat p_k = \frac{e^{z_k}}{\sum_j e^{z_j}}$, turning arbitrary real numbers into a valid probability distribution (non-negative, summing to 1 - exactly the requirements a PMF must satisfy, from Chapter 5). The $e^{(\cdot)}$ exponential ensures positivity (echoing exactly the same exponential-of-a-quantity trick used to build the Normal density in Chapter 6 and the Poisson/exponential family more broadly), and dividing by the sum of all exponentials is precisely the normalizing-constant idea you've now seen repeatedly (Chapter 4's Bayes evidence term, Chapter 6's Normal density's $\frac{1}{\sigma\sqrt{2\pi}}$, Chapter 17's Bayesian posterior denominator) - softmax is nothing more than "take arbitrary scores, exponentiate them to force positivity, then normalize so they sum to 1," the same universal recipe for turning <em>anything</em> into a valid probability distribution.</p>
+<h2 data-bid="b13" id="weight-initialization-is-literally-choosing-a-prior-chapter-4-chapter-6-chapter-17">Weight initialization is literally choosing a prior (Chapter 4, Chapter 6, Chapter 17)</h2>
+<p data-bid="b14">Before training starts, a neural network's weights must be set to <em>some</em> initial values, and the standard practice is drawing them randomly from a Normal (or closely related) distribution with a carefully chosen variance (e.g., "Xavier/Glorot initialization" and "He initialization" are specific variance formulas, chosen based on the number of inputs/outputs of each layer, designed so signal magnitude neither explodes nor vanishes as it passes through many layers - a direct, practical echo of the variance-scaling rule $\text{Var}(aX)=a^2\text{Var}(X)$ from Chapter 7). This is, structurally, <strong>exactly a Bayesian prior</strong> (Chapter 17): before any data is seen, you're expressing a belief distribution over plausible initial weight values, chosen specifically to keep early training numerically well-behaved. Unlike Chapter 17's explicit Bayesian MAP estimation (where the prior stays mathematically present throughout fitting), this initial "prior" mostly just sets the starting point for an otherwise non-Bayesian (plain MLE-via-gradient-descent) optimization - but the conceptual lineage is unmistakable, and some genuinely Bayesian deep learning methods keep a prior's influence active throughout training in a more literal, Chapter-17-style way.</p>
+<h2 data-bid="b15" id="regularization-in-deep-learning-is-still-chapter-1617s-same-idea">Regularization in deep learning is still Chapter 16/17's same idea</h2>
+<p data-bid="b16"><strong>Weight decay</strong> (an L2 penalty added directly to a neural network's loss, exactly Chapter 16's Ridge penalty) and <strong>Dropout</strong> (randomly "turning off" a fraction of neurons during each training step) both serve the same bias-variance-tradeoff purpose as Chapter 16's regularization: preventing the enormous flexibility of a many-millions-of-parameters model from simply memorizing training-set noise (exactly the overfitting mechanism demonstrated concretely in Chapters 15 and 22). Dropout has a neat probabilistic interpretation worth knowing: it can be shown to approximate training an enormous <em>ensemble</em> of many smaller sub-networks simultaneously and averaging their predictions - directly invoking the CLT-style variance-reduction-through-averaging logic from Chapter 8's ensembling preview.</p>
+<h2 data-bid="b17" id="batch-normalization-is-literally-chapter-6s-z-score-standardization-applied-mid-network">Batch normalization is literally Chapter 6's z-score standardization, applied mid-network</h2>
+<p data-bid="b18"><strong>Batch normalization</strong> takes the activations flowing through an intermediate layer and standardizes them - subtracting the batch's mean, dividing by the batch's standard deviation - exactly reproducing Chapter 6's z-score formula, $z=\frac{x-\mu}{\sigma}$, except computed using a mini-batch of training examples' statistics rather than a known population $\mu,\sigma$ (making it, in effect, an online, repeatedly-re-estimated application of Chapter 9's estimator machinery, recomputed fresh at every training step). The motivation is precisely the same as standardizing input features before training a classical regression model (mentioned back in Chapter 6): keeping values on a consistent, well-behaved scale makes optimization dramatically easier and more stable, now applied not just to the raw input data but to every intermediate layer's outputs throughout a deep network.</p>
+<h2 data-bid="b19" id="training-itself-is-mle-via-an-iterative-optimization-procedure">Training itself is MLE via an iterative optimization procedure</h2>
+<p data-bid="b20">Chapter 10 derived the Normal-distribution MLE by setting a derivative to exactly zero and solving algebraically - a closed-form shortcut only possible because that specific problem (one parameter, one simple distribution) was mathematically tractable by hand. A neural network's loss landscape, with millions of interacting parameters, has no such closed-form solution - so instead of solving for the zero-derivative point directly, <strong>gradient descent</strong> repeatedly nudges every parameter a small step in the direction that locally decreases the loss (echoing Chapter 0's derivative-as-slope intuition), iterating until it settles near a (typically local, not provably global, as flagged in Chapter 23's EM discussion) minimum. The <em>target being minimized</em> is still exactly the same negative log-likelihood object from Chapter 10 - only the <em>method of finding the minimum</em> has changed, from algebra to iterative numerical search, out of sheer necessity given the problem's scale.</p>
+<h2 data-bid="b21" id="why-a-classifiers-softmax-output-can-be-interpreted-as-a-confidence-and-why-that-confidence-can-be-miscalibrated">Why a classifier's softmax output can be interpreted as a confidence - and why that confidence can be miscalibrated</h2>
+<p data-bid="b22">Because softmax outputs are trained (via cross-entropy loss, Chapter 21) to approximate the true conditional probability $P(\text{class}\mid\text{input})$, it's tempting to read a network's output of "0.93 for cat" as a literal, trustworthy probability - but this interpretation can be badly wrong in practice, a phenomenon called <strong>miscalibration</strong>. A perfectly calibrated classifier should be correct roughly 93% of the time whenever it outputs 0.93 confidence - modern, very large/flexible networks are empirically known to often be systematically <strong>overconfident</strong> relative to this ideal, a direct, measurable consequence of the same model-capacity-versus-generalization tension formalized in Chapter 22's statistical learning theory, and a very active area of applied ML research (calibration techniques like "temperature scaling" exist specifically to correct this gap after training, by rescaling the softmax logits to better match Chapter 12's and Chapter 17's notions of what a trustworthy probability statement ought to mean).</p>
+<h2 data-bid="b23" id="figures">Figures</h2>
+<img class="has-rail" data-figid="f1" alt="The training loss curve of a tiny network -- this curve IS the negative log-likelihood, decreasing every epoch." src="../images/ch25_statistics_in_neural_networks_fig1.png" /><p data-bid="b24" class="img-caption has-rail" data-figid="f1"><em>The training loss curve of a tiny network -- this curve IS the negative log-likelihood, decreasing every epoch.</em></p>
+<img class="has-rail" data-figid="f2" alt="A calibration / reliability diagram: predicted confidence vs actual accuracy. Points on the diagonal are perfectly calibrated." src="../images/ch25_statistics_in_neural_networks_fig2.png" /><p data-bid="b25" class="img-caption has-rail" data-figid="f2"><em>A calibration / reliability diagram: predicted confidence vs actual accuracy. Points on the diagonal are perfectly calibrated.</em></p>
+<img class="has-rail" data-figid="f3" alt="Activation magnitude through 10 layers under good, too-large, and too-small weight initialization -- showing exactly how poor scaling causes signal to explode or vanish with depth." src="../images/ch25_statistics_in_neural_networks_fig3.png" /><p data-bid="b26" class="img-caption has-rail" data-figid="f3"><em>Activation magnitude through 10 layers under good, too-large, and too-small weight initialization -- showing exactly how poor scaling causes signal to explode or vanish with depth.</em></p>
+<h2 data-bid="b27" id="run-it-yourself">Run it yourself</h2>
+<p data-bid="b28"><code>book/code/ch25_statistics_in_neural_networks.py</code> trains a tiny neural network (built with plain <code>numpy</code>, no deep learning framework, so every piece is visible) on a toy binary classification problem, printing and confirming that its training loss at each step is numerically identical to the negative log-likelihood formula from Chapter 10/21, directly visualizes its softmax output probabilities against a reliability/calibration diagram to show over/under-confidence directly, and separately demonstrates weight-initialization variance scaling by comparing activation magnitudes through several layers under good vs. poorly-chosen initialization variances.</p>
+<p data-bid="b29"re><code class="language-bash">python book/code/ch25_statistics_in_neural_networks.py
+</code></pre>
+<h2 data-bid="b30" id="why-this-matters-in-ai-and-in-everyday-life">Why This Matters - In AI and In Everyday Life</h2>
+<p data-bid="b31"><strong>In AI / machine learning:</strong></p>
+<ul>
+<li data-bid="b32"><strong>This entire chapter IS the AI application</strong>: softmax, weight initialization, batch normalization, weight decay, dropout, and training itself are all direct, named instances of the statistics covered across this whole book.</li>
+<li data-bid="b33"><strong>Model calibration in high-stakes deployments</strong>: ensuring a medical-diagnosis or self-driving-car model's stated confidence actually matches its real accuracy (this chapter's reliability diagram) is a genuine, actively-managed real-world safety concern.</li>
+<li data-bid="b34"><strong>Dropout and weight decay in transformer training</strong>: the L2 regularization and stochastic dropout this chapter describes are standard ingredients in every frontier LLM training run, directly instantiating Chapter 16's bias-variance penalty at billions-of-parameters scale.</li>
+<li data-bid="b35"><strong>Jensen-Shannon/temperature tricks in RLHF and distillation</strong>: the KL-style penalties that keep a fine-tuned model from drifting away from its reference policy are the probabilistic-distribution view of this chapter's softmax and cross-entropy machinery, applied to align generative models without destroying their calibrated behavior.</li>
+</ul>
+<p data-bid="b36"><strong>In everyday, non-AI life:</strong></p>
+<ul>
+<li data-bid="b37"><strong>A student learning from a teacher's corrections</strong>: a loss function is mathematically a teacher's "how wrong was that, and in which direction" signal, and gradient descent is the student nudging their understanding step by step -- a real pedagogical analogy, not just a cute one.</li>
+<li data-bid="b38"><strong>Trusting an AI's stated confidence</strong>: when a medical-imaging AI says "85% confident this is malignant," whether that 85% is actually trustworthy (calibration) has direct, real consequences for patient care decisions made by real doctors.</li>
+</ul>
+<h2 data-bid="b39" id="worked-example-by-hand-larger">Worked example - by hand, larger</h2>
+<p data-bid="b40">Let's push one training step through a single-logit binary classifier entirely by hand, checking that the loss really is the Chapter 10 negative log-likelihood and watching the gradient signal. Suppose the network outputs a logit (pre-sigmoid activation) $z = 0.5$ for one training example whose true label is $y=1$ (the positive class).</p>
+<p data-bid="b41"><strong>Recover the probability.</strong> The sigmoid gives $p = \sigma(z) = \frac{1}{1+e^{-z}} = \frac{1}{1+e^{-0.5}}$. Now $e^{-0.5} = 0.6065$, so $p = 1/(1+0.6065) = 1/1.6065 = 0.6225$. The model currently says "62.25% positive."</p>
+<p data-bid="b42"><strong>Compute the loss (binary cross-entropy = negative log-likelihood).</strong> With $y=1$ the BCE is $L = -\ln p = -\ln 0.6225 = 0.4741$ nats. As a sanity check on the MLE framing: under a Bernoulli($p$) model, the likelihood of the observed label $y=1$ is $p=0.6225$, and $-\ln$ of that is exactly the loss - this <em>is</em> Chapter 10's Bernoulli MLE negative log-likelihood, one data point at a time.</p>
+<p data-bid="b43"><strong>Compute the gradient w.r.t. the logit.</strong> For binary cross-entropy plus sigmoid, the derivative collapses beautifully to $\frac{\partial L}{\partial z} = p - y = 0.6225 - 1 = -0.3775$. The negative sign means: to reduce loss, <em>increase</em> $z$ (and hence $p$). Gradient descent with learning rate $\eta = 0.1$ updates $z \leftarrow z - \eta(p-y) = 0.5 - 0.1\times(-0.3775) = 0.5 + 0.03775 = 0.53775$.</p>
+<p data-bid="b44"><strong>Check the loss fell.</strong> New probability: $\sigma(0.53775) = 1/(1+e^{-0.53775}) = 1/(1+0.5840) = 0.6313$. New loss: $-\ln 0.6313 = 0.4600$ nats, down from $0.4741$. One small step reduced the surprise, exactly as advertised.</p>
+<p data-bid="b45"><strong>The takeaway:</strong> the "magic" backward pass is just this one-liner gradient $p-y$ (the difference between predicted probability and true label), and that clean form is not a coincidence - it falls directly out of the fact that the loss is the negative log-likelihood of a Bernoulli distribution, the same MLE object from Chapter 10.</p>
+<h2 data-bid="b46" id="check-your-understanding">Check your understanding</h2>
+<ul>
+<li data-bid="b47">Pick any loss function you've heard of elsewhere (e.g. hinge loss, Huber loss, focal loss) and try to guess what probability-distribution assumption it might correspond to, using this chapter's "what distribution is this the negative log-likelihood of" question as a guide.</li>
+<li data-bid="b48">Why is weight initialization a kind of prior, in the Chapter 17 sense, even though training doesn't keep referring back to it the way Bayesian MAP estimation does?</li>
+<li data-bid="b49">Why would an overconfident (miscalibrated) classifier be especially dangerous in a high-stakes application (e.g. medical diagnosis), connecting back to Chapter 4's medical-test base-rate discussion?</li>
+</ul>
+<h2 data-bid="b50" id="exercises">Exercises</h2>
+<h3 data-bid="b51" id="exercise-1-mse-as-a-gaussian-log-likelihood">Exercise 1 - MSE as a Gaussian log-likelihood</h3>
+<p data-bid="b52">A regression network predicts $\hat y = 3.0$ for a target $y = 4.0$. Assume Gaussian errors with $\sigma = 1$. Compute the negative log-likelihood (up to constants), then repeat for $\hat y = 3.5$ and confirm the loss got smaller.</p>
+<details><summary>Show solution</summary>
+
+Gaussian negative log-likelihood (dropping the $\log(\sigma\sqrt{2\pi})$ constant, which doesn't depend on $\hat y$): $L = \frac{(y-\hat y)^2}{2\sigma^2}$.
+
+For $\hat y = 3.0$: $L = \frac{(4.0-3.0)^2}{2\times1^2} = \frac{1}{2} = 0.5$.
+For $\hat y = 3.5$: $L = \frac{(4.0-3.5)^2}{2} = \frac{0.25}{2} = 0.125$.
+
+The loss fell from 0.5 to 0.125 - a factor of 4, matching the squared error ratio $(1.0/0.5)^2 = 4$. This is why minimizing mean squared error and maximizing Gaussian likelihood are the *same* optimization, and why MSE is scale-sensitive to $\sigma$: a network trained under $\sigma=1$ implicitly assumes errors of that size.
+
+</details>
+
+<h3 data-bid="b53" id="exercise-2-temperature-scaling-by-hand">Exercise 2 - Temperature scaling, by hand</h3>
+<p data-bid="b54">A classifier outputs logits $z = (2.0,\,1.0,\,0.0)$ for a 3-class problem. Compute the softmax probabilities at temperature $T=1$ and then at $T=2$. Which is more confident, and why does this matter for calibration?</p>
+<details><summary>Show solution</summary>
+
+Softmax is $\hat p_k = e^{z_k/T}/\sum_j e^{z_j/T}$.
+
+At $T=1$: exponentials $e^{2}=7.389$, $e^{1}=2.718$, $e^{0}=1$. Sum $=11.107$. Probabilities: $0.665,\,0.245,\,0.090$.
+
+At $T=2$: divide logits by 2 → $1.0,\,0.5,\,0.0$. Exponentials $2.718,\,1.649,\,1$. Sum $=5.367$. Probabilities: $0.507,\,0.307,\,0.186$.
+
+The $T=2$ distribution is *flatter* - less confident. Since large networks are typically overconfident, increasing $T$ on a held-out set to minimize validation NLL ("temperature scaling") is the standard post-hoc calibration fix. It never changes which class wins (the argmax is preserved), only how much the model overstates its confidence - exactly the miscalibration problem this chapter warns about.
+
+</details>
+
+<h3 data-bid="b55" id="exercise-3-why-initialization-scaling-matters">Exercise 3 - Why initialization scaling matters</h3>
+<p data-bid="b56">Xavier initialization sets weight variance $\text{Var}(w) = 1/n_{\text{in}}$ for a layer with $n_{\text{in}}$ inputs. If activations have variance 1 and there are $n_{\text{in}}$ independent weighted inputs, compute the output variance. What happens if the variance is instead set to $2/n_{\text{in}}$, and why does that cause exploding activations with depth?</p>
+<details><summary>Show solution</summary>
+
+Output $= \sum_{i=1}^{n_{\text{in}}} w_i x_i$. With independent zero-mean $w_i$, $x_i$: $\text{Var}(\text{output}) = \sum_i \text{Var}(w_i)\text{Var}(x_i) = n_{\text{in}}\times\frac{1}{n_{\text{in}}}\times1 = 1$. Signal variance is preserved layer to layer - activations neither explode nor vanish.
+
+If instead $\text{Var}(w) = 2/n_{\text{in}}$, then each layer multiplies the variance by $n_{\text{in}}\times\frac{2}{n_{\text{in}}} = 2$. After $L$ layers the variance is $2^L$ - after 10 layers, $2^{10}=1024$x, after 20 layers about a million-fold. Activations explode, saturating nonlinearities and destabilizing training. This is the direct, practical consequence of Chapter 7's variance-scaling rule $\text{Var}(aX)=a^2\text{Var}(X)$, and it is exactly why initialization variance is chosen as an explicit function of layer width.
+
+</details>
+
+<h2 data-bid="b57" id="whats-next">What's next</h2>
+<p data-bid="b58">Chapter 26, the final chapter, is a short map of where to go next - causal inference, time series analysis, experimental design/A-B testing at scale, and pointers for deepening any single thread of this book further - now that you have the full statistical vocabulary to understand what each of those next steps is actually for.</p>
+    </div>
+    <div class="navfooter">
+      <span><a href="24_markov_chains_monte_carlo.html">&larr; Previous chapter</a></span>
+      <span><a href="26_where_to_go_next.html">Next chapter &rarr;</a></span>
+    </div>
+  </div>
+  <div class="pane-right">
+    <h4>Figures in this chapter</h4>
+    <div id="railContent"></div>
+  </div>
+</div>
+
+<!-- floating selection toolbar -->
+<div id="selToolbar">
+  <button data-color="yellow" title="Mark interesting">🟡</button>
+  <button data-color="green" title="Mark understood">🟢</button>
+  <button data-color="red" title="Mark confusing">🔴</button>
+  <button data-color="blue" title="Mark to review later">🔵</button>
+  <button id="btnAddNote" title="Highlight + add a note">📝</button>
+</div>
+
+<!-- note edit popup -->
+<div id="notePopup">
+  <textarea placeholder="Write a note to yourself..."></textarea>
+  <div class="row">
+    <button class="danger" id="btnDeleteHl">Remove highlight</button>
+    <div>
+      <button id="btnCloseNote">Close</button>
+      <button class="primary" id="btnSaveNote">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- notes side panel -->
+<div id="notesOverlay"></div>
+<div id="notesPanel">
+  <div class="header">
+    <b>My Notes - this page</b>
+    <button class="iconbtn" id="btnCloseNotesPanel">✕</button>
+  </div>
+  <div class="list" id="notesList"></div>
+  <div class="footer">
+    <button id="btnExportNotes">⬇ Export all notes</button>
+    <button id="btnImportNotes">⬆ Import notes</button>
+    <input type="file" id="importFile" accept="application/json" style="display:none;">
+  </div>
+</div>
+
+<script src="../assets/app.js"></script>
+</body>
+</html>

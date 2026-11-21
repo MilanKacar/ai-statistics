@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 35: Optimization, Generalization, and Double Descent - Why Big Models Work</title>
+<link rel="stylesheet" href="../assets/app.css">
+<script>
+window.MathJax = { tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']], processEscapes: true } };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+</head>
+<body data-chapter="35_optimization_generalization_double_descent">
+<div class="topbar">
+  <div class="left">
+    <button class="iconbtn hamburger" id="btnSidebarToggle">☰</button>
+    <a href="../index.html">Statistics for AI</a>
+  </div>
+  <div class="right">
+    <button class="iconbtn" id="btnNotesPanel">📒 My Notes</button>
+  </div>
+</div>
+<div id="sidebarOverlay"></div>
+<div class="layout">
+  <nav class="sidebar" id="sidebar">
+    <input type="text" id="sidebarFilter" placeholder="Filter chapters...">
+<details open><summary>Orientation</summary><ul>
+<li class="" data-title="chapter 0: how to use this book, and the math notation you'll see"><a href="00_how_to_use_this_book.html">Chapter 0: How to Use This Book, and the Math Notation You'll See</a></li>
+</ul></details>
+<details open><summary>Part I - Describing the World</summary><ul>
+<li class="" data-title="chapter 1: data, populations, and samples - thinking like a statistician"><a href="01_data_populations_samples.html">Chapter 1: Data, Populations, and Samples - Thinking Like a Statistician</a></li>
+<li class="" data-title="chapter 2: describing data - center, spread, and shape"><a href="02_descriptive_statistics.html">Chapter 2: Describing Data - Center, Spread, and Shape</a></li>
+<li class="" data-title="chapter 3: probability foundations - events, rules, and conditioning"><a href="03_probability_foundations.html">Chapter 3: Probability Foundations - Events, Rules, and Conditioning</a></li>
+<li class="" data-title="chapter 4: bayes' theorem - updating beliefs with evidence"><a href="04_bayes_theorem.html">Chapter 4: Bayes' Theorem - Updating Beliefs With Evidence</a></li>
+<li class="" data-title="chapter 5: random variables and discrete distributions"><a href="05_random_variables_discrete.html">Chapter 5: Random Variables and Discrete Distributions</a></li>
+<li class="" data-title="chapter 6: continuous distributions and the normal distribution"><a href="06_continuous_distributions.html">Chapter 6: Continuous Distributions and the Normal Distribution</a></li>
+<li class="" data-title="chapter 7: expectation, variance, covariance, and correlation"><a href="07_expectation_variance_covariance.html">Chapter 7: Expectation, Variance, Covariance, and Correlation</a></li>
+<li class="" data-title="chapter 8: the central limit theorem - the secret engine of statistics"><a href="08_central_limit_theorem.html">Chapter 8: The Central Limit Theorem - The Secret Engine of Statistics</a></li>
+</ul></details>
+<details open><summary>Part II - Inferring From Data</summary><ul>
+<li class="" data-title="chapter 9: sampling and estimation"><a href="09_sampling_and_estimation.html">Chapter 9: Sampling and Estimation</a></li>
+<li class="" data-title="chapter 10: maximum likelihood estimation"><a href="10_maximum_likelihood_estimation.html">Chapter 10: Maximum Likelihood Estimation</a></li>
+<li class="" data-title="chapter 11: confidence intervals"><a href="11_confidence_intervals.html">Chapter 11: Confidence Intervals</a></li>
+<li class="" data-title="chapter 12: hypothesis testing and p-values"><a href="12_hypothesis_testing.html">Chapter 12: Hypothesis Testing and p-values</a></li>
+<li class="" data-title="chapter 13: t-tests, chi-square, and anova"><a href="13_ttests_chisquare_anova.html">Chapter 13: t-tests, Chi-square, and ANOVA</a></li>
+<li class="" data-title="chapter 14: correlation and simple linear regression"><a href="14_simple_linear_regression.html">Chapter 14: Correlation and Simple Linear Regression</a></li>
+<li class="" data-title="chapter 15: multiple regression, r², and overfitting"><a href="15_multiple_regression.html">Chapter 15: Multiple Regression, R², and Overfitting</a></li>
+</ul></details>
+<details open><summary>Part III - The Bridge Into Machine Learning</summary><ul>
+<li class="" data-title="chapter 16: bias-variance tradeoff, cross-validation, and regularization"><a href="16_bias_variance_regularization.html">Chapter 16: Bias-Variance Tradeoff, Cross-Validation, and Regularization</a></li>
+<li class="" data-title="chapter 17: bayesian statistics in depth"><a href="17_bayesian_statistics.html">Chapter 17: Bayesian Statistics in Depth</a></li>
+<li class="" data-title="chapter 18: resampling - bootstrap and permutation tests"><a href="18_resampling_methods.html">Chapter 18: Resampling - Bootstrap and Permutation Tests</a></li>
+<li class="" data-title="chapter 19: linear algebra essentials for statistics and ml"><a href="19_linear_algebra_essentials.html">Chapter 19: Linear Algebra Essentials for Statistics and ML</a></li>
+<li class="" data-title="chapter 20: multivariate statistics - covariance matrices and pca"><a href="20_multivariate_pca.html">Chapter 20: Multivariate Statistics - Covariance Matrices and PCA</a></li>
+</ul></details>
+<details open><summary>Part IV - The Statistics Inside Modern AI</summary><ul>
+<li class="" data-title="chapter 21: information theory - entropy, cross-entropy, and kl divergence"><a href="21_information_theory.html">Chapter 21: Information Theory - Entropy, Cross-Entropy, and KL Divergence</a></li>
+<li class="" data-title="chapter 22: statistical learning theory - why generalization works at all"><a href="22_statistical_learning_theory.html">Chapter 22: Statistical Learning Theory - Why Generalization Works At All</a></li>
+<li class="" data-title="chapter 23: probabilistic models and latent variables (mixtures, em)"><a href="23_latent_variable_models.html">Chapter 23: Probabilistic Models and Latent Variables (Mixtures, EM)</a></li>
+<li class="" data-title="chapter 24: markov chains and monte carlo methods"><a href="24_markov_chains_monte_carlo.html">Chapter 24: Markov Chains and Monte Carlo Methods</a></li>
+<li class="" data-title="chapter 25: the statistics hiding inside neural networks"><a href="25_statistics_in_neural_networks.html">Chapter 25: The Statistics Hiding Inside Neural Networks</a></li>
+<li class="" data-title="chapter 26: where to go next"><a href="26_where_to_go_next.html">Chapter 26: Where to Go Next</a></li>
+</ul></details>
+<details open><summary>Part V - The Statistical Frontier of Modern AI</summary><ul>
+<li class="" data-title="chapter 27: the statistical frontier - how modern ai actually uses these ideas today"><a href="27_frontier_ai_statistics.html">Chapter 27: The Statistical Frontier - How Modern AI Actually Uses These Ideas Today</a></li>
+</ul></details>
+<details open><summary>Part VI - Advanced AI Algorithms: The Statistical Engine Room</summary><ul>
+<li class="" data-title="chapter 28: diffusion models and score matching - statistics as generation"><a href="28_diffusion_models_score_matching.html">Chapter 28: Diffusion Models and Score Matching - Statistics as Generation</a></li>
+<li class="" data-title="chapter 29: transformers and attention - statistics you can calculate (almost) by hand"><a href="29_transformers_attention_statistics.html">Chapter 29: Transformers and Attention - Statistics You Can Calculate (Almost) by Hand</a></li>
+<li class="" data-title="chapter 30: reinforcement learning and policy gradients - statistics that learn from rewards"><a href="30_reinforcement_learning_policy_gradients.html">Chapter 30: Reinforcement Learning and Policy Gradients - Statistics That Learn From Rewards</a></li>
+<li class="" data-title="chapter 31: variational inference and the elbo - approximate bayes at scale"><a href="31_variational_inference_elbo.html">Chapter 31: Variational Inference and the ELBO - Approximate Bayes at Scale</a></li>
+<li class="" data-title="chapter 32: contrastive learning and infonce - statistics that learns embeddings"><a href="32_contrastive_learning_infonce.html">Chapter 32: Contrastive Learning and InfoNCE - Statistics That Learns Embeddings</a></li>
+<li class="" data-title="chapter 33: causal inference and do-calculus - when correlation is not enough"><a href="33_causal_inference_do_calculus.html">Chapter 33: Causal Inference and Do-Calculus - When Correlation Is Not Enough</a></li>
+<li class="" data-title="chapter 34: graphical models and message passing - statistics as graphs"><a href="34_graphical_models_message_passing.html">Chapter 34: Graphical Models and Message Passing - Statistics as Graphs</a></li>
+<li class="current" data-title="chapter 35: optimization, generalization, and double descent - why big models work"><a href="35_optimization_generalization_double_descent.html">Chapter 35: Optimization, Generalization, and Double Descent - Why Big Models Work</a></li>
+<li class="" data-title="chapter 36: time series and modern sequence models - statistics over time"><a href="36_time_series_sequence_models.html">Chapter 36: Time Series and Modern Sequence Models - Statistics Over Time</a></li>
+</ul></details>
+<details open><summary>Part VII - Aligning AI With Human Preferences: The Statistics of RLHF</summary><ul>
+<li class="" data-title="chapter 37: preference data and reward modeling - statistics from human judgments"><a href="37_preference_data_reward_modeling.html">Chapter 37: Preference Data and Reward Modeling - Statistics From Human Judgments</a></li>
+<li class="" data-title="chapter 38: rlhf, dpo, and preference optimization - turning preferences into a loss function"><a href="38_dpo_and_preference_optimization.html">Chapter 38: RLHF, DPO, and Preference Optimization - Turning Preferences Into a Loss Function</a></li>
+<li class="" data-title="chapter 39: reinforcement learning with verifiable rewards - and how reasoning models are trained"><a href="39_rl_verifiable_rewards_reasoning.html">Chapter 39: Reinforcement Learning With Verifiable Rewards - and How Reasoning Models Are Trained</a></li>
+</ul></details>
+  </nav>
+  <div class="pane-left">
+    <div class="article" id="article">
+<h1 id="chapter-35-optimization-generalization-and-double-descent-why-big-models-work">Chapter 35: Optimization, Generalization, and Double Descent - Why Big Models Work</h1>
+<h2 data-bid="b1" id="the-idea-this-chapter-builds-toward">The idea this chapter builds toward</h2>
+<p data-bid="b2">Chapter 16 gave you the classical picture: bias falls and variance rises as model complexity grows, so test error is a <strong>U-shaped curve</strong> with a sweet spot you should stop at, guarded by regularization and cross-validation. Chapter 22 then admitted that this picture predicts wildly pessimistic generalization for huge neural networks, contradicting reality. This chapter closes that loop by confronting the modern phenomenon head-on: once a model becomes large enough to <strong>interpolate</strong> the training data exactly, test error does not keep rising - it can <strong>fall again</strong>. This is <strong>double descent</strong>, and it is the statistical return of the resolution to scores of chapters of intuition, explaining why the biggest models are sometimes the best.</p>
+<blockquote data-bid="b3">
+<p data-bid="b4"><strong>Intuition, in one breath:</strong> classic statistics says "big models overfit" and modern practice says "big models generalize" - both are right, and the space between them is a single, empirically reproducible U-turn called double descent.</p>
+</blockquote>
+<h2 data-bid="b5" id="the-classical-curve-restated-precisely">The classical curve, restated precisely</h2>
+<p data-bid="b6">Chapter 16's decomposition, for a target $y = f(x) + \varepsilon$ with noise variance $\sigma^2$:</p>
+<p data-bid="b7">$$\mathbb{E}\big[(y - \hat f(x))^2\big] = \underbrace{\text{Bias}^2}_{\text{rigid, systematic}} + \underbrace{\text{Var}(\hat f)}_{\text{twitchy, sample-sensitive}} + \underbrace{\sigma^2}_{\text{floor}}.$$</p>
+<p data-bid="b8"><strong>Reading it piece by piece:</strong>
+- <strong>$\mathbb{E}[(y - \hat f(x))^2]$</strong> - the expected squared test error, the quantity we are trying to minimize over new data.
+- <strong>$y$</strong> - a fresh target drawn from the true process $f(x) + \varepsilon$, what we are predicting.
+- <strong>$\hat f(x)$</strong> - the model's prediction, which depends on the particular training sample it was fit to.
+- <strong>$\text{Bias}^2$</strong> - the squared average gap between the true function and the model's typical prediction, the systematic error from a model too rigid to capture the signal.
+- <strong>$\text{Var}(\hat f)$</strong> - how much the prediction wiggles as the training sample is resampled, the instability that grows with model flexibility.
+- <strong>$\sigma^2$</strong> - the irreducible noise variance of the data, a floor no model can go below.
+- <strong>the sum</strong> - test error decomposes cleanly into these three, so improving one term at the cost of another is the whole bias-variance trade-off.</p>
+<p data-bid="b9">As capacity $p$ (parameters, say) grows from under-fitting to just-enough, bias falls fast and variance rises slowly, so total test error traces down, reaches a minimum at some $p^*$, then climbs as variance takes over. The advice was always: sit at $p^*$. The implicit assumption baked in is that the model is <strong>constrained</strong> - it cannot fit the training data exactly, so there is a single best fit and the only question is how much of the signal it captures.</p>
+<h2 data-bid="b10" id="the-interpolation-threshold-where-the-classical-story-runs-out-of-room">The interpolation threshold - where the classical story runs out of room</h2>
+<p data-bid="b11">Now let the model grow until it has as many effective parameters $p$ as training points $n$. At $p = n$, a generic model can fit the training data <strong>exactly</strong>: training residual is zero. This is the <strong>interpolation threshold</strong>, and it is the worst possible place to stand under the classical view, because you have spent all your capacity on fitting the training points and have no freedom left to average away noise - variance is maximized. An important consequence of linear algebra (Chapter 19): for $p < n$ the least-squares solution is unique, but for $p > n$ the system $X\beta = y$ is <strong>underdetermined</strong> and has <em>infinitely many</em> exact solutions. Which one you get depends entirely on the optimizer.</p>
+<p data-bid="b12">And here is the pivot: <strong>variance is the sensitivity of the particular solution you land on to the noise in the data.</strong> If there is one unique solution, all the noise has to be absorbed by it, and variance explodes at the threshold. But if there are many interpolating solutions, and your optimizer has a preference for one <em>kind</em> of solution - say, the smallest-norm one - then that preferred solution can be far less noise-sensitive than the unique one at $p=n$. Variance <strong>falls again</strong> on the other side of the peak. That is the second descent.</p>
+<h2 data-bid="b13" id="why-the-optimizer-picks-the-nice-interpolator-implicit-regularization">Why the optimizer picks the "nice" interpolator: implicit regularization</h2>
+<p data-bid="b14">Chapter 16 discussed explicit regularization: add $\lambda\sum\beta_j^2$ to the loss. <strong>Implicit regularization</strong> gets the same effect for free, woven into the optimization procedure itself. Gradient descent from a small initialization on an overparameterized model converges to the <strong>minimum-norm</strong> interpolating solution - a fact provable for linear models and observed universally for neural nets. Stochastic gradient descent adds Chapter 8-flavored noise (minibatches are noisy estimates of the gradient), and this noise plus early stopping mean SGD visits the <em>smoothest</em> interpolator along the way rather than a wild one. Overparameterization is what makes this possible: it gives the optimizer a huge set of solutions to <em>choose from</em>, and the inductive bias of gradient descent then selects a low-complexity member of that set. This is the rigorous sense in which Chapter 16's "regularization is a Bayesian prior" reappears: the optimizer imposes a prior over solutions even with no explicit penalty.</p>
+<h2 data-bid="b15" id="benign-overfitting-and-reconciliation">Benign overfitting and reconciliation</h2>
+<p data-bid="b16">Chapter 22 flagged margin-based and norm-based complexity as the measures that actually predict the real gap. "Benign overfitting" makes this concrete: a model can interpolate noisy training data (zero training error) yet still generalize well, as long as it fits the noise using a low-norm, high-margin solution rather than a fragile one. This does <strong>not</strong> contradict classical theory - it refines <em>which</em> complexity measure matters. VC dimension counted <em>nominal</em> capacity (how many labelings are reachable in the worst case), and that count is monotone, so it can never produce a second descent. The measures that do produce one - norm, margin, effective rank - are properties of the <em>particular solution</em> SGD finds, not of the hypothesis class, which is precisely the gap Chapter 22 described as theory lagging practice. So the reconciliation is:</p>
+<ul>
+<li data-bid="b17">Classical theory is right that <strong>raw capacity</strong> and <strong>training fit</strong> don't by themselves guarantee generalization.</li>
+<li data-bid="b18">Modern practice is right that among the many interpolators of an overparameterized model, the <strong>implicitly regularized</strong> one generalizes anyway.</li>
+<li data-bid="b19">Double descent is the visible seam where you cross from "unique fit, variance-maximal" to "many fits, optimizer picks a gentle one."</li>
+</ul>
+<div class="labcard">
+<div class="labkicker">Live - walk the double-descent curve yourself</div>
+<div class="labcontrols">
+  <div class="labctrl"><label>Training points n <b id="ch35_n_label">20</b></label><input type="range" id="ch35_n" min="8" max="40" step="1" value="20"></div>
+  <div class="labctrl"><label>Effective parameters p (polynomial degree) <b id="ch35_p_label">5</b></label><input type="range" id="ch35_p" min="1" max="40" step="1" value="5"></div>
+  <div class="labctrl"><label>Noise std <b id="ch35_noise_label">0.20</b></label><input type="range" id="ch35_noise" min="0" max="0.5" step="0.01" value="0.20"></div>
+</div>
+<div class="labrow">
+  <button class="labbtn" id="ch35_curve">Sweep p and plot the curve</button>
+  <button class="labbtn secondary" id="ch35_resample">Resample data</button>
+</div>
+<div class="labcanvas-wrap"><canvas id="ch35_canvas" width="820" height="260"></canvas></div>
+<div class="labstat-grid">
+  <div class="labstat"><div class="lbl">Train error at current p</div><div class="val" id="ch35_train">-</div></div>
+  <div class="labstat"><div class="lbl">Test error at current p</div><div class="val" id="ch35_test">-</div></div>
+  <div class="labstat"><div class="lbl">Interpolation p &asymp; n-1</div><div class="val" id="ch35_thresh">-</div></div>
+</div>
+<p data-bid="b20" class="labnote">The curve sweeps the polynomial degree p while n stays fixed. Watch test error fall, spike near p &asymp; n (the interpolation threshold, where train error hits zero), then fall again for p &gt; n - the second descent. A tiny ridge term keeps the p &gt;= n fits numerically stable, mirroring the implicit regularization the text describes. Press "Sweep" after changing n or noise.</p>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  var SL = window.StatsLab;
+  var trueFn = function(x){ return Math.sin(2*Math.PI*x) * 0.8; };
+  var trainX = [], trainY = [], testX = [], testY = [];
+  function resample(){
+    var noise = parseFloat(document.getElementById('ch35_noise').value);
+    trainX = []; trainY = []; testX = []; testY = [];
+    var n = parseInt(document.getElementById('ch35_n').value);
+    for(var i=0;i<n;i++){
+      var x = i/(n-1);
+      trainX.push(x); trainY.push(trueFn(x) + SL.randNormal(0, noise));
+    }
+    for(var j=0;j<80;j++){
+      var xt = j/79;
+      testX.push(xt); testY.push(trueFn(xt) + SL.randNormal(0, noise));
+    }
+  }
+  function fitError(p){
+    var ridge = 1e-6;
+    var coeffs = SL.polyFit(trainX, trainY, p);
+    var XtX = [], Xty = [];
+    var d = p+1;
+    for(var a=0;a<d;a++){ XtX.push(new Array(d).fill(0)); Xty.push(0); }
+    for(var i=0;i<trainX.length;i++){
+      for(var r=0;r<d;r++){
+        Xty[r] += Math.pow(trainX[i],r)*trainY[i];
+        for(var c=0;c<d;c++) XtX[r][c] += Math.pow(trainX[i],r)*Math.pow(trainX[i],c);
+      }
+    }
+    for(var k=0;k<d;k++) XtX[k][k] += ridge;
+    coeffs = SL.solveLinearSystem(XtX, Xty);
+    var tr=0; for(var i2=0;i2<trainX.length;i2++){ var e=trainY[i2]-SL.polyEval(coeffs,trainX[i2]); tr+=e*e; } tr/=trainX.length;
+    var te=0; for(var j2=0;j2<testX.length;j2++){ var e2=testY[j2]-SL.polyEval(coeffs,testX[j2]); te+=e2*e2; } te/=testX.length;
+    return [tr, te];
+  }
+  function drawCurve(){
+    var n = parseInt(document.getElementById('ch35_n').value);
+    document.getElementById('ch35_n_label').textContent = n;
+    document.getElementById('ch35_thresh').textContent = (n-1);
+    var pmax = 40;
+    var trainCurve = [], testCurve = [];
+    for(var p=1;p<=pmax;p++){
+      var r = fitError(p);
+      trainCurve.push([p, r[0]]); testCurve.push([p, r[1]]);
+    }
+    var maxY = Math.max.apply(null, testCurve.map(function(q){return q[1];}).concat(trainCurve.map(function(q){return q[1];})));
+    maxY = Math.min(maxY, 3);
+    var plot = SL.makePlot(document.getElementById('ch35_canvas'), {l:55,r:20,t:16,b:42});
+    plot.setDomain([1,pmax],[0,maxY*1.05]); plot.clear(); plot.axes('polynomial degree p','mean squared error');
+    plot.vline(Math.min(n-1, pmax), SL.colors.accent4, true);
+    plot.line(testCurve, SL.colors.accent, 2);
+    plot.line(trainCurve, SL.colors.accent2, 2);
+  }
+  function updateCurrent(){
+    var p = parseInt(document.getElementById('ch35_p').value);
+    document.getElementById('ch35_p_label').textContent = p;
+    var r = fitError(p);
+    document.getElementById('ch35_train').textContent = r[0].toFixed(4);
+    document.getElementById('ch35_test').textContent = r[1].toFixed(4);
+  }
+  document.getElementById('ch35_n').addEventListener('input', function(){ resample(); drawCurve(); updateCurrent(); });
+  document.getElementById('ch35_noise').addEventListener('input', function(){ document.getElementById('ch35_noise_label').textContent = parseFloat(this.value).toFixed(2); resample(); drawCurve(); updateCurrent(); });
+  document.getElementById('ch35_p').addEventListener('input', updateCurrent);
+  document.getElementById('ch35_curve').addEventListener('click', function(){ drawCurve(); updateCurrent(); });
+  document.getElementById('ch35_resample').addEventListener('click', function(){ resample(); drawCurve(); updateCurrent(); });
+  resample(); drawCurve(); updateCurrent();
+});
+</script>
+
+<h2 data-bid="b21" id="worked-example-by-hand-larger">Worked example - by hand, larger</h2>
+<p data-bid="b22">We make the variance formula concrete with the <strong>hat matrix</strong> from linear regression (Chapter 14/19). Fitting $y = X\beta$ by least squares gives predictions $\hat y = H y$ where</p>
+<p data-bid="b23">$$H = X(X^T X)^{-1}X^T, \qquad \text{Var}(\hat y_i) = \sigma^2 H_{ii}, \qquad \sum_i H_{ii} = p = \text{effective degrees of freedom}.$$</p>
+<p data-bid="b24"><strong>Reading it piece by piece:</strong>
+- <strong>$H = X(X^T X)^{-1}X^T$</strong> - the hat matrix, the linear map that sends observed targets $y$ to least-squares fitted values $\hat y = Hy$.
+- <strong>$X$</strong> - the design matrix of training features, with one row per data point.
+- <strong>$(X^T X)^{-1}$</strong> - the inverse of the feature Gram matrix, the correction that solves the least-squares normal equations.
+- <strong>$H_{ii}$</strong> - the leverage of point $i$, the diagonal entry saying how strongly that point pulls its own fitted value; near 1 means it nearly interpolates itself.
+- <strong>$\text{Var}(\hat y_i) = \sigma^2 H_{ii}$</strong> - the fitted value's variance is the noise variance scaled by that point's leverage, so high-leverage points are the twitchy ones.
+- <strong>$\sum_i H_{ii} = p$</strong> - the leverages sum to the model's effective degrees of freedom, the true measure of capacity; if this equals $n$ every point has leverage 1 and the fit interpolates.</p>
+<p data-bid="b25">$H_{ii}$ is the <strong>leverage</strong> of point $i$: how much that training point pulls its own fitted value. The total test-error variance contribution is $\sigma^2 \cdot p/n$ on average - so <strong>effective degrees of freedom $p$ literally controls the variance</strong>, which is why "number of effective parameters" and "variance" are the same knob.</p>
+<p data-bid="b26">Now a small numeric illustration. Take $n = 5$ training points and, for simplicity, standardize $X$ so that $X^T X = I_p$ in the sense that each feature column has unit norm (a common trick; it makes $H = XX^T$ and $H_{ii} = \sum_{j=1}^{p} x_{ij}^2$, with $\sum_i H_{ii} = p$ exactly).</p>
+<p data-bid="b27"><strong>Regime 1 - underparameterized, $p = 2$.</strong> Each point has leverage roughly $H_{ii}\approx p/n = 0.4$. With noise $\sigma^2 = 1$, average fitted-value variance $\approx \sigma^2 p/n = 0.4$. Bias is non-negligible (a 2-parameter model can't fit 5 arbitrary points). Test error $\approx \text{Bias}^2 + 0.4 + 1$. Call the movable part $\approx 0.4 + (\text{small bias})$.</p>
+<p data-bid="b28"><strong>Regime 2 - at the threshold, $p = n = 5$.</strong> Now $\sum_i H_{ii} = 5$ forces every $H_{ii} = 1$: each point is fitted exactly by itself. Then $\text{Var}(\hat y_i) = \sigma^2 \cdot 1 = 1$ for every point. Bias is now $0$ (the model interpolates, so on the training points $f - \hat f \approx 0$), but the movable variance has jumped from $0.4$ to $1.0$ - <strong>the peak</strong>. With $\sigma^2 = 1$ the total test error at the threshold is roughly $\text{Var} + \sigma^2 = 1 + 1 = 2$, versus about $0.4 + 1 = 1.4$ in Regime 1. A clear spike.</p>
+<p data-bid="b29"><strong>Regime 3 - overparameterized, $p = 10$, but the optimizer picks the minimum-norm fit.</strong> There are now infinitely many exact interpolators. The minimum-norm one spreads the fit across the features: instead of leverage collapsing onto each point (max $H_{ii}$), the <em>effective</em> degrees of freedom of the chosen solution - call it $p_{\text{eff}}$ - drops back below $n$. Suppose the minimum-norm solution has $p_{\text{eff}} = 3$ (it uses only the 3 directions that actually carry signal and leaves the other 7 at zero, exactly as an L2-style implicit penalty would). Then average fitted-value variance $\approx \sigma^2 p_{\text{eff}}/n = 1 \cdot 3/5 = 0.6$. Bias is still $0$ (training interpolation is exact). Test error is now roughly $0.6 + 1 = 1.6$ - <strong>lower than the peak of $2.0$</strong>, even though the 10-parameter model is nominally "bigger" than the 5-parameter one.</p>
+<p data-bid="b30">Plot test error against $p$: it descends (Regime 1), rises to the peak at $p = n$ (Regime 2), then <strong>descends the second time</strong> as $p_{\text{eff}}$ - not $p$ - governs the variance (Regime 3). The curve is the double descent.</p>
+<p data-bid="b31"><strong>Takeaway: variance is governed by the effective degrees of freedom of the solution the optimizer actually selects, not by the nominal parameter count - so crossing the interpolation threshold raises variance to a peak, and the implicit minimum-norm bias of gradient descent can push it back down on the far, overparameterized side.</strong></p>
+<h2 data-bid="b32" id="check-your-understanding">Check your understanding</h2>
+<ul>
+<li data-bid="b33">Why is there exactly one least-squares solution for $p < n$ but infinitely many for $p > n$, and why does that multiplicity open the door to a second descent?</li>
+<li data-bid="b34">What is the difference between explicit and implicit regularization, and why does the optimizer's <em>choice</em> among many interpolators matter only in the overparameterized regime?</li>
+<li data-bid="b35">Reconcile in your own words: classical VC bounds cannot exhibit double descent, yet modern practice does. What is VC theory measuring that fails to capture the second descent?</li>
+</ul>
+<h2 data-bid="b36" id="exercises">Exercises</h2>
+<h3 data-bid="b37" id="exercise-1-computing-effective-degrees-of-freedom-from-leverage">Exercise 1 - Computing effective degrees of freedom from leverage</h3>
+<p data-bid="b38">For a least-squares fit we have $\sum_i H_{ii} = p$. Suppose $n = 8$ training points and the diagonal of the hat matrix is $H_{ii} = (0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2)$. Verify the sum equals the effective degrees of freedom, then compute the average fitted-value variance with $\sigma^2 = 0.5$.</p>
+<details><summary>Show solution</summary>
+
+Sum the leverage values: $0.9+0.8+0.7+0.6+0.5+0.4+0.3+0.2 = 4.4$. So the effective degrees of freedom $p = 4.4$ - not an integer, which is normal once regularization or a non-square design is involved. Average fitted-value variance $= \sigma^2 \cdot p/n = 0.5 \cdot 4.4/8 = 0.5 \cdot 0.55 = 0.275$. Note that even though there are $n = 8$ points, the fit only "spends" $4.4$ degrees of freedom, which is what actually drives the variance. A point with leverage near $1$ (like the first, $0.9$) has its own fitted value dominated by its own $y_i$, i.e. it is nearly interpolating itself - a warning sign that the model is close to the interpolation regime.
+
+</details>
+
+<h3 data-bid="b39" id="exercise-2-why-minibatch-noise-helps">Exercise 2 - Why minibatch noise helps</h3>
+<p data-bid="b40">Explain in bias-variance language (Chapter 16) why the stochastic noise in SGD - using a random minibatch gradient instead of the full-batch gradient - can <em>reduce</em> test error even though it makes the optimization goal "noisier."</p>
+<details><summary>Show solution</summary>
+
+Full-batch gradient descent on an overparameterized model can drive the parameters to a very specific interpolating solution that happens to fit the training noise closely - high variance from the perspective of a resampled dataset. Minibatch noise perturbs the trajectory so that the parameters wander, and where they settle is biased toward broader, flatter regions of the loss surface that fit many resamplings similarly well. That is a **variance reduction** at the cost of a small **bias increase** (the flat solution fits the *specific* training set slightly less tightly). This is exactly the Chapter 16 regularization trade, obtained implicitly through the optimizer rather than through an explicit penalty term - the same bargain as dropout or weight decay, just delivered by the minibatch sampling itself. It is why "more noise" in the optimizer is not a bug but part of the generalization mechanism.
+
+</details>
+
+<h3 data-bid="b41" id="exercise-3-conceptual-nominal-versus-effective-capacity-at-xmathplaceholder89x">Exercise 3 - Conceptual: nominal versus effective capacity at $p = n$</h3>
+<p data-bid="b42">Argue conceptually why the interpolation threshold $p = n$ is simultaneously the point of <em>minimum bias</em> and <em>maximum variance</em> under the classical decomposition, and why a model with $p > n$ can have lower bias <em>and</em> lower variance than the unique fit at $p = n$.</p>
+<details><summary>Show solution</summary>
+
+At $p = n$ the model has just enough freedom to pass through every training point, so on the training set the bias term (average misfit of the true function) is driven to zero - minimum bias. But because there is exactly one such interpolating fit (for generic data), every bit of the training noise $\varepsilon$ is absorbed into the model's coefficients and shows up in the fitted values: the fitted value at each point has leverage $H_{ii}\approx 1$, so its variance is approximately the full noise variance $\sigma^2$ - maximum variance. Hence the peak.
+
+For $p > n$ the system is underdetermined: there are infinitely many exact interpolators, so bias is *still* zero (they all interpolate), yet the optimizer does not pick arbitrarily - it picks the minimum-norm solution. That solution spreads the fit across directions and has *effective* degrees of freedom $p_{\text{eff}} < n$, so it does not assign leverage $\approx 1$ to each point; it averages the noise somewhat, lowering variance below the threshold value. So both terms improve past $p = n$: bias stays at its floor and variance falls from its peak - the second descent. The key is that "capacity" is not raw parameter count but the effective degrees of freedom of the selected solution.
+
+</details>
+
+<h2 data-bid="b43" id="why-this-matters-in-ai-and-in-everyday-life">Why This Matters - In AI and In Everyday Life</h2>
+<p data-bid="b44"><strong>In AI / machine learning:</strong></p>
+<ul>
+<li data-bid="b45"><strong>Why scaling up models works at all</strong>: double descent and benign overfitting are a large part of why GPT-scale transformers with far more parameters than training tokens can still generalize, justifying the "more parameters, more compute, more data" scaling race instead of a U-curve-driven stop at a modest size.</li>
+<li data-bid="b46"><strong>Implicit regularization is why we don't always regularize explicitly</strong>: SGD, minibatch noise, and early stopping behave like the Chapter 16 penalties, so huge training runs often use barely any explicit regularization and rely on the optimizer's inductive bias instead.</li>
+<li data-bid="b47"><strong>Generalization measures that actually predict the gap</strong>: norm, margin, and effective rank - properties of the found solution - replace raw parameter counts, which is the practical takeaway of Chapters 22 and 35 together.</li>
+<li data-bid="b48"><strong>Hyperparameter choices to sit on the good side of the peak</strong>: understanding the interpolation threshold tells you that stopping just below it is the danger zone, and overshooting it (or regularizing to lower effective capacity) is often safer.</li>
+</ul>
+<p data-bid="b49"><strong>In everyday, non-AI life:</strong></p>
+<ul>
+<li data-bid="b50"><strong>More flexibility than you have data can be safer than exactly enough</strong>: a student who memorizes a few examples may do worse than one who learned a general framework with far more capacity to absorb new cases - the flexible generalist beats the tightly tuned memorizer.</li>
+<li data-bid="b51"><strong>The generalist consultant versus the over-specialized one</strong>: someone tuned precisely to one client's quirks (the interpolation peak) fails on the next client, while a broadly experienced generalist whose method generalizes handles the change - effective, not nominal, complexity is what transfers.</li>
+</ul>
+<h2 data-bid="b52" id="whats-next">What's next</h2>
+<p data-bid="b53">Chapter 36 moves from static inference and optimization to <strong>time</strong>: <strong>Time Series and Modern Sequence Models</strong>. It builds on the Markov chains and MCMC of Chapter 24, the HMMs and forward-backward recursion of Chapter 34, and the generalization perspective of this chapter, to ask how we model data whose order and drift matter - the statistical backbone of forecasting, state-space models, and the sequence architectures underneath modern AI systems.</p>
+<!-- chapter 35 -->
+    </div>
+    <div class="navfooter">
+      <span><a href="34_graphical_models_message_passing.html">&larr; Previous chapter</a></span>
+      <span><a href="36_time_series_sequence_models.html">Next chapter &rarr;</a></span>
+    </div>
+  </div>
+  <div class="pane-right">
+    <h4>Figures in this chapter</h4>
+    <div id="railContent"></div>
+  </div>
+</div>
+
+<!-- floating selection toolbar -->
+<div id="selToolbar">
+  <button data-color="yellow" title="Mark interesting">🟡</button>
+  <button data-color="green" title="Mark understood">🟢</button>
+  <button data-color="red" title="Mark confusing">🔴</button>
+  <button data-color="blue" title="Mark to review later">🔵</button>
+  <button id="btnAddNote" title="Highlight + add a note">📝</button>
+</div>
+
+<!-- note edit popup -->
+<div id="notePopup">
+  <textarea placeholder="Write a note to yourself..."></textarea>
+  <div class="row">
+    <button class="danger" id="btnDeleteHl">Remove highlight</button>
+    <div>
+      <button id="btnCloseNote">Close</button>
+      <button class="primary" id="btnSaveNote">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- notes side panel -->
+<div id="notesOverlay"></div>
+<div id="notesPanel">
+  <div class="header">
+    <b>My Notes - this page</b>
+    <button class="iconbtn" id="btnCloseNotesPanel">✕</button>
+  </div>
+  <div class="list" id="notesList"></div>
+  <div class="footer">
+    <button id="btnExportNotes">⬇ Export all notes</button>
+    <button id="btnImportNotes">⬆ Import notes</button>
+    <input type="file" id="importFile" accept="application/json" style="display:none;">
+  </div>
+</div>
+
+<script src="../assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 28: Diffusion Models and Score Matching - Statistics as Generation</title>
+<link rel="stylesheet" href="../assets/app.css">
+<script>
+window.MathJax = { tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']], processEscapes: true } };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+</head>
+<body data-chapter="28_diffusion_models_score_matching">
+<div class="topbar">
+  <div class="left">
+    <button class="iconbtn hamburger" id="btnSidebarToggle">☰</button>
+    <a href="../index.html">Statistics for AI</a>
+  </div>
+  <div class="right">
+    <button class="iconbtn" id="btnNotesPanel">📒 My Notes</button>
+  </div>
+</div>
+<div id="sidebarOverlay"></div>
+<div class="layout">
+  <nav class="sidebar" id="sidebar">
+    <input type="text" id="sidebarFilter" placeholder="Filter chapters...">
+<details open><summary>Orientation</summary><ul>
+<li class="" data-title="chapter 0: how to use this book, and the math notation you'll see"><a href="00_how_to_use_this_book.html">Chapter 0: How to Use This Book, and the Math Notation You'll See</a></li>
+</ul></details>
+<details open><summary>Part I - Describing the World</summary><ul>
+<li class="" data-title="chapter 1: data, populations, and samples - thinking like a statistician"><a href="01_data_populations_samples.html">Chapter 1: Data, Populations, and Samples - Thinking Like a Statistician</a></li>
+<li class="" data-title="chapter 2: describing data - center, spread, and shape"><a href="02_descriptive_statistics.html">Chapter 2: Describing Data - Center, Spread, and Shape</a></li>
+<li class="" data-title="chapter 3: probability foundations - events, rules, and conditioning"><a href="03_probability_foundations.html">Chapter 3: Probability Foundations - Events, Rules, and Conditioning</a></li>
+<li class="" data-title="chapter 4: bayes' theorem - updating beliefs with evidence"><a href="04_bayes_theorem.html">Chapter 4: Bayes' Theorem - Updating Beliefs With Evidence</a></li>
+<li class="" data-title="chapter 5: random variables and discrete distributions"><a href="05_random_variables_discrete.html">Chapter 5: Random Variables and Discrete Distributions</a></li>
+<li class="" data-title="chapter 6: continuous distributions and the normal distribution"><a href="06_continuous_distributions.html">Chapter 6: Continuous Distributions and the Normal Distribution</a></li>
+<li class="" data-title="chapter 7: expectation, variance, covariance, and correlation"><a href="07_expectation_variance_covariance.html">Chapter 7: Expectation, Variance, Covariance, and Correlation</a></li>
+<li class="" data-title="chapter 8: the central limit theorem - the secret engine of statistics"><a href="08_central_limit_theorem.html">Chapter 8: The Central Limit Theorem - The Secret Engine of Statistics</a></li>
+</ul></details>
+<details open><summary>Part II - Inferring From Data</summary><ul>
+<li class="" data-title="chapter 9: sampling and estimation"><a href="09_sampling_and_estimation.html">Chapter 9: Sampling and Estimation</a></li>
+<li class="" data-title="chapter 10: maximum likelihood estimation"><a href="10_maximum_likelihood_estimation.html">Chapter 10: Maximum Likelihood Estimation</a></li>
+<li class="" data-title="chapter 11: confidence intervals"><a href="11_confidence_intervals.html">Chapter 11: Confidence Intervals</a></li>
+<li class="" data-title="chapter 12: hypothesis testing and p-values"><a href="12_hypothesis_testing.html">Chapter 12: Hypothesis Testing and p-values</a></li>
+<li class="" data-title="chapter 13: t-tests, chi-square, and anova"><a href="13_ttests_chisquare_anova.html">Chapter 13: t-tests, Chi-square, and ANOVA</a></li>
+<li class="" data-title="chapter 14: correlation and simple linear regression"><a href="14_simple_linear_regression.html">Chapter 14: Correlation and Simple Linear Regression</a></li>
+<li class="" data-title="chapter 15: multiple regression, r², and overfitting"><a href="15_multiple_regression.html">Chapter 15: Multiple Regression, R², and Overfitting</a></li>
+</ul></details>
+<details open><summary>Part III - The Bridge Into Machine Learning</summary><ul>
+<li class="" data-title="chapter 16: bias-variance tradeoff, cross-validation, and regularization"><a href="16_bias_variance_regularization.html">Chapter 16: Bias-Variance Tradeoff, Cross-Validation, and Regularization</a></li>
+<li class="" data-title="chapter 17: bayesian statistics in depth"><a href="17_bayesian_statistics.html">Chapter 17: Bayesian Statistics in Depth</a></li>
+<li class="" data-title="chapter 18: resampling - bootstrap and permutation tests"><a href="18_resampling_methods.html">Chapter 18: Resampling - Bootstrap and Permutation Tests</a></li>
+<li class="" data-title="chapter 19: linear algebra essentials for statistics and ml"><a href="19_linear_algebra_essentials.html">Chapter 19: Linear Algebra Essentials for Statistics and ML</a></li>
+<li class="" data-title="chapter 20: multivariate statistics - covariance matrices and pca"><a href="20_multivariate_pca.html">Chapter 20: Multivariate Statistics - Covariance Matrices and PCA</a></li>
+</ul></details>
+<details open><summary>Part IV - The Statistics Inside Modern AI</summary><ul>
+<li class="" data-title="chapter 21: information theory - entropy, cross-entropy, and kl divergence"><a href="21_information_theory.html">Chapter 21: Information Theory - Entropy, Cross-Entropy, and KL Divergence</a></li>
+<li class="" data-title="chapter 22: statistical learning theory - why generalization works at all"><a href="22_statistical_learning_theory.html">Chapter 22: Statistical Learning Theory - Why Generalization Works At All</a></li>
+<li class="" data-title="chapter 23: probabilistic models and latent variables (mixtures, em)"><a href="23_latent_variable_models.html">Chapter 23: Probabilistic Models and Latent Variables (Mixtures, EM)</a></li>
+<li class="" data-title="chapter 24: markov chains and monte carlo methods"><a href="24_markov_chains_monte_carlo.html">Chapter 24: Markov Chains and Monte Carlo Methods</a></li>
+<li class="" data-title="chapter 25: the statistics hiding inside neural networks"><a href="25_statistics_in_neural_networks.html">Chapter 25: The Statistics Hiding Inside Neural Networks</a></li>
+<li class="" data-title="chapter 26: where to go next"><a href="26_where_to_go_next.html">Chapter 26: Where to Go Next</a></li>
+</ul></details>
+<details open><summary>Part V - The Statistical Frontier of Modern AI</summary><ul>
+<li class="" data-title="chapter 27: the statistical frontier - how modern ai actually uses these ideas today"><a href="27_frontier_ai_statistics.html">Chapter 27: The Statistical Frontier - How Modern AI Actually Uses These Ideas Today</a></li>
+</ul></details>
+<details open><summary>Part VI - Advanced AI Algorithms: The Statistical Engine Room</summary><ul>
+<li class="current" data-title="chapter 28: diffusion models and score matching - statistics as generation"><a href="28_diffusion_models_score_matching.html">Chapter 28: Diffusion Models and Score Matching - Statistics as Generation</a></li>
+<li class="" data-title="chapter 29: transformers and attention - statistics you can calculate (almost) by hand"><a href="29_transformers_attention_statistics.html">Chapter 29: Transformers and Attention - Statistics You Can Calculate (Almost) by Hand</a></li>
+<li class="" data-title="chapter 30: reinforcement learning and policy gradients - statistics that learn from rewards"><a href="30_reinforcement_learning_policy_gradients.html">Chapter 30: Reinforcement Learning and Policy Gradients - Statistics That Learn From Rewards</a></li>
+<li class="" data-title="chapter 31: variational inference and the elbo - approximate bayes at scale"><a href="31_variational_inference_elbo.html">Chapter 31: Variational Inference and the ELBO - Approximate Bayes at Scale</a></li>
+<li class="" data-title="chapter 32: contrastive learning and infonce - statistics that learns embeddings"><a href="32_contrastive_learning_infonce.html">Chapter 32: Contrastive Learning and InfoNCE - Statistics That Learns Embeddings</a></li>
+<li class="" data-title="chapter 33: causal inference and do-calculus - when correlation is not enough"><a href="33_causal_inference_do_calculus.html">Chapter 33: Causal Inference and Do-Calculus - When Correlation Is Not Enough</a></li>
+<li class="" data-title="chapter 34: graphical models and message passing - statistics as graphs"><a href="34_graphical_models_message_passing.html">Chapter 34: Graphical Models and Message Passing - Statistics as Graphs</a></li>
+<li class="" data-title="chapter 35: optimization, generalization, and double descent - why big models work"><a href="35_optimization_generalization_double_descent.html">Chapter 35: Optimization, Generalization, and Double Descent - Why Big Models Work</a></li>
+<li class="" data-title="chapter 36: time series and modern sequence models - statistics over time"><a href="36_time_series_sequence_models.html">Chapter 36: Time Series and Modern Sequence Models - Statistics Over Time</a></li>
+</ul></details>
+<details open><summary>Part VII - Aligning AI With Human Preferences: The Statistics of RLHF</summary><ul>
+<li class="" data-title="chapter 37: preference data and reward modeling - statistics from human judgments"><a href="37_preference_data_reward_modeling.html">Chapter 37: Preference Data and Reward Modeling - Statistics From Human Judgments</a></li>
+<li class="" data-title="chapter 38: rlhf, dpo, and preference optimization - turning preferences into a loss function"><a href="38_dpo_and_preference_optimization.html">Chapter 38: RLHF, DPO, and Preference Optimization - Turning Preferences Into a Loss Function</a></li>
+<li class="" data-title="chapter 39: reinforcement learning with verifiable rewards - and how reasoning models are trained"><a href="39_rl_verifiable_rewards_reasoning.html">Chapter 39: Reinforcement Learning With Verifiable Rewards - and How Reasoning Models Are Trained</a></li>
+</ul></details>
+  </nav>
+  <div class="pane-left">
+    <div class="article" id="article">
+<h1 id="chapter-28-diffusion-models-and-score-matching-statistics-as-generation">Chapter 28: Diffusion Models and Score Matching - Statistics as Generation</h1>
+<h2 data-bid="b1" id="the-idea-this-chapter-builds-toward">The idea this chapter builds toward</h2>
+<p data-bid="b2">For the entire book so far, statistics has been about <em>summarizing</em> and <em>predicting</em> data - estimate a mean (Chapter 9), fit a line (Chapter 14), classify a label (Chapter 25). This chapter is about something that sounds much harder and turns out to be the same machinery: <strong>generating</strong> new data. Stable Diffusion, DALL-E, Imagen, and the image and video generators behind them all rest on one deceptively simple statistical trick: take a real image, add noise to it step by step until it is pure static, then train a model to <strong>undo</strong> one tiny noising step at a time. If you can reliably answer "which way, statistically, is less noisy?", you can run that answer backward from pure static and walk into a realistic image. Every ingredient is already yours: Chapter 6's Normal distribution, Chapter 24's Markov chains and Monte Carlo, Chapter 10's MLE, and Chapter 14's regression.</p>
+<blockquote data-bid="b3">
+<p data-bid="b4"><strong>Intuition, in one breath:</strong> Destroying data with noise is easy and fully known; the whole art is learning a small statistical model of how to go one step back, and applying that step over and over is how a generative model is born.</p>
+</blockquote>
+<h2 data-bid="b5" id="destroying-data-on-purpose-the-forward-noising-process">Destroying data on purpose - the forward noising process</h2>
+<p data-bid="b6">Start with a real data point $x_0$ (say, a pixel value, or a whole image flattened to a vector). Define a sequence $x_1, x_2, \ldots, x_T$ by adding a little Gaussian noise at each step:</p>
+<p data-bid="b7">$$x_t = \sqrt{1-\beta_t}\, x_{t-1} + \sqrt{\beta_t}\,\varepsilon_t, \qquad \varepsilon_t \sim \mathcal{N}(0, I)$$</p>
+<p data-bid="b8"><strong>Reading it piece by piece:</strong>
+- <strong>$x_{t-1}$ and $x_t$</strong> - the data (or noisy data) at the previous and current step; each step is built directly from the one before it, which is what makes this a Markov chain.
+- <strong>$\sqrt{1-\beta_t}$</strong> - a shrunken copy of the old signal: because variance scales with the square of a coefficient (Chapter 7's $\text{Var}(aX)=a^2\text{Var}(X)$), this factor is chosen so the surviving signal keeps a controlled fraction of its variance.
+- <strong>$\sqrt{\beta_t}$</strong> - the matching coefficient on the fresh noise, sized so signal variance plus noise variance stay constant - the two square roots together conserve total variance instead of letting it grow or collapse.
+- <strong>$\beta_t \in (0,1)$</strong> - the variance schedule: a small per-step number deciding how much noise is injected at step $t$; small values keep each step gentle and its reverse easy to learn.
+- <strong>$\varepsilon_t$</strong> - a fresh draw of standard Normal noise, independent at each step, representing the new randomness being mixed into the signal.</p>
+<p data-bid="b9">where $\beta_t \in (0,1)$ is the <strong>variance schedule</strong> - a small number controlling how much noise is injected at step $t$. This is exactly a <strong>Markov chain</strong> (Chapter 24): the distribution of $x_t$ depends only on $x_{t-1}$, not the whole history. The $\sqrt{1-\beta_t}$ factor (rather than a bare 1) is there to conserve signal variance - it is the same variance-scaling bookkeeping as Chapter 7's $\text{Var}(aX)=a^2\text{Var}(X)$, applied at every step so the chain neither blows up nor collapses.</p>
+<p data-bid="b10">Why bother with many tiny steps instead of one big jump to noise? Because the reverse of a <em>tiny</em> Gaussian nudge is itself approximately Gaussian and easy to model, whereas the reverse of a huge jump is a complicated, multimodal thing. Small steps buy tractability.</p>
+<h2 data-bid="b11" id="a-miracle-of-the-gaussian-jump-straight-to-any-step">A miracle of the Gaussian: jump straight to any step</h2>
+<p data-bid="b12">Because Gaussians compose so cleanly (Chapter 6's nice property: sums of independent Gaussians are Gaussian), there's a closed form for $x_t$ directly in terms of $x_0$, skipping all intermediate steps. Writing $\alpha_t = 1-\beta_t$ and $\bar\alpha_t = \prod_{s=1}^{t}\alpha_s$:</p>
+<p data-bid="b13">$$x_t = \sqrt{\bar\alpha_t}\, x_0 + \sqrt{1-\bar\alpha_t}\,\varepsilon, \qquad \varepsilon \sim \mathcal{N}(0,I)$$</p>
+<p data-bid="b14"><strong>Reading it piece by piece:</strong>
+- <strong>$x_0$</strong> - the original clean data point; the jump formula expresses any step directly in terms of it, skipping all intermediate states.
+- <strong>$\bar\alpha_t = \prod_{s=1}^{t}\alpha_s$</strong> - the compounded retention of signal after all $t$ steps, where each $\alpha_s = 1-\beta_s$; it starts near 1 (little damage) and decays toward 0 as $t$ grows.
+- <strong>$\sqrt{\bar\alpha_t}$</strong> - how much of the original signal survives in $x_t$; because variances add as squares, the coefficient is the square root of the retained fraction.
+- <strong>$\sqrt{1-\bar\alpha_t}$</strong> - how much total noise has accumulated; it grows as the signal shrinks, and the pairing again conserves variance at every step.
+- <strong>$\varepsilon$</strong> - one single standard Normal draw that stands in for all the accumulated noise; sampling just this one vector reproduces any step's noise in one line.
+- <strong>$\mathcal{N}(0,I)$</strong> - the standard Normal distribution the noise is drawn from, known completely so the final state $x_T$ is trivially samplable.</p>
+<p data-bid="b15">This is the <strong>reparameterization</strong> trick, and it is enormously practical: to train on step $t$ you don't have to actually run $t$ noising steps - you just sample one $\varepsilon$ and compute $x_t$ in one line. As $t \to T$, $\bar\alpha_t \to 0$ and $x_T$ becomes essentially pure standard Normal noise, independent of the original image. That is the target state: a distribution we know completely, from which we can sample trivially (Chapter 24).</p>
+<h2 data-bid="b16" id="running-it-backward-the-reverse-denoising-process">Running it backward - the reverse denoising process</h2>
+<p data-bid="b17">The generative dream: if we knew the reverse conditional $q(x_{t-1}\mid x_t)$, we could start from pure noise $x_T$ and sample $x_{T-1}, \ldots, x_0$, ending with a fresh realistic image. We don't know it - but we can <em>learn</em> an approximation $p_\theta(x_{t-1}\mid x_t)$. The 2020 DDPM paper (Ho, Jain, Abbeel) made a crucial empirical observation: for small $\beta_t$, the true reverse step is approximately Gaussian, so we only need to learn its <strong>mean</strong>, with a fixed variance. And here is the punchline - the optimal reverse mean depends on $x_t$ and on one unknown quantity: the <strong>noise</strong> $\varepsilon$ that was added. So instead of predicting the mean directly, train a network $\varepsilon_\theta(x_t, t)$ to predict the noise $\varepsilon$ that produced $x_t$. Prediction becomes <strong>regression</strong> in the most literal Chapter-14 sense: fit a function to a numeric target, minimizing squared error:</p>
+<p data-bid="b18">$$\mathcal{L} = \mathbb{E}_{t,\,x_0,\,\varepsilon}\Big[\,\|\,\varepsilon - \varepsilon_\theta(\sqrt{\bar\alpha_t}\,x_0 + \sqrt{1-\bar\alpha_t}\,\varepsilon,\ t)\,\|^2\,\Big]$$</p>
+<p data-bid="b19"><strong>Reading it piece by piece:</strong>
+- <strong>$\mathbb{E}_{t,\,x_0,\,\varepsilon}$</strong> - the expectation averages over random timesteps $t$, real data $x_0$, and noise draws $\varepsilon$, so the loss reflects the whole training distribution rather than one example.
+- <strong>$\varepsilon$</strong> - the true noise that was actually added to build $x_t$; this is the target the network is asked to recover.
+- <strong>$\varepsilon_\theta(\cdot,\ t)$</strong> - the network's prediction of that noise, given the noisy input and which timestep it came from; $\theta$ are its learned weights.
+- <strong>$\sqrt{\bar\alpha_t}\,x_0 + \sqrt{1-\bar\alpha_t}\,\varepsilon$</strong> - the noisy $x_t$ fed to the network, built by the closed-form jump so no intermediate steps are simulated.
+- <strong>$\|\,\cdot\,\|^2$</strong> - squared Euclidean distance, the error between predicted and true noise; minimizing it is exactly Chapter 14's regression and, against a Gaussian target, Chapter 10's likelihood maximization.</p>
+<p data-bid="b20">This is the entire training loss of DDPM. Note the deep connection to Chapter 10's MLE: minimizing squared error against Gaussian targets <em>is</em> maximizing likelihood (Chapter 25 re-derived exactly this). The diffusion loss is "predict-the-noise" regression, nothing more exotic.</p>
+<div class="labcard">
+<div class="labkicker">Live - corrupt a 1-D signal and watch the reverse step undenoise it</div>
+<div class="labcontrols">
+  <div class="labctrl"><label>Timestep t <b id="ch28_t_label">0</b></label><input type="range" id="ch28_t" min="0" max="100" step="1" value="0"></div>
+</div>
+<div class="labrow">
+  <button class="labbtn" id="ch28_noise">Add noise step</button>
+  <button class="labbtn secondary" id="ch28_denoise">Denoise one step</button>
+  <button class="labbtn secondary" id="ch28_reset">Reset signal</button>
+</div>
+<div class="labcanvas-wrap"><canvas id="ch28_canvas" width="820" height="240"></canvas></div>
+<div class="labstat-grid">
+  <div class="labstat"><div class="lbl">sqrt(alpha_bar)</div><div class="val" id="ch28_ab">-</div></div>
+  <div class="labstat"><div class="lbl">SNR</div><div class="val" id="ch28_snr">-</div></div>
+  <div class="labstat"><div class="lbl">Noise scale</div><div class="val" id="ch28_ns">-</div></div>
+</div>
+<p data-bid="b21" class="labnote">The blue curve is the clean signal x0; the orange curve is x_t = sqrt(alpha_bar)*x0 + sqrt(1-alpha_bar)*noise. Raise t to watch the curve degrade into static; "Denoise one step" nudges t back down the way the reverse process walks from noise toward data.</p>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  var SL = window.StatsLab;
+  var N = 100;
+  var x0 = [];
+  for(var i=0;i<N;i++) x0.push(Math.sin(i/8) + 0.6*Math.exp(-Math.pow((i-50)/10,2)));
+  var noisy = [1.2, -0.4, 0.7, -1.1, 0.3, 1.4, -0.8, 0.1, -1.3, 0.5];
+  function ab(t){
+    var frac = t/100;
+    var logab = 0;
+    for(var s=1;s<=100;s++){
+      var beta = 0.0001 + 0.02*(s/100);
+      logab += Math.log(1-beta)*(s<=t?frac:0);
+    }
+    var simple = Math.pow(0.02, frac*frac);
+    return Math.max(1e-6, Math.min(1, simple));
+  }
+  function draw(){
+    var t = parseInt(document.getElementById('ch28_t').value);
+    var a = ab(t), sq = Math.sqrt(a), nsc = Math.sqrt(Math.max(0,1-a));
+    document.getElementById('ch28_t_label').textContent = t;
+    document.getElementById('ch28_ab').textContent = sq.toFixed(4);
+    document.getElementById('ch28_ns').textContent = nsc.toFixed(4);
+    var snr = a/(Math.max(1e-9,1-a));
+    document.getElementById('ch28_snr').textContent = snr.toFixed(3);
+    var xt = x0.map(function(v,i){ return sq*v + nsc*noisy[i%noisy.length]; });
+    var plot = SL.makePlot(document.getElementById('ch28_canvas'));
+    var xs = x0.concat(xt);
+    var lo = Math.min.apply(null,xs), hi = Math.max.apply(null,xs);
+    var pad = Math.max(0.5,(hi-lo)*0.1);
+    plot.setDomain([0,N-1],[lo-pad,hi+pad]); plot.clear();
+    plot.axes('signal index','value');
+    plot.line(x0.map(function(v,i){return [i,v];}), SL.colors.accent, 2);
+    plot.line(xt.map(function(v,i){return [i,v];}), SL.colors.accent2, 2);
+  }
+  document.getElementById('ch28_t').addEventListener('input', draw);
+  document.getElementById('ch28_noise').addEventListener('click', function(){
+    var el = document.getElementById('ch28_t');
+    el.value = Math.min(100, parseInt(el.value)+10); draw();
+  });
+  document.getElementById('ch28_denoise').addEventListener('click', function(){
+    var el = document.getElementById('ch28_t');
+    el.value = Math.max(0, parseInt(el.value)-10); draw();
+  });
+  document.getElementById('ch28_reset').addEventListener('click', function(){
+    document.getElementById('ch28_t').value = 0; draw();
+  });
+  draw();
+});
+</script>
+
+<h2 data-bid="b22" id="how-this-falls-out-of-an-elbo">How this falls out of an ELBO</h2>
+<p data-bid="b23">Faithful derivations (DDPM's original) arrive here through a variational bound - the <strong>ELBO</strong>, evidence lower bound, the same object behind VAEs in Chapter 23. Since directly maximizing the data likelihood $\log p_\theta(x_0)$ is intractable, we lower-bound it and maximize the bound instead, cross-entropy-style (Chapter 21). When you grind through the Gaussian algebra, the bound's dominant term collapses to precisely the squared-error noise-prediction loss above. That is <em>why</em> "predict the noise" is the right objective rather than an arbitrary choice: it is the parameterization that makes the intractable likelihood bound both calculable and numerically gentle.</p>
+<h2 data-bid="b24" id="score-matching-the-same-idea-seen-from-calculus">Score matching - the same idea seen from calculus</h2>
+<p data-bid="b25">There's a second, equivalent lens worth having, because it connects straight to Chapter 10's derivative logic. The <strong>score</strong> of a density $p(x)$ is defined as the gradient of its log-density:</p>
+<p data-bid="b26">$$s(x) = \nabla_x \log p(x)$$</p>
+<p data-bid="b27"><strong>Reading it piece by piece:</strong>
+- <strong>$\nabla_x$</strong> - the gradient taken with respect to the <em>data point</em> $x$, not any parameter; it asks "if I nudge this data point, which way does the density move?"
+- <strong>$\log p(x)$</strong> - the log-density, the same log transform used throughout the book to turn products into sums and tame scales.
+- <strong>$s(x)$</strong> - the resulting score vector at each point, which equals $\nabla_x p(x)/p(x)$ and so points in the direction of steepest increase in probability - uphill in density-space.</p>
+<p data-bid="b28">Why the log-gradient? Because $\nabla_x \log p(x) = \nabla_x p(x)/p(x)$ - it points in the direction of <em>greatest increase in probability</em>, uphill in density-space. In Chapter 10 we found the MLE by setting a derivative (of the log-likelihood) to zero; the score is that same derivative, but as a <em>function of the data rather than the parameters</em>. Sampling from a distribution can be done by climbing the score: <strong>Langevin dynamics</strong> (Chapter 24's MCMC family) iterates</p>
+<p data-bid="b29">$$x \leftarrow x + \tfrac{\eta}{2}\,\nabla_x \log p(x) + \sqrt{\eta}\,\varepsilon, \qquad \varepsilon \sim \mathcal{N}(0,I)$$</p>
+<p data-bid="b30"><strong>Reading it piece by piece:</strong>
+- <strong>$x$</strong> - the current sample being moved; each iteration replaces it with a slightly better one.
+- <strong>$\tfrac{\eta}{2}\,\nabla_x \log p(x)$</strong> - the drift step: a fraction of the score, pushing the sample uphill toward higher-probability regions; $\eta$ sets the step size.
+- <strong>$\sqrt{\eta}\,\varepsilon$</strong> - injected Gaussian noise, scaled so its variance grows in step with the drift (the $\sqrt{\eta}$ is the variance-conservation bookkeeping again); it keeps the walk exploratory rather than letting it collapse onto one peak.
+- <strong>$\varepsilon \sim \mathcal{N}(0,I)$</strong> - a fresh standard Normal draw each iteration, the source of randomness in the walk.</p>
+<p data-bid="b31">which drifts $x$ uphill toward high-density regions while injecting noise to explore rather than collapse to a single peak - a stochastic version of gradient ascent on density.</p>
+<p data-bid="b32">The Trento/1999 insight (Hyvärinen) was that you can fit $s_\theta(x) \approx \nabla_x \log p(x)$ <em>without ever knowing $p(x)$</em>, via score matching. And it turns out the noise-prediction network is secretly a score network: for the Gaussian convention above, $s_\theta(x_t) \approx -\varepsilon_\theta(x_t,t)/\sqrt{1-\bar\alpha_t}$. So "predict the noise" and "estimate the score" are the <em>same function</em>, viewed two ways. That equivalence is what links denoising diffusion to the older Langevin/score-based generative literature.</p>
+<h2 data-bid="b33" id="the-variance-schedule-intuitively">The variance schedule, intuitively</h2>
+<p data-bid="b34">The sequence $\{\beta_t\}$ decides how the model spends its capacity. Early steps (small $t$) remove fine texture; late steps remove global structure. A <strong>linear</strong> schedule races to noise too fast - little time is spent on the perceptually important coarse scales. The <strong>cosine schedule</strong> (Nichol &amp; Dhariwal, 2021) smooths the transition so noise accumulates more gently, keeping $\bar\alpha_t$ from collapsing early, which measurably improves sample quality. Too-fast noising also makes the reverse step's Gaussian approximation poor (large jumps are less reversible), so the schedule is a genuine statistical modeling choice, not a cosmetic knob.</p>
+<h2 data-bid="b35" id="classifier-free-guidance-steer-by-comparing-two-predictions">Classifier-free guidance - steer by comparing two predictions</h2>
+<p data-bid="b36">Modern text-to-image systems don't sample $p_\theta(x_t \mid \text{text})$ directly; they extrapolate between conditional and unconditional scores:</p>
+<p data-bid="b37">$$\hat\varepsilon = \varepsilon_\theta(x_t, \varnothing) + w\big(\varepsilon_\theta(x_t, c) - \varepsilon_\theta(x_t, \varnothing)\big)$$</p>
+<p data-bid="b38"><strong>Reading it piece by piece:</strong>
+- <strong>$\varepsilon_\theta(x_t, \varnothing)$</strong> - the network's noise prediction with <em>no</em> condition (the empty prompt), the unconditional baseline of what noise looks like.
+- <strong>$\varepsilon_\theta(x_t, c)$</strong> - the network's prediction conditioned on the text (or class) $c$; the difference from the baseline captures the conditioning's influence.
+- <strong>$\varepsilon_\theta(x_t, c) - \varepsilon_\theta(x_t, \varnothing)$</strong> - the text's causal push: how much the condition shifts the noise prediction away from the unconditional one.
+- <strong>$w > 1$</strong> - the guidance weight that amplifies that push; larger $w$ sharpens prompt adherence at the cost of diversity and sometimes artifacts - a bias-variance tradeoff like Chapter 16's regularization.
+- <strong>$\hat\varepsilon$</strong> - the final guided noise estimate actually used to run the reverse step, an extrapolation beyond the conditional prediction.</p>
+<p data-bid="b39">with guidance weight $w > 1$. The bracket is the <em>difference</em> between "what noise looks like given the text" and "what it looks like given nothing" - the text's causal push, amplified. This is a variance/bias tradeoff in the same spirit as Chapter 16's regularization: higher $w$ sharpens prompt adherence (closer to the conditioning) at the cost of diversity and sometimes artifacts.</p>
+<h2 data-bid="b40" id="worked-example-by-hand-larger">Worked example - by hand, larger</h2>
+<p data-bid="b41">Let's push one full training step of a diffusion model through by hand, with tiny numbers.</p>
+<p data-bid="b42"><strong>Setup.</strong> One scalar data point $x_0 = 2.0$. Use a schedule whose compounded values at step $t$ happen to be $\bar\alpha_t = 0.81$, so $\sqrt{\bar\alpha_t}=0.9$ and $\sqrt{1-\bar\alpha_t}=\sqrt{0.19}=0.4359$. Suppose training draws the noise $\varepsilon = 0.5$.</p>
+<p data-bid="b43"><strong>Forward (corrupt).</strong> Apply reparameterization: $x_t = 0.9\times 2.0 + 0.4359\times 0.5 = 1.8 + 0.2180 = 2.0180$. So the noisy input the network sees is $2.018$.</p>
+<p data-bid="b44"><strong>Network prediction.</strong> Pretend the network currently outputs $\hat\varepsilon = 0.30$ (it has not learned yet that the true noise was bigger).</p>
+<p data-bid="b45"><strong>Loss.</strong> Squared error: $\mathcal{L} = (0.5 - 0.30)^2 = 0.20^2 = 0.0400$.</p>
+<p data-bid="b46"><strong>Gradient step.</strong> For $\frac{\partial \mathcal{L}}{\partial \hat\varepsilon} = -2(\varepsilon - \hat\varepsilon) = -2(0.5-0.3) = -0.40$. With learning rate $\eta = 0.1$, the output updates by $-\eta \times (-0.40) = +0.040$, so $\hat\varepsilon \leftarrow 0.30 + 0.040 = 0.340$. Recompute loss: $(0.5-0.34)^2 = 0.16^2 = 0.0256$, down from $0.0400$. The step did exactly what regression training does - pulled the prediction toward the target.</p>
+<p data-bid="b47"><strong>Recovering the reverse mean.</strong> From the true relation $\varepsilon = (x_t - \sqrt{\bar\alpha_t}\,x_0)/\sqrt{1-\bar\alpha_t}$, the implied clean value is $\hat x_0 = (x_t - \sqrt{1-\bar\alpha_t}\,\hat\varepsilon)/\sqrt{\bar\alpha_t} = (2.0180 - 0.4359\times0.34)/0.9 = (2.0180-0.1482)/0.9 = 1.8698/0.9 = 2.0776$. Even from a half-learned noise estimate, denoising nudges us back toward the true $x_0=2.0$ - that single nudge, repeated $T$ times from pure noise, is generation.</p>
+<p data-bid="b48"><strong>The takeaway:</strong> training a diffusion model is just fitting a regression to predict added Gaussian noise, and each prediction is a small "how do I move away from noise" step - the whole generative engine is regression plus Markov-chain bookkeeping.</p>
+<h2 data-bid="b49" id="check-your-understanding">Check your understanding</h2>
+<ul>
+<li data-bid="b50">Why does the reparameterization $x_t=\sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\varepsilon$ let training skip the intermediate steps, and which Chapter 6 property of Gaussians makes it valid?</li>
+<li data-bid="b51">In what precise sense is "predict the noise $\varepsilon$" the same task as "estimate the score $\nabla_x\log p(x)$," and why does that link diffusion to Langevin sampling from Chapter 24?</li>
+<li data-bid="b52">Why is a small per-step noise $\beta_t$ important for the reverse process to be learnable as a simple Gaussian, and what goes wrong with one large jump?</li>
+</ul>
+<h2 data-bid="b53" id="exercises">Exercises</h2>
+<h3 data-bid="b54" id="exercise-1-a-forward-noising-step-by-hand">Exercise 1 - A forward noising step, by hand</h3>
+<p data-bid="b55">With $\bar\alpha_t = 0.64$ for a chosen step, data $x_0 = 3.0$, and sampled noise $\varepsilon = -1.0$, compute (a) $x_t$ and (b) $-\varepsilon/\sqrt{1-\bar\alpha_t}$, the corresponding score estimate using $s_\theta(x_t)\approx-\varepsilon_\theta/\sqrt{1-\bar\alpha_t}$ with $\varepsilon_\theta=\varepsilon$.</p>
+<details><summary>Show solution</summary>
+
+(a) $\sqrt{0.64}=0.8$, $\sqrt{1-0.64}=\sqrt{0.36}=0.6$. Then $x_t = 0.8\times3.0 + 0.6\times(-1.0) = 2.4 - 0.6 = 1.8$.
+
+(b) $-\varepsilon/\sqrt{1-\bar\alpha_t} = -(-1.0)/0.6 = 1.0/0.6 = 1.667$. Positive score at $x_t=1.8$ means density is increasing in the $+x$ direction there, i.e. $x_t$ sits below the local peak and Langevin dynamics would drift it upward - consistent with the clean value $3.0$ being larger than the noisy $1.8$. This is Chapter 10's log-derivative idea: the score is the log-density's slope, and its sign tells you which way uphill is.
+
+</details>
+
+<h3 data-bid="b56" id="exercise-2-regression-target-conceptually">Exercise 2 - Regression target, conceptually</h3>
+<p data-bid="b57">A colleague says "diffusion models learn the data distribution directly." Correct this. What single scalar function does the network actually learn to output, and which Chapter 14 and Chapter 10 objects is that task?</p>
+<details><summary>Show solution</summary>
+
+The network does **not** learn to output a density $p(x)$ directly - densities over high-dimensional images are intractable to represent. It learns to output the **noise vector** $\varepsilon_\theta(x_t,t)$ that was used to corrupt a clean input, i.e. it solves a mean-squared-error regression problem with a numeric target (Chapter 14). Because MSE against Gaussian targets is the negative-log-likelihood of a Gaussian (Chapter 10/25), the training objective is equivalently maximizing a variational lower bound on the data likelihood - but the *mechanism* the network performs is prediction of one sampled noise vector. The distribution is captured implicitly by the composition of many simple reverse steps, not by any single explicit density.
+
+</details>
+
+<h3 data-bid="b58" id="exercise-3-why-small-steps">Exercise 3 - Why small steps</h3>
+<p data-bid="b59">Suppose you set $T=1$ with $\beta_1=0.99$, so one jump takes $x_0 \to x_1$ almost equal to pure noise. Explain why learning the reverse single step is much harder than learning $T=1000$ tiny steps, connecting to multimodality and the Gaussian reverse-step assumption.</p>
+<details><summary>Show solution</summary>
+
+A single large jump maps *every* $x_0$ to nearly the same noise, so the reverse map $x_1 \to x_0$ must recover a whole complex, highly multimodal data distribution from close-to-universal noise in one shot - no single Gaussian or simple function approximates that. With many tiny steps, each forward step adds a *tiny* Gaussian perturbation, and a tiny Gaussian perturbation has a tiny, nearly Gaussian reverse (the true posterior $q(x_{t-1}\mid x_t)$ is approximately Gaussian when $\beta_t$ is small). Each reverse step therefore only needs to model a small, well-behaved neighborhood of the data manifold, which a simple learned mean handles well. This is the same "make each step locally simple, chain them" logic that makes small-step MCMC (Chapter 24) work, and it is why the variance schedule matters: too-fast noising violates the Gaussian reverse-step approximation the whole method depends on.
+
+</details>
+
+<h2 data-bid="b60" id="why-this-matters-in-ai-and-in-everyday-life">Why This Matters - In AI and In Everyday Life</h2>
+<p data-bid="b61"><strong>In AI / machine learning:</strong></p>
+<ul>
+<li data-bid="b62"><strong>Stable Diffusion, DALL-E, Imagen, Midjourney, and modern video generators</strong> are all denoising diffusion models with text conditioning - the noise-prediction regression and classifier-free guidance this chapter describes are literally their training and sampling loop.</li>
+<li data-bid="b63"><strong>The predict-the-noise loss is everywhere</strong> in generative AI now, with the same MSE-vs-likelihood identity from Chapters 10/25 reused at billion-parameter scale on billions of images.</li>
+<li data-bid="b64"><strong>Score-based and flow-matching models</strong> (including the rectified-flow / flow-matching objective behind several 2024-2026 frontier image and video models) are direct descendants of the score view: instead of estimating $\nabla_x\log p$ at a fixed noise level, they learn a velocity field transporting noise to data, but the statistical scaffolding is identical.</li>
+<li data-bid="b65"><strong>Diffusion policy in robotics and diffusion-based planners</strong> reuse this exact framework for generating action sequences, showing that "generate by denoising" generalizes far beyond images.</li>
+</ul>
+<p data-bid="b66"><strong>In everyday, non-AI life:</strong></p>
+<ul>
+<li data-bid="b67"><strong>A sculptor revealing a figure from marble</strong>: the reverse process removes noise to reveal structure, and the artist's skill is knowing which tiny chip to make next - statistical denoising in physical form.</li>
+<li data-bid="b68"><strong>Restoring an old photograph</strong>: gradual, stepwise cleanup (denoise, then de-blur, then sharpen) is how humans actually recover a degraded image, and it mirrors the reverse chain that generated models learn to run.</li>
+</ul>
+<h2 data-bid="b69" id="whats-next">What's next</h2>
+<p data-bid="b70">Chapter 29 turns to the other dominant generative architecture of the modern era: the <strong>transformer</strong>. Where diffusion generates by reversing noise, transformers generate token by token using <strong>attention</strong> - and the surprising punchline is that attention itself is a soft, data-dependent weighted average that you can compute by hand, a topic we pick up next.</p>
+    </div>
+    <div class="navfooter">
+      <span><a href="27_frontier_ai_statistics.html">&larr; Previous chapter</a></span>
+      <span><a href="29_transformers_attention_statistics.html">Next chapter &rarr;</a></span>
+    </div>
+  </div>
+  <div class="pane-right">
+    <h4>Figures in this chapter</h4>
+    <div id="railContent"></div>
+  </div>
+</div>
+
+<!-- floating selection toolbar -->
+<div id="selToolbar">
+  <button data-color="yellow" title="Mark interesting">🟡</button>
+  <button data-color="green" title="Mark understood">🟢</button>
+  <button data-color="red" title="Mark confusing">🔴</button>
+  <button data-color="blue" title="Mark to review later">🔵</button>
+  <button id="btnAddNote" title="Highlight + add a note">📝</button>
+</div>
+
+<!-- note edit popup -->
+<div id="notePopup">
+  <textarea placeholder="Write a note to yourself..."></textarea>
+  <div class="row">
+    <button class="danger" id="btnDeleteHl">Remove highlight</button>
+    <div>
+      <button id="btnCloseNote">Close</button>
+      <button class="primary" id="btnSaveNote">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- notes side panel -->
+<div id="notesOverlay"></div>
+<div id="notesPanel">
+  <div class="header">
+    <b>My Notes - this page</b>
+    <button class="iconbtn" id="btnCloseNotesPanel">✕</button>
+  </div>
+  <div class="list" id="notesList"></div>
+  <div class="footer">
+    <button id="btnExportNotes">⬇ Export all notes</button>
+    <button id="btnImportNotes">⬆ Import notes</button>
+    <input type="file" id="importFile" accept="application/json" style="display:none;">
+  </div>
+</div>
+
+<script src="../assets/app.js"></script>
+</body>
+</html>

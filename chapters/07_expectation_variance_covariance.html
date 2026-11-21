@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 7: Expectation, Variance, Covariance, and Correlation</title>
+<link rel="stylesheet" href="../assets/app.css">
+<script>
+window.MathJax = { tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']], processEscapes: true } };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+</head>
+<body data-chapter="07_expectation_variance_covariance">
+<div class="topbar">
+  <div class="left">
+    <button class="iconbtn hamburger" id="btnSidebarToggle">☰</button>
+    <a href="../index.html">Statistics for AI</a>
+  </div>
+  <div class="right">
+    <button class="iconbtn" id="btnNotesPanel">📒 My Notes</button>
+  </div>
+</div>
+<div id="sidebarOverlay"></div>
+<div class="layout">
+  <nav class="sidebar" id="sidebar">
+    <input type="text" id="sidebarFilter" placeholder="Filter chapters...">
+<details open><summary>Orientation</summary><ul>
+<li class="" data-title="chapter 0: how to use this book, and the math notation you'll see"><a href="00_how_to_use_this_book.html">Chapter 0: How to Use This Book, and the Math Notation You'll See</a></li>
+</ul></details>
+<details open><summary>Part I - Describing the World</summary><ul>
+<li class="" data-title="chapter 1: data, populations, and samples - thinking like a statistician"><a href="01_data_populations_samples.html">Chapter 1: Data, Populations, and Samples - Thinking Like a Statistician</a></li>
+<li class="" data-title="chapter 2: describing data - center, spread, and shape"><a href="02_descriptive_statistics.html">Chapter 2: Describing Data - Center, Spread, and Shape</a></li>
+<li class="" data-title="chapter 3: probability foundations - events, rules, and conditioning"><a href="03_probability_foundations.html">Chapter 3: Probability Foundations - Events, Rules, and Conditioning</a></li>
+<li class="" data-title="chapter 4: bayes' theorem - updating beliefs with evidence"><a href="04_bayes_theorem.html">Chapter 4: Bayes' Theorem - Updating Beliefs With Evidence</a></li>
+<li class="" data-title="chapter 5: random variables and discrete distributions"><a href="05_random_variables_discrete.html">Chapter 5: Random Variables and Discrete Distributions</a></li>
+<li class="" data-title="chapter 6: continuous distributions and the normal distribution"><a href="06_continuous_distributions.html">Chapter 6: Continuous Distributions and the Normal Distribution</a></li>
+<li class="current" data-title="chapter 7: expectation, variance, covariance, and correlation"><a href="07_expectation_variance_covariance.html">Chapter 7: Expectation, Variance, Covariance, and Correlation</a></li>
+<li class="" data-title="chapter 8: the central limit theorem - the secret engine of statistics"><a href="08_central_limit_theorem.html">Chapter 8: The Central Limit Theorem - The Secret Engine of Statistics</a></li>
+</ul></details>
+<details open><summary>Part II - Inferring From Data</summary><ul>
+<li class="" data-title="chapter 9: sampling and estimation"><a href="09_sampling_and_estimation.html">Chapter 9: Sampling and Estimation</a></li>
+<li class="" data-title="chapter 10: maximum likelihood estimation"><a href="10_maximum_likelihood_estimation.html">Chapter 10: Maximum Likelihood Estimation</a></li>
+<li class="" data-title="chapter 11: confidence intervals"><a href="11_confidence_intervals.html">Chapter 11: Confidence Intervals</a></li>
+<li class="" data-title="chapter 12: hypothesis testing and p-values"><a href="12_hypothesis_testing.html">Chapter 12: Hypothesis Testing and p-values</a></li>
+<li class="" data-title="chapter 13: t-tests, chi-square, and anova"><a href="13_ttests_chisquare_anova.html">Chapter 13: t-tests, Chi-square, and ANOVA</a></li>
+<li class="" data-title="chapter 14: correlation and simple linear regression"><a href="14_simple_linear_regression.html">Chapter 14: Correlation and Simple Linear Regression</a></li>
+<li class="" data-title="chapter 15: multiple regression, r², and overfitting"><a href="15_multiple_regression.html">Chapter 15: Multiple Regression, R², and Overfitting</a></li>
+</ul></details>
+<details open><summary>Part III - The Bridge Into Machine Learning</summary><ul>
+<li class="" data-title="chapter 16: bias-variance tradeoff, cross-validation, and regularization"><a href="16_bias_variance_regularization.html">Chapter 16: Bias-Variance Tradeoff, Cross-Validation, and Regularization</a></li>
+<li class="" data-title="chapter 17: bayesian statistics in depth"><a href="17_bayesian_statistics.html">Chapter 17: Bayesian Statistics in Depth</a></li>
+<li class="" data-title="chapter 18: resampling - bootstrap and permutation tests"><a href="18_resampling_methods.html">Chapter 18: Resampling - Bootstrap and Permutation Tests</a></li>
+<li class="" data-title="chapter 19: linear algebra essentials for statistics and ml"><a href="19_linear_algebra_essentials.html">Chapter 19: Linear Algebra Essentials for Statistics and ML</a></li>
+<li class="" data-title="chapter 20: multivariate statistics - covariance matrices and pca"><a href="20_multivariate_pca.html">Chapter 20: Multivariate Statistics - Covariance Matrices and PCA</a></li>
+</ul></details>
+<details open><summary>Part IV - The Statistics Inside Modern AI</summary><ul>
+<li class="" data-title="chapter 21: information theory - entropy, cross-entropy, and kl divergence"><a href="21_information_theory.html">Chapter 21: Information Theory - Entropy, Cross-Entropy, and KL Divergence</a></li>
+<li class="" data-title="chapter 22: statistical learning theory - why generalization works at all"><a href="22_statistical_learning_theory.html">Chapter 22: Statistical Learning Theory - Why Generalization Works At All</a></li>
+<li class="" data-title="chapter 23: probabilistic models and latent variables (mixtures, em)"><a href="23_latent_variable_models.html">Chapter 23: Probabilistic Models and Latent Variables (Mixtures, EM)</a></li>
+<li class="" data-title="chapter 24: markov chains and monte carlo methods"><a href="24_markov_chains_monte_carlo.html">Chapter 24: Markov Chains and Monte Carlo Methods</a></li>
+<li class="" data-title="chapter 25: the statistics hiding inside neural networks"><a href="25_statistics_in_neural_networks.html">Chapter 25: The Statistics Hiding Inside Neural Networks</a></li>
+<li class="" data-title="chapter 26: where to go next"><a href="26_where_to_go_next.html">Chapter 26: Where to Go Next</a></li>
+</ul></details>
+<details open><summary>Part V - The Statistical Frontier of Modern AI</summary><ul>
+<li class="" data-title="chapter 27: the statistical frontier - how modern ai actually uses these ideas today"><a href="27_frontier_ai_statistics.html">Chapter 27: The Statistical Frontier - How Modern AI Actually Uses These Ideas Today</a></li>
+</ul></details>
+<details open><summary>Part VI - Advanced AI Algorithms: The Statistical Engine Room</summary><ul>
+<li class="" data-title="chapter 28: diffusion models and score matching - statistics as generation"><a href="28_diffusion_models_score_matching.html">Chapter 28: Diffusion Models and Score Matching - Statistics as Generation</a></li>
+<li class="" data-title="chapter 29: transformers and attention - statistics you can calculate (almost) by hand"><a href="29_transformers_attention_statistics.html">Chapter 29: Transformers and Attention - Statistics You Can Calculate (Almost) by Hand</a></li>
+<li class="" data-title="chapter 30: reinforcement learning and policy gradients - statistics that learn from rewards"><a href="30_reinforcement_learning_policy_gradients.html">Chapter 30: Reinforcement Learning and Policy Gradients - Statistics That Learn From Rewards</a></li>
+<li class="" data-title="chapter 31: variational inference and the elbo - approximate bayes at scale"><a href="31_variational_inference_elbo.html">Chapter 31: Variational Inference and the ELBO - Approximate Bayes at Scale</a></li>
+<li class="" data-title="chapter 32: contrastive learning and infonce - statistics that learns embeddings"><a href="32_contrastive_learning_infonce.html">Chapter 32: Contrastive Learning and InfoNCE - Statistics That Learns Embeddings</a></li>
+<li class="" data-title="chapter 33: causal inference and do-calculus - when correlation is not enough"><a href="33_causal_inference_do_calculus.html">Chapter 33: Causal Inference and Do-Calculus - When Correlation Is Not Enough</a></li>
+<li class="" data-title="chapter 34: graphical models and message passing - statistics as graphs"><a href="34_graphical_models_message_passing.html">Chapter 34: Graphical Models and Message Passing - Statistics as Graphs</a></li>
+<li class="" data-title="chapter 35: optimization, generalization, and double descent - why big models work"><a href="35_optimization_generalization_double_descent.html">Chapter 35: Optimization, Generalization, and Double Descent - Why Big Models Work</a></li>
+<li class="" data-title="chapter 36: time series and modern sequence models - statistics over time"><a href="36_time_series_sequence_models.html">Chapter 36: Time Series and Modern Sequence Models - Statistics Over Time</a></li>
+</ul></details>
+<details open><summary>Part VII - Aligning AI With Human Preferences: The Statistics of RLHF</summary><ul>
+<li class="" data-title="chapter 37: preference data and reward modeling - statistics from human judgments"><a href="37_preference_data_reward_modeling.html">Chapter 37: Preference Data and Reward Modeling - Statistics From Human Judgments</a></li>
+<li class="" data-title="chapter 38: rlhf, dpo, and preference optimization - turning preferences into a loss function"><a href="38_dpo_and_preference_optimization.html">Chapter 38: RLHF, DPO, and Preference Optimization - Turning Preferences Into a Loss Function</a></li>
+<li class="" data-title="chapter 39: reinforcement learning with verifiable rewards - and how reasoning models are trained"><a href="39_rl_verifiable_rewards_reasoning.html">Chapter 39: Reinforcement Learning With Verifiable Rewards - and How Reasoning Models Are Trained</a></li>
+</ul></details>
+  </nav>
+  <div class="pane-left">
+    <div class="article" id="article">
+<h1 id="chapter-7-expectation-variance-covariance-and-correlation">Chapter 7: Expectation, Variance, Covariance, and Correlation</h1>
+<h2 data-bid="b1" id="the-idea-this-chapter-builds-toward">The idea this chapter builds toward</h2>
+<p data-bid="b2">Chapter 2 gave you mean and variance as summaries of data <em>you already have</em>. This chapter gives you the probability-theory version of the same ideas - <strong>expectation</strong> and <strong>variance of a random variable</strong> - which describe a distribution itself, before you've drawn any sample from it. Then we extend to two variables at once: <strong>covariance</strong> and <strong>correlation</strong>, which measure whether two quantities tend to move together - the conceptual seed of regression (Chapter 14) and of why features in a dataset can be redundant or informative together (Chapter 20).</p>
+<blockquote data-bid="b3">
+<p data-bid="b4"><strong>Intuition, in one breath:</strong> Expectation is the long-run average you'd see over infinitely many reruns, and correlation is "when one goes up, does the other tend to go up too, scaled to a fair yardstick."</p>
+</blockquote>
+<h2 data-bid="b5" id="expectation-the-mean-of-a-random-variable">Expectation - the "mean" of a random variable</h2>
+<p data-bid="b6">For a discrete random variable $X$ with PMF $P(X=x)$:</p>
+<p data-bid="b7">$$E[X] = \sum_x x \cdot P(X=x)$$</p>
+<p data-bid="b8"><strong>Intuition</strong>: it's a <em>probability-weighted average</em> - instead of weighting every observed data point equally (like the plain mean in Chapter 2), you weight each <em>possible value</em> by how likely it is. If you played a game infinitely many times, $E[X]$ is the long-run average payout per game.</p>
+<h3 data-bid="b9" id="worked-example-expected-value-of-a-die-roll">Worked example: expected value of a die roll</h3>
+<p data-bid="b10">$X \in \{1,2,3,4,5,6\}$, each with probability $\frac{1}{6}$.</p>
+<p data-bid="b11">$$E[X] = 1(\tfrac16) + 2(\tfrac16) + 3(\tfrac16) + 4(\tfrac16) + 5(\tfrac16) + 6(\tfrac16) = \frac{21}{6} = 3.5$$</p>
+<p data-bid="b12">Notice: $E[X] = 3.5$ is not even a possible outcome of a single roll! That's completely normal - expectation describes the <em>long-run average</em>, not a value you'll ever see on any one trial. This is a common beginner stumbling block worth internalizing now.</p>
+<h3 data-bid="b13" id="worked-example-expected-value-of-a-biased-bet">Worked example: expected value of a biased bet</h3>
+<p data-bid="b14">A game costs \$1 to play. You win \$5 (net \$4 profit) with probability 0.1, and win nothing (net \$1 loss) with probability 0.9. Should you play?</p>
+<p data-bid="b15">$$E[\text{net profit}] = (4)(0.1) + (-1)(0.9) = 0.4 - 0.9 = -0.5$$</p>
+<p data-bid="b16">On average, you lose 50 cents per play. This "expected value" framing - multiply each outcome by its probability and sum - is exactly how casinos, insurance companies, and (as we'll see starting in Chapter 10) loss functions in machine learning are all designed: a loss function's <em>expected value over the data distribution</em> is precisely the quantity training tries to minimize.</p>
+<h3 data-bid="b17" id="linearity-of-expectation-an-extremely-useful-shortcut">Linearity of expectation (an extremely useful shortcut)</h3>
+<p data-bid="b18">$$E[aX + b] = aE[X] + b \qquad E[X + Y] = E[X] + E[Y]$$</p>
+<p data-bid="b19">The second rule is remarkable because it holds <strong>even if $X$ and $Y$ are not independent</strong> - you never need to worry about how two random variables interact just to add their expectations. This is a huge computational shortcut used throughout statistics (e.g., it's exactly why the expected value of a sample mean, a sum of many random data points divided by n, is clean to compute - see Chapter 8).</p>
+<h2 data-bid="b20" id="variance-of-a-random-variable">Variance of a random variable</h2>
+<p data-bid="b21">$$\text{Var}(X) = E[(X - E[X])^2]$$</p>
+<p data-bid="b22">Same intuition as Chapter 2's variance (average squared distance from the center), just now computed via probability-weighting over the distribution rather than averaging over observed data. An equivalent, often more computationally convenient formula:</p>
+<p data-bid="b23">$$\text{Var}(X) = E[X^2] - (E[X])^2$$</p>
+<p data-bid="b24">("average of the squares, minus the square of the average" - worth memorizing, it comes up constantly, including inside the derivation of why we divide by $n-1$ for sample variance in Chapter 2, and inside the bias-variance decomposition in Chapter 16.)</p>
+<h3 data-bid="b25" id="a-useful-variance-rule">A useful variance rule</h3>
+<p data-bid="b26">$$\text{Var}(aX + b) = a^2 \text{Var}(X)$$</p>
+<p data-bid="b27">Notice: adding a constant $b$ doesn't change the spread at all (shifting everything left/right doesn't change how spread out it is), but scaling by $a$ scales the variance by $a^2$ (and so the standard deviation by $|a|$, not $a^2$) - because variance is in squared units, as you learned in Chapter 2.</p>
+<h2 data-bid="b28" id="covariance-do-two-variables-move-together">Covariance - do two variables move together?</h2>
+<p data-bid="b29">$$\text{Cov}(X, Y) = E[(X - E[X])(Y - E[Y])]$$</p>
+<p data-bid="b30"><strong>Intuition</strong>: for each data point, look at whether $X$ is above or below its own mean, and whether $Y$ is above or below its own mean, <em>at the same time</em>. Multiply those two deviations together.</p>
+<ul>
+<li data-bid="b31">If $X$ and $Y$ tend to be above their means together (and below together), the product of deviations is usually positive → positive covariance (they move together).</li>
+<li data-bid="b32">If when $X$ is above its mean, $Y$ tends to be below its mean (and vice versa), the product is usually negative → negative covariance (they move oppositely).</li>
+<li data-bid="b33">If there's no consistent relationship, positive and negative products roughly cancel out → covariance near zero.</li>
+</ul>
+<img class="has-rail" data-figid="f1" alt="Scatter plot with vertical and horizontal lines through the mean of X and mean of Y, coloring points by whether their deviation product is positive or negative." src="../images/ch07_covariance_quadrants.png" /><p data-bid="b34" class="img-caption has-rail" data-figid="f1"><em>Draw a vertical line through the mean of X and a horizontal line through the mean of Y - this splits the scatter plot into four quadrants. Points where X and Y are both above their mean, or both below (blue), contribute a <strong>positive</strong> product $(X-\bar X)(Y-\bar Y)$. Points where one is above its mean and the other below (red) contribute a <strong>negative</strong> product. Covariance is just the average of all these signed products - in this data, blue clearly dominates, so the covariance (and hence the correlation) comes out positive, exactly matching the visibly upward-sloping trend.</em></p>
+<h3 data-bid="b35" id="reconstructing-it-yourself-the-computational-shortcut-twin-of-varx-ex2-ex2">Reconstructing it yourself - the computational-shortcut twin of Var(X) = E[X²] - (E[X])²</h3>
+<p data-bid="b36">Chapter 7 already handed you $\text{Var}(X) = E[X^2]-(E[X])^2$ as a more convenient alternative to expanding $E[(X-E[X])^2]$ by hand. <strong>If your guess is that covariance has an exactly analogous shortcut, expand the definition the same way and check.</strong> Starting from $\text{Cov}(X,Y) = E[(X-E[X])(Y-E[Y])]$, let $\mu_X = E[X]$ and $\mu_Y=E[Y]$ for brevity, and multiply out the product inside the expectation:</p>
+<p data-bid="b37">$$(X-\mu_X)(Y-\mu_Y) = XY - X\mu_Y - \mu_X Y + \mu_X\mu_Y$$</p>
+<p data-bid="b38">Now take $E[\cdot]$ of both sides, using linearity of expectation (Chapter 7, already in your toolkit) term by term - remembering $\mu_X$ and $\mu_Y$ are just fixed numbers, not random, so $E[\mu_X Y] = \mu_X E[Y] = \mu_X \mu_Y$:</p>
+<p data-bid="b39">$$E[(X-\mu_X)(Y-\mu_Y)] = E[XY] - \mu_X\mu_Y - \mu_X\mu_Y + \mu_X\mu_Y = E[XY] - \mu_X\mu_Y$$</p>
+<p data-bid="b40">giving the clean shortcut:</p>
+<p data-bid="b41">$$\text{Cov}(X,Y) = E[XY] - E[X]E[Y]$$</p>
+<p data-bid="b42">This is worth internalizing because it makes covariance's connection to independence completely transparent: recall from Chapter 3 that for independent $X,Y$, you'd expect $E[XY]=E[X]E[Y]$ (the expected product of independent quantities is the product of their expectations - a fact you can verify directly from this same formula once you know how to compute expectations of products), which immediately forces $\text{Cov}(X,Y)=0$. This is also <em>exactly</em> the formula this chapter's own code computes under the hood, and it's the version you'll see written in virtually every statistics or ML textbook's definition of covariance - the "average of signed deviation products" framing is the intuitive story, and $E[XY]-E[X]E[Y]$ is the one-line formula that actually gets implemented.</p>
+<h3 data-bid="b43" id="the-problem-with-covariance-its-not-scale-free">The problem with covariance: it's not scale-free</h3>
+<p data-bid="b44">If you measure height in centimeters vs. meters, the covariance between height and weight changes by a factor of 100, even though the <em>underlying relationship</em> hasn't changed at all. This makes raw covariance values hard to interpret or compare across different variable pairs - a covariance of "150" tells you almost nothing on its own without knowing the units and scales involved.</p>
+<h2 data-bid="b45" id="correlation-covariance-but-scale-free">Correlation - covariance, but scale-free</h2>
+<p data-bid="b46">$$\rho = \text{Corr}(X,Y) = \frac{\text{Cov}(X,Y)}{\sigma_X \sigma_Y}$$</p>
+<p data-bid="b47">Dividing by both standard deviations cancels out the units entirely, so $\rho$ (Pearson's correlation coefficient) always falls between $-1$ and $+1$:</p>
+<ul>
+<li data-bid="b48">$\rho = +1$: perfect positive linear relationship (as X goes up, Y goes up, exactly proportionally).</li>
+<li data-bid="b49">$\rho = -1$: perfect negative linear relationship.</li>
+<li data-bid="b50">$\rho = 0$: no <em>linear</em> relationship (important caveat below).</li>
+<li data-bid="b51">Values in between indicate the <em>strength</em> of the linear relationship - e.g., $\rho = 0.8$ is a strong positive linear trend with some scatter; $\rho = 0.2$ is a weak one.</li>
+</ul>
+<h3 data-bid="b52" id="the-critical-caveat-correlation-only-measures-linear-relationships">The critical caveat: correlation only measures <em>linear</em> relationships</h3>
+<p data-bid="b53">$\rho = 0$ does <strong>not</strong> mean "no relationship" - it means "no <em>linear</em> relationship." A perfect parabola ($Y = X^2$, symmetric around $X=0$) has $\rho \approx 0$ despite $Y$ being <em>completely determined</em> by $X$ - just not linearly. This is a very common and very costly misreading of correlation in practice. <strong>Always plot the scatter plot</strong> (same Anscombe's Quartet lesson from Chapter 2) before trusting a correlation number.</p>
+<h3 data-bid="b54" id="correlation-is-not-causation-the-most-famous-warning-in-all-of-statistics">Correlation is not causation (the most famous warning in all of statistics)</h3>
+<p data-bid="b55">Ice cream sales and drowning deaths are strongly positively correlated across months of the year. Does ice cream cause drowning? No - both are driven by a hidden <strong>confounding variable</strong>: hot weather, which independently increases both ice cream sales and swimming (and therefore drowning risk). Whenever you see a correlation, always ask: could a third variable be driving both? This question is formalized properly in causal inference (briefly previewed in Chapter 26), but the instinct to ask it starts here.</p>
+<h2 data-bid="b56" id="the-backstory-galtons-sweet-peas-and-regression-to-the-mean">The backstory - Galton's sweet peas and "regression to the mean"</h2>
+<p data-bid="b57">Francis Galton, in the 1870s-80s, was obsessed with heredity and measurement (he was Darwin's half-cousin and a committed, if ethically troubling by modern standards, eugenicist - worth naming honestly rather than politely skipping). He measured the sizes of sweet-pea seeds and their offspring, and later human heights across parents and children, and noticed something that surprised him: tall parents tended to have somewhat shorter children than themselves (on average), and short parents tended to have somewhat taller children - offspring sizes drifted back <em>toward</em> the population average rather than preserving the full extremity of the parent. He called this "regression toward mediocrity" (we now say <strong>regression to the mean</strong>), and to quantify <em>how strongly</em> two measurements (parent height, child height) moved together, he needed exactly the tool this chapter builds: a number that captures "when one goes up, does the other reliably go up too, and how strongly." Galton himself sketched the geometric idea (fitting a line through a scatter of points and measuring how tightly points hugged it), but it was his student <strong>Karl Pearson</strong> who in 1895 turned Galton's intuition into the precise formula you learned above - the covariance-divided-by-both-standard-deviations construction - which is exactly why today's standard correlation coefficient is called the <strong>Pearson correlation coefficient</strong>.</p>
+<p data-bid="b58">It's worth sitting with <em>why</em> "regression to the mean" happens at all, because it trips people up constantly even today: it is not that genetics is "pulling" extreme values back down - it is a near-mechanical consequence of the fact that any single measurement (a parent's height) is a mix of a true underlying genetic signal plus some randomness/luck, and when you select on an <em>extreme</em> observed value, you've disproportionately selected for people who got lucky on the random part too - and luck doesn't carry over to the next measurement, so the next measurement (the child, or a repeated measurement of the same quantity) tends to land closer to the true average. This exact "regression to the mean" trap explains why, e.g., a sports player's spectacular rookie season is often followed by a more average "sophomore slump" season - not because they got worse, but because some of that spectacular performance was variance, not pure skill, and variance doesn't repeat.</p>
+<h2 data-bid="b59" id="why-this-chapter-matters-for-whats-coming">Why this chapter matters for what's coming</h2>
+<p data-bid="b60">Covariance between many variables at once, arranged in a grid, becomes the <strong>covariance matrix</strong> (Chapter 20) - the foundation of PCA, Gaussian distributions in multiple dimensions, and much of multivariate statistics. The "expected value of a squared deviation" framing in this chapter is also <em>exactly</em> the same algebra used to decompose prediction error into bias and variance (Chapter 16) - same formula, reused for a different purpose. Learning this chapter well pays off repeatedly.</p>
+<h2 data-bid="b61" id="more-real-world-examples-of-covariance-and-correlation">More real-world examples of covariance and correlation</h2>
+<ul>
+<li data-bid="b62"><strong>Finance</strong>: portfolio diversification is literally an exercise in picking assets with <em>low or negative</em> covariance, so that when one investment drops, another tends to hold steady or rise, reducing total portfolio variance (directly using the variance-of-a-sum formula that covariance makes necessary once variables aren't independent).</li>
+<li data-bid="b63"><strong>ML feature engineering</strong>: two highly correlated features (e.g., "square footage" and "number of rooms" in a housing dataset) carry largely redundant information - this is "multicollinearity," a real issue for regression models (Chapter 15) and the direct motivation for dimensionality reduction techniques like PCA (Chapter 20), which literally operates on the covariance matrix.</li>
+<li data-bid="b64"><strong>Medicine</strong>: correlation between a biomarker (e.g., cholesterol level) and disease risk is the first screening step before more rigorous causal studies - and the "correlation isn't causation" warning is the single most repeated caveat in medical research reporting, for good reason (confounders like age or diet routinely muddy such correlations).</li>
+<li data-bid="b65"><strong>A/B testing/analytics</strong>: correlating "time spent on page" with "purchase conversion" might reveal a real relationship, or might both be driven by a confound like "genuine interest in the product," which also independently affects both time-on-page and purchase likelihood - a textbook Chapter-7-style confounding trap.</li>
+</ul>
+<h2 data-bid="b66" id="figures">Figures</h2>
+<img class="has-rail" data-figid="f2" alt="Four (X, Y) relationships and their computed correlation rho: strong positive, strong negative, none, and a perfect parabola -- notice the parabola's near-zero rho despite Y being completely determined by X." src="../images/ch07_expectation_variance_covariance_fig1.png" /><p data-bid="b67" class="img-caption has-rail" data-figid="f2"><em>Four (X, Y) relationships and their computed correlation rho: strong positive, strong negative, none, and a perfect parabola -- notice the parabola's near-zero rho despite Y being completely determined by X.</em></p>
+<h2 data-bid="b68" id="run-it-yourself">Run it yourself</h2>
+<p data-bid="b69"><code>book/code/ch07_expectation_variance_covariance.py</code> computes $E[X]$ for a die roll and a biased bet by simulation (confirming the hand-computed values), then generates several synthetic (X, Y) datasets with different true correlations (strong positive, strong negative, none, and a non-linear parabola with near-zero correlation despite a perfect relationship) and plots them side by side with their computed $\rho$ values so you can see correlation strength <em>and its blind spot</em> directly.</p>
+<p data-bid="b70"re><code class="language-bash">python book/code/ch07_expectation_variance_covariance.py
+</code></pre>
+<h2 data-bid="b71" id="why-this-matters-in-ai-and-in-everyday-life">Why This Matters - In AI and In Everyday Life</h2>
+<p data-bid="b72"><strong>In AI / machine learning:</strong></p>
+<ul>
+<li data-bid="b73"><strong>Expected loss during training</strong>: the quantity every ML training loop minimizes is literally an expected value (Chapter 7's E[X]) of a loss function over the training distribution.</li>
+<li data-bid="b74"><strong>Multicollinearity in ML features</strong>: two highly correlated features (covariance near their product of standard deviations) carry redundant information, directly motivating PCA (Chapter 20) and regularization (Chapter 16).</li>
+<li data-bid="b75"><strong>The covariance matrix powers PCA and whitening layers</strong>: PCA diagonalizes the feature covariance matrix (Chapter 20) to find uncorrelated directions, and the same eigenvalue structure is why batch-norm's decorrelation intuitions and Gaussian-process kernels are built on covariance rather than raw correlation.</li>
+<li data-bid="b76"><strong>Gradient covariance drives optimization and mutation strategies</strong>: evolutionary strategies such as CMA-ES estimate a full covariance matrix over parameters to shape the search distribution, and the covariance of gradients across a minibatch (as in natural-gradient methods) determines how correlated parameter updates should be scaled -- this chapter's covariance is the literal object being adapted.</li>
+</ul>
+<p data-bid="b77"><strong>In everyday, non-AI life:</strong></p>
+<ul>
+<li data-bid="b78"><strong>Investment portfolio risk</strong>: diversification is explicitly about picking assets with low or negative covariance, so losses in one don't compound with losses in another.</li>
+<li data-bid="b79"><strong>"Regression to the mean" in sports and business</strong>: an athlete's amazing rookie season or a startup's unusually great quarter tends to be followed by something closer to average -- Galton's original discovery, still fooling people today.</li>
+</ul>
+<h2 data-bid="b80" id="worked-example-by-hand-larger">Worked example - by hand, larger</h2>
+<p data-bid="b81">Suppose a model's prediction error $X$ (in normalized units) takes value $-1$ with probability $0.2$, $0$ with probability $0.5$, and $+2$ with probability $0.3$. Compute the expectation. Using $E[X] = \sum x P(X=x)$:
+$$E[X] = (-1)(0.2) + (0)(0.5) + (2)(0.3) = -0.2 + 0 + 0.6 = 0.4$$
+Now the variance via the shortcut $E[X^2] - (E[X])^2$. First $E[X^2] = (-1)^2(0.2) + 0^2(0.5) + 2^2(0.3) = 0.2 + 0 + 1.2 = 1.4$. So $\text{Var}(X) = 1.4 - (0.4)^2 = 1.4 - 0.16 = 1.24$, and standard deviation $\sigma_X = \sqrt{1.24} \approx 1.114$.</p>
+<p data-bid="b82">Now add a second variable $Y$ (another error channel) taking value $0$ with probability $0.5$ and $1$ with probability $0.5$, so $E[Y] = 0.5$. Suppose the joint behavior is: when $X=-1$, $Y=0$; when $X=0$, $Y=0$ with prob $0.3$ and $Y=1$ with prob $0.2$; when $X=2$, $Y=1$. Compute $E[XY]$ by summing over the joint: $(-1)(0)(0.2) + (0)(0)(0.3) + (0)(1)(0.2) + (2)(1)(0.3) = 0 + 0 + 0 + 0.6 = 0.6$. Then the covariance shortcut $\text{Cov}(X,Y) = E[XY] - E[X]E[Y] = 0.6 - (0.4)(0.5) = 0.6 - 0.2 = 0.4$.</p>
+<p data-bid="b83">Finally correlation: we need $\sigma_Y$. $E[Y^2] = 0^2(0.5) + 1^2(0.5) = 0.5$, so $\text{Var}(Y) = 0.5 - 0.25 = 0.25$, $\sigma_Y = 0.5$. Thus $\rho = \frac{0.4}{1.114 \times 0.5} = \frac{0.4}{0.557} \approx 0.718$ - a moderately strong positive linear relationship between the two error channels.</p>
+<p data-bid="b84"><strong>Expectation and variance describe one variable's behavior; covariance and correlation describe how two variables conspire - and only the correlation, being scale-free, is comparable across different pairs of quantities.</strong></p>
+<h2 data-bid="b85" id="check-your-understanding">Check your understanding</h2>
+<ul>
+<li data-bid="b86">Why can $E[X]$ be a value that $X$ itself can never actually take (like 3.5 for a die)?</li>
+<li data-bid="b87">Explain, in your own words, why multiplying centered deviations $(X-E[X])(Y-E[Y])$ and looking at the average sign/size tells you about co-movement.</li>
+<li data-bid="b88">Construct (in words) a real-world pair of correlated variables where a hidden confounder is plausible, different from the ice cream/drowning example.</li>
+</ul>
+<h2 data-bid="b89" id="exercises">Exercises</h2>
+<h3 data-bid="b90" id="exercise-1-expectation-and-variance-by-hand">Exercise 1 - Expectation and variance by hand</h3>
+<p data-bid="b91">A loss takes value $1$ with probability $0.1$, $2$ with probability $0.6$, and $5$ with probability $0.3$. Compute $E[X]$, $E[X^2]$, and $\text{Var}(X)$.</p>
+<details><summary>Show solution</summary>
+
+$E[X] = 1(0.1) + 2(0.6) + 5(0.3) = 0.1 + 1.2 + 1.5 = 2.8$. $E[X^2] = 1(0.1) + 4(0.6) + 25(0.3) = 0.1 + 2.4 + 7.5 = 10.0$. So $\text{Var}(X) = 10.0 - (2.8)^2 = 10.0 - 7.84 = 2.16$. Note $E[X] = 2.8$ is a value $X$ never actually takes, which is normal for an expectation.
+
+</details>
+
+<h3 data-bid="b92" id="exercise-2-covariance-via-the-shortcut">Exercise 2 - Covariance via the shortcut</h3>
+<p data-bid="b93">For data where $E[X]=1$, $E[Y]=2$, and $E[XY]=3$, compute $\text{Cov}(X,Y)$ and state the sign's meaning.</p>
+<details><summary>Show solution</summary>
+
+$\text{Cov}(X,Y) = E[XY] - E[X]E[Y] = 3 - (1)(2) = 3 - 2 = 1$. A positive covariance means when $X$ is above its mean, $Y$ tends to be above its mean too (and below together), i.e. the two move in the same direction. If $E[XY]$ had been exactly 2, the covariance would be 0, suggesting no linear co-movement.
+
+</details>
+
+<h3 data-bid="b94" id="exercise-3-conceptual-the-correlation-blind-spot">Exercise 3 - Conceptual: the correlation blind spot</h3>
+<p data-bid="b95">A feature $X$ is drawn Uniform on $[-1,1]$ and a label is set to $Y = X^2$. What is $\text{Corr}(X,Y)$ approximately, and why does that not mean $X$ carries no information about $Y$?</p>
+<details><summary>Show solution</summary>
+
+Because $Y = X^2$ is symmetric about $X=0$, positive and negative deviations of $X$ cancel against $Y$ always being positive, so $\text{Cov}(X,Y) = E[X^2 \cdot X] - E[X]E[X^2] = E[X^3] - 0 = 0$ (odd moment of a symmetric distribution). Correlation is near 0. Yet $Y$ is *completely determined* by $X$ - the relationship is just non-linear. This is exactly why correlation only detects linear structure, and why ML feature selection that leans solely on Pearson correlation can miss useful non-linear features (a motivation for inspecting scatter plots or using rank/tree-based measures).
+
+</details>
+
+<h2 data-bid="b96" id="whats-next">What's next</h2>
+<p data-bid="b97">Chapter 8 proves - visually and conceptually, not just by assertion - the single fact that makes almost all of classical inferential statistics (Chapters 9-13) work: the <strong>Central Limit Theorem</strong>, which explains why sample means tend toward a Normal distribution regardless of the shape of the underlying data.</p>
+    </div>
+    <div class="navfooter">
+      <span><a href="06_continuous_distributions.html">&larr; Previous chapter</a></span>
+      <span><a href="08_central_limit_theorem.html">Next chapter &rarr;</a></span>
+    </div>
+  </div>
+  <div class="pane-right">
+    <h4>Figures in this chapter</h4>
+    <div id="railContent"></div>
+  </div>
+</div>
+
+<!-- floating selection toolbar -->
+<div id="selToolbar">
+  <button data-color="yellow" title="Mark interesting">🟡</button>
+  <button data-color="green" title="Mark understood">🟢</button>
+  <button data-color="red" title="Mark confusing">🔴</button>
+  <button data-color="blue" title="Mark to review later">🔵</button>
+  <button id="btnAddNote" title="Highlight + add a note">📝</button>
+</div>
+
+<!-- note edit popup -->
+<div id="notePopup">
+  <textarea placeholder="Write a note to yourself..."></textarea>
+  <div class="row">
+    <button class="danger" id="btnDeleteHl">Remove highlight</button>
+    <div>
+      <button id="btnCloseNote">Close</button>
+      <button class="primary" id="btnSaveNote">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- notes side panel -->
+<div id="notesOverlay"></div>
+<div id="notesPanel">
+  <div class="header">
+    <b>My Notes - this page</b>
+    <button class="iconbtn" id="btnCloseNotesPanel">✕</button>
+  </div>
+  <div class="list" id="notesList"></div>
+  <div class="footer">
+    <button id="btnExportNotes">⬇ Export all notes</button>
+    <button id="btnImportNotes">⬆ Import notes</button>
+    <input type="file" id="importFile" accept="application/json" style="display:none;">
+  </div>
+</div>
+
+<script src="../assets/app.js"></script>
+</body>
+</html>

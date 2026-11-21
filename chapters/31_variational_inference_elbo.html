@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 31: Variational Inference and the ELBO - Approximate Bayes at Scale</title>
+<link rel="stylesheet" href="../assets/app.css">
+<script>
+window.MathJax = { tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']], processEscapes: true } };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+</head>
+<body data-chapter="31_variational_inference_elbo">
+<div class="topbar">
+  <div class="left">
+    <button class="iconbtn hamburger" id="btnSidebarToggle">☰</button>
+    <a href="../index.html">Statistics for AI</a>
+  </div>
+  <div class="right">
+    <button class="iconbtn" id="btnNotesPanel">📒 My Notes</button>
+  </div>
+</div>
+<div id="sidebarOverlay"></div>
+<div class="layout">
+  <nav class="sidebar" id="sidebar">
+    <input type="text" id="sidebarFilter" placeholder="Filter chapters...">
+<details open><summary>Orientation</summary><ul>
+<li class="" data-title="chapter 0: how to use this book, and the math notation you'll see"><a href="00_how_to_use_this_book.html">Chapter 0: How to Use This Book, and the Math Notation You'll See</a></li>
+</ul></details>
+<details open><summary>Part I - Describing the World</summary><ul>
+<li class="" data-title="chapter 1: data, populations, and samples - thinking like a statistician"><a href="01_data_populations_samples.html">Chapter 1: Data, Populations, and Samples - Thinking Like a Statistician</a></li>
+<li class="" data-title="chapter 2: describing data - center, spread, and shape"><a href="02_descriptive_statistics.html">Chapter 2: Describing Data - Center, Spread, and Shape</a></li>
+<li class="" data-title="chapter 3: probability foundations - events, rules, and conditioning"><a href="03_probability_foundations.html">Chapter 3: Probability Foundations - Events, Rules, and Conditioning</a></li>
+<li class="" data-title="chapter 4: bayes' theorem - updating beliefs with evidence"><a href="04_bayes_theorem.html">Chapter 4: Bayes' Theorem - Updating Beliefs With Evidence</a></li>
+<li class="" data-title="chapter 5: random variables and discrete distributions"><a href="05_random_variables_discrete.html">Chapter 5: Random Variables and Discrete Distributions</a></li>
+<li class="" data-title="chapter 6: continuous distributions and the normal distribution"><a href="06_continuous_distributions.html">Chapter 6: Continuous Distributions and the Normal Distribution</a></li>
+<li class="" data-title="chapter 7: expectation, variance, covariance, and correlation"><a href="07_expectation_variance_covariance.html">Chapter 7: Expectation, Variance, Covariance, and Correlation</a></li>
+<li class="" data-title="chapter 8: the central limit theorem - the secret engine of statistics"><a href="08_central_limit_theorem.html">Chapter 8: The Central Limit Theorem - The Secret Engine of Statistics</a></li>
+</ul></details>
+<details open><summary>Part II - Inferring From Data</summary><ul>
+<li class="" data-title="chapter 9: sampling and estimation"><a href="09_sampling_and_estimation.html">Chapter 9: Sampling and Estimation</a></li>
+<li class="" data-title="chapter 10: maximum likelihood estimation"><a href="10_maximum_likelihood_estimation.html">Chapter 10: Maximum Likelihood Estimation</a></li>
+<li class="" data-title="chapter 11: confidence intervals"><a href="11_confidence_intervals.html">Chapter 11: Confidence Intervals</a></li>
+<li class="" data-title="chapter 12: hypothesis testing and p-values"><a href="12_hypothesis_testing.html">Chapter 12: Hypothesis Testing and p-values</a></li>
+<li class="" data-title="chapter 13: t-tests, chi-square, and anova"><a href="13_ttests_chisquare_anova.html">Chapter 13: t-tests, Chi-square, and ANOVA</a></li>
+<li class="" data-title="chapter 14: correlation and simple linear regression"><a href="14_simple_linear_regression.html">Chapter 14: Correlation and Simple Linear Regression</a></li>
+<li class="" data-title="chapter 15: multiple regression, r², and overfitting"><a href="15_multiple_regression.html">Chapter 15: Multiple Regression, R², and Overfitting</a></li>
+</ul></details>
+<details open><summary>Part III - The Bridge Into Machine Learning</summary><ul>
+<li class="" data-title="chapter 16: bias-variance tradeoff, cross-validation, and regularization"><a href="16_bias_variance_regularization.html">Chapter 16: Bias-Variance Tradeoff, Cross-Validation, and Regularization</a></li>
+<li class="" data-title="chapter 17: bayesian statistics in depth"><a href="17_bayesian_statistics.html">Chapter 17: Bayesian Statistics in Depth</a></li>
+<li class="" data-title="chapter 18: resampling - bootstrap and permutation tests"><a href="18_resampling_methods.html">Chapter 18: Resampling - Bootstrap and Permutation Tests</a></li>
+<li class="" data-title="chapter 19: linear algebra essentials for statistics and ml"><a href="19_linear_algebra_essentials.html">Chapter 19: Linear Algebra Essentials for Statistics and ML</a></li>
+<li class="" data-title="chapter 20: multivariate statistics - covariance matrices and pca"><a href="20_multivariate_pca.html">Chapter 20: Multivariate Statistics - Covariance Matrices and PCA</a></li>
+</ul></details>
+<details open><summary>Part IV - The Statistics Inside Modern AI</summary><ul>
+<li class="" data-title="chapter 21: information theory - entropy, cross-entropy, and kl divergence"><a href="21_information_theory.html">Chapter 21: Information Theory - Entropy, Cross-Entropy, and KL Divergence</a></li>
+<li class="" data-title="chapter 22: statistical learning theory - why generalization works at all"><a href="22_statistical_learning_theory.html">Chapter 22: Statistical Learning Theory - Why Generalization Works At All</a></li>
+<li class="" data-title="chapter 23: probabilistic models and latent variables (mixtures, em)"><a href="23_latent_variable_models.html">Chapter 23: Probabilistic Models and Latent Variables (Mixtures, EM)</a></li>
+<li class="" data-title="chapter 24: markov chains and monte carlo methods"><a href="24_markov_chains_monte_carlo.html">Chapter 24: Markov Chains and Monte Carlo Methods</a></li>
+<li class="" data-title="chapter 25: the statistics hiding inside neural networks"><a href="25_statistics_in_neural_networks.html">Chapter 25: The Statistics Hiding Inside Neural Networks</a></li>
+<li class="" data-title="chapter 26: where to go next"><a href="26_where_to_go_next.html">Chapter 26: Where to Go Next</a></li>
+</ul></details>
+<details open><summary>Part V - The Statistical Frontier of Modern AI</summary><ul>
+<li class="" data-title="chapter 27: the statistical frontier - how modern ai actually uses these ideas today"><a href="27_frontier_ai_statistics.html">Chapter 27: The Statistical Frontier - How Modern AI Actually Uses These Ideas Today</a></li>
+</ul></details>
+<details open><summary>Part VI - Advanced AI Algorithms: The Statistical Engine Room</summary><ul>
+<li class="" data-title="chapter 28: diffusion models and score matching - statistics as generation"><a href="28_diffusion_models_score_matching.html">Chapter 28: Diffusion Models and Score Matching - Statistics as Generation</a></li>
+<li class="" data-title="chapter 29: transformers and attention - statistics you can calculate (almost) by hand"><a href="29_transformers_attention_statistics.html">Chapter 29: Transformers and Attention - Statistics You Can Calculate (Almost) by Hand</a></li>
+<li class="" data-title="chapter 30: reinforcement learning and policy gradients - statistics that learn from rewards"><a href="30_reinforcement_learning_policy_gradients.html">Chapter 30: Reinforcement Learning and Policy Gradients - Statistics That Learn From Rewards</a></li>
+<li class="current" data-title="chapter 31: variational inference and the elbo - approximate bayes at scale"><a href="31_variational_inference_elbo.html">Chapter 31: Variational Inference and the ELBO - Approximate Bayes at Scale</a></li>
+<li class="" data-title="chapter 32: contrastive learning and infonce - statistics that learns embeddings"><a href="32_contrastive_learning_infonce.html">Chapter 32: Contrastive Learning and InfoNCE - Statistics That Learns Embeddings</a></li>
+<li class="" data-title="chapter 33: causal inference and do-calculus - when correlation is not enough"><a href="33_causal_inference_do_calculus.html">Chapter 33: Causal Inference and Do-Calculus - When Correlation Is Not Enough</a></li>
+<li class="" data-title="chapter 34: graphical models and message passing - statistics as graphs"><a href="34_graphical_models_message_passing.html">Chapter 34: Graphical Models and Message Passing - Statistics as Graphs</a></li>
+<li class="" data-title="chapter 35: optimization, generalization, and double descent - why big models work"><a href="35_optimization_generalization_double_descent.html">Chapter 35: Optimization, Generalization, and Double Descent - Why Big Models Work</a></li>
+<li class="" data-title="chapter 36: time series and modern sequence models - statistics over time"><a href="36_time_series_sequence_models.html">Chapter 36: Time Series and Modern Sequence Models - Statistics Over Time</a></li>
+</ul></details>
+<details open><summary>Part VII - Aligning AI With Human Preferences: The Statistics of RLHF</summary><ul>
+<li class="" data-title="chapter 37: preference data and reward modeling - statistics from human judgments"><a href="37_preference_data_reward_modeling.html">Chapter 37: Preference Data and Reward Modeling - Statistics From Human Judgments</a></li>
+<li class="" data-title="chapter 38: rlhf, dpo, and preference optimization - turning preferences into a loss function"><a href="38_dpo_and_preference_optimization.html">Chapter 38: RLHF, DPO, and Preference Optimization - Turning Preferences Into a Loss Function</a></li>
+<li class="" data-title="chapter 39: reinforcement learning with verifiable rewards - and how reasoning models are trained"><a href="39_rl_verifiable_rewards_reasoning.html">Chapter 39: Reinforcement Learning With Verifiable Rewards - and How Reasoning Models Are Trained</a></li>
+</ul></details>
+  </nav>
+  <div class="pane-left">
+    <div class="article" id="article">
+<h1 id="chapter-31-variational-inference-and-the-elbo-approximate-bayes-at-scale">Chapter 31: Variational Inference and the ELBO - Approximate Bayes at Scale</h1>
+<h2 data-bid="b1" id="the-idea-this-chapter-builds-toward">The idea this chapter builds toward</h2>
+<p data-bid="b2">Chapter 17 gave you the Bayesian recipe: posterior ∝ likelihood × prior. Chapter 23 showed that once a model has latent variables, the exact likelihood turns into a log-of-a-sum that EM had to route around. This chapter confronts the general reason Bayesian inference is hard: computing the posterior $p(z\mid x)$ requires dividing by the <strong>evidence</strong> $p(x) = \int p(x\mid z)p(z)\,dz$, an integral over every possible value of the latent variables - which for a modern model with millions of latents is hopeless to compute exactly. <strong>Variational inference (VI)</strong> replaces that hopeless integral with an <em>optimization</em>: pick a family of tractable distributions $q_\phi(z)$ and find the member closest to the true posterior, measuring closeness with Chapter 21's KL divergence. The objective you optimize is the <strong>ELBO</strong> (Evidence Lower Bound), and it is the single loss function behind Variational Autoencoders, much of Bayesian deep learning, and the latent structure in diffusion models. This chapter is Chapter 23's latent-variable idea with Chapter 17's Bayesian precision, made computationally practical by Chapter 24's sampling.</p>
+<blockquote data-bid="b3">
+<p data-bid="b4"><strong>Intuition, in one breath:</strong> You can't compute the exact posterior, so you substitute a simple, tunable guess and keep nudging that guess until it sits as close as possible to the truth you can't see. The ELBO is the score that tells you how good your guess is, even though the truth is out of reach.</p>
+</blockquote>
+<h2 data-bid="b5" id="why-the-posterior-is-intractable-chapter-4-chapter-17">Why the posterior is intractable (Chapter 4, Chapter 17)</h2>
+<p data-bid="b6">Bayes' theorem for latent variables $z$ given data $x$ is</p>
+<p data-bid="b7">$$p(z\mid x) = \frac{p(x\mid z)\,p(z)}{p(x)}, \qquad p(x) = \int p(x\mid z)\,p(z)\,dz.$$</p>
+<p data-bid="b8"><strong>Reading it piece by piece:</strong>
+- <strong>$p(z\mid x)$</strong> - the posterior over the latents $z$ given the observed data $x$; the full distribution we would like to know.
+- <strong>$p(x\mid z)$</strong> - the likelihood: how well a candidate latent setting explains the observed data.
+- <strong>$p(z)$</strong> - the prior: what we believed about the latents before seeing any data.
+- <strong>$p(x)$</strong> - the evidence, the normalizer that makes the posterior a valid distribution.
+- <strong>$\int p(x\mid z)\,p(z)\,dz$</strong> - the evidence written out as an integral over every possible latent value; in high dimensions this is the intractable bottleneck that motivates all of variational inference.</p>
+<p data-bid="b9">This is Chapter 4's theorem verbatim, with the normalizer now an integral over a high-dimensional latent space. Two separate problems conspire. First, the integral $p(x)$ rarely has a closed form - even in the simplest latent-variable models it is a log-of-a-sum or an intractable average, exactly Chapter 23's obstacle. Second, even if you could compute it, you'd still need $p(z\mid x)$ <em>itself</em> as a full distribution to do anything useful with it. For a neural network with millions of latent dimensions, both problems are fatal. Chapter 17's conjugate-prior trick and Chapter 24's MCMC are the escape hatches for small and medium problems, but MCMC scales poorly when each likelihood evaluation is a forward pass through a huge network and you need thousands of samples. VI takes the different route: don't approximate the <em>integral</em>, approximate the <em>posterior</em>.</p>
+<h2 data-bid="b10" id="the-variational-family-and-kl-closeness-chapter-21">The variational family and KL closeness (Chapter 21)</h2>
+<p data-bid="b11">Choose a family of distributions $q_\phi(z)$ parameterized by $\phi$ - for instance, a diagonal Gaussian where $\phi = (\mu, \sigma)$ for each latent dimension. This is your <strong>variational family</strong>, and it is deliberately <em>simple</em> so that sampling from it and evaluating it are cheap. We want the member of the family that is closest to the true posterior, and "closest" is measured by the <strong>KL divergence</strong> from Chapter 21:</p>
+<p data-bid="b12">$$D_{KL}(q_\phi(z)\,\|\,p(z\mid x)) = \mathbb{E}_{q_\phi}\!\left[\log\frac{q_\phi(z)}{p(z\mid x)}\right] \geq 0.$$</p>
+<p data-bid="b13"><strong>Reading it piece by piece:</strong>
+- <strong>$q_\phi(z)$</strong> - the approximate posterior from our chosen variational family, parameterized by $\phi$.
+- <strong>$p(z\mid x)$</strong> - the true posterior we are trying to match but cannot compute.
+- <strong>$\mathbb{E}_{q_\phi}[\cdot]$</strong> - an expectation taken under the approximate posterior, averaging the log-ratio over its likely latent values.
+- <strong>$\log\frac{q_\phi(z)}{p(z\mid x)}$</strong> - the log-ratio of guess to truth at each $z$; it is positive where the guess over-allocates probability and negative where it under-allocates.
+- <strong>$\geq 0$</strong> - the divergence is never negative and is exactly zero only when the two distributions coincide, the Chapter 21 property that makes it a valid measure of closeness.</p>
+<p data-bid="b14">KL is non-negative - zero if and only if the two distributions coincide, exactly as Chapter 21 established. If we could minimize this directly, we'd be done. But the KL is defined <em>in terms of the very posterior $p(z\mid x)$ we cannot compute</em>. That circularity is the entire problem, and the ELBO is the clever way out.</p>
+<h2 data-bid="b15" id="deriving-the-elbo-the-bound-that-saves-us-chapter-21">Deriving the ELBO - the bound that saves us (Chapter 21)</h2>
+<p data-bid="b16">Start with the log-evidence and decompose it. Write $\log p(x)$ and multiply-and-divide inside the expectation by $q_\phi(z)$:</p>
+<p data-bid="b17">$$\log p(x) = \log \int p(x\mid z)p(z)\,dz = \log \mathbb{E}_{q_\phi}\!\left[\frac{p(x\mid z)p(z)}{q_\phi(z)}\right].$$</p>
+<p data-bid="b18">Apply Jensen's inequality (the log of an expectation is at least the expectation of the log, since $\log$ is concave - the same inequality Chapter 23's EM relied on):</p>
+<p data-bid="b19">$$\log p(x) \geq \mathbb{E}_{q_\phi}\!\left[\log\frac{p(x\mid z)p(z)}{q_\phi(z)}\right] = \text{ELBO}(\phi).$$</p>
+<p data-bid="b20"><strong>Reading it piece by piece:</strong>
+- <strong>$\log p(x)$</strong> - the log-evidence, the quantity we wish we could maximize but cannot compute.
+- <strong>$\geq$</strong> - the inequality comes from Jensen's, since the log of an expectation is at least the expectation of the log when $\log$ is concave; it certifies the right side never exceeds the target.
+- <strong>$\mathbb{E}_{q_\phi}[\cdot]$</strong> - an expectation we can actually estimate by sampling from the simple approximate posterior.
+- <strong>$\log\frac{p(x\mid z)p(z)}{q_\phi(z)}$</strong> - the log of likelihood-times-prior divided by the guess, with the guess acting as the importance weight that makes the expectation tractable.
+- <strong>$\text{ELBO}(\phi)$</strong> - the resulting lower bound, so named because it sits below the log-evidence and depends only on evaluable quantities.</p>
+<p data-bid="b21">This lower bound is the <strong>Evidence Lower Bound</strong>. Its name is literal: it sits <em>below</em> the log-evidence we want, and it is computed <em>only</em> from quantities we can actually evaluate and sample. Now split the inside into two familiar pieces:</p>
+<p data-bid="b22">$$\text{ELBO}(\phi) = \underbrace{\mathbb{E}_{q_\phi}\!\left[\log p(x\mid z)\right]}_{\text{reconstruction}} - \underbrace{D_{KL}(q_\phi(z)\,\|\,p(z))}_{\text{KL to prior}}.$$</p>
+<p data-bid="b23"><strong>Reading it piece by piece:</strong>
+- <strong>$\text{ELBO}(\phi)$</strong> - the single tractable objective we maximize over the variational parameters $\phi$.
+- <strong>$\mathbb{E}_{q_\phi}[\log p(x\mid z)]$ (reconstruction)</strong> - how well latent samples explain the observed data, Chapter 10's expected log-likelihood; for a Gaussian decoder it is negative mean squared error, so this term wants latents that reconstruct well.
+- <strong>$D_{KL}(q_\phi(z)\|p(z))$ (KL to prior)</strong> - how far the approximate posterior has strayed from the prior, Chapter 21's divergence acting as a regularizer.
+- <strong>the minus sign</strong> - the two terms tug against each other: the reconstruction pulls latents toward the data while the KL pulls them back toward the prior, and $\phi$ finds the balance.</p>
+<p data-bid="b24">The first term is the <strong>expected log-likelihood</strong> - Chapter 10's object exactly: how well the latent samples explain the data, which for a Gaussian decoder is (up to constants) negative mean squared error, echoing Chapter 25. The second term is the <strong>KL divergence to the prior</strong> from Chapter 21: how far your approximate posterior has drifted from the prior $p(z)$, acting as a regularizer. Maximizing the ELBO means simultaneously reconstructing the data well <em>and</em> staying near the prior - the two terms pull against each other, and $\phi$ finds the balance.</p>
+<h2 data-bid="b25" id="the-exact-gap-is-the-kl-we-couldnt-compute-chapter-21">The exact gap is the KL we couldn't compute (Chapter 21)</h2>
+<p data-bid="b26">The ELBO's deepest property: the missing piece between it and the log-evidence is <em>precisely</em> the KL divergence we wanted to minimize. A one-line rearrangement gives</p>
+<p data-bid="b27">$$\log p(x) = \text{ELBO}(\phi) + D_{KL}(q_\phi(z)\,\|\,p(z\mid x)).$$</p>
+<p data-bid="b28"><strong>Reading it piece by piece:</strong>
+- <strong>$\log p(x)$</strong> - the true log-evidence, which is fixed and does not depend on our choice of $\phi$.
+- <strong>$\text{ELBO}(\phi)$</strong> - the tractable bound we actually maximize.
+- <strong>$D_{KL}(q_\phi(z)\|p(z\mid x))$</strong> - the exact gap between the bound and the truth, which is precisely the KL to the true posterior we could not compute directly.
+- <strong>the identity</strong> - because the left side is constant and the gap is non-negative, maximizing the ELBO is mathematically identical to minimizing that unknowable KL, which is why optimizing the proxy works.</p>
+<p data-bid="b29">Since the left side doesn't depend on $\phi$ and the KL term is $\geq 0$, maximizing the ELBO is <em>identical</em> to minimizing $D_{KL}(q_\phi\|p(z\mid x))$ - the thing we couldn't compute directly. <strong>The ELBO is a proxy whose optimization automatically squeezes the uncomputable KL toward zero.</strong> And because the gap is non-negative, the ELBO can never exceed the true log-evidence, giving a rigorous sense of how much room for improvement remains. This is why VI is a <em>bound-based</em> approximation: it is not sampling the posterior, it is fitting the best simple stand-in and reporting how tight the fit is.</p>
+<h2 data-bid="b30" id="the-reparameterization-trick-making-the-gradient-flow-chapter-6">The reparameterization trick - making the gradient flow (Chapter 6)</h2>
+<p data-bid="b31">To optimize $\phi$ by gradient ascent we need $\nabla_\phi \,\mathbb{E}_{q_\phi}[\cdot]$, but the expectation is taken <em>with respect to $\phi$ itself</em>, so you can't just push the gradient inside the expectation the way you could in Chapter 30 when the <em>reward</em>, not the distribution, carried the dependence. The <strong>reparameterization trick</strong> fixes this. For a Gaussian $q_\phi(z) = N(\mu, \sigma^2)$ - the distribution whose two parameters you met in Chapter 6 - rewrite the sample not as $z \sim N(\mu, \sigma^2)$ but as</p>
+<p data-bid="b32">$$z = \mu + \sigma \odot \epsilon, \qquad \epsilon \sim N(0, I).$$</p>
+<p data-bid="b33"><strong>Reading it piece by piece:</strong>
+- <strong>$z$</strong> - a sample from the approximate posterior, rewritten as a deterministic function of the parameters rather than a draw that hides its dependence on them.
+- <strong>$\mu$</strong> - the posterior mean, a learnable parameter; shifting it shifts every sample.
+- <strong>$\sigma$</strong> - the posterior standard deviation, also learnable; scaling it stretches or shrinks the spread of samples.
+- <strong>$\odot$</strong> - element-wise multiplication, applying a separate $\sigma$ to each latent dimension.
+- <strong>$\epsilon \sim N(0, I)$</strong> - the source of randomness, a standard Normal draw that carries no $\phi$ dependence, so the gradient can pass cleanly through $\mu$ and $\sigma$.</p>
+<p data-bid="b34">Now the randomness lives entirely in $\epsilon$, which carries <em>no</em> $\phi$ dependence, and $z$ is a deterministic, differentiable function of $\phi = (\mu,\sigma)$. The expectation is over the fixed $\epsilon$, so the gradient moves inside cleanly: $\nabla_\phi \mathbb{E}_{q_\phi}[f(z)] = \mathbb{E}_{\epsilon}[\nabla_\phi f(\mu + \sigma\odot\epsilon)]$ - a low-variance estimator, in contrast to the much noisier score-function estimator of Chapter 30. That $\mu + \sigma\epsilon$ form is Chapter 6's Normal distribution, restated so its parameters become differentiable knobs.</p>
+<div class="labcard">
+<div class="labkicker">Live - balance reconstruction against the KL penalty</div>
+<div class="labcontrols">
+  <div class="labctrl"><label>Posterior mean &mu;q <b id="ch31_mu_label">1.5</b></label><input type="range" id="ch31_mu" min="-1" max="4" step="0.05" value="1.5"></div>
+  <div class="labctrl"><label>Posterior std &sigma;q <b id="ch31_sigma_label">1.0</b></label><input type="range" id="ch31_sigma" min="0.2" max="3" step="0.05" value="1.0"></div>
+  <div class="labctrl"><label>Prior std &sigma;0 <b id="ch31_prior_label">1.5</b></label><input type="range" id="ch31_prior" min="0.3" max="3" step="0.05" value="1.5"></div>
+</div>
+<div class="labcanvas-wrap"><canvas id="ch31_canvas" width="820" height="240"></canvas></div>
+<div class="labstat-grid">
+  <div class="labstat"><div class="lbl">Reconstruction log p(x|z)</div><div class="val" id="ch31_recon">-</div></div>
+  <div class="labstat"><div class="lbl">KL(q||prior)</div><div class="val" id="ch31_kl">-</div></div>
+  <div class="labstat"><div class="lbl">ELBO = recon - KL</div><div class="val" id="ch31_elbo">-</div></div>
+</div>
+<p data-bid="b35" class="labnote">The observed point is x = 2.0. Drag &mu;q toward x to raise the reconstruction term, but watch the KL penalty grow as the posterior drifts away from the prior N(0, &sigma;&#8320;&sup2;). The ELBO is the tug-of-war between "explain the data" and "stay near the prior" - the same tradeoff regularization expresses in Chapter 16.</p>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  var SL = window.StatsLab;
+  var X_OBS = 2.0;
+  function update(){
+    var mu = parseFloat(document.getElementById('ch31_mu').value);
+    var sig = parseFloat(document.getElementById('ch31_sigma').value);
+    var prior = parseFloat(document.getElementById('ch31_prior').value);
+    document.getElementById('ch31_mu_label').textContent = mu.toFixed(2);
+    document.getElementById('ch31_sigma_label').textContent = sig.toFixed(2);
+    document.getElementById('ch31_prior_label').textContent = prior.toFixed(2);
+
+    var recon = Math.log(SL.normalPDF(X_OBS, mu, sig) + 1e-12);
+    var kl = 0.5 * ((mu*mu + sig*sig)/(prior*prior) - 1 - 2*Math.log(sig/prior));
+    var elbo = recon - kl;
+
+    document.getElementById('ch31_recon').textContent = recon.toFixed(3);
+    document.getElementById('ch31_kl').textContent = kl.toFixed(3);
+    document.getElementById('ch31_elbo').textContent = elbo.toFixed(3);
+
+    var lo = Math.min(-3, mu-3*sig, -3*prior), hi = Math.max(5, mu+3*sig, 3*prior);
+    var plot = SL.makePlot(document.getElementById('ch31_canvas'), {l:50,r:20,t:16,b:40});
+    var priorPts = [], postPts = [];
+    for(var i=0;i<=200;i++){
+      var z = lo + i/200*(hi-lo);
+      priorPts.push([z, SL.normalPDF(z, 0, prior)]);
+      postPts.push([z, SL.normalPDF(z, mu, sig)]);
+    }
+    var maxY = Math.max(0.001, Math.max.apply(null, priorPts.map(function(p){return p[1];}).concat(postPts.map(function(p){return p[1];}))));
+    plot.setDomain([lo,hi],[0,maxY*1.15]); plot.clear(); plot.axes('latent z','density');
+    plot.line(priorPts, SL.colors.accent2, 2);
+    plot.line(postPts, SL.colors.accent, 2);
+    plot.vline(X_OBS, SL.colors.accent4, true);
+  }
+  ['ch31_mu','ch31_sigma','ch31_prior'].forEach(function(id){
+    document.getElementById(id).addEventListener('input', update);
+  });
+  update();
+});
+</script>
+
+<h2 data-bid="b36" id="this-is-the-objective-behind-vaes-and-diffusion-chapter-23-chapter-28">This is the objective behind VAEs and diffusion (Chapter 23, Chapter 28)</h2>
+<p data-bid="b37">A <strong>Variational Autoencoder</strong> is exactly this machinery with neural networks: an encoder network outputs $(\mu_\phi, \sigma_\phi)$ for each latent dimension (the variational family), a decoder network models $p(x\mid z)$ (the reconstruction term), and the prior is a standard $N(0,I)$. The training loss is the negative ELBO - reconstruction error minus (or plus, after sign flip) the KL to the prior, which is why you'll see VAE losses written as "reconstruction + KL" and wondered where the KL came from: it is Chapter 21's divergence, serving as the term that keeps the learned latent codes spread out and near the prior instead of collapsing into a memorized table. This is the neural-network replacement for Chapter 23's EM E-step, doing the same "fit the approximate posterior" job without needing a closed form. <strong>Diffusion models (Chapter 28)</strong> share the skeleton: each denoising step is trained by maximizing a likelihood-style objective that, like the ELBO, decomposes into per-step reconstruction terms, and the variational view is what justifies treating the whole forward-noising/reverse-denoising process as one big latent-variable model fit by a bound-based objective.</p>
+<h2 data-bid="b38" id="worked-example-by-hand-larger">Worked example - by hand, larger</h2>
+<p data-bid="b39">Let's compute every ELBO term by hand for the simplest possible case: a one-dimensional latent variable with a Gaussian prior and a Gaussian approximate posterior, and a single observed data point. This makes each piece arithmetic.</p>
+<p data-bid="b40"><strong>Set-up.</strong> Prior: $p(z) = N(0,1)$, so $\mu_0 = 0$, $\sigma_0^2 = 1$. Variational family: $q_\phi(z) = N(\mu, \sigma^2)$ with current parameters $\mu = 2$, $\sigma = 1$ (variance $\sigma^2 = 1$). Likelihood: given a latent $z$, the data is $p(x\mid z) = N(z, 1)$ - i.e. the decoder simply predicts $z$ with unit noise. Observed single data point: $x = 3$.</p>
+<p data-bid="b41"><strong>Step 1 - the reconstruction term $\mathbb{E}_{q}[\log p(x\mid z)]$.</strong> Under $p(x\mid z) = N(z,1)$, dropping the constant $\log(\sqrt{2\pi})$ (it doesn't involve $\phi$), $\log p(x\mid z) = -\frac{(x-z)^2}{2}$. Taking the expectation over $z \sim N(\mu=2, \sigma^2=1)$: by Chapter 7, $\mathbb{E}[(x-z)^2] = (x-\mu)^2 + \sigma^2 = (3-2)^2 + 1 = 1 + 1 = 2$. So the reconstruction term is $-\frac{1}{2}\times 2 = -1.0$.</p>
+<p data-bid="b42"><strong>Step 2 - the KL-to-prior term $D_{KL}(q\|p)$.</strong> For two univariate Gaussians with diagonal (here scalar) form, the closed form is</p>
+<p data-bid="b43">$$D_{KL}(q\|p) = \log\frac{\sigma_0}{\sigma} + \frac{\sigma^2 + (\mu-\mu_0)^2}{2\sigma_0^2} - \frac{1}{2}.$$</p>
+<p data-bid="b44"><strong>Reading it piece by piece:</strong>
+- <strong>$D_{KL}(q\|p)$</strong> - the divergence between the approximate posterior $q$ and the prior $p$, both Gaussian; it measures how far the fit has drifted.
+- <strong>$\log\frac{\sigma_0}{\sigma}$</strong> - the spread-mismatch term: it penalizes a $q$ whose standard deviation $\sigma$ differs from the prior's $\sigma_0$, and blows up if $\sigma$ shrinks toward zero.
+- <strong>$\frac{(\mu-\mu_0)^2}{2\sigma_0^2}$</strong> - the location-mismatch term: a squared penalty on the posterior mean $\mu$ being far from the prior mean $\mu_0$, weighted by the prior's precision.
+- <strong>$\frac{\sigma^2}{2\sigma_0^2}$</strong> - a correction for the posterior's own variance, keeping the expression exact for Gaussians.
+- <strong>$-\frac{1}{2}$</strong> - a constant that makes the divergence exactly zero when $q$ and $p$ coincide.</p>
+<p data-bid="b45">Plug in $\mu=2$, $\sigma=1$, $\mu_0=0$, $\sigma_0=1$: $\log\frac{1}{1} = 0$; $\frac{1 + (2-0)^2}{2\times1} = \frac{1+4}{2} = 2.5$; minus $0.5$ gives $2.5 - 0.5 = 2.0$. So $D_{KL} = 2.0$.</p>
+<p data-bid="b46"><strong>Step 3 - assemble the ELBO.</strong> ELBO $=$ reconstruction $-$ KL $= -1.0 - 2.0 = -3.0$. That's our current lower bound on $\log p(x)$.</p>
+<p data-bid="b47"><strong>Step 4 - improve $\phi$ and watch the ELBO rise.</strong> The reconstruction term wants $\mu$ near the data $x=3$ (to reduce $(3-\mu)^2$) and the KL term wants $\mu$ near $0$ and $\sigma$ near $1$ (to stay close to the prior). Try the competing setting $\mu = 2.5$, $\sigma = 1$. Reconstruction: $\mathbb{E}[(3-z)^2] = (3-2.5)^2 + 1 = 0.25 + 1 = 1.25$, so that term is $-0.625$ (better). KL: $\frac{1 + (2.5)^2}{2} - 0.5 = \frac{1+6.25}{2} - 0.5 = 3.625 - 0.5 = 3.125$ (worse - $\mu$ moved further from the prior). New ELBO $= -0.625 - 3.125 = -3.75$, which is <em>lower</em>. So moving $\mu$ toward the data alone is not automatically good - the KL penalty fights back.</p>
+<p data-bid="b48"><strong>Step 5 - find the winning balance.</strong> The optimum trades off the two terms. The KL-minimizing $\mu$ is $0$; the reconstruction-minimizing $\mu$ is $3$. The ELBO's pull on the posterior mean is a precision-weighted compromise (echoing Chapter 17): with prior variance $1$, likelihood variance $1$, and one data point, the balance sits at $\mu \approx 1.5$, $\sigma \approx 1$. Check $\mu = 1.5$, $\sigma=1$: reconstruction $= -\frac12[(3-1.5)^2 + 1] = -\frac12[2.25+1] = -1.625$; KL $= \frac{1 + 2.25}{2} - 0.5 = 1.625 - 0.5 = 1.125$; ELBO $= -1.625 - 1.125 = -2.75$, higher than both $-3.0$ and $-3.75$.</p>
+<p data-bid="b49"><strong>Takeaway: the ELBO is a tug-of-war between fitting the data (reconstruction, Chapter 10) and staying near the prior (KL, Chapter 21), and maximizing it is mathematically identical to minimizing the true posterior KL we could never compute directly - that identity is the whole reason variational inference works.</strong></p>
+<h2 data-bid="b50" id="check-your-understanding">Check your understanding</h2>
+<ul>
+<li data-bid="b51">Why does the evidence integral $p(x) = \int p(x\mid z)p(z)\,dz$ make the exact posterior uncomputable, and how does replacing the <em>integral</em> with an <em>optimization over $q_\phi$</em> sidestep that?</li>
+<li data-bid="b52">Given $\log p(x) = \text{ELBO}(\phi) + D_{KL}(q_\phi\|p(z\mid x))$ and the fact that KL is non-negative (Chapter 21), explain why maximizing the ELBO cannot push the approximate posterior <em>away</em> from the true one.</li>
+<li data-bid="b53">What breaks if you try to backpropagate a gradient through a direct sample $z \sim N(\mu,\sigma^2)$, and how does $z = \mu + \sigma\epsilon$ fix it (Chapter 6)?</li>
+</ul>
+<h2 data-bid="b54" id="exercises">Exercises</h2>
+<h3 data-bid="b55" id="exercise-1-compute-an-elbo-by-hand">Exercise 1 - Compute an ELBO by hand</h3>
+<p data-bid="b56">A 1-D latent model has prior $p(z) = N(0,1)$ and a Gaussian likelihood $p(x\mid z) = N(z,1)$ with constant dropped. The variational posterior is $q(z) = N(\mu=1, \sigma=1)$, and the observed data point is $x = 2$. Compute both ELBO terms and the total.</p>
+<details><summary>Show solution</summary>
+
+Reconstruction: $\mathbb{E}_{q}[(x-z)^2]/2$ with the negative sign, and $\mathbb{E}[(x-z)^2] = (x-\mu)^2 + \sigma^2 = (2-1)^2 + 1 = 1 + 1 = 2$. So reconstruction $= -\frac{1}{2}(2) = -1.0$.
+
+KL to prior, using $D_{KL} = \log\frac{\sigma_0}{\sigma} + \frac{\sigma^2 + (\mu-\mu_0)^2}{2\sigma_0^2} - \frac12$ with $\sigma_0=1,\mu_0=0$: $\log 1 + \frac{1 + 1}{2} - 0.5 = 0 + 1 - 0.5 = 0.5$.
+
+ELBO $= -1.0 - 0.5 = -1.5$.
+
+Interpretation: because $\mu=1$ sits exactly midway between the prior's $\mu_0=0$ and the data point $x=2$, both terms are mild - the approximation is a reasonable compromise, and $-1.5$ is its certified lower bound on $\log p$ for this data point.
+
+</details>
+
+<h3 data-bid="b57" id="exercise-2-why-the-kl-term-prevents-posterior-collapse">Exercise 2 - Why the KL term prevents posterior collapse</h3>
+<p data-bid="b58">In a VAE, suppose the encoder learns to output $\mu = 0$, $\sigma \to 0$ (an almost-point mass at the prior mean) for <em>every</em> input. Using the ELBO's KL term, explain why this degenerate solution is penalized, and what role the reconstruction term plays in preventing it from being optimal.</p>
+<details><summary>Show solution</summary>
+
+If $q(z\mid x) = N(\mu=0, \sigma\to 0)$, substitute into the KL: $\log\frac{\sigma_0}{\sigma} + \frac{\sigma^2 + (\mu-\mu_0)^2}{2\sigma_0^2} - \frac12 = \log\frac{1}{\sigma} + \frac{\sigma^2}{2} - \frac12$. As $\sigma \to 0$, the $\log(1/\sigma)$ term blows up to $+\infty$ - so a collapsing posterior with vanishing variance is *heavily* penalized by the KL term. The divergence forbids the encoder from collapsing to a point mass.
+
+But note the tension: a *moderately* shrunken $\sigma$ and $\mu \to 0$ *does* reduce the KL (pushing it toward zero). What stops the encoder from ignoring the input entirely and setting $\mu=0,\sigma=1$ (exactly the prior, KL $=0$) is the **reconstruction** term: if $z$ carries no information about $x$, the decoder cannot reconstruct $x$, and $\mathbb{E}[\log p(x\mid z)]$ becomes terrible. So reconstruction *forces* the latent code to retain information, while the KL term keeps it regularized and prevents collapse - the two terms jointly rule out both degenerate outcomes (ignoring the input, or cramming to a point mass). This is exactly the reconstruction/KL tug-of-war from the worked example, now explaining a real training pathology.
+
+</details>
+
+<h3 data-bid="b59" id="exercise-3-conceptual-vi-versus-mcmc-and-versus-em">Exercise 3 - Conceptual: VI versus MCMC and versus EM</h3>
+<p data-bid="b60">Contrast variational inference with Chapter 24's MCMC and Chapter 23's EM on two axes: (a) what each one approximates (a distribution or a point), and (b) the bias-variance character of each.</p>
+<details><summary>Show solution</summary>
+
+(a) *What is approximated.* MCMC (Chapter 24) targets the *true posterior* directly and asymptotically - with infinite samples it is exact, returning actual draws from $p(z\mid x)$. VI instead fits a member of a restricted family $q_\phi$; even with perfect optimization it is limited by the family's expressiveness, so it returns the *closest simple distribution*, generally not the true one. EM (Chapter 23) is different again: it finds a *point estimate* of the parameters (a single best $\theta$) by iterating, rather than a full distribution; VI returns a whole approximate posterior over latents.
+
+(b) *Bias-variance character.* MCMC is asymptotically unbiased but high-variance and slow - you need many samples, and the samples are correlated, so it can be expensive and its answers noisy per unit compute. VI is biased (limited by the variational family, and prone to underestimating posterior variance since it fits a simple unimodal shape) but low-variance and fast - one forward pass through the encoder gives a fit, and it scales to huge neural models. EM is a middle case: it is a local optimizer (so it can land in a local optimum, a form of bias) but has no sampling variance at all - deterministic iterations. The practical rule of thumb: use VI when you need speed and scale and can tolerate a biased, somewhat under-dispersed posterior; use MCMC when you need trustworthy, near-exact posterior uncertainty for a smaller problem.
+
+</details>
+
+<h2 data-bid="b61" id="why-this-matters-in-ai-and-in-everyday-life">Why This Matters - In AI and In Everyday Life</h2>
+<p data-bid="b62"><strong>In AI / machine learning:</strong></p>
+<ul>
+<li data-bid="b63"><strong>Variational Autoencoders</strong>: the VAE training objective <em>is</em> the negative ELBO, with the encoder as the variational family and the KL-to-prior term as what keeps latent codes well-behaved - every generated-image or interpolation VAE is running this chapter.</li>
+<li data-bid="b64"><strong>Bayesian neural networks and uncertainty estimation</strong>: keeping a distribution over network weights via VI (instead of a single point estimate) is how many systems produce calibrated uncertainty, connecting directly to Chapter 25's calibration concerns and Chapter 17's priors.</li>
+<li data-bid="b65"><strong>Diffusion and other generative latent-variable models</strong>: the per-step training objectives in diffusion models (Chapter 28) are variational-style bounds over a hierarchy of latents, so the ELBO decomposition underpins the loss you actually optimize.</li>
+<li data-bid="b66"><strong>Large-scale approximate inference in production</strong>: anywhere an exact posterior is too expensive - topic models, deep latent-variable recommenders, probabilistic embeddings - VI's optimization-instead-of-integration trick is the workhorse.</li>
+</ul>
+<p data-bid="b67"><strong>In everyday, non-AI life:</strong></p>
+<ul>
+<li data-bid="b68"><strong>Best-fit simplifications of complicated beliefs</strong>: when you can't reason exactly about a messy, multi-factor situation, you consciously adopt a simpler mental model and tune it until it matches your observations - that is fitting a variational family to an intractable posterior, done in your head.</li>
+<li data-bid="b69"><strong>Weather forecasting with a simplified model</strong>: meteorologists run a tractable approximation of an impossibly complex atmospheric posterior; the goodness-of-fit bound they monitor is a practical cousin of the ELBO, telling them how much their simplification is costing them.</li>
+</ul>
+<h2 data-bid="b70" id="whats-next">What's next</h2>
+<p data-bid="b71">Chapter 32 moves to <strong>Contrastive Learning and InfoNCE</strong>, where instead of matching distributions to a posterior or maximizing a reward, models learn representations by pulling matching pairs together and pushing mismatched pairs apart - an objective that turns out to be another information-theoretic bound, tying Chapter 21's mutual information to the embedding spaces behind modern retrieval and vision-language models.</p>
+    </div>
+    <div class="navfooter">
+      <span><a href="30_reinforcement_learning_policy_gradients.html">&larr; Previous chapter</a></span>
+      <span><a href="32_contrastive_learning_infonce.html">Next chapter &rarr;</a></span>
+    </div>
+  </div>
+  <div class="pane-right">
+    <h4>Figures in this chapter</h4>
+    <div id="railContent"></div>
+  </div>
+</div>
+
+<!-- floating selection toolbar -->
+<div id="selToolbar">
+  <button data-color="yellow" title="Mark interesting">🟡</button>
+  <button data-color="green" title="Mark understood">🟢</button>
+  <button data-color="red" title="Mark confusing">🔴</button>
+  <button data-color="blue" title="Mark to review later">🔵</button>
+  <button id="btnAddNote" title="Highlight + add a note">📝</button>
+</div>
+
+<!-- note edit popup -->
+<div id="notePopup">
+  <textarea placeholder="Write a note to yourself..."></textarea>
+  <div class="row">
+    <button class="danger" id="btnDeleteHl">Remove highlight</button>
+    <div>
+      <button id="btnCloseNote">Close</button>
+      <button class="primary" id="btnSaveNote">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- notes side panel -->
+<div id="notesOverlay"></div>
+<div id="notesPanel">
+  <div class="header">
+    <b>My Notes - this page</b>
+    <button class="iconbtn" id="btnCloseNotesPanel">✕</button>
+  </div>
+  <div class="list" id="notesList"></div>
+  <div class="footer">
+    <button id="btnExportNotes">⬇ Export all notes</button>
+    <button id="btnImportNotes">⬆ Import notes</button>
+    <input type="file" id="importFile" accept="application/json" style="display:none;">
+  </div>
+</div>
+
+<script src="../assets/app.js"></script>
+</body>
+</html>

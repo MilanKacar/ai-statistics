@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 9: Sampling and Estimation</title>
+<link rel="stylesheet" href="../assets/app.css">
+<script>
+window.MathJax = { tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']], processEscapes: true } };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+</head>
+<body data-chapter="09_sampling_and_estimation">
+<div class="topbar">
+  <div class="left">
+    <button class="iconbtn hamburger" id="btnSidebarToggle">☰</button>
+    <a href="../index.html">Statistics for AI</a>
+  </div>
+  <div class="right">
+    <button class="iconbtn" id="btnNotesPanel">📒 My Notes</button>
+  </div>
+</div>
+<div id="sidebarOverlay"></div>
+<div class="layout">
+  <nav class="sidebar" id="sidebar">
+    <input type="text" id="sidebarFilter" placeholder="Filter chapters...">
+<details open><summary>Orientation</summary><ul>
+<li class="" data-title="chapter 0: how to use this book, and the math notation you'll see"><a href="00_how_to_use_this_book.html">Chapter 0: How to Use This Book, and the Math Notation You'll See</a></li>
+</ul></details>
+<details open><summary>Part I - Describing the World</summary><ul>
+<li class="" data-title="chapter 1: data, populations, and samples - thinking like a statistician"><a href="01_data_populations_samples.html">Chapter 1: Data, Populations, and Samples - Thinking Like a Statistician</a></li>
+<li class="" data-title="chapter 2: describing data - center, spread, and shape"><a href="02_descriptive_statistics.html">Chapter 2: Describing Data - Center, Spread, and Shape</a></li>
+<li class="" data-title="chapter 3: probability foundations - events, rules, and conditioning"><a href="03_probability_foundations.html">Chapter 3: Probability Foundations - Events, Rules, and Conditioning</a></li>
+<li class="" data-title="chapter 4: bayes' theorem - updating beliefs with evidence"><a href="04_bayes_theorem.html">Chapter 4: Bayes' Theorem - Updating Beliefs With Evidence</a></li>
+<li class="" data-title="chapter 5: random variables and discrete distributions"><a href="05_random_variables_discrete.html">Chapter 5: Random Variables and Discrete Distributions</a></li>
+<li class="" data-title="chapter 6: continuous distributions and the normal distribution"><a href="06_continuous_distributions.html">Chapter 6: Continuous Distributions and the Normal Distribution</a></li>
+<li class="" data-title="chapter 7: expectation, variance, covariance, and correlation"><a href="07_expectation_variance_covariance.html">Chapter 7: Expectation, Variance, Covariance, and Correlation</a></li>
+<li class="" data-title="chapter 8: the central limit theorem - the secret engine of statistics"><a href="08_central_limit_theorem.html">Chapter 8: The Central Limit Theorem - The Secret Engine of Statistics</a></li>
+</ul></details>
+<details open><summary>Part II - Inferring From Data</summary><ul>
+<li class="current" data-title="chapter 9: sampling and estimation"><a href="09_sampling_and_estimation.html">Chapter 9: Sampling and Estimation</a></li>
+<li class="" data-title="chapter 10: maximum likelihood estimation"><a href="10_maximum_likelihood_estimation.html">Chapter 10: Maximum Likelihood Estimation</a></li>
+<li class="" data-title="chapter 11: confidence intervals"><a href="11_confidence_intervals.html">Chapter 11: Confidence Intervals</a></li>
+<li class="" data-title="chapter 12: hypothesis testing and p-values"><a href="12_hypothesis_testing.html">Chapter 12: Hypothesis Testing and p-values</a></li>
+<li class="" data-title="chapter 13: t-tests, chi-square, and anova"><a href="13_ttests_chisquare_anova.html">Chapter 13: t-tests, Chi-square, and ANOVA</a></li>
+<li class="" data-title="chapter 14: correlation and simple linear regression"><a href="14_simple_linear_regression.html">Chapter 14: Correlation and Simple Linear Regression</a></li>
+<li class="" data-title="chapter 15: multiple regression, r², and overfitting"><a href="15_multiple_regression.html">Chapter 15: Multiple Regression, R², and Overfitting</a></li>
+</ul></details>
+<details open><summary>Part III - The Bridge Into Machine Learning</summary><ul>
+<li class="" data-title="chapter 16: bias-variance tradeoff, cross-validation, and regularization"><a href="16_bias_variance_regularization.html">Chapter 16: Bias-Variance Tradeoff, Cross-Validation, and Regularization</a></li>
+<li class="" data-title="chapter 17: bayesian statistics in depth"><a href="17_bayesian_statistics.html">Chapter 17: Bayesian Statistics in Depth</a></li>
+<li class="" data-title="chapter 18: resampling - bootstrap and permutation tests"><a href="18_resampling_methods.html">Chapter 18: Resampling - Bootstrap and Permutation Tests</a></li>
+<li class="" data-title="chapter 19: linear algebra essentials for statistics and ml"><a href="19_linear_algebra_essentials.html">Chapter 19: Linear Algebra Essentials for Statistics and ML</a></li>
+<li class="" data-title="chapter 20: multivariate statistics - covariance matrices and pca"><a href="20_multivariate_pca.html">Chapter 20: Multivariate Statistics - Covariance Matrices and PCA</a></li>
+</ul></details>
+<details open><summary>Part IV - The Statistics Inside Modern AI</summary><ul>
+<li class="" data-title="chapter 21: information theory - entropy, cross-entropy, and kl divergence"><a href="21_information_theory.html">Chapter 21: Information Theory - Entropy, Cross-Entropy, and KL Divergence</a></li>
+<li class="" data-title="chapter 22: statistical learning theory - why generalization works at all"><a href="22_statistical_learning_theory.html">Chapter 22: Statistical Learning Theory - Why Generalization Works At All</a></li>
+<li class="" data-title="chapter 23: probabilistic models and latent variables (mixtures, em)"><a href="23_latent_variable_models.html">Chapter 23: Probabilistic Models and Latent Variables (Mixtures, EM)</a></li>
+<li class="" data-title="chapter 24: markov chains and monte carlo methods"><a href="24_markov_chains_monte_carlo.html">Chapter 24: Markov Chains and Monte Carlo Methods</a></li>
+<li class="" data-title="chapter 25: the statistics hiding inside neural networks"><a href="25_statistics_in_neural_networks.html">Chapter 25: The Statistics Hiding Inside Neural Networks</a></li>
+<li class="" data-title="chapter 26: where to go next"><a href="26_where_to_go_next.html">Chapter 26: Where to Go Next</a></li>
+</ul></details>
+<details open><summary>Part V - The Statistical Frontier of Modern AI</summary><ul>
+<li class="" data-title="chapter 27: the statistical frontier - how modern ai actually uses these ideas today"><a href="27_frontier_ai_statistics.html">Chapter 27: The Statistical Frontier - How Modern AI Actually Uses These Ideas Today</a></li>
+</ul></details>
+<details open><summary>Part VI - Advanced AI Algorithms: The Statistical Engine Room</summary><ul>
+<li class="" data-title="chapter 28: diffusion models and score matching - statistics as generation"><a href="28_diffusion_models_score_matching.html">Chapter 28: Diffusion Models and Score Matching - Statistics as Generation</a></li>
+<li class="" data-title="chapter 29: transformers and attention - statistics you can calculate (almost) by hand"><a href="29_transformers_attention_statistics.html">Chapter 29: Transformers and Attention - Statistics You Can Calculate (Almost) by Hand</a></li>
+<li class="" data-title="chapter 30: reinforcement learning and policy gradients - statistics that learn from rewards"><a href="30_reinforcement_learning_policy_gradients.html">Chapter 30: Reinforcement Learning and Policy Gradients - Statistics That Learn From Rewards</a></li>
+<li class="" data-title="chapter 31: variational inference and the elbo - approximate bayes at scale"><a href="31_variational_inference_elbo.html">Chapter 31: Variational Inference and the ELBO - Approximate Bayes at Scale</a></li>
+<li class="" data-title="chapter 32: contrastive learning and infonce - statistics that learns embeddings"><a href="32_contrastive_learning_infonce.html">Chapter 32: Contrastive Learning and InfoNCE - Statistics That Learns Embeddings</a></li>
+<li class="" data-title="chapter 33: causal inference and do-calculus - when correlation is not enough"><a href="33_causal_inference_do_calculus.html">Chapter 33: Causal Inference and Do-Calculus - When Correlation Is Not Enough</a></li>
+<li class="" data-title="chapter 34: graphical models and message passing - statistics as graphs"><a href="34_graphical_models_message_passing.html">Chapter 34: Graphical Models and Message Passing - Statistics as Graphs</a></li>
+<li class="" data-title="chapter 35: optimization, generalization, and double descent - why big models work"><a href="35_optimization_generalization_double_descent.html">Chapter 35: Optimization, Generalization, and Double Descent - Why Big Models Work</a></li>
+<li class="" data-title="chapter 36: time series and modern sequence models - statistics over time"><a href="36_time_series_sequence_models.html">Chapter 36: Time Series and Modern Sequence Models - Statistics Over Time</a></li>
+</ul></details>
+<details open><summary>Part VII - Aligning AI With Human Preferences: The Statistics of RLHF</summary><ul>
+<li class="" data-title="chapter 37: preference data and reward modeling - statistics from human judgments"><a href="37_preference_data_reward_modeling.html">Chapter 37: Preference Data and Reward Modeling - Statistics From Human Judgments</a></li>
+<li class="" data-title="chapter 38: rlhf, dpo, and preference optimization - turning preferences into a loss function"><a href="38_dpo_and_preference_optimization.html">Chapter 38: RLHF, DPO, and Preference Optimization - Turning Preferences Into a Loss Function</a></li>
+<li class="" data-title="chapter 39: reinforcement learning with verifiable rewards - and how reasoning models are trained"><a href="39_rl_verifiable_rewards_reasoning.html">Chapter 39: Reinforcement Learning With Verifiable Rewards - and How Reasoning Models Are Trained</a></li>
+</ul></details>
+  </nav>
+  <div class="pane-left">
+    <div class="article" id="article">
+<h1 id="chapter-9-sampling-and-estimation">Chapter 9: Sampling and Estimation</h1>
+<h2 data-bid="b1" id="the-idea-this-chapter-builds-toward">The idea this chapter builds toward</h2>
+<p data-bid="b2">An <strong>estimator</strong> is a <em>rule/formula</em> you apply to sample data to guess at an unknown population parameter (Chapter 1's $\mu$ vs $\bar{x}$ distinction, now made rigorous). Not all estimators are equally good - this chapter gives you precise language (bias, variance, consistency, efficiency) for comparing them, which matters because an entire area of statistics and ML (from "why divide by $n-1$" in Chapter 2, to "why regularize" in Chapter 16) is really arguments about which estimator to trust.</p>
+<blockquote data-bid="b3">
+<p data-bid="b4"><strong>Intuition, in one breath:</strong> An estimator is just a recipe for guessing, and the only two things that can go wrong with a guess are being aimed at the wrong spot on average (bias) and being wild from one try to the next (variance). You want a recipe that's centered correctly and steady.</p>
+</blockquote>
+<h2 data-bid="b5" id="estimator-vs-estimate-a-small-but-important-distinction">Estimator vs. estimate - a small but important distinction</h2>
+<p data-bid="b6">An <strong>estimator</strong> is the general <em>procedure</em> (e.g., "take the sample average" - a formula, $\hat\mu = \bar X = \frac1n\sum X_i$). An <strong>estimate</strong> is the specific <em>number</em> you get when you apply that procedure to one particular dataset (e.g., "32.25," from Chapter 1's example). The hat symbol ($\hat\theta$, "theta-hat") is standard notation for "an estimator or estimate of the true parameter $\theta$."</p>
+<p data-bid="b7">Because an estimator is a formula applied to <em>random</em> sample data, the estimator itself is a <strong>random variable</strong> - it has its own distribution (its "sampling distribution"), exactly what Chapter 8's CLT described for the sample mean specifically.</p>
+<h2 data-bid="b8" id="what-makes-an-estimator-good-three-properties">What makes an estimator "good"? Three properties</h2>
+<h3 data-bid="b9" id="1-bias">1. Bias</h3>
+<p data-bid="b10">$$\text{Bias}(\hat\theta) = E[\hat\theta] - \theta$$</p>
+<p data-bid="b11"><strong>Intuition</strong>: if you ran your estimation procedure over and over on many different samples, would the <em>average</em> of all those estimates converge to the true value, or would it systematically overshoot/undershoot? An estimator is <strong>unbiased</strong> if $E[\hat\theta] = \theta$ exactly - no systematic error, even though any <em>single</em> estimate will still be off due to sampling randomness.</p>
+<p data-bid="b12">This is exactly why Chapter 2 divides sample variance by $n-1$ instead of $n$: dividing by plain $n$ produces an estimator whose <em>average</em> value across many samples is systematically a bit too small (biased low) - dividing by $n-1$ corrects that bias to exactly zero. You can now see "Bessel's correction" for what it really is: a bias-correction derived directly from this chapter's definition.</p>
+<h3 data-bid="b13" id="2-variance-of-the-estimator">2. Variance (of the estimator)</h3>
+<p data-bid="b14">How much does the estimate bounce around from sample to sample (exactly what Chapter 1's visualization showed, and what Chapter 8's standard error, $\sigma/\sqrt n$, quantifies for the sample mean specifically). Low variance means your estimates are consistent/stable across different samples, even if (hypothetically) biased.</p>
+<h3 data-bid="b15" id="3-the-bias-variance-tradeoff-a-first-preview">3. The bias-variance tradeoff - a first preview</h3>
+<p data-bid="b16">You generally cannot minimize bias and variance simultaneously beyond a point - pushing one down can push the other up. A silly but illustrative extreme estimator: "always guess the number 50, no matter what data you see." This has zero variance (always the same answer!) but is almost certainly badly biased (unless the truth happens to be exactly 50). Meanwhile $\bar X$ has zero bias but nonzero variance. Which is "better" depends on the relative sizes of the two errors - a question we'll return to with real teeth in Chapter 16, where this exact tradeoff explains overfitting vs underfitting in machine learning models.</p>
+<img class="has-rail" data-figid="f1" alt="Four dartboards illustrating low/high bias crossed with low/high variance, with the bullseye representing the true value being estimated." src="../images/ch09_bias_variance_dartboard.png" /><p data-bid="b17" class="img-caption has-rail" data-figid="f1"><em>The classic picture for this tradeoff: the bullseye is the true value you're trying to hit. <strong>Bias</strong> is whether your throws are centered on the bullseye on average (top row vs. bottom row). <strong>Variance</strong> is how scattered your throws are around wherever they're centered (left column vs. right column). Top-left is what every estimator wants to be; the other three panels are the specific, distinct ways an estimator can fail - and they require different fixes, which is exactly why "it's a little off" is never a complete diagnosis without knowing whether the problem is bias, variance, or both.</em></p>
+<h3 data-bid="b18" id="4-consistency">4. Consistency</h3>
+<p data-bid="b19">An estimator is <strong>consistent</strong> if, as sample size $n \to \infty$, the estimate converges to the true value with probability approaching 1 (i.e., with enough data, you're essentially guaranteed to get arbitrarily close to the truth). $\bar X$ is consistent - this is a direct consequence of the CLT's shrinking standard error ($\sigma/\sqrt n \to 0$ as $n \to \infty$) combined with being unbiased.</p>
+<h3 data-bid="b20" id="reconstructing-it-yourself-proving-bias-and-variance-are-the-only-two-ways-an-estimators-error-can-arise">Reconstructing it yourself - proving bias and variance are the <em>only</em> two ways an estimator's error can arise</h3>
+<p data-bid="b21">This chapter has been asserting that an estimator's quality comes down to bias and variance, as if those were two independent, separately-chosen properties. <strong>If your guess is that there's a single formula that mechanically forces total error to split into exactly those two pieces and nothing else - derive it.</strong> Define the estimator's <strong>mean squared error</strong>, $MSE(\hat\theta) = E[(\hat\theta-\theta)^2]$ - the average squared gap between your estimator and the true value $\theta$, across many hypothetical repeated samples. Add and subtract $E[\hat\theta]$ inside the square (a classic "add zero in a useful form" trick used constantly in statistics proofs):</p>
+<p data-bid="b22">$$(\hat\theta - \theta)^2 = \big((\hat\theta - E[\hat\theta]) + (E[\hat\theta]-\theta)\big)^2$$</p>
+<p data-bid="b23">Expand this as $(a+b)^2 = a^2+2ab+b^2$ with $a=\hat\theta-E[\hat\theta]$ and $b=E[\hat\theta]-\theta$, then take $E[\cdot]$ of the whole thing:</p>
+<p data-bid="b24">$$MSE(\hat\theta) = E\big[(\hat\theta-E[\hat\theta])^2\big] + 2\,E[\hat\theta-E[\hat\theta]]\cdot(E[\hat\theta]-\theta) + (E[\hat\theta]-\theta)^2$$</p>
+<p data-bid="b25">The middle term vanishes completely: $E[\hat\theta - E[\hat\theta]] = E[\hat\theta]-E[\hat\theta] = 0$ (an estimator's deviation from its own average is, on average, exactly zero - by definition of what "average" means), so that whole middle piece is multiplied by zero. What survives is:</p>
+<p data-bid="b26">$$MSE(\hat\theta) = \underbrace{E\big[(\hat\theta-E[\hat\theta])^2\big]}_{\text{Variance}} + \underbrace{(E[\hat\theta]-\theta)^2}_{\text{Bias}^2}$$</p>
+<p data-bid="b27"><strong>Total error is forced, by pure algebra, to decompose into exactly variance plus squared bias - there is no third term, and there is no way for any other kind of error to sneak in.</strong> This is the identical algebraic move (add-and-subtract-the-mean, expand, watch the cross term vanish) that produces the fuller bias-variance-plus-irreducible-error decomposition for a full predictive model in Chapter 16 - same proof, just applied one level up, to a trained model's predictions instead of a single estimator's value.</p>
+<h2 data-bid="b28" id="good-vs-bad-estimators-a-concrete-comparison">Good vs. bad estimators: a concrete comparison</h2>
+<p data-bid="b29">Suppose you want to estimate the "center" of a dataset. Candidate estimators: the sample mean, the sample median, or "just the first data point you happened to collect."</p>
+<ul>
+<li data-bid="b30"><strong>Sample mean</strong>: unbiased for a symmetric distribution, low variance when $n$ is large (shrinks like $1/\sqrt n$), consistent. Generally a strong default.</li>
+<li data-bid="b31"><strong>Sample median</strong>: also often unbiased for symmetric distributions, slightly <em>higher</em> variance than the mean when data is close to Normal, but far more <strong>robust</strong> to outliers (recall Chapter 2's income example) - so the "better" choice depends on whether your data has heavy outliers.</li>
+<li data-bid="b32"><strong>"First data point you collected"</strong>: technically unbiased (its expected value equals the population mean, since it's a single random draw from the population)! But its variance is $\sigma^2$ - the <em>full</em> population variance, not shrunk at all by averaging, and it does <strong>not</strong> improve as you collect more data (collecting more data just means you're ignoring most of it). This is <strong>inconsistent</strong> in practice despite technically being unbiased - a good illustration that "unbiased" alone is not enough to make an estimator good; you need low variance (or consistency) too.</li>
+</ul>
+<h2 data-bid="b33" id="the-standard-error-generalized">The standard error, generalized</h2>
+<p data-bid="b34">Chapter 8 gave you the standard error of the mean specifically: $SE(\bar X) = \sigma/\sqrt n$. More generally, the <strong>standard error of an estimator</strong> is just the standard deviation of its sampling distribution - "how much does this specific estimator bounce around across different samples of this size." Every estimator has its own standard error formula; the mean's happens to be the clean $\sigma/\sqrt n$ one because of the CLT, but other estimators (like the median, or a regression coefficient in Chapter 14) have their own, sometimes more complex, standard error formulas. The <em>concept</em> - "quantify how much this number would change if we re-sampled" - is universal and is exactly what feeds into confidence intervals (Chapter 11).</p>
+<h2 data-bid="b35" id="the-backstory-ronald-fisher-turns-estimation-into-a-rigorous-science">The backstory - Ronald Fisher turns "estimation" into a rigorous science</h2>
+<p data-bid="b36">Before the 1920s, statisticians used estimators somewhat informally - "take the average," "take the middle value" - without a crisp, general theory for comparing <em>why</em> one choice might be better than another. <strong>Ronald A. Fisher</strong>, working largely in the 1910s-20s (notably while analyzing decades of agricultural crop-yield data at the Rothamsted Experimental Station in England - the same work that leads directly into ANOVA in Chapter 13), set out to formalize exactly this comparison problem. He introduced much of the vocabulary you just learned - consistency, efficiency, and especially <strong>sufficiency</strong> (a related idea: does an estimator retain <em>all</em> the useful information in the data, or does it throw some away?) - as part of building statistics into a mathematically rigorous discipline rather than a bag of ad hoc recipes.</p>
+<p data-bid="b37">Fisher's motivating puzzle, worth sitting with because it's a genuinely good intuition-builder: given two different <em>unbiased</em> estimators for the same parameter, how do you decide which is "better" if both are correct on average? His answer was variance - of two unbiased estimators, prefer the one that varies <em>less</em> across hypothetical repeated samples (this is literally the definition of <strong>efficiency</strong>: an "efficient" estimator is the lowest-variance one among the unbiased options). This is exactly why, when choosing between the sample mean and sample median as an estimator of a Normal distribution's center (both unbiased for symmetric data), statisticians default to the mean - it has strictly lower variance for Normal data specifically (though, as the "income" example in Chapter 2 hints, the median's extra variance is often a worthwhile price to pay for robustness against outliers in non-Normal, real-world data - a tradeoff Fisher's clean theoretical framework doesn't automatically resolve for you, and still requires human judgment about your actual data).</p>
+<h2 data-bid="b38" id="why-this-matters-for-ml-directly">Why this matters for ML directly</h2>
+<p data-bid="b39">Every number a model outputs or reports - a trained weight, a measured test accuracy, an estimated feature importance - is an <em>estimate</em> with its own bias and variance, even though ML practice often forgets to report it. "This model gets 94% accuracy" is itself an estimate of the model's <em>true</em> accuracy on the full population of possible inputs, with its own standard error depending on test-set size - reporting a bare accuracy number without any sense of its uncertainty is exactly the mistake this chapter is designed to prevent you from making unknowingly.</p>
+<h2 data-bid="b40" id="figures">Figures</h2>
+<img class="has-rail" data-figid="f2" alt="Sampling distributions of three estimators (sample mean, sample median, first data point) across three sample sizes. The red dashed line marks the true population mean -- compare how tightly each estimator clusters around it." src="../images/ch09_sampling_and_estimation_fig1.png" /><p data-bid="b41" class="img-caption has-rail" data-figid="f2"><em>Sampling distributions of three estimators (sample mean, sample median, first data point) across three sample sizes. The red dashed line marks the true population mean -- compare how tightly each estimator clusters around it.</em></p>
+<h2 data-bid="b42" id="run-it-yourself">Run it yourself</h2>
+<p data-bid="b43"><code>book/code/ch09_sampling_and_estimation.py</code> compares the three "center" estimators above (mean, median, first-data-point) across many repeated samples from a known population, computing each estimator's empirical bias and variance directly, and visualizing how each one's sampling distribution narrows (or doesn't) as sample size grows.</p>
+<p data-bid="b44"re><code class="language-bash">python book/code/ch09_sampling_and_estimation.py
+</code></pre>
+<h2 data-bid="b45" id="why-this-matters-in-ai-and-in-everyday-life">Why This Matters - In AI and In Everyday Life</h2>
+<p data-bid="b46"><strong>In AI / machine learning:</strong></p>
+<ul>
+<li data-bid="b47"><strong>Judging a reported model metric</strong>: "91% accuracy" is an estimator's output with its own bias and variance -- this chapter is exactly what should make you ask what sample size and sampling procedure produced that number.</li>
+<li data-bid="b48"><strong>Biased training data as a biased estimator</strong>: if your labeled training data was collected in a way that systematically over- or under-represents certain cases, your model's learned parameters inherit that bias, in the precise sense defined in this chapter.</li>
+<li data-bid="b49"><strong>Estimator variance in LLM evaluation</strong>: every benchmark score for a transformer is a sample estimate whose standard error shrinks like $1/\sqrt n$ - which is exactly why leaderboards built on a few hundred evaluation prompts have wide error bars, and why a two-point gap between two models can be pure sampling noise rather than a real capability difference.</li>
+<li data-bid="b50"><strong>Bias-variance thinking in fine-tuning and regularization</strong>: weight decay and early stopping during gradient-descent training are literally attempts to trade a small amount of bias for a large reduction in estimator variance, this chapter's central decomposition reappearing one level up at the level of trained model parameters.</li>
+</ul>
+<p data-bid="b51"><strong>In everyday, non-AI life:</strong></p>
+<ul>
+<li data-bid="b52"><strong>Choosing between average and median home price</strong>: realtors and the median-vs-mean choice directly reflects which estimator (Chapter 2's robustness argument, Chapter 9's variance/bias tradeoff) better represents "typical."</li>
+<li data-bid="b53"><strong>Government economic statistics</strong>: unemployment rate and inflation figures are estimators computed from surveys, each with a known margin of error that government statisticians report alongside the headline number.</li>
+</ul>
+<h2 data-bid="b54" id="worked-example-by-hand-larger">Worked example - by hand, larger</h2>
+<p data-bid="b55">A team deploys a spam classifier and wants to estimate its true accuracy on the whole population of incoming email. They hold out a test set of $n = 25$ labeled emails and count how many the model gets right.</p>
+<p data-bid="b56">This is a case where the estimator is a <em>proportion</em> and we can compute its bias and variance directly. Let $X_i = 1$ if email $i$ is classified correctly, $0$ otherwise, with $X_i \sim \text{Bernoulli}(p)$ where $p$ is the unknown true accuracy. The sample proportion is $\hat p = \frac{1}{n}\sum X_i$. Suppose the test set yields 22 correct out of 25, so $\hat p = 22/25 = 0.88$.</p>
+<p data-bid="b57"><strong>Step 1 - is $\hat p$ unbiased?</strong> Since $E[X_i] = p$, linearity of expectation gives $E[\hat p] = \frac{1}{n}\sum E[X_i] = \frac{1}{n}(np) = p$. Bias $= E[\hat p] - p = 0$ exactly. So $\hat p$ is unbiased for the true accuracy $p$ no matter what $p$ is.</p>
+<p data-bid="b58"><strong>Step 2 - what is its variance?</strong> For independent Bernoulli trials, $\text{Var}(X_i) = p(1-p)$, so $\text{Var}(\hat p) = \frac{1}{n^2}(n\,p(1-p)) = \frac{p(1-p)}{n}$. The standard error is the square root: $SE(\hat p) = \sqrt{\frac{p(1-p)}{n}}$. Plugging in the estimate, $SE \approx \sqrt{\frac{0.88 \times 0.12}{25}} = \sqrt{\frac{0.1056}{25}} = \sqrt{0.004224} \approx 0.065$.</p>
+<p data-bid="b59"><strong>Step 3 - total error via the MSE decomposition.</strong> From this chapter's proof, $MSE = \text{Variance} + \text{Bias}^2 = 0.004224 + 0 = 0.004224$, i.e. an RMSE of about 0.065 accuracy points. So "88% accuracy" is really "88% ± 6.5 percentage points" - a huge band driven entirely by $n=25$ being small. Quadrupling the test set to $n=100$ would halve that standard error to about 0.032, because $SE$ shrinks like $1/\sqrt n$.</p>
+<p data-bid="b60">Contrast this with a <em>biased</em> estimator of the same quantity: if the test set had been built by sampling only "easy" emails, the errors would no longer be Bernoulli$(p)$ for the real population, and $E[\hat p] \neq p$ - the estimate would be systematically high regardless of how large $n$ grew. <strong>In one line: an unbiased estimator's error shrinks purely with sample size, while a biased one keeps its built-in offset forever, which is why "how big was the test set?" and "was it sampled fairly?" are two different questions you must both ask.</strong> Takeaway: report both the point estimate and its standard error, and remember that increasing $n$ fixes only the variance half of the error - never the bias half.</p>
+<h2 data-bid="b61" id="check-your-understanding">Check your understanding</h2>
+<ul>
+<li data-bid="b62">Explain why "always guess 50" has zero variance but is (usually) badly biased, and why "sample mean" is the reverse tradeoff.</li>
+<li data-bid="b63">Why is the "first data point" estimator unbiased yet still a bad choice in practice?</li>
+<li data-bid="b64">If someone reports "our model's accuracy is 91%" with no other information, what question from this chapter should you immediately ask?</li>
+</ul>
+<h2 data-bid="b65" id="exercises">Exercises</h2>
+<h3 data-bid="b66" id="exercise-1-bias-of-divide-by-n-variance">Exercise 1 - Bias of "divide by n" variance</h3>
+<p data-bid="b67">A tiny dataset of $n = 3$ latency measurements (in ms) is $[10, 12, 14]$. Consider the estimator $s^2_n = \frac{1}{n}\sum(X_i - \bar X)^2$ (dividing by $n$, not $n-1$). The true population variance is $\sigma^2$. Show that the bias of $s^2_n$ is $-\frac{1}{n}\sigma^2$, and compute the actual bias for this dataset if $\sigma^2 = 4$.</p>
+<details><summary>Show solution</summary>
+
+It is a standard result (and the reason for Bessel's correction) that $E\big[\sum(X_i-\bar X)^2\big] = (n-1)\sigma^2$. Therefore
+
+$$E[s^2_n] = E\left[\frac{1}{n}\sum(X_i-\bar X)^2\right] = \frac{(n-1)\sigma^2}{n} = \sigma^2\left(1 - \frac{1}{n}\right)$$
+
+so the bias is
+
+$$\text{Bias}(s^2_n) = E[s^2_n] - \sigma^2 = \sigma^2\left(1 - \frac{1}{n}\right) - \sigma^2 = -\frac{\sigma^2}{n}.$$
+
+For $n=3$ and $\sigma^2 = 4$: bias $= -\frac{4}{3} \approx -1.333$. The estimator systematically *underestimates* the true variance. (As a numeric sanity check, the sample values give $\bar X = 12$ and $\sum(X_i-\bar X)^2 = 4+0+4 = 8$, so $s^2_n = 8/3 \approx 2.667$ versus the unbiased $s^2 = 8/2 = 4$ - the $n$ divisor is smaller by exactly the $\frac{1}{n}$ factor.)
+
+</details>
+
+<h3 data-bid="b68" id="exercise-2-does-more-data-help-a-biased-estimator">Exercise 2 - Does more data help a biased estimator?</h3>
+<p data-bid="b69">A model's accuracy is measured on a benchmark that, by construction, systematically omits a hard class of inputs. The resulting estimator has bias $+0.03$ (three accuracy points too high) and variance $\frac{p(1-p)}{n}$ with $p=0.9$. As $n \to \infty$, what does the MSE approach? Does the estimate ever become trustworthy?</p>
+<details><summary>Show solution</summary>
+
+The MSE decomposition is $MSE = \text{Variance} + \text{Bias}^2$. Here
+
+$$MSE = \frac{p(1-p)}{n} + (0.03)^2 = \frac{0.09}{n} + 0.0009.$$
+
+As $n \to \infty$, the variance term $\frac{0.09}{n} \to 0$, but the bias term stays pinned at $0.0009$. So
+
+$$MSE \to 0.0009, \qquad \sqrt{MSE} \to 0.03.$$
+
+The RMSE floors out at 0.03 - three accuracy points - no matter how much data you collect. The estimator is *inconsistent*: it converges to the wrong value. More data shrinks the variance but does nothing to the bias, so collecting a million examples on a biased benchmark just gives you a very precise wrong answer. The fix is not more data but a better sampling procedure.
+
+</details>
+
+<h3 data-bid="b70" id="exercise-3-conceptual-why-the-first-data-point-is-a-trap">Exercise 3 - Conceptual: why the "first data point" is a trap</h3>
+<p data-bid="b71">A colleague proposes estimating a model's average inference latency by timing a <em>single</em> request, arguing "it's an unbiased draw from the real distribution, so it's a valid estimator." In one or two sentences each, state what is right and what is fatal about this argument, and name the property the estimator lacks.</p>
+<details><summary>Show solution</summary>
+
+What is right: the single draw is technically unbiased - its expected value equals the population mean latency, because it is a genuine random sample of size one.
+
+What is fatal: its variance is the *entire* population variance $\sigma^2$, with no $1/\sqrt n$ shrinkage, and it does not improve as you collect more requests, because it throws all the extra data away. It also has no reduction in error from repeated use unless you re-draw each time (in which case you are just averaging, i.e. using the sample mean anyway).
+
+The missing property: **consistency** - it does not converge to the true mean as sample size grows. Unbiasedness alone is not enough; you also need low variance or consistency, which is exactly the lesson this chapter's "first data point" estimator was built to teach.
+
+</details>
+
+<h2 data-bid="b72" id="whats-next">What's next</h2>
+<p data-bid="b73">Chapter 10 introduces <strong>Maximum Likelihood Estimation</strong> - a single, general <em>principle</em> for constructing good estimators (rather than guessing formulas like "take the average" ad hoc), which turns out to be the exact same mathematical object as the "loss function" you minimize when training almost any machine learning model.</p>
+    </div>
+    <div class="navfooter">
+      <span><a href="08_central_limit_theorem.html">&larr; Previous chapter</a></span>
+      <span><a href="10_maximum_likelihood_estimation.html">Next chapter &rarr;</a></span>
+    </div>
+  </div>
+  <div class="pane-right">
+    <h4>Figures in this chapter</h4>
+    <div id="railContent"></div>
+  </div>
+</div>
+
+<!-- floating selection toolbar -->
+<div id="selToolbar">
+  <button data-color="yellow" title="Mark interesting">🟡</button>
+  <button data-color="green" title="Mark understood">🟢</button>
+  <button data-color="red" title="Mark confusing">🔴</button>
+  <button data-color="blue" title="Mark to review later">🔵</button>
+  <button id="btnAddNote" title="Highlight + add a note">📝</button>
+</div>
+
+<!-- note edit popup -->
+<div id="notePopup">
+  <textarea placeholder="Write a note to yourself..."></textarea>
+  <div class="row">
+    <button class="danger" id="btnDeleteHl">Remove highlight</button>
+    <div>
+      <button id="btnCloseNote">Close</button>
+      <button class="primary" id="btnSaveNote">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- notes side panel -->
+<div id="notesOverlay"></div>
+<div id="notesPanel">
+  <div class="header">
+    <b>My Notes - this page</b>
+    <button class="iconbtn" id="btnCloseNotesPanel">✕</button>
+  </div>
+  <div class="list" id="notesList"></div>
+  <div class="footer">
+    <button id="btnExportNotes">⬇ Export all notes</button>
+    <button id="btnImportNotes">⬆ Import notes</button>
+    <input type="file" id="importFile" accept="application/json" style="display:none;">
+  </div>
+</div>
+
+<script src="../assets/app.js"></script>
+</body>
+</html>

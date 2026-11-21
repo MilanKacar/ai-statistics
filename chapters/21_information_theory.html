@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 21: Information Theory - Entropy, Cross-Entropy, and KL Divergence</title>
+<link rel="stylesheet" href="../assets/app.css">
+<script>
+window.MathJax = { tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']], processEscapes: true } };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+</head>
+<body data-chapter="21_information_theory">
+<div class="topbar">
+  <div class="left">
+    <button class="iconbtn hamburger" id="btnSidebarToggle">☰</button>
+    <a href="../index.html">Statistics for AI</a>
+  </div>
+  <div class="right">
+    <button class="iconbtn" id="btnNotesPanel">📒 My Notes</button>
+  </div>
+</div>
+<div id="sidebarOverlay"></div>
+<div class="layout">
+  <nav class="sidebar" id="sidebar">
+    <input type="text" id="sidebarFilter" placeholder="Filter chapters...">
+<details open><summary>Orientation</summary><ul>
+<li class="" data-title="chapter 0: how to use this book, and the math notation you'll see"><a href="00_how_to_use_this_book.html">Chapter 0: How to Use This Book, and the Math Notation You'll See</a></li>
+</ul></details>
+<details open><summary>Part I - Describing the World</summary><ul>
+<li class="" data-title="chapter 1: data, populations, and samples - thinking like a statistician"><a href="01_data_populations_samples.html">Chapter 1: Data, Populations, and Samples - Thinking Like a Statistician</a></li>
+<li class="" data-title="chapter 2: describing data - center, spread, and shape"><a href="02_descriptive_statistics.html">Chapter 2: Describing Data - Center, Spread, and Shape</a></li>
+<li class="" data-title="chapter 3: probability foundations - events, rules, and conditioning"><a href="03_probability_foundations.html">Chapter 3: Probability Foundations - Events, Rules, and Conditioning</a></li>
+<li class="" data-title="chapter 4: bayes' theorem - updating beliefs with evidence"><a href="04_bayes_theorem.html">Chapter 4: Bayes' Theorem - Updating Beliefs With Evidence</a></li>
+<li class="" data-title="chapter 5: random variables and discrete distributions"><a href="05_random_variables_discrete.html">Chapter 5: Random Variables and Discrete Distributions</a></li>
+<li class="" data-title="chapter 6: continuous distributions and the normal distribution"><a href="06_continuous_distributions.html">Chapter 6: Continuous Distributions and the Normal Distribution</a></li>
+<li class="" data-title="chapter 7: expectation, variance, covariance, and correlation"><a href="07_expectation_variance_covariance.html">Chapter 7: Expectation, Variance, Covariance, and Correlation</a></li>
+<li class="" data-title="chapter 8: the central limit theorem - the secret engine of statistics"><a href="08_central_limit_theorem.html">Chapter 8: The Central Limit Theorem - The Secret Engine of Statistics</a></li>
+</ul></details>
+<details open><summary>Part II - Inferring From Data</summary><ul>
+<li class="" data-title="chapter 9: sampling and estimation"><a href="09_sampling_and_estimation.html">Chapter 9: Sampling and Estimation</a></li>
+<li class="" data-title="chapter 10: maximum likelihood estimation"><a href="10_maximum_likelihood_estimation.html">Chapter 10: Maximum Likelihood Estimation</a></li>
+<li class="" data-title="chapter 11: confidence intervals"><a href="11_confidence_intervals.html">Chapter 11: Confidence Intervals</a></li>
+<li class="" data-title="chapter 12: hypothesis testing and p-values"><a href="12_hypothesis_testing.html">Chapter 12: Hypothesis Testing and p-values</a></li>
+<li class="" data-title="chapter 13: t-tests, chi-square, and anova"><a href="13_ttests_chisquare_anova.html">Chapter 13: t-tests, Chi-square, and ANOVA</a></li>
+<li class="" data-title="chapter 14: correlation and simple linear regression"><a href="14_simple_linear_regression.html">Chapter 14: Correlation and Simple Linear Regression</a></li>
+<li class="" data-title="chapter 15: multiple regression, r², and overfitting"><a href="15_multiple_regression.html">Chapter 15: Multiple Regression, R², and Overfitting</a></li>
+</ul></details>
+<details open><summary>Part III - The Bridge Into Machine Learning</summary><ul>
+<li class="" data-title="chapter 16: bias-variance tradeoff, cross-validation, and regularization"><a href="16_bias_variance_regularization.html">Chapter 16: Bias-Variance Tradeoff, Cross-Validation, and Regularization</a></li>
+<li class="" data-title="chapter 17: bayesian statistics in depth"><a href="17_bayesian_statistics.html">Chapter 17: Bayesian Statistics in Depth</a></li>
+<li class="" data-title="chapter 18: resampling - bootstrap and permutation tests"><a href="18_resampling_methods.html">Chapter 18: Resampling - Bootstrap and Permutation Tests</a></li>
+<li class="" data-title="chapter 19: linear algebra essentials for statistics and ml"><a href="19_linear_algebra_essentials.html">Chapter 19: Linear Algebra Essentials for Statistics and ML</a></li>
+<li class="" data-title="chapter 20: multivariate statistics - covariance matrices and pca"><a href="20_multivariate_pca.html">Chapter 20: Multivariate Statistics - Covariance Matrices and PCA</a></li>
+</ul></details>
+<details open><summary>Part IV - The Statistics Inside Modern AI</summary><ul>
+<li class="current" data-title="chapter 21: information theory - entropy, cross-entropy, and kl divergence"><a href="21_information_theory.html">Chapter 21: Information Theory - Entropy, Cross-Entropy, and KL Divergence</a></li>
+<li class="" data-title="chapter 22: statistical learning theory - why generalization works at all"><a href="22_statistical_learning_theory.html">Chapter 22: Statistical Learning Theory - Why Generalization Works At All</a></li>
+<li class="" data-title="chapter 23: probabilistic models and latent variables (mixtures, em)"><a href="23_latent_variable_models.html">Chapter 23: Probabilistic Models and Latent Variables (Mixtures, EM)</a></li>
+<li class="" data-title="chapter 24: markov chains and monte carlo methods"><a href="24_markov_chains_monte_carlo.html">Chapter 24: Markov Chains and Monte Carlo Methods</a></li>
+<li class="" data-title="chapter 25: the statistics hiding inside neural networks"><a href="25_statistics_in_neural_networks.html">Chapter 25: The Statistics Hiding Inside Neural Networks</a></li>
+<li class="" data-title="chapter 26: where to go next"><a href="26_where_to_go_next.html">Chapter 26: Where to Go Next</a></li>
+</ul></details>
+<details open><summary>Part V - The Statistical Frontier of Modern AI</summary><ul>
+<li class="" data-title="chapter 27: the statistical frontier - how modern ai actually uses these ideas today"><a href="27_frontier_ai_statistics.html">Chapter 27: The Statistical Frontier - How Modern AI Actually Uses These Ideas Today</a></li>
+</ul></details>
+<details open><summary>Part VI - Advanced AI Algorithms: The Statistical Engine Room</summary><ul>
+<li class="" data-title="chapter 28: diffusion models and score matching - statistics as generation"><a href="28_diffusion_models_score_matching.html">Chapter 28: Diffusion Models and Score Matching - Statistics as Generation</a></li>
+<li class="" data-title="chapter 29: transformers and attention - statistics you can calculate (almost) by hand"><a href="29_transformers_attention_statistics.html">Chapter 29: Transformers and Attention - Statistics You Can Calculate (Almost) by Hand</a></li>
+<li class="" data-title="chapter 30: reinforcement learning and policy gradients - statistics that learn from rewards"><a href="30_reinforcement_learning_policy_gradients.html">Chapter 30: Reinforcement Learning and Policy Gradients - Statistics That Learn From Rewards</a></li>
+<li class="" data-title="chapter 31: variational inference and the elbo - approximate bayes at scale"><a href="31_variational_inference_elbo.html">Chapter 31: Variational Inference and the ELBO - Approximate Bayes at Scale</a></li>
+<li class="" data-title="chapter 32: contrastive learning and infonce - statistics that learns embeddings"><a href="32_contrastive_learning_infonce.html">Chapter 32: Contrastive Learning and InfoNCE - Statistics That Learns Embeddings</a></li>
+<li class="" data-title="chapter 33: causal inference and do-calculus - when correlation is not enough"><a href="33_causal_inference_do_calculus.html">Chapter 33: Causal Inference and Do-Calculus - When Correlation Is Not Enough</a></li>
+<li class="" data-title="chapter 34: graphical models and message passing - statistics as graphs"><a href="34_graphical_models_message_passing.html">Chapter 34: Graphical Models and Message Passing - Statistics as Graphs</a></li>
+<li class="" data-title="chapter 35: optimization, generalization, and double descent - why big models work"><a href="35_optimization_generalization_double_descent.html">Chapter 35: Optimization, Generalization, and Double Descent - Why Big Models Work</a></li>
+<li class="" data-title="chapter 36: time series and modern sequence models - statistics over time"><a href="36_time_series_sequence_models.html">Chapter 36: Time Series and Modern Sequence Models - Statistics Over Time</a></li>
+</ul></details>
+<details open><summary>Part VII - Aligning AI With Human Preferences: The Statistics of RLHF</summary><ul>
+<li class="" data-title="chapter 37: preference data and reward modeling - statistics from human judgments"><a href="37_preference_data_reward_modeling.html">Chapter 37: Preference Data and Reward Modeling - Statistics From Human Judgments</a></li>
+<li class="" data-title="chapter 38: rlhf, dpo, and preference optimization - turning preferences into a loss function"><a href="38_dpo_and_preference_optimization.html">Chapter 38: RLHF, DPO, and Preference Optimization - Turning Preferences Into a Loss Function</a></li>
+<li class="" data-title="chapter 39: reinforcement learning with verifiable rewards - and how reasoning models are trained"><a href="39_rl_verifiable_rewards_reasoning.html">Chapter 39: Reinforcement Learning With Verifiable Rewards - and How Reasoning Models Are Trained</a></li>
+</ul></details>
+  </nav>
+  <div class="pane-left">
+    <div class="article" id="article">
+<h1 id="chapter-21-information-theory-entropy-cross-entropy-and-kl-divergence">Chapter 21: Information Theory - Entropy, Cross-Entropy, and KL Divergence</h1>
+<h2 data-bid="b1" id="the-idea-this-chapter-builds-toward">The idea this chapter builds toward</h2>
+<p data-bid="b2">This chapter answers a deceptively simple question: can you <em>measure</em> uncertainty and information with an actual number, the way you measure length or weight? The answer - <strong>entropy</strong> - turns out to have a remarkably clean derivation from almost nothing but common sense, and it directly explains why <strong>cross-entropy loss</strong> (which you first derived as Bernoulli MLE in Chapter 10) is named the way it is, and why it behaves the way it does as a loss function throughout deep learning.</p>
+<blockquote data-bid="b3">
+<p data-bid="b4"><strong>Intuition, in one breath:</strong> Surprising news carries more information than predictable news, and entropy is just "how surprising, on average, is this thing?" Compression and cross-entropy loss are two faces of the same idea: a message you can already predict takes fewer bits, and a model that predicts well is surprised less.</p>
+</blockquote>
+<h2 data-bid="b5" id="deriving-information-content-from-scratch-the-thought-process">Deriving "information content" from scratch - the thought process</h2>
+<p data-bid="b6">Claude Shannon's starting question (1948): if someone tells you an event happened, how much "information" did that message actually convey? Shannon reasoned about what properties a sensible measure of information should have, and derived the formula from those requirements rather than guessing it:</p>
+<ol>
+<li data-bid="b7"><strong>A certain event should convey zero information.</strong> If I tell you "the sun rose today," you've learned nothing new - $P=1$ should map to information $=0$.</li>
+<li data-bid="b8"><strong>A rarer event should convey more information than a common one.</strong> Being told "you won the lottery" ($P$ tiny) is far more informative/surprising than "it's Tuesday" ($P$ large, if it's actually Tuesday). So information content should be a <em>decreasing</em> function of probability.</li>
+<li data-bid="b9"><strong>Information from independent events should add up.</strong> If two unrelated coin flips both come up heads, the total information learned should be the sum of what each flip individually told you - not some more complicated combination.</li>
+</ol>
+<p data-bid="b10">Requirement 3 is the one that pins down the exact mathematical form. Recall from Chapter 3 that for <em>independent</em> events, probabilities <strong>multiply</strong>: $P(A\text{ and }B) = P(A)P(B)$. But requirement 3 demands that information content <strong>add</strong>: $I(A\text{ and }B) = I(A)+I(B)$. You need a function that turns multiplication into addition - and from Chapter 0, you already know exactly which function does that: the <strong>logarithm</strong> ($\log(ab)=\log(a)+\log(b)$). Combined with requirement 2 (information should <em>decrease</em> as probability increases, while log of a probability between 0 and 1 is negative and grows more negative as probability shrinks toward 0), the only sensible, consistent choice is:</p>
+<p data-bid="b11">$$I(x) = -\log P(x) = \log\frac{1}{P(x)}$$</p>
+<p data-bid="b12">This single, short derivation - "requirement 3 forces a logarithm" - is one of the most elegant small proofs in all of applied mathematics, and it's worth re-reading until the "why log" question feels fully answered rather than asserted.</p>
+<h3 data-bid="b13" id="units-bits-vs-nats">Units: bits vs. nats</h3>
+<p data-bid="b14">If you use $\log_2$ (base 2), information is measured in <strong>bits</strong> - literally the number of yes/no binary questions needed, on average, to pin down the outcome (an event with $P=1/2$, like a fair coin flip, carries exactly $-\log_2(1/2)=1$ bit, matching the intuition that one well-chosen yes/no question resolves it). If you use the <strong>natural log</strong> ($\ln$, base $e$), the unit is called <strong>nats</strong> - this is the convention almost universally used in machine learning (because $\ln$ is the natural partner for calculus/gradients used in training, exactly as Chapter 0 flagged for log-likelihoods), so when you see "entropy" or "cross-entropy" reported in a deep learning context, it's typically in nats unless stated otherwise.</p>
+<h2 data-bid="b15" id="entropy-the-expected-information-content-of-a-whole-distribution">Entropy - the <em>expected</em> information content of a whole distribution</h2>
+<p data-bid="b16">A single event's information content, $-\log P(x)$, is interesting, but what you usually want is a summary for an <em>entire distribution</em> - how unpredictable is this random variable, on average? This is exactly an expectation (Chapter 7): weight each outcome's information content by its own probability, and sum:</p>
+<p data-bid="b17">$$H(X) = -\sum_x P(x)\log P(x) = E\big[-\log P(X)\big]$$</p>
+<p data-bid="b18"><strong>Intuition, with worked examples:</strong> A fair coin ($P(H)=P(T)=0.5$): $H = -(0.5\log0.5 + 0.5\log0.5) = -\log0.5 = \log 2 = 1$ bit - maximally unpredictable for a two-outcome variable, and indeed entropy is <em>maximized</em> exactly when all outcomes are equally likely (spread evenly, nothing to exploit to guess better than chance). A heavily biased coin ($P(H)=0.99$, $P(T)=0.01$): $H = -(0.99\log0.99+0.01\log0.01) \approx 0.08$ bits - very low entropy, because you can predict the outcome ("heads," almost always) with high confidence most of the time, so on average very little information is conveyed by observing the actual result. <strong>Entropy is, in a precise mathematical sense, a measure of how unpredictable a distribution is</strong> - zero entropy for a fully deterministic (certain) outcome, maximum entropy for a perfectly uniform distribution over its possible outcomes.</p>
+<h2 data-bid="b19" id="cross-entropy-comparing-a-true-distribution-to-a-models-beliefs">Cross-entropy - comparing a true distribution to a model's beliefs</h2>
+<p data-bid="b20">Entropy $H(X)$ assumes you know the <em>true</em> distribution $P$. <strong>Cross-entropy</strong> instead measures the average "surprise" when the true outcomes come from distribution $P$, but you're using a (possibly wrong) <em>model's</em> predicted distribution $Q$ to compute information content:</p>
+<p data-bid="b21">$$H(P, Q) = -\sum_x P(x)\log Q(x)$$</p>
+<p data-bid="b22"><strong>This is exactly the negative log-likelihood from Chapter 10's Bernoulli MLE derivation</strong>, just rewritten in expectation form: instead of a sum over your specific observed training <em>data points</em>, it's a sum over the possible <em>outcomes</em> weighted by their true probabilities. When you train a classifier by minimizing cross-entropy loss, you are literally minimizing the average surprise your model's predicted probabilities $Q$ would generate, if the real world truly behaved according to the true label distribution $P$ - making your model's beliefs ($Q$) match reality ($P$) as closely as possible is <em>exactly</em> what drives cross-entropy toward its theoretical minimum.</p>
+<h3 data-bid="b23" id="a-crucial-fact-cross-entropy-is-never-smaller-than-entropy">A crucial fact: cross-entropy is never smaller than entropy</h3>
+<p data-bid="b24">$$H(P,Q) \ge H(P), \quad \text{with equality exactly when } Q = P$$</p>
+<p data-bid="b25">This isn't just a definition - it's a provable mathematical fact (via a classical result called Gibbs' inequality, not reproduced here but worth knowing by name; the section just below actually proves it), and it has a deep practical consequence: <strong>the absolute best possible cross-entropy loss your model can ever achieve is $H(P)$ itself - the data's own inherent entropy</strong> - a model literally cannot do better than matching the true distribution exactly, because any mismatch between $Q$ and $P$ can only add surprise, never subtract it. This is exactly why a classification task with inherently ambiguous/noisy labels (irreducible uncertainty, echoing Chapter 16's $\sigma^2$ term) has a hard floor on achievable loss, no matter how good your model gets - a genuinely useful sanity-check concept when interpreting a stubbornly nonzero training loss.</p>
+<h3 data-bid="b26" id="reconstructing-it-yourself-actually-proving-gibbs-inequality">Reconstructing it yourself - actually proving Gibbs' inequality</h3>
+<p data-bid="b27"><strong>If your guess is that proving $D_{KL}(P\|Q)\ge0$ should come down to some basic fact about the logarithm curve's shape - you're exactly right, and the specific fact is that $\log$ is <em>concave</em>.</strong> A concave function always lies on or below any straight line drawn tangent to it - in particular, the tangent line to $\log(x)$ at $x=1$ is simply $x-1$ (since $\log(1)=0$ and the slope of $\log$ at $x=1$ is exactly $1$), giving the single inequality that does all the work here:</p>
+<p data-bid="b28">$$\log(x) \le x - 1 \quad \text{for all } x>0, \text{ with equality only at } x=1$$</p>
+<p data-bid="b29">Now apply this to $-D_{KL}(P\|Q) = \sum_x P(x)\log\frac{Q(x)}{P(x)}$ (just the negative of Chapter 21's KL formula, with the fraction flipped, which flips its sign). Substitute $x=\frac{Q(x)}{P(x)}$ into the inequality above:</p>
+<p data-bid="b30">$$-D_{KL}(P\|Q) = \sum_x P(x)\log\frac{Q(x)}{P(x)} \le \sum_x P(x)\left(\frac{Q(x)}{P(x)}-1\right) = \sum_x Q(x) - \sum_x P(x) = 1 - 1 = 0$$</p>
+<p data-bid="b31">(the last step uses the fact that both $P$ and $Q$ are valid probability distributions, so each sums to exactly 1 - Chapter 3's axioms, doing quiet work here). So $-D_{KL}(P\|Q)\le 0$, which means $D_{KL}(P\|Q)\ge 0$ - proven, using nothing but one property of the log curve and the fact that probabilities sum to one. Equality holds only when $\frac{Q(x)}{P(x)}=1$ everywhere (the one point where the tangent-line inequality is exact), i.e. only when $Q=P$ exactly - confirming the "floor" claim above isn't just plausible, it's airtight.</p>
+<h2 data-bid="b32" id="kl-divergence-isolating-exactly-the-extra-surprise-from-using-the-wrong-model">KL Divergence - isolating exactly the "extra surprise" from using the wrong model</h2>
+<p data-bid="b33">$$D_{KL}(P \| Q) = H(P,Q) - H(P) = \sum_x P(x)\log\frac{P(x)}{Q(x)}$$</p>
+<p data-bid="b34"><strong>Intuition</strong>: KL divergence strips away the <em>unavoidable</em> baseline uncertainty ($H(P)$, which no model can fix) and isolates exactly the <em>extra, avoidable</em> surprise caused specifically by $Q$ being a wrong/imperfect approximation of $P$. This makes it a natural measure of "distance" between two probability distributions - though it is <strong>not a true mathematical distance</strong> (it's not symmetric: $D_{KL}(P\|Q) \ne D_{KL}(Q\|P)$ in general, unlike, say, the ordinary distance between two points, which doesn't care which point you measure "from"). Minimizing cross-entropy loss during training and minimizing KL divergence are <em>equivalent</em> optimization problems whenever $P$ (the true data distribution) is treated as fixed - since $H(P,Q) = D_{KL}(P\|Q) + H(P)$ and $H(P)$ doesn't depend on your model's parameters at all, minimizing one minimizes the other identically; which name gets used in a given paper or textbook is mostly a matter of which framing (information-theoretic "divergence between distributions" vs. the data-point-level "negative log-likelihood") the author found more natural for their argument.</p>
+<div class="labcard">
+<div class="labkicker">Live - entropy of a coin, and cross-entropy / KL between two distributions</div>
+<div class="labcontrols">
+  <div class="labctrl"><label>P(heads) <b id="ch21_p_label">0.50</b></label><input type="range" id="ch21_p" min="0.01" max="0.99" step="0.01" value="0.5"></div>
+</div>
+<div class="labstat-grid"><div class="labstat"><div class="lbl">Entropy (bits)</div><div class="val" id="ch21_entropy">-</div></div></div>
+<div class="labcanvas-wrap" style="margin-top:10px;"><canvas id="ch21_canvas" width="820" height="180"></canvas></div>
+<p data-bid="b35" class="labnote">Three outcomes below. Drag P's and Q's first two bars; the third is whatever makes each distribution sum to 1. Make Q identical to P and watch KL divergence drop to exactly zero.</p>
+<div class="labcontrols">
+  <div class="labctrl"><label>True P, outcome 1 <b id="ch21_p1_label">0.50</b></label><input type="range" id="ch21_p1" min="0" max="1" step="0.01" value="0.5"></div>
+  <div class="labctrl"><label>True P, outcome 2 <b id="ch21_p2_label">0.30</b></label><input type="range" id="ch21_p2" min="0" max="1" step="0.01" value="0.3"></div>
+</div>
+<div class="labcontrols">
+  <div class="labctrl"><label>Model Q, outcome 1 <b id="ch21_q1_label">0.33</b></label><input type="range" id="ch21_q1" min="0" max="1" step="0.01" value="0.33"></div>
+  <div class="labctrl"><label>Model Q, outcome 2 <b id="ch21_q2_label">0.33</b></label><input type="range" id="ch21_q2" min="0" max="1" step="0.01" value="0.33"></div>
+</div>
+<div class="labcanvas-wrap" style="margin-top:10px;"><canvas id="ch21_bars" width="820" height="200"></canvas></div>
+<div class="labstat-grid">
+  <div class="labstat"><div class="lbl">Entropy H(P)</div><div class="val" id="ch21_hp">-</div></div>
+  <div class="labstat"><div class="lbl">Cross-entropy H(P,Q)</div><div class="val" id="ch21_ce">-</div></div>
+  <div class="labstat"><div class="lbl">KL divergence</div><div class="val" id="ch21_kl">-</div></div>
+</div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  var SL = window.StatsLab;
+  function entropyBernoulli(p){
+    if(p<=0||p>=1) return 0;
+    return -(p*Math.log2(p) + (1-p)*Math.log2(1-p));
+  }
+  function updateA(){
+    var p = parseFloat(document.getElementById('ch21_p').value);
+    document.getElementById('ch21_p_label').textContent = p.toFixed(2);
+    document.getElementById('ch21_entropy').textContent = entropyBernoulli(p).toFixed(4)+' bits';
+    var plot = SL.makePlot(document.getElementById('ch21_canvas'), {l:50,r:20,t:10,b:30});
+    var pts = []; for(var pp=0.001; pp<=0.999; pp+=0.004) pts.push([pp, entropyBernoulli(pp)]);
+    plot.setDomain([0,1],[0,1.05]); plot.clear(); plot.axes('P(heads)','entropy (bits)');
+    plot.line(pts, SL.colors.accent3, 2.5);
+    plot.vline(p, SL.colors.accent4);
+  }
+  function updateB(){
+    var p1 = parseFloat(document.getElementById('ch21_p1').value);
+    var p2 = parseFloat(document.getElementById('ch21_p2').value);
+    if(p1+p2>1){ p2 = 1-p1; document.getElementById('ch21_p2').value = p2; }
+    var p3 = Math.max(0, 1-p1-p2);
+    var q1 = parseFloat(document.getElementById('ch21_q1').value);
+    var q2 = parseFloat(document.getElementById('ch21_q2').value);
+    if(q1+q2>1){ q2 = 1-q1; document.getElementById('ch21_q2').value = q2; }
+    var q3 = Math.max(0, 1-q1-q2);
+    document.getElementById('ch21_p1_label').textContent = p1.toFixed(2);
+    document.getElementById('ch21_p2_label').textContent = p2.toFixed(2);
+    document.getElementById('ch21_q1_label').textContent = q1.toFixed(2);
+    document.getElementById('ch21_q2_label').textContent = q2.toFixed(2);
+
+    var P = [p1,p2,p3], Q = [Math.max(q1,1e-9),Math.max(q2,1e-9),Math.max(q3,1e-9)];
+    var Hp=0, CE=0;
+    for(var i=0;i<3;i++){
+      if(P[i]>1e-9) Hp += -P[i]*Math.log(P[i]);
+      if(P[i]>1e-9) CE += -P[i]*Math.log(Q[i]);
+    }
+    var KL = CE-Hp;
+    document.getElementById('ch21_hp').textContent = Hp.toFixed(4)+' nats';
+    document.getElementById('ch21_ce').textContent = CE.toFixed(4)+' nats';
+    document.getElementById('ch21_kl').textContent = KL.toFixed(4)+' nats';
+
+    var plot = SL.makePlot(document.getElementById('ch21_bars'), {l:50,r:20,t:16,b:40});
+    plot.setDomain([0,3],[0,1.05]); plot.clear(); plot.axes('outcome','probability');
+    var ctx = plot.ctx;
+    [0,1,2].forEach(function(i){
+      var xP = i+0.35, xQ = i+0.65;
+      ctx.fillStyle = SL.colors.accent;
+      var y0=plot.py(0), y1=plot.py(P[i]);
+      ctx.fillRect(plot.px(xP)-14, y1, 28, y0-y1);
+      ctx.fillStyle = SL.colors.accent2;
+      y1=plot.py(Q[i]);
+      ctx.fillRect(plot.px(xQ)-14, y1, 28, y0-y1);
+      ctx.fillStyle = SL.colors.ink; ctx.textAlign='center'; ctx.font='11px -apple-system,sans-serif';
+      ctx.fillText('outcome '+(i+1), plot.px(i+0.5), plot.py(0)+16);
+    });
+    ctx.fillStyle = SL.colors.accent; ctx.fillText('P (true)', plot.px(0.35), 12);
+    ctx.fillStyle = SL.colors.accent2; ctx.fillText('Q (model)', plot.px(0.65), 12);
+  }
+  document.getElementById('ch21_p').addEventListener('input', updateA);
+  ['ch21_p1','ch21_p2','ch21_q1','ch21_q2'].forEach(function(id){ document.getElementById(id).addEventListener('input', updateB); });
+  updateA(); updateB();
+});
+</script>
+
+<h2 data-bid="b36" id="the-backstory-a-telephone-engineer-solves-a-problem-nobody-had-posed-rigorously-before">The backstory - a telephone engineer solves a problem nobody had posed rigorously before</h2>
+<p data-bid="b37"><strong>Claude Shannon</strong> developed this entire framework in a single, landmark 1948 paper, "A Mathematical Theory of Communication," while working at Bell Labs on an extremely practical engineering problem: how many physical resources (wires, time, signal bandwidth) does it fundamentally take to transmit a message reliably over a noisy telephone or telegraph line? Before Shannon, "information" had no rigorous quantitative definition at all - engineers reasoned about signal transmission in largely ad hoc, case-by-case ways. Shannon's genuinely radical insight was realizing that the <em>engineering</em> question ("how efficiently can I encode and transmit this message?") and the <em>statistical</em> question ("how uncertain/unpredictable is this message's content, viewed as a random variable?") are the same question - the minimum number of bits needed to transmit a message, on average, equals exactly its entropy. This single paper essentially created the entire field of information theory from scratch, and the fact that its central object (entropy) turned out, decades later, to also be exactly the right lens for understanding machine learning loss functions is a genuinely striking example of mathematics developed for one purpose (telephone engineering) turning out to be exactly the right tool for a completely different one (statistical learning) that didn't exist yet when the math was invented.</p>
+<h2 data-bid="b38" id="figures">Figures</h2>
+<img class="has-rail" data-figid="f1" alt="Entropy of a biased coin as a function of P(heads), maximized exactly at p=0.5 -- a fair coin is the most unpredictable possible two-outcome variable." src="../images/ch21_information_theory_fig1.png" /><p data-bid="b39" class="img-caption has-rail" data-figid="f1"><em>Entropy of a biased coin as a function of P(heads), maximized exactly at p=0.5 -- a fair coin is the most unpredictable possible two-outcome variable.</em></p>
+<h2 data-bid="b40" id="run-it-yourself">Run it yourself</h2>
+<p data-bid="b41"><code>book/code/ch21_information_theory.py</code> computes entropy for several coin biases and plots entropy as a function of $P(\text{heads})$ (confirming the maximum sits exactly at $p=0.5$), computes cross-entropy and KL divergence between a true distribution and several candidate model distributions to show KL divergence shrinking toward zero as the model distribution approaches the truth, and directly demonstrates, numerically, that a neural-network-style binary cross-entropy loss computed on actual predicted probabilities equals exactly the negative log-likelihood formula first derived in Chapter 10.</p>
+<p data-bid="b42"re><code class="language-bash">python book/code/ch21_information_theory.py
+</code></pre>
+<h2 data-bid="b43" id="why-this-matters-in-ai-and-in-everyday-life">Why This Matters - In AI and In Everyday Life</h2>
+<p data-bid="b44"><strong>In AI / machine learning:</strong></p>
+<ul>
+<li data-bid="b45"><strong>Cross-entropy loss, used in literally every standard classifier and every token prediction in a language model</strong>: this chapter's entropy/cross-entropy formulas are not an analogy for deep learning loss functions -- they ARE the loss function.</li>
+<li data-bid="b46"><strong>KL divergence in VAEs, diffusion models, and RLHF</strong>: keeping a fine-tuned language model's behavior close to its original pretrained behavior during reinforcement learning, or regularizing a generative model's latent space, is a direct real application of KL divergence.</li>
+<li data-bid="b47"><strong>Tokenizers and perplexity</strong>: the entropy of a text corpus is what sets the floor on a language model's per-token cross-entropy; the reported "perplexity" of a transformer is literally $e^{\text{cross-entropy}}$ (in nats), so this chapter's formulas are the unit every modern LLM benchmark is measured in.</li>
+<li data-bid="b48"><strong>Temperature and top-p sampling in generative AI</strong>: dividing logits by a temperature before softmax trades entropy for determinism - low temperature sharpens the distribution toward the mode (low entropy), high temperature flattens it (high entropy), a direct manipulation of this chapter's entropy knob at inference time.</li>
+</ul>
+<p data-bid="b49"><strong>In everyday, non-AI life:</strong></p>
+<ul>
+<li data-bid="b50"><strong>Data compression (zip files, JPEG, MP3)</strong>: Shannon's original insight -- that the minimum bits needed to encode a message equals its entropy -- is the literal mathematical foundation every compression algorithm is built on.</li>
+<li data-bid="b51"><strong>Morse code's letter frequencies</strong>: common letters like "E" get short codes and rare letters like "Q" get long codes, a real pre-Shannon intuition for exactly the entropy-minimizing coding this chapter formalizes.</li>
+</ul>
+<h2 data-bid="b52" id="worked-example-by-hand-larger">Worked example - by hand, larger</h2>
+<p data-bid="b53">Suppose a weather model must predict one of three outcomes - Sunny ($S$), Rainy ($R$), Cloudy ($C$) - and the true long-run frequencies are $P(S)=0.5$, $P(R)=0.3$, $P(C)=0.2$. A first model $Q$ predicts $Q(S)=0.6$, $Q(R)=0.3$, $Q(C)=0.1$. Using natural logs, let's compute entropy, cross-entropy, and KL divergence entirely by hand.</p>
+<p data-bid="b54"><strong>Entropy of the truth.</strong> Each term is $-P\log P$:
+- Sunny: $-0.5\ln 0.5 = 0.5 \times 0.6931 = 0.3466$.
+- Rainy: $-0.3\ln 0.3 = 0.3 \times 1.2040 = 0.3612$.
+- Cloudy: $-0.2\ln 0.2 = 0.2 \times 1.6094 = 0.3219$.</p>
+<p data-bid="b55">Sum: $H(P) = 0.3466+0.3612+0.3219 = 1.0297$ nats.</p>
+<p data-bid="b56"><strong>Cross-entropy against $Q$.</strong> Now weight the <em>model's</em> surprise by the <em>true</em> probabilities, each term $-P\log Q$:
+- Sunny: $-0.5\ln 0.6 = 0.5 \times 0.5108 = 0.2554$.
+- Rainy: $-0.3\ln 0.3 = 0.3612$ (same as before, since $P=Q$ here).
+- Cloudy: $-0.2\ln 0.1 = 0.2 \times 2.3026 = 0.4605$.</p>
+<p data-bid="b57">Sum: $H(P,Q) = 0.2554+0.3612+0.4605 = 1.0771$ nats. So the model pays a real price for underestimating Cloudy: its surprise on cloudy days ($-\ln 0.1 = 2.3026$) is large and never fully compensated.</p>
+<p data-bid="b58"><strong>KL divergence</strong> is the gap: $D_{KL}(P\|Q) = H(P,Q)-H(P) = 1.0771-1.0297 = 0.0474$ nats. That is the <em>avoidable</em> extra surprise - the irreducible $1.0297$ nats is the floor, and $0.0474$ is what a better model could still shave off. Concretely, the model would need to move its Cloudy and Sunny probabilities toward $0.5/0.2$ to reach zero.</p>
+<p data-bid="b59"><strong>The takeaway:</strong> cross-entropy is the total bill, entropy is the part you can never avoid, and their difference - KL divergence - is the only part your model can actually fix by better predictions.</p>
+<h2 data-bid="b60" id="check-your-understanding">Check your understanding</h2>
+<ul>
+<li data-bid="b61">Walk through, in your own words, why requirement 3 ("information from independent events adds") forces the use of a logarithm in the information-content formula.</li>
+<li data-bid="b62">Why is entropy maximized by a uniform distribution, in terms of predictability?</li>
+<li data-bid="b63">Explain why $D_{KL}(P\|Q) \ge 0$ always, and what it means, intuitively, for this value to equal exactly zero.</li>
+</ul>
+<h2 data-bid="b64" id="exercises">Exercises</h2>
+<h3 data-bid="b65" id="exercise-1-compress-a-lopsided-coin">Exercise 1 - Compress a lopsided coin</h3>
+<p data-bid="b66">A file records 1000 outcomes of a coin with $P(H)=0.9$, $P(T)=0.1$. Using $\log_2$ (bits), (a) compute the entropy per outcome, (b) how many bits would a naive "1 bit per outcome" encoding need, and (c) roughly how many bits does the entropy-optimal encoding save over all 1000 outcomes?</p>
+<details><summary>Show solution</summary>
+
+(a) $H = -(0.9\log_2 0.9 + 0.1\log_2 0.1)$. Now $\log_2 0.9 = \ln 0.9/\ln 2 = (-0.10536)/0.69315 = -0.15200$, and $\log_2 0.1 = \ln 0.1/\ln 2 = (-2.30259)/0.69315 = -3.32193$. So $H = 0.9 \times 0.15200 + 0.1 \times 3.32193 = 0.1368 + 0.3322 = 0.4690$ bits per outcome.
+
+(b) Naive fixed-length: 1000 bits.
+
+(c) Optimal expected length $= 1000 \times 0.4690 = 469$ bits, saving $1000 - 469 = 531$ bits - less than half the naive size. This is Shannon's source-coding insight: the entropy is the hard floor on average compression, and a highly predictable coin compresses enormously.
+
+</details>
+
+<h3 data-bid="b67" id="exercise-2-prove-cross-entropy-is-never-below-entropy">Exercise 2 - Prove cross-entropy is never below entropy</h3>
+<p data-bid="b68">Using the tangent-line inequality $\log x \le x-1$ (equality only at $x=1$), prove $H(P,Q) \ge H(P)$, i.e. $D_{KL}(P\|Q) \ge 0$.</p>
+<details><summary>Show solution</summary>
+
+$$D_{KL}(P\|Q) = \sum_x P(x)\log\frac{P(x)}{Q(x)}.$$
+
+Apply $\log x \le x-1$ with $x = P(x)/Q(x)$ term by term:
+
+$$\sum_x P(x)\log\frac{P(x)}{Q(x)} \ge \sum_x P(x)\left(1 - \frac{Q(x)}{P(x)}\right) = \sum_x P(x) - \sum_x Q(x) = 1-1 = 0.$$
+
+Wait - careful with direction: since $\log x \le x-1$, we have $\log\frac{P}{Q} \ge 1 - \frac{Q}{P}$. Multiplying by $P(x)\ge0$ preserves the inequality, and summing gives $\ge 0$. Equality requires $P(x)/Q(x)=1$ for every $x$ with $P(x)>0$, i.e. $Q=P$. Hence $H(P,Q)=H(P)+D_{KL}(P\|Q)\ge H(P)$.
+
+</details>
+
+<h3 data-bid="b69" id="exercise-3-why-language-models-use-cross-entropy-not-accuracy">Exercise 3 - Why language models use cross-entropy, not accuracy</h3>
+<p data-bid="b70">A next-token model assigns "cat" probability $0.7$ when the true next token is "cat." Compute the loss in nats under (a) cross-entropy and (b) a crude 0/1 accuracy loss. Then explain why cross-entropy gives useful gradient signal during training while accuracy mostly does not.</p>
+<details><summary>Show solution</summary>
+
+(a) Cross-entropy for a single observed token: $-\ln 0.7 = 0.3567$ nats. If the model instead said $0.1$, the loss would be $-\ln 0.1 = 2.3026$ nats - a much larger penalty for confident wrongness.
+
+(b) Accuracy: since "cat" was the top guess, accuracy loss $=0$ for both a $0.7$ prediction and a $0.05$ prediction as long as "cat" still ranks first.
+
+Cross-entropy is differentiable and its gradient w.r.t. the model's logit scales with how wrong the probability was, so gradient descent gets a usable nudge ("push cat's probability up") every step. Accuracy is piecewise-constant: nudging probabilities slightly often doesn't change which token wins, so the gradient is zero almost everywhere and tells the optimizer nothing. This is exactly why Chapter 21's cross-entropy - the negative log-likelihood of the Categorical distribution - is the universal training loss for transformers rather than accuracy.
+
+</details>
+
+<h2 data-bid="b71" id="whats-next">What's next</h2>
+<p data-bid="b72">Chapter 22 asks a question this chapter's tools make precise: if a model perfectly matches its training data (zero training loss), what, mathematically, justifies any confidence at all that it will perform well on new data? This is <strong>statistical learning theory</strong>, and it formalizes the generalization question that's been circling since Chapter 15's overfitting demonstration.</p>
+    </div>
+    <div class="navfooter">
+      <span><a href="20_multivariate_pca.html">&larr; Previous chapter</a></span>
+      <span><a href="22_statistical_learning_theory.html">Next chapter &rarr;</a></span>
+    </div>
+  </div>
+  <div class="pane-right">
+    <h4>Figures in this chapter</h4>
+    <div id="railContent"></div>
+  </div>
+</div>
+
+<!-- floating selection toolbar -->
+<div id="selToolbar">
+  <button data-color="yellow" title="Mark interesting">🟡</button>
+  <button data-color="green" title="Mark understood">🟢</button>
+  <button data-color="red" title="Mark confusing">🔴</button>
+  <button data-color="blue" title="Mark to review later">🔵</button>
+  <button id="btnAddNote" title="Highlight + add a note">📝</button>
+</div>
+
+<!-- note edit popup -->
+<div id="notePopup">
+  <textarea placeholder="Write a note to yourself..."></textarea>
+  <div class="row">
+    <button class="danger" id="btnDeleteHl">Remove highlight</button>
+    <div>
+      <button id="btnCloseNote">Close</button>
+      <button class="primary" id="btnSaveNote">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- notes side panel -->
+<div id="notesOverlay"></div>
+<div id="notesPanel">
+  <div class="header">
+    <b>My Notes - this page</b>
+    <button class="iconbtn" id="btnCloseNotesPanel">✕</button>
+  </div>
+  <div class="list" id="notesList"></div>
+  <div class="footer">
+    <button id="btnExportNotes">⬇ Export all notes</button>
+    <button id="btnImportNotes">⬆ Import notes</button>
+    <input type="file" id="importFile" accept="application/json" style="display:none;">
+  </div>
+</div>
+
+<script src="../assets/app.js"></script>
+</body>
+</html>

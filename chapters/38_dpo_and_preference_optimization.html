@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 38: RLHF, DPO, and Preference Optimization - Turning Preferences Into a Loss Function</title>
+<link rel="stylesheet" href="../assets/app.css">
+<script>
+window.MathJax = { tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']], processEscapes: true } };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+</head>
+<body data-chapter="38_dpo_and_preference_optimization">
+<div class="topbar">
+  <div class="left">
+    <button class="iconbtn hamburger" id="btnSidebarToggle">☰</button>
+    <a href="../index.html">Statistics for AI</a>
+  </div>
+  <div class="right">
+    <button class="iconbtn" id="btnNotesPanel">📒 My Notes</button>
+  </div>
+</div>
+<div id="sidebarOverlay"></div>
+<div class="layout">
+  <nav class="sidebar" id="sidebar">
+    <input type="text" id="sidebarFilter" placeholder="Filter chapters...">
+<details open><summary>Orientation</summary><ul>
+<li class="" data-title="chapter 0: how to use this book, and the math notation you'll see"><a href="00_how_to_use_this_book.html">Chapter 0: How to Use This Book, and the Math Notation You'll See</a></li>
+</ul></details>
+<details open><summary>Part I - Describing the World</summary><ul>
+<li class="" data-title="chapter 1: data, populations, and samples - thinking like a statistician"><a href="01_data_populations_samples.html">Chapter 1: Data, Populations, and Samples - Thinking Like a Statistician</a></li>
+<li class="" data-title="chapter 2: describing data - center, spread, and shape"><a href="02_descriptive_statistics.html">Chapter 2: Describing Data - Center, Spread, and Shape</a></li>
+<li class="" data-title="chapter 3: probability foundations - events, rules, and conditioning"><a href="03_probability_foundations.html">Chapter 3: Probability Foundations - Events, Rules, and Conditioning</a></li>
+<li class="" data-title="chapter 4: bayes' theorem - updating beliefs with evidence"><a href="04_bayes_theorem.html">Chapter 4: Bayes' Theorem - Updating Beliefs With Evidence</a></li>
+<li class="" data-title="chapter 5: random variables and discrete distributions"><a href="05_random_variables_discrete.html">Chapter 5: Random Variables and Discrete Distributions</a></li>
+<li class="" data-title="chapter 6: continuous distributions and the normal distribution"><a href="06_continuous_distributions.html">Chapter 6: Continuous Distributions and the Normal Distribution</a></li>
+<li class="" data-title="chapter 7: expectation, variance, covariance, and correlation"><a href="07_expectation_variance_covariance.html">Chapter 7: Expectation, Variance, Covariance, and Correlation</a></li>
+<li class="" data-title="chapter 8: the central limit theorem - the secret engine of statistics"><a href="08_central_limit_theorem.html">Chapter 8: The Central Limit Theorem - The Secret Engine of Statistics</a></li>
+</ul></details>
+<details open><summary>Part II - Inferring From Data</summary><ul>
+<li class="" data-title="chapter 9: sampling and estimation"><a href="09_sampling_and_estimation.html">Chapter 9: Sampling and Estimation</a></li>
+<li class="" data-title="chapter 10: maximum likelihood estimation"><a href="10_maximum_likelihood_estimation.html">Chapter 10: Maximum Likelihood Estimation</a></li>
+<li class="" data-title="chapter 11: confidence intervals"><a href="11_confidence_intervals.html">Chapter 11: Confidence Intervals</a></li>
+<li class="" data-title="chapter 12: hypothesis testing and p-values"><a href="12_hypothesis_testing.html">Chapter 12: Hypothesis Testing and p-values</a></li>
+<li class="" data-title="chapter 13: t-tests, chi-square, and anova"><a href="13_ttests_chisquare_anova.html">Chapter 13: t-tests, Chi-square, and ANOVA</a></li>
+<li class="" data-title="chapter 14: correlation and simple linear regression"><a href="14_simple_linear_regression.html">Chapter 14: Correlation and Simple Linear Regression</a></li>
+<li class="" data-title="chapter 15: multiple regression, r², and overfitting"><a href="15_multiple_regression.html">Chapter 15: Multiple Regression, R², and Overfitting</a></li>
+</ul></details>
+<details open><summary>Part III - The Bridge Into Machine Learning</summary><ul>
+<li class="" data-title="chapter 16: bias-variance tradeoff, cross-validation, and regularization"><a href="16_bias_variance_regularization.html">Chapter 16: Bias-Variance Tradeoff, Cross-Validation, and Regularization</a></li>
+<li class="" data-title="chapter 17: bayesian statistics in depth"><a href="17_bayesian_statistics.html">Chapter 17: Bayesian Statistics in Depth</a></li>
+<li class="" data-title="chapter 18: resampling - bootstrap and permutation tests"><a href="18_resampling_methods.html">Chapter 18: Resampling - Bootstrap and Permutation Tests</a></li>
+<li class="" data-title="chapter 19: linear algebra essentials for statistics and ml"><a href="19_linear_algebra_essentials.html">Chapter 19: Linear Algebra Essentials for Statistics and ML</a></li>
+<li class="" data-title="chapter 20: multivariate statistics - covariance matrices and pca"><a href="20_multivariate_pca.html">Chapter 20: Multivariate Statistics - Covariance Matrices and PCA</a></li>
+</ul></details>
+<details open><summary>Part IV - The Statistics Inside Modern AI</summary><ul>
+<li class="" data-title="chapter 21: information theory - entropy, cross-entropy, and kl divergence"><a href="21_information_theory.html">Chapter 21: Information Theory - Entropy, Cross-Entropy, and KL Divergence</a></li>
+<li class="" data-title="chapter 22: statistical learning theory - why generalization works at all"><a href="22_statistical_learning_theory.html">Chapter 22: Statistical Learning Theory - Why Generalization Works At All</a></li>
+<li class="" data-title="chapter 23: probabilistic models and latent variables (mixtures, em)"><a href="23_latent_variable_models.html">Chapter 23: Probabilistic Models and Latent Variables (Mixtures, EM)</a></li>
+<li class="" data-title="chapter 24: markov chains and monte carlo methods"><a href="24_markov_chains_monte_carlo.html">Chapter 24: Markov Chains and Monte Carlo Methods</a></li>
+<li class="" data-title="chapter 25: the statistics hiding inside neural networks"><a href="25_statistics_in_neural_networks.html">Chapter 25: The Statistics Hiding Inside Neural Networks</a></li>
+<li class="" data-title="chapter 26: where to go next"><a href="26_where_to_go_next.html">Chapter 26: Where to Go Next</a></li>
+</ul></details>
+<details open><summary>Part V - The Statistical Frontier of Modern AI</summary><ul>
+<li class="" data-title="chapter 27: the statistical frontier - how modern ai actually uses these ideas today"><a href="27_frontier_ai_statistics.html">Chapter 27: The Statistical Frontier - How Modern AI Actually Uses These Ideas Today</a></li>
+</ul></details>
+<details open><summary>Part VI - Advanced AI Algorithms: The Statistical Engine Room</summary><ul>
+<li class="" data-title="chapter 28: diffusion models and score matching - statistics as generation"><a href="28_diffusion_models_score_matching.html">Chapter 28: Diffusion Models and Score Matching - Statistics as Generation</a></li>
+<li class="" data-title="chapter 29: transformers and attention - statistics you can calculate (almost) by hand"><a href="29_transformers_attention_statistics.html">Chapter 29: Transformers and Attention - Statistics You Can Calculate (Almost) by Hand</a></li>
+<li class="" data-title="chapter 30: reinforcement learning and policy gradients - statistics that learn from rewards"><a href="30_reinforcement_learning_policy_gradients.html">Chapter 30: Reinforcement Learning and Policy Gradients - Statistics That Learn From Rewards</a></li>
+<li class="" data-title="chapter 31: variational inference and the elbo - approximate bayes at scale"><a href="31_variational_inference_elbo.html">Chapter 31: Variational Inference and the ELBO - Approximate Bayes at Scale</a></li>
+<li class="" data-title="chapter 32: contrastive learning and infonce - statistics that learns embeddings"><a href="32_contrastive_learning_infonce.html">Chapter 32: Contrastive Learning and InfoNCE - Statistics That Learns Embeddings</a></li>
+<li class="" data-title="chapter 33: causal inference and do-calculus - when correlation is not enough"><a href="33_causal_inference_do_calculus.html">Chapter 33: Causal Inference and Do-Calculus - When Correlation Is Not Enough</a></li>
+<li class="" data-title="chapter 34: graphical models and message passing - statistics as graphs"><a href="34_graphical_models_message_passing.html">Chapter 34: Graphical Models and Message Passing - Statistics as Graphs</a></li>
+<li class="" data-title="chapter 35: optimization, generalization, and double descent - why big models work"><a href="35_optimization_generalization_double_descent.html">Chapter 35: Optimization, Generalization, and Double Descent - Why Big Models Work</a></li>
+<li class="" data-title="chapter 36: time series and modern sequence models - statistics over time"><a href="36_time_series_sequence_models.html">Chapter 36: Time Series and Modern Sequence Models - Statistics Over Time</a></li>
+</ul></details>
+<details open><summary>Part VII - Aligning AI With Human Preferences: The Statistics of RLHF</summary><ul>
+<li class="" data-title="chapter 37: preference data and reward modeling - statistics from human judgments"><a href="37_preference_data_reward_modeling.html">Chapter 37: Preference Data and Reward Modeling - Statistics From Human Judgments</a></li>
+<li class="current" data-title="chapter 38: rlhf, dpo, and preference optimization - turning preferences into a loss function"><a href="38_dpo_and_preference_optimization.html">Chapter 38: RLHF, DPO, and Preference Optimization - Turning Preferences Into a Loss Function</a></li>
+<li class="" data-title="chapter 39: reinforcement learning with verifiable rewards - and how reasoning models are trained"><a href="39_rl_verifiable_rewards_reasoning.html">Chapter 39: Reinforcement Learning With Verifiable Rewards - and How Reasoning Models Are Trained</a></li>
+</ul></details>
+  </nav>
+  <div class="pane-left">
+    <div class="article" id="article">
+<h1 id="chapter-38-rlhf-dpo-and-preference-optimization-turning-preferences-into-a-loss-function">Chapter 38: RLHF, DPO, and Preference Optimization - Turning Preferences Into a Loss Function</h1>
+<h2 data-bid="b1" id="the-idea-this-chapter-builds-toward">The idea this chapter builds toward</h2>
+<p data-bid="b2">Chapter 37 gave us a reward model: a learned, noisy scalar that predicts human preference. The classic way to use it - <strong>RLHF</strong> - is to run a policy-gradient algorithm (Chapter 30's PPO) to push a language model toward high-reward text, with a KL leash (Chapter 21) tying it to a reference model so it doesn't chase the reward model into gibberish. That works, but it's a complicated, unstable, three-model juggling act. This chapter's payoff is a genuinely beautiful statistical result: the KL-regularized reward-maximization objective has a <strong>closed-form optimal policy</strong>, and inverting that formula lets you express the reward <em>in terms of the policy itself</em> - which turns RLHF into a plain <strong>binary-classification loss on preference pairs</strong>, with <strong>no reward model and no RL loop</strong>. That method is <strong>Direct Preference Optimization (DPO)</strong>, and understanding <em>why</em> it works is a masterclass in using Chapter 21's KL divergence and Chapter 10's log-likelihood to collapse a hard reinforcement problem into an easy supervised one.</p>
+<blockquote data-bid="b3">
+<p data-bid="b4"><strong>Intuition, in one breath:</strong> The best policy for a KL-constrained reward is just the reference policy reweighted by how good each answer is, and that relationship can be flipped - so instead of learning a reward and then doing reinforcement learning, you can directly train the model to make preferred answers more likely than rejected ones.</p>
+</blockquote>
+<h2 data-bid="b5" id="recap-the-rlhf-pipeline-chapters-30-37-21">Recap: the RLHF pipeline (Chapters 30, 37, 21)</h2>
+<p data-bid="b6">RLHF, the technique behind InstructGPT and most aligned chat models, assembles three earlier chapters into one loop:</p>
+<ol>
+<li data-bid="b7"><strong>Collect comparisons.</strong> Humans pick the preferred response from pairs, producing the preference data of Chapter 37.</li>
+<li data-bid="b8"><strong>Fit a reward model</strong> $r_\phi(x,y)$ via Bradley-Terry MLE (Chapters 37 and 10) - a learned scorer for "preferred-ness" given prompt $x$ and response $y$.</li>
+<li data-bid="b9"><strong>Run PPO</strong> (Chapter 30's clipped policy gradient) on the language model policy $\pi_\theta(y\mid x)$ to maximize the reward, with a <strong>KL penalty</strong> $-\beta\,D_{KL}(\pi_\theta \| \pi_{\mathrm{ref}})$ toward the frozen pretrained reference $\pi_{\mathrm{ref}}$ (Chapter 21) to prevent the reward-hacking collapse of Chapter 27.</li>
+</ol>
+<p data-bid="b10">The full objective RLHF maximizes is</p>
+<p data-bid="b11">$$\max_{\pi_\theta}\ \mathbb{E}_{x,\,y\sim\pi_\theta}\Big[\, r_\phi(x,y) - \beta\, D_{KL}\big(\pi_\theta(\cdot\mid x)\,\|\,\pi_{\mathrm{ref}}(\cdot\mid x)\big)\Big].$$</p>
+<p data-bid="b12"><strong>Reading it piece by piece:</strong>
+- <strong>$\pi_\theta$</strong> - the language-model policy we are optimizing, the thing that decides which responses to produce.
+- <strong>$\mathbb{E}_{x,\,y\sim\pi_\theta}$</strong> - the average over prompts $x$ and responses $y$ drawn from the current policy.
+- <strong>$r_\phi(x,y)$</strong> - the learned reward model's score for a response, pushing toward text the reward model likes.
+- <strong>$\beta$</strong> - the leash strength, trading off reward against staying close to the reference.
+- <strong>$D_{KL}(\pi_\theta \| \pi_{\mathrm{ref}})$</strong> - the divergence from the frozen reference policy, penalizing drift into reward-hacked gibberish.</p>
+<p data-bid="b13">The reward term says "produce text the reward model likes"; the KL term says "don't drift too far from the sane starting model." The trouble is that this is a full RL problem: sample from a moving policy, estimate advantages (Chapter 7), tune PPO's hyperparameters - expensive, unstable, and finicky when you launch three models (policy, reference, reward) at once.</p>
+<h2 data-bid="b14" id="the-key-derivation-the-kl-regularized-objective-has-a-closed-form-optimal-policy">The key derivation - the KL-regularized objective has a closed-form optimal policy</h2>
+<p data-bid="b15">Here is the statistical gem, and it's worth following every line. Fix a prompt $x$ and, for that fixed $x$, treat the whole response distribution as the thing we're optimizing. The objective decouples across prompts, so we can solve a <em>single</em> one. Write the per-prompt objective over distributions $p = \pi_\theta(\cdot\mid x)$:</p>
+<p data-bid="b16">$$\max_{p}\ \sum_y p(y)\, r(x,y) - \beta \sum_y p(y)\log\frac{p(y)}{\pi_{\mathrm{ref}}(y)}.$$</p>
+<p data-bid="b17">This is a constrained optimization: maximize expected reward minus $\beta$ times a KL divergence, subject to $\sum_y p(y) = 1$. Use a Lagrange multiplier $\lambda$ for the constraint and take the derivative with respect to each $p(y)$ (differentiating $p\log p$ using Chapter 21's entropy form):</p>
+<p data-bid="b18">$$r(x,y) - \beta\Big(\log\frac{p(y)}{\pi_{\mathrm{ref}}(y)} + 1\Big) + \lambda = 0.$$</p>
+<p data-bid="b19">Solve for $p(y)$ - the $+1$ and $\lambda$ are constants absorbed into a normalizer - giving the <strong>closed-form optimal policy</strong></p>
+<p data-bid="b20">$$p(y) \propto \pi_{\mathrm{ref}}(y)\,e^{r(x,y)/\beta}, \qquad \pi^*(y\mid x) = \frac{1}{Z(x)}\,\pi_{\mathrm{ref}}(y\mid x)\,\exp\!\Big(\tfrac{1}{\beta}r(x,y)\Big),$$</p>
+<p data-bid="b21"><strong>Reading it piece by piece:</strong>
+- <strong>$\pi^*(y\mid x)$</strong> - the optimal policy, the best response distribution for a given prompt.
+- <strong>$\pi_{\mathrm{ref}}(y\mid x)$</strong> - the frozen reference policy, the sane starting point being reweighted.
+- <strong>$e^{r(x,y)/\beta}$</strong> - an exponential tilt by the reward, multiplying up the probability of high-reward responses.
+- <strong>$\beta$</strong> - the temperature; small $\beta$ sharpens the tilt toward reward, large $\beta$ keeps it close to the reference.
+- <strong>$Z(x)$</strong> - the partition function normalizing the reweighted distribution so it sums to one over all responses.</p>
+<p data-bid="b22">where $Z(x) = \sum_y \pi_{\mathrm{ref}}(y\mid x)e^{r(x,y)/\beta}$ is a normalizing constant (a partition function). Read it plainly: <strong>the optimal policy is the reference policy reweighted by an exponential in the reward.</strong> High-reward responses get their probability multiplied up by $e^{r/\beta}$; the temperature $\beta$ controls how aggressively (small $\beta$ = sharper tilt toward reward, exactly like low temperature in sampling, Chapter 21). This is a softmax-shaped blow-up of the prior - the same "prior times likelihood, renormalized" structure as Bayesian updating (Chapter 17), with the reward playing the likelihood's role.</p>
+<h2 data-bid="b23" id="inverting-the-formula-the-reward-in-terms-of-the-optimal-policy">Inverting the formula - the reward in terms of the optimal policy</h2>
+<p data-bid="b24">That closed-form is pretty but not yet directly useful, because $Z(x)$ is a sum over all possible responses - intractable for language. The trick is to <strong>invert</strong> it. Take logs of both sides and solve for the reward:</p>
+<p data-bid="b25">$$\log \pi^*(y\mid x) = \log \pi_{\mathrm{ref}}(y\mid x) + \tfrac{1}{\beta}r(x,y) - \log Z(x) \;\implies\; r(x,y) = \beta\log\frac{\pi^*(y\mid x)}{\pi_{\mathrm{ref}}(y\mid x)} + \beta\log Z(x).$$</p>
+<p data-bid="b26"><strong>Reading it piece by piece:</strong>
+- <strong>$\log \pi^*(y\mid x)$</strong> - the log-probability the optimal policy assigns to response $y$.
+- <strong>$\log \pi_{\mathrm{ref}}(y\mid x)$</strong> - the log-probability under the reference, the baseline being shifted.
+- <strong>$\tfrac{1}{\beta}r(x,y)$</strong> - the reward contribution, scaled by the inverse temperature.
+- <strong>$-\log Z(x)$</strong> - the normalizer as a constant off to the side.
+- <strong>$\beta\log\frac{\pi^*}{\pi_{\mathrm{ref}}}$</strong> - the inverted form: the reward expressed purely as a scaled log-ratio of policy to reference.</p>
+<p data-bid="b27">Now plug this into the Bradley-Terry preference probability (Chapter 37) that $y_w$ beats $y_l$, namely $\sigma\big(r(x,y_w) - r(x,y_l)\big)$. The magic: <strong>the $Z(x)$ terms cancel</strong>, because both rewards share the same prompt-dependent normalizer:</p>
+<p data-bid="b28">$$r(x,y_w) - r(x,y_l) = \beta\log\frac{\pi^*(y_w\mid x)}{\pi_{\mathrm{ref}}(y_w\mid x)} - \beta\log\frac{\pi^*(y_l\mid x)}{\pi_{\mathrm{ref}}(y_l\mid x)}.$$</p>
+<p data-bid="b29">The intractable partition function vanishes - the <em>reward difference</em>, which is all Bradley-Terry ever needed, depends only on the policy and reference, both of which we can evaluate. This substitution is the entire insight behind DPO.</p>
+<h2 data-bid="b30" id="the-dpo-loss-bradley-terry-with-the-policy-standing-in-for-the-reward">The DPO loss - Bradley-Terry with the policy standing in for the reward</h2>
+<p data-bid="b31">We aren't handed the optimal policy $\pi^*$; we're learning it as $\pi_\theta$. So replace $\pi^*$ by $\pi_\theta$ and fit $\theta$ by maximum likelihood on the preference data - Chapter 10 one more time. For a dataset of pairs $(x, y_w, y_l)$ where $y_w$ is preferred, the <strong>DPO loss</strong> (negate the log-likelihood so we're minimizing) is</p>
+<p data-bid="b32">$$\mathcal{L}_{\text{DPO}}(\theta) = -\,\mathbb{E}_{(x,y_w,y_l)}\left[\log \sigma\!\Big(\beta\Big[\log\frac{\pi_\theta(y_w\mid x)}{\pi_{\mathrm{ref}}(y_w\mid x)} - \log\frac{\pi_\theta(y_l\mid x)}{\pi_{\mathrm{ref}}(y_l\mid x)}\Big]\Big)\right].$$</p>
+<p data-bid="b33"><strong>Reading it piece by piece:</strong>
+- <strong>$\mathcal{L}_{\text{DPO}}(\theta)$</strong> - the loss we minimize over the policy parameters, the negative log-likelihood of the preferences.
+- <strong>$\mathbb{E}_{(x,y_w,y_l)}$</strong> - the average over preference triples: a prompt, a winner, and a loser.
+- <strong>$\sigma(\cdot)$</strong> - the sigmoid turning the reward gap into a probability that the winner is preferred.
+- <strong>$\beta$</strong> - the scaling that sets how sharply a reward gap translates into preference odds.
+- <strong>$\log\frac{\pi_\theta(y_w\mid x)}{\pi_{\mathrm{ref}}(y_w\mid x)}$</strong> - the winner's log-ratio of policy to reference, and likewise for the loser, so their difference is the implicit reward gap.
+- <strong>$-\log \sigma$</strong> - negating the log-probability makes this exactly logistic / cross-entropy loss, low when the winner is ranked above the loser.</p>
+<p data-bid="b34">Read it term by term:</p>
+<ul>
+<li data-bid="b35">$\log \pi_\theta(y_w\mid x) - \log \pi_\theta(y_l\mid x)$ - the log-probability gap the model currently assigns to the winner over the loser. This is a <strong>log-likelihood</strong> (Chapter 10) ratio; recall Chapter 21 that $\log p - \log q = \log(p/q)$ is a KL-flavored divergence between the winner and loser distributions.</li>
+<li data-bid="b36">$-\log \pi_{\mathrm{ref}}(y_w\mid x) + \log \pi_{\mathrm{ref}}(y_l\mid x)$ - the same gap under the frozen reference. Subtracting it gives the <em>change</em> in log-odds relative to where we started - a KL-like drift measure (Chapter 21), the "leash" showing up inside the loss instead of in an RL reward.</li>
+<li data-bid="b37">The whole bracket is the <strong>implicit reward difference</strong> from the inversion above, scaled by $\beta$. Passing it through $\sigma$ and taking $-\log$ makes it <strong>logistic / cross-entropy loss</strong> (Chapters 25 and 10): we are literally training a binary classifier where the two classes are "winner" and "loser," and the logits are the policy-to-reference log-ratios.</li>
+</ul>
+<p data-bid="b38">That's the trick: DPO <em>is</em> logistic regression on preference pairs, marketed as RLHF - no reward model to train, no PPO sampling loop, no advantage estimation. One forward pass on $y_w$ and $y_l$, one backward pass.</p>
+<div class="labcard">
+<div class="labkicker">Live - move the log-probs and watch the DPO loss respond</div>
+<div class="labcontrols">
+  <div class="labctrl"><label>log &pi;&theta;(winner) <b id="ch38_lpw_label">-2.0</b></label><input type="range" id="ch38_lpw" min="-6" max="-0.1" step="0.1" value="-2.0"></div>
+  <div class="labctrl"><label>log &pi;&theta;(loser) <b id="ch38_lpl_label">-3.0</b></label><input type="range" id="ch38_lpl" min="-6" max="-0.1" step="0.1" value="-3.0"></div>
+  <div class="labctrl"><label>log &pi;ref(winner) <b id="ch38_lrw_label">-2.1</b></label><input type="range" id="ch38_lrw" min="-6" max="-0.1" step="0.1" value="-2.1"></div>
+  <div class="labctrl"><label>log &pi;ref(loser) <b id="ch38_lrl_label">-2.6</b></label><input type="range" id="ch38_lrl" min="-6" max="-0.1" step="0.1" value="-2.6"></div>
+  <div class="labctrl"><label>&beta; <b id="ch38_beta_label">0.10</b></label><input type="range" id="ch38_beta" min="0.01" max="0.5" step="0.01" value="0.1"></div>
+</div>
+<div class="labcanvas-wrap"><canvas id="ch38_canvas" width="820" height="220"></canvas></div>
+<div class="labstat-grid">
+  <div class="labstat"><div class="lbl">Implicit reward (winner)</div><div class="val" id="ch38_rw">-</div></div>
+  <div class="labstat"><div class="lbl">Implicit reward (loser)</div><div class="val" id="ch38_rl">-</div></div>
+  <div class="labstat"><div class="lbl">&sigma;(reward diff)</div><div class="val" id="ch38_sig">-</div></div>
+  <div class="labstat"><div class="lbl">DPO loss = -log &sigma;</div><div class="val" id="ch38_loss">-</div></div>
+</div>
+<p data-bid="b39" class="labnote">The implicit reward is &beta; &times; (log &pi;&theta; - log &pi;ref) for each response. Slide the winner's policy log-prob up (making &pi;&theta; like the winner more than &pi;ref did) and watch &sigma;(reward diff) climb toward 1 and the DPO loss drop toward 0 - this is logistic regression doing its job on preference pairs.</p>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  var SL = window.StatsLab;
+  function sigmoid(x){ return 1/(1+Math.exp(-x)); }
+  function update(){
+    var lpw = parseFloat(document.getElementById('ch38_lpw').value);
+    var lpl = parseFloat(document.getElementById('ch38_lpl').value);
+    var lrw = parseFloat(document.getElementById('ch38_lrw').value);
+    var lrl = parseFloat(document.getElementById('ch38_lrl').value);
+    var beta = parseFloat(document.getElementById('ch38_beta').value);
+    document.getElementById('ch38_lpw_label').textContent = lpw.toFixed(1);
+    document.getElementById('ch38_lpl_label').textContent = lpl.toFixed(1);
+    document.getElementById('ch38_lrw_label').textContent = lrw.toFixed(1);
+    document.getElementById('ch38_lrl_label').textContent = lrl.toFixed(1);
+    document.getElementById('ch38_beta_label').textContent = beta.toFixed(2);
+
+    var rw = beta*(lpw - lrw);
+    var rl = beta*(lpl - lrl);
+    var diff = rw - rl;
+    var sg = sigmoid(diff);
+    var loss = -Math.log(sg + 1e-12);
+
+    document.getElementById('ch38_rw').textContent = rw.toFixed(4);
+    document.getElementById('ch38_rl').textContent = rl.toFixed(4);
+    document.getElementById('ch38_sig').textContent = sg.toFixed(4);
+    document.getElementById('ch38_loss').textContent = loss.toFixed(4);
+
+    var plot = SL.makePlot(document.getElementById('ch38_canvas'), {l:60,r:20,t:16,b:50});
+    var ctx = plot.ctx;
+    var bars = [{x:0.5, v:rw, color:SL.colors.accent3, label:'winner'},
+                {x:1.5, v:rl, color:SL.colors.accent4, label:'loser'}];
+    var lo = Math.min(0, rw, rl), hi = Math.max(0, rw, rl);
+    var pad = Math.max(0.02, (hi-lo)*0.3);
+    plot.setDomain([0,2],[lo-pad, hi+pad]); plot.clear(); plot.axes('', 'implicit reward');
+    plot.hline(0, SL.colors.inkSoft, true, 1);
+    bars.forEach(function(b){
+      ctx.fillStyle = b.color;
+      var x = plot.px(b.x), y0 = plot.py(0), y1 = plot.py(b.v);
+      ctx.fillRect(x-55, Math.min(y0,y1), 110, Math.abs(y1-y0));
+      ctx.fillStyle = SL.colors.ink; ctx.textAlign='center'; ctx.font='12px -apple-system,sans-serif';
+      ctx.fillText(b.v.toFixed(3), x, b.v>=0 ? y1-6 : y1+16);
+      ctx.fillStyle = SL.colors.inkSoft;
+      ctx.fillText(b.label, x, plot.py(lo-pad)+16);
+    });
+  }
+  ['ch38_lpw','ch38_lpl','ch38_lrw','ch38_lrl','ch38_beta'].forEach(function(id){
+    document.getElementById(id).addEventListener('input', update);
+  });
+  update();
+});
+</script>
+
+<h2 data-bid="b40" id="dpo-vs-ppo-simplicity-versus-on-policy-flexibility">DPO vs. PPO - simplicity versus on-policy flexibility</h2>
+<p data-bid="b41">PPO keeps three models (policy, reference, reward) and an RL loop sampling on-policy; DPO needs only policy and reference and trains supervised on fixed offline pairs, making it simpler, cheaper, and more stable - but bound to the comparisons it was given. PPO is <strong>on-policy</strong>: it samples fresh responses and scores them with the reward model, so it explores beyond the comparison set and can integrate signals (a compiler, Chapter 27's verifiers) a preference pair can't express. DPO is <strong>offline and pairwise</strong>: it learns only <em>relative</em> preference from the pairs shown and inherits their coverage gaps. DPO also has a subtle failure mode - pushing up the <em>relative</em> probability of winner over loser can drive both down while separating them, whereas PPO's reward term anchors absolute quality.</p>
+<h2 data-bid="b42" id="grpo-group-relative-advantages-no-value-network-chapter-7">GRPO - group-relative advantages, no value network (Chapter 7)</h2>
+<p data-bid="b43">Another line of attack keeps the RL loop but simplifies it. <strong>Group Relative Policy Optimization (GRPO)</strong>, popularized for training reasoning models (e.g. DeepSeek), drops PPO's learned <strong>value network</strong> (the baseline $V(s)$ of Chapter 7). Instead, for each prompt it samples a <em>group</em> of several responses, scores them with the reward, and uses each response's reward <em>relative to the group's mean</em> as the advantage:</p>
+<p data-bid="b44">$$A_i = \frac{r_i - \text{mean}(\{r_1,\ldots,r_G\})}{\text{std}(\{r_1,\ldots,r_G\})}.$$</p>
+<p data-bid="b45"><strong>Reading it piece by piece:</strong>
+- <strong>$A_i$</strong> - the group-relative advantage for response $i$, the weight its gradient step gets.
+- <strong>$r_i$</strong> - the verifier's reward for that one sampled response.
+- <strong>$\text{mean}(\{r_1,\ldots,r_G\})$</strong> - the group's average reward, acting as the free baseline to subtract.
+- <strong>$r_i - \text{mean}$</strong> - the centered reward: positive if the sample beat its group, negative if it trailed.
+- <strong>$\text{std}(\{r_1,\ldots,r_G\})$</strong> - the group's spread, normalizing the advantage so the gradient scale stays stable.</p>
+<p data-bid="b46">This is exactly the baseline idea of Chapter 7 - subtract a comparison point to reduce variance, using the group mean instead of a learned $V$ - plus a normalization that stabilizes the gradient. Dropping the value network removes an entire model and its training instability, at the cost of needing several samples per prompt. It's PPO's variance-reduction intuition, made cheaper for the large-batch language-model setting.</p>
+<h2 data-bid="b47" id="over-optimization-and-reward-hacking-still-apply-chapter-27">Over-optimization and reward hacking still apply (Chapter 27)</h2>
+<p data-bid="b48">None of these methods escape Chapter 27's central warning. DPO and GRPO optimize a <em>proxy</em> for human preference - comparison data or a reward model - and pushing hard against any proxy eventually exploits its specific errors: the winner's curse, Goodharting, the drift into high-scoring nonsense. DPO's $\beta$ and the reference leash play the same role as RLHF's KL penalty: they cap how far the policy can move from the sane reference, limiting how much proxy-error it can exploit. The optimizer will still find the gap between "what the preference data measured" and "what humans actually want," so the durable defenses remain better-calibrated reward signals, held-out evaluation, and regularizing toward the reference (Chapter 27's remedies).</p>
+<h2 data-bid="b49" id="worked-example-by-hand-larger">Worked example - by hand, larger</h2>
+<p data-bid="b50">Take one preference pair. $y_w$ is preferred, $y_l$ rejected. We record each response's log-probability under the current policy $\pi_\theta$ and the frozen reference $\pi_{\mathrm{ref}}$, summed over tokens (Chapter 10's product-turned-sum). Suppose under the policy $\log \pi_\theta(y_w) = -2.0$ and $\log \pi_\theta(y_l) = -3.0$; under the reference $\log \pi_{\mathrm{ref}}(y_w) = -2.1$ and $\log \pi_{\mathrm{ref}}(y_l) = -2.6$; and $\beta = 0.1$.</p>
+<p data-bid="b51"><strong>Step 1 - implicit reward for the winner.</strong> The DPO implicit reward is $\hat r(y) = \beta[\log\pi_\theta(y) - \log\pi_{\mathrm{ref}}(y)]$, so</p>
+<p data-bid="b52">$$\hat r(y_w) = 0.1\times\big(-2.0 - (-2.1)\big) = 0.1\times(0.1) = 0.01.$$</p>
+<p data-bid="b53">The policy assigns $y_w$ slightly <em>more</em> probability than the reference did, giving a small positive reward.</p>
+<p data-bid="b54"><strong>Step 2 - implicit reward for the loser.</strong></p>
+<p data-bid="b55">$$\hat r(y_l) = 0.1\times\big(-3.0 - (-2.6)\big) = 0.1\times(-0.4) = -0.04.$$</p>
+<p data-bid="b56">The policy assigns $y_l$ less probability than the reference did, giving a negative reward.</p>
+<p data-bid="b57"><strong>Step 3 - the DPO logit (reward difference).</strong> Subtract:</p>
+<p data-bid="b58">$$\hat r(y_w) - \hat r(y_l) = 0.01 - (-0.04) = 0.05.$$</p>
+<p data-bid="b59">The model only <em>barely</em> prefers the winner more than the reference did, so the logit is a small $0.05$. (This is why $\beta$ matters - it rescales this gap before the sigmoid.)</p>
+<p data-bid="b60"><strong>Step 4 - sigmoid and loss.</strong></p>
+<p data-bid="b61">$$\sigma(0.05) = \frac{1}{1+e^{-0.05}} = \frac{1}{1+0.9512} = 0.5125, \qquad \mathcal{L} = -\log 0.5125 = -(-0.6683) = 0.6683 \text{ nats}.$$</p>
+<p data-bid="b62">DPO predicts only a $51.25\%$ chance that $y_w$ is preferred - barely better than a coin flip, so it has <em>almost</em> not learned this preference. If the model fully separated winner from loser (logit $\to \infty$, probability $\to 1$) the loss would go to $0$; $0.6683$ says the pair is far from learned.</p>
+<p data-bid="b63"><strong>Gradient intuition.</strong> The gradient of the DPO loss with respect to the logit is $-(1 - \sigma(\text{logit})) = -(1 - 0.5125) = -0.4875$: the step will <em>increase</em> the log-ratio gap, raising $\pi_\theta(y_w)$ relative to $\pi_\theta(y_l)$, and the push is large precisely because the model was only barely right - the same behavior Chapter 10 derived for cross-entropy.</p>
+<p data-bid="b64"><strong>The takeaway: DPO turns one preference pair into a single number - a logistic loss on the policy-to-reference log-probability gap - and descending that loss nudges the model to make the preferred answer more likely than the rejected one, with no reward model and no reinforcement learning anywhere in the loop.</strong></p>
+<h2 data-bid="b65" id="check-your-understanding">Check your understanding</h2>
+<ul>
+<li data-bid="b66">Why does the normalizing constant $Z(x)$ cancel when you plug the inverted reward formula into the Bradley-Terry preference probability, and why is that cancellation what makes DPO computationally feasible?</li>
+<li data-bid="b67">In the DPO loss, what does subtracting the reference model's log-ratio accomplish - how does it play the same role as RLHF's KL penalty (Chapter 21)?</li>
+<li data-bid="b68">Give one thing PPO can do that DPO structurally cannot, and one practical advantage of DPO over PPO.</li>
+</ul>
+<h2 data-bid="b69" id="exercises">Exercises</h2>
+<h3 data-bid="b70" id="exercise-1-dpo-loss-and-gradient-for-one-pair">Exercise 1 - DPO loss and gradient for one pair</h3>
+<p data-bid="b71">A preference pair has policy log-probs $\log\pi_\theta(y_w) = -1.2$, $\log\pi_\theta(y_l) = -2.0$ and reference log-probs $\log\pi_{\mathrm{ref}}(y_w) = -1.5$, $\log\pi_{\mathrm{ref}}(y_l) = -1.6$, with $\beta = 0.2$. Compute the implicit rewards for winner and loser, the logit, the sigmoid probability, and the DPO loss in nats.</p>
+<details><summary>Show solution</summary>
+
+Implicit rewards for winner and loser:
+
+$$\hat r(y_w) = 0.2\,[-1.2 - (-1.5)] = 0.2\times 0.3 = 0.06, \qquad \hat r(y_l) = 0.2\,[-2.0 - (-1.6)] = 0.2\times(-0.4) = -0.08.$$
+
+The DPO logit, sigmoid, and loss:
+
+$$\hat r(y_w) - \hat r(y_l) = 0.06 - (-0.08) = 0.14, \qquad \sigma(0.14) = \frac{1}{1+e^{-0.14}} = \frac{1}{1.8694} = 0.5349,$$
+
+$$\mathcal{L} = -\log 0.5349 = -(-0.6257) = 0.6257 \text{ nats}.$$
+
+The gradient w.r.t. the logit is $-(1 - 0.5349) = -0.4651$, so this step increases the log-ratio gap fairly aggressively (the model was only slightly right). As training proceeds and the logit grows, $1-\sigma \to 0$ and the gradient vanishes - the loss self-attenuates as the preference is learned.
+
+</details>
+
+<h3 data-bid="b72" id="exercise-2-grpo-advantage-by-hand">Exercise 2 - GRPO advantage by hand</h3>
+<p data-bid="b73">A prompt produces a group of 4 sampled responses with rewards $r = \{2, 0, 4, 2\}$. Compute the group-relative advantage for each response using $A_i = (r_i - \text{mean})/\text{std}$ (use the population standard deviation).</p>
+<details><summary>Show solution</summary>
+
+Mean: $\bar r = (2+0+4+2)/4 = 8/4 = 2$.
+
+Deviations: $2-2=0$; $0-2=-2$; $4-2=2$; $2-2=0$.
+
+Squared deviations: $0, 4, 4, 0$. Variance: $(0+4+4+0)/4 = 8/4 = 2$. Standard deviation: $\sqrt2 = 1.4142$.
+
+Advantages: $A = \{0/1.4142,\ -2/1.4142,\ 2/1.4142,\ 0/1.4142\} = \{0,\ -1.4142,\ 1.4142,\ 0\}$.
+
+Interpretation: the response that earned reward 4 is credited positively (+1.414) for being *better than the group average*, the reward-0 response negatively (-1.414), and the two average responses get zero - they were neither better nor worse than expected. This is exactly Chapter 7's baseline/advantage logic, with the group mean serving as the baseline and no learned value network required.
+
+</details>
+
+<h3 data-bid="b74" id="exercise-3-conceptual-when-dpos-offline-nature-hurts">Exercise 3 - Conceptual: when DPO's offline nature hurts</h3>
+<p data-bid="b75">Explain why DPO can fail if the preference dataset only ever compared responses from the <em>initial</em> policy, whereas PPO (which samples fresh responses) might succeed. Frame your answer in terms of on-policy vs. offline data (Chapter 27's coverage and Chapter 22's generalization).</p>
+<details><summary>Show solution</summary>
+
+DPO's loss only ever references the pairs it was given. If those pairs were generated by the *initial* policy, they cover only the region of response space the initial model already visits - the data is **off-policy** as soon as $\pi_\theta$ moves away. DPO never sees responses its updated policy would now produce, so it cannot correct drift or learn about behaviors absent from the fixed set - a coverage problem (Chapter 22's generalization gap, Chapter 27's offline concerns). The learned preference can fail to extrapolate beyond the training pairs.
+
+PPO is **on-policy**: it samples fresh responses from the *current* policy, so the data distribution tracks the policy as it improves and it can explore responses the initial policy never produced. The cost is the RL machinery and its instability. DPO trades on-policy coverage for the simplicity and stability of a supervised classification loss on a fixed dataset.
+
+</details>
+
+<h2 data-bid="b76" id="why-this-matters-in-ai-and-in-everyday-life">Why This Matters - In AI and In Everyday Life</h2>
+<p data-bid="b77"><strong>In AI / machine learning:</strong></p>
+<ul>
+<li data-bid="b78"><strong>Open-weight preference-tuned models</strong>: Llama-style and many research models are aligned with DPO or its variants (IPO, KTO, ORPO), precisely because it turns RLHF into a stable, reward-model-free classification loss that anyone can run.</li>
+<li data-bid="b79"><strong>GRPO and reasoning-model training</strong>: Group-relative advantages power the reward-driven training of modern reasoning models (DeepSeek-R1-style), replacing PPO's value network with a cheap group baseline (Chapter 7).</li>
+<li data-bid="b80"><strong>Alignment-pipeline design</strong>: the closed-form $\pi^* \propto \pi_{\mathrm{ref}}e^{r/\beta}$ result explains <em>why</em> RLHF's KL leash is more than a heuristic - it's the exact optimal solution of the constrained objective (Chapter 21).</li>
+<li data-bid="b81"><strong>Mitigating reward hacking</strong>: $\beta$ and the reference anchor in DPO, like the KL penalty in PPO, are the concrete knobs that bound over-optimization of a fallible preference proxy (Chapter 27).</li>
+</ul>
+<p data-bid="b82"><strong>In everyday, non-AI life:</strong></p>
+<ul>
+<li data-bid="b83"><strong>Training on relative feedback</strong>: coaching, product reviews, and hiring loops all work better when you say "prefer this over that" than when you try to assign absolute scores - the same reason pairwise data beats rating scales.</li>
+<li data-bid="b84"><strong>Constraints as regularization in decisions</strong>: the KL-to-reference idea is the everyday principle of "improve things, but don't abandon the fundamentals you already trust" - a leash on how far optimization may wander from a known-good baseline.</li>
+</ul>
+<h2 data-bid="b85" id="whats-next">What's next</h2>
+<p data-bid="b86">Chapter 39, <strong>Reinforcement Learning With Verifiable Rewards - and How Reasoning Models Are Trained</strong>, takes the next step beyond learned preference proxies entirely. When a task has a <em>checkable</em> answer - a math result you can verify, code that compiles and passes tests - you can replace the noisy, hackable reward model with ground truth, and train reasoning models with exactly the GRPO machinery and policy gradients you've now seen. It's the bridge from "predicting human preference" to "optimizing against verifiable correctness," and it's where this book's thread reaches the current frontier.</p>
+    </div>
+    <div class="navfooter">
+      <span><a href="37_preference_data_reward_modeling.html">&larr; Previous chapter</a></span>
+      <span><a href="39_rl_verifiable_rewards_reasoning.html">Next chapter &rarr;</a></span>
+    </div>
+  </div>
+  <div class="pane-right">
+    <h4>Figures in this chapter</h4>
+    <div id="railContent"></div>
+  </div>
+</div>
+
+<!-- floating selection toolbar -->
+<div id="selToolbar">
+  <button data-color="yellow" title="Mark interesting">🟡</button>
+  <button data-color="green" title="Mark understood">🟢</button>
+  <button data-color="red" title="Mark confusing">🔴</button>
+  <button data-color="blue" title="Mark to review later">🔵</button>
+  <button id="btnAddNote" title="Highlight + add a note">📝</button>
+</div>
+
+<!-- note edit popup -->
+<div id="notePopup">
+  <textarea placeholder="Write a note to yourself..."></textarea>
+  <div class="row">
+    <button class="danger" id="btnDeleteHl">Remove highlight</button>
+    <div>
+      <button id="btnCloseNote">Close</button>
+      <button class="primary" id="btnSaveNote">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- notes side panel -->
+<div id="notesOverlay"></div>
+<div id="notesPanel">
+  <div class="header">
+    <b>My Notes - this page</b>
+    <button class="iconbtn" id="btnCloseNotesPanel">✕</button>
+  </div>
+  <div class="list" id="notesList"></div>
+  <div class="footer">
+    <button id="btnExportNotes">⬇ Export all notes</button>
+    <button id="btnImportNotes">⬆ Import notes</button>
+    <input type="file" id="importFile" accept="application/json" style="display:none;">
+  </div>
+</div>
+
+<script src="../assets/app.js"></script>
+</body>
+</html>

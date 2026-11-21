@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 32: Contrastive Learning and InfoNCE - Statistics That Learns Embeddings</title>
+<link rel="stylesheet" href="../assets/app.css">
+<script>
+window.MathJax = { tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']], processEscapes: true } };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+</head>
+<body data-chapter="32_contrastive_learning_infonce">
+<div class="topbar">
+  <div class="left">
+    <button class="iconbtn hamburger" id="btnSidebarToggle">☰</button>
+    <a href="../index.html">Statistics for AI</a>
+  </div>
+  <div class="right">
+    <button class="iconbtn" id="btnNotesPanel">📒 My Notes</button>
+  </div>
+</div>
+<div id="sidebarOverlay"></div>
+<div class="layout">
+  <nav class="sidebar" id="sidebar">
+    <input type="text" id="sidebarFilter" placeholder="Filter chapters...">
+<details open><summary>Orientation</summary><ul>
+<li class="" data-title="chapter 0: how to use this book, and the math notation you'll see"><a href="00_how_to_use_this_book.html">Chapter 0: How to Use This Book, and the Math Notation You'll See</a></li>
+</ul></details>
+<details open><summary>Part I - Describing the World</summary><ul>
+<li class="" data-title="chapter 1: data, populations, and samples - thinking like a statistician"><a href="01_data_populations_samples.html">Chapter 1: Data, Populations, and Samples - Thinking Like a Statistician</a></li>
+<li class="" data-title="chapter 2: describing data - center, spread, and shape"><a href="02_descriptive_statistics.html">Chapter 2: Describing Data - Center, Spread, and Shape</a></li>
+<li class="" data-title="chapter 3: probability foundations - events, rules, and conditioning"><a href="03_probability_foundations.html">Chapter 3: Probability Foundations - Events, Rules, and Conditioning</a></li>
+<li class="" data-title="chapter 4: bayes' theorem - updating beliefs with evidence"><a href="04_bayes_theorem.html">Chapter 4: Bayes' Theorem - Updating Beliefs With Evidence</a></li>
+<li class="" data-title="chapter 5: random variables and discrete distributions"><a href="05_random_variables_discrete.html">Chapter 5: Random Variables and Discrete Distributions</a></li>
+<li class="" data-title="chapter 6: continuous distributions and the normal distribution"><a href="06_continuous_distributions.html">Chapter 6: Continuous Distributions and the Normal Distribution</a></li>
+<li class="" data-title="chapter 7: expectation, variance, covariance, and correlation"><a href="07_expectation_variance_covariance.html">Chapter 7: Expectation, Variance, Covariance, and Correlation</a></li>
+<li class="" data-title="chapter 8: the central limit theorem - the secret engine of statistics"><a href="08_central_limit_theorem.html">Chapter 8: The Central Limit Theorem - The Secret Engine of Statistics</a></li>
+</ul></details>
+<details open><summary>Part II - Inferring From Data</summary><ul>
+<li class="" data-title="chapter 9: sampling and estimation"><a href="09_sampling_and_estimation.html">Chapter 9: Sampling and Estimation</a></li>
+<li class="" data-title="chapter 10: maximum likelihood estimation"><a href="10_maximum_likelihood_estimation.html">Chapter 10: Maximum Likelihood Estimation</a></li>
+<li class="" data-title="chapter 11: confidence intervals"><a href="11_confidence_intervals.html">Chapter 11: Confidence Intervals</a></li>
+<li class="" data-title="chapter 12: hypothesis testing and p-values"><a href="12_hypothesis_testing.html">Chapter 12: Hypothesis Testing and p-values</a></li>
+<li class="" data-title="chapter 13: t-tests, chi-square, and anova"><a href="13_ttests_chisquare_anova.html">Chapter 13: t-tests, Chi-square, and ANOVA</a></li>
+<li class="" data-title="chapter 14: correlation and simple linear regression"><a href="14_simple_linear_regression.html">Chapter 14: Correlation and Simple Linear Regression</a></li>
+<li class="" data-title="chapter 15: multiple regression, r², and overfitting"><a href="15_multiple_regression.html">Chapter 15: Multiple Regression, R², and Overfitting</a></li>
+</ul></details>
+<details open><summary>Part III - The Bridge Into Machine Learning</summary><ul>
+<li class="" data-title="chapter 16: bias-variance tradeoff, cross-validation, and regularization"><a href="16_bias_variance_regularization.html">Chapter 16: Bias-Variance Tradeoff, Cross-Validation, and Regularization</a></li>
+<li class="" data-title="chapter 17: bayesian statistics in depth"><a href="17_bayesian_statistics.html">Chapter 17: Bayesian Statistics in Depth</a></li>
+<li class="" data-title="chapter 18: resampling - bootstrap and permutation tests"><a href="18_resampling_methods.html">Chapter 18: Resampling - Bootstrap and Permutation Tests</a></li>
+<li class="" data-title="chapter 19: linear algebra essentials for statistics and ml"><a href="19_linear_algebra_essentials.html">Chapter 19: Linear Algebra Essentials for Statistics and ML</a></li>
+<li class="" data-title="chapter 20: multivariate statistics - covariance matrices and pca"><a href="20_multivariate_pca.html">Chapter 20: Multivariate Statistics - Covariance Matrices and PCA</a></li>
+</ul></details>
+<details open><summary>Part IV - The Statistics Inside Modern AI</summary><ul>
+<li class="" data-title="chapter 21: information theory - entropy, cross-entropy, and kl divergence"><a href="21_information_theory.html">Chapter 21: Information Theory - Entropy, Cross-Entropy, and KL Divergence</a></li>
+<li class="" data-title="chapter 22: statistical learning theory - why generalization works at all"><a href="22_statistical_learning_theory.html">Chapter 22: Statistical Learning Theory - Why Generalization Works At All</a></li>
+<li class="" data-title="chapter 23: probabilistic models and latent variables (mixtures, em)"><a href="23_latent_variable_models.html">Chapter 23: Probabilistic Models and Latent Variables (Mixtures, EM)</a></li>
+<li class="" data-title="chapter 24: markov chains and monte carlo methods"><a href="24_markov_chains_monte_carlo.html">Chapter 24: Markov Chains and Monte Carlo Methods</a></li>
+<li class="" data-title="chapter 25: the statistics hiding inside neural networks"><a href="25_statistics_in_neural_networks.html">Chapter 25: The Statistics Hiding Inside Neural Networks</a></li>
+<li class="" data-title="chapter 26: where to go next"><a href="26_where_to_go_next.html">Chapter 26: Where to Go Next</a></li>
+</ul></details>
+<details open><summary>Part V - The Statistical Frontier of Modern AI</summary><ul>
+<li class="" data-title="chapter 27: the statistical frontier - how modern ai actually uses these ideas today"><a href="27_frontier_ai_statistics.html">Chapter 27: The Statistical Frontier - How Modern AI Actually Uses These Ideas Today</a></li>
+</ul></details>
+<details open><summary>Part VI - Advanced AI Algorithms: The Statistical Engine Room</summary><ul>
+<li class="" data-title="chapter 28: diffusion models and score matching - statistics as generation"><a href="28_diffusion_models_score_matching.html">Chapter 28: Diffusion Models and Score Matching - Statistics as Generation</a></li>
+<li class="" data-title="chapter 29: transformers and attention - statistics you can calculate (almost) by hand"><a href="29_transformers_attention_statistics.html">Chapter 29: Transformers and Attention - Statistics You Can Calculate (Almost) by Hand</a></li>
+<li class="" data-title="chapter 30: reinforcement learning and policy gradients - statistics that learn from rewards"><a href="30_reinforcement_learning_policy_gradients.html">Chapter 30: Reinforcement Learning and Policy Gradients - Statistics That Learn From Rewards</a></li>
+<li class="" data-title="chapter 31: variational inference and the elbo - approximate bayes at scale"><a href="31_variational_inference_elbo.html">Chapter 31: Variational Inference and the ELBO - Approximate Bayes at Scale</a></li>
+<li class="current" data-title="chapter 32: contrastive learning and infonce - statistics that learns embeddings"><a href="32_contrastive_learning_infonce.html">Chapter 32: Contrastive Learning and InfoNCE - Statistics That Learns Embeddings</a></li>
+<li class="" data-title="chapter 33: causal inference and do-calculus - when correlation is not enough"><a href="33_causal_inference_do_calculus.html">Chapter 33: Causal Inference and Do-Calculus - When Correlation Is Not Enough</a></li>
+<li class="" data-title="chapter 34: graphical models and message passing - statistics as graphs"><a href="34_graphical_models_message_passing.html">Chapter 34: Graphical Models and Message Passing - Statistics as Graphs</a></li>
+<li class="" data-title="chapter 35: optimization, generalization, and double descent - why big models work"><a href="35_optimization_generalization_double_descent.html">Chapter 35: Optimization, Generalization, and Double Descent - Why Big Models Work</a></li>
+<li class="" data-title="chapter 36: time series and modern sequence models - statistics over time"><a href="36_time_series_sequence_models.html">Chapter 36: Time Series and Modern Sequence Models - Statistics Over Time</a></li>
+</ul></details>
+<details open><summary>Part VII - Aligning AI With Human Preferences: The Statistics of RLHF</summary><ul>
+<li class="" data-title="chapter 37: preference data and reward modeling - statistics from human judgments"><a href="37_preference_data_reward_modeling.html">Chapter 37: Preference Data and Reward Modeling - Statistics From Human Judgments</a></li>
+<li class="" data-title="chapter 38: rlhf, dpo, and preference optimization - turning preferences into a loss function"><a href="38_dpo_and_preference_optimization.html">Chapter 38: RLHF, DPO, and Preference Optimization - Turning Preferences Into a Loss Function</a></li>
+<li class="" data-title="chapter 39: reinforcement learning with verifiable rewards - and how reasoning models are trained"><a href="39_rl_verifiable_rewards_reasoning.html">Chapter 39: Reinforcement Learning With Verifiable Rewards - and How Reasoning Models Are Trained</a></li>
+</ul></details>
+  </nav>
+  <div class="pane-left">
+    <div class="article" id="article">
+<h1 id="chapter-32-contrastive-learning-and-infonce-statistics-that-learns-embeddings">Chapter 32: Contrastive Learning and InfoNCE - Statistics That Learns Embeddings</h1>
+<h2 data-bid="b1" id="the-idea-this-chapter-builds-toward">The idea this chapter builds toward</h2>
+<p data-bid="b2">This chapter answers a question that has quietly become central to modern AI: how do you learn a <em>useful representation</em> of data without any labels at all? The answer that powers CLIP, SimCLR, and every retrieval system you've ever used is <strong>contrastive learning</strong> - pull matching things together, push mismatching things apart - and its loss function, <strong>InfoNCE</strong>, is not a new invention at all: it is Chapter 21's cross-entropy dressed in Chapter 25's softmax clothing, applied to similarity scores instead of class logits. Once you see that, the whole field stops looking like magic.</p>
+<blockquote data-bid="b3">
+<p data-bid="b4"><strong>Intuition, in one breath:</strong> An embedding is a list of numbers that places every image, word, or sentence as a point in a big coordinate space, chosen so that "similar things land near each other" - and contrastive learning is the training recipe that carves out that space by rewarding nearby friends and punishing nearby strangers, using nothing but the softmax cross-entropy you already know.</p>
+</blockquote>
+<h2 data-bid="b5" id="embeddings-turning-meaning-into-geometry">Embeddings - turning meaning into geometry</h2>
+<p data-bid="b6">Start with what an <strong>embedding</strong> actually is. An embedding is a vector $\mathbf{z} \in \mathbb{R}^d$ - just $d$ numbers - assigned to each object (an image, a word, a query), produced by a neural network. The whole point is that geometric closeness in this space should mean <em>semantic</em> closeness: two photos of dogs should sit near each other, far from a photo of a bicycle. Nothing about the raw pixels guarantees this; the vector arrangement is <em>learned</em>, and the learning is what this chapter is about.</p>
+<p data-bid="b7">Why learn this at all? Because once objects are points, "find similar items" becomes "find nearest points" - a fast vector lookup, not a hard reasoning problem. That single trick underlies search, recommendation, clustering, and the semantic memory inside large language models. The cost is that the network needs a <em>training signal</em> telling it how to place the points, and for unlabeled data there are no class labels to supply one. Contrastive learning manufactures that signal from the data's own structure.</p>
+<p data-bid="b8">When we compare two embeddings we need a similarity number. The natural one is <strong>cosine similarity</strong> - the angle between the vectors, which is exactly Chapter 7's correlation when the vectors are mean-centered:</p>
+<p data-bid="b9">$$\text{sim}(\mathbf{a},\mathbf{b}) = \frac{\mathbf{a}\cdot\mathbf{b}}{\|\mathbf{a}\|\,\|\mathbf{b}\|}$$</p>
+<p data-bid="b10"><strong>Reading it piece by piece:</strong>
+- <strong>$\mathbf{a}\cdot\mathbf{b}$</strong> - the dot product, which measures how much the two vectors point the same way before any scaling is applied.
+- <strong>$\|\mathbf{a}\|$</strong> - the length (norm) of vector $\mathbf{a}$, the raw magnitude we want to divide out.
+- <strong>$\|\mathbf{b}\|$</strong> - the length of vector $\mathbf{b}$, so the product $\|\mathbf{a}\|\,\|\mathbf{b}\|$ is the combined scale being cancelled.
+- <strong>$\text{sim}(\mathbf{a},\mathbf{b})$</strong> - the resulting angle-based similarity in $[-1,+1]$, a pure direction comparison that ignores how long either vector is.</p>
+<p data-bid="b11">Dividing by both norms makes it scale-free, exactly as dividing covariance by $\sigma_X\sigma_Y$ made Chapter 7's correlation scale-free. Cosine similarity ranges from $-1$ (opposite) through $0$ (unrelated) to $+1$ (identical direction), and it ignores magnitude - a long vector and a short vector pointing the same way are treated as fully similar. In practice embeddings are usually L2-normalized to unit length, after which cosine similarity collapses to the plain dot product $\mathbf{a}\cdot\mathbf{b}$, and that is why the two appear interchangeably in code.</p>
+<h2 data-bid="b12" id="the-contrastive-objective-friends-close-strangers-far">The contrastive objective - friends close, strangers far</h2>
+<p data-bid="b13">Now the training idea, and it is almost embarrassingly simple. Take one anchor item. Produce a <strong>positive</strong> pair by augmenting it - for an image, two random crops or color jitters of the <em>same</em> picture; for text, two paraphrases. Produce <strong>negatives</strong> by grabbing other items in the batch, which are by construction <em>different</em> objects. Then demand: the anchor's embedding should be highly similar to its positive's embedding, and dissimilar to every negative's embedding.</p>
+<p data-bid="b14">That is the entire objective. There is no hand-written label saying "this is a dog." The supervision is <em>relational</em> - this pair goes together, those pairs don't - and it turns out that forcing the network to solve millions of tiny "which of these is the matching one?" puzzles produces embeddings that encode genuine semantics, because the only way to reliably match crops of the same object across wildly different views is to learn what the object <em>is</em>.</p>
+<p data-bid="b15">This is why <strong>augmentation matters so much</strong>: the positive pair defines what invariances you want. If you augment with color jitter, you're telling the model "color is irrelevant, match anyway." If you augment with crops, you're saying "location within the frame doesn't matter." The augmentations literally <em>are</em> the inductive bias you're teaching.</p>
+<h2 data-bid="b16" id="infonce-cross-entropy-over-similarity-scores">InfoNCE - cross-entropy over similarity scores</h2>
+<p data-bid="b17">Time to make it a loss. For one anchor, take its similarity to its positive, $s_+$, and to $N-1$ negatives, $s_-^{(1)},\dots,s_-^{(N-1)}$. Divide everything by a <strong>temperature</strong> $\tau$, run the resulting scores through a <strong>softmax</strong> (Chapter 25), and read off the probability the model assigns to the true positive:</p>
+<p data-bid="b18">$$P(\text{positive} \mid \text{anchor}) = \frac{\exp(s_+/\tau)}{\exp(s_+/\tau) + \sum_{j=1}^{N-1}\exp(s_-^{(j)}/\tau)}$$</p>
+<p data-bid="b19"><strong>Reading it piece by piece:</strong>
+- <strong>$s_+$</strong> - the similarity score between the anchor and its true positive (the augmented twin), the item we want the model to pick.
+- <strong>$s_-^{(j)}$</strong> - the similarity score between the anchor and the $j$-th negative, one of the distractors it must reject.
+- <strong>$\tau$</strong> - the temperature that rescales every score before exponentiation, sharpening the softmax when small and flattening it when large.
+- <strong>$\exp(\cdot)$</strong> - the exponential that turns each score into a positive "weight", making higher similarity contribute disproportionately more mass.
+- <strong>the numerator</strong> - the positive's weight, the model's unnormalized belief that the match is the positive.
+- <strong>the denominator</strong> - the sum of the positive's weight and all negative weights, the total mass that normalizes the choice into a probability.
+- <strong>$P(\text{positive} \mid \text{anchor})$</strong> - the softmax probability the model currently assigns to the correct match among all $N$ candidates.</p>
+<p data-bid="b20">Then take the negative log - this is <strong>InfoNCE</strong>, and it is <em>exactly</em> Chapter 21's cross-entropy loss applied to a categorical distribution over "which of these $N$ items is the match?":</p>
+<p data-bid="b21">$$\mathcal{L}_{\text{InfoNCE}} = -\log\frac{\exp(s_+/\tau)}{\sum_{k=1}^{N}\exp(s_k/\tau)}$$</p>
+<p data-bid="b22"><strong>Reading it piece by piece:</strong>
+- <strong>$s_+$</strong> - the positive's similarity, sitting in the numerator as the "true class" logit of this $N$-way choice.
+- <strong>$s_k$</strong> - the similarity of candidate $k$, with the denominator summing over all $N$ of them so the fraction is a proper softmax probability.
+- <strong>$\tau$</strong> - the temperature dividing every score, setting how harshly gaps between the positive and its rivals are treated.
+- <strong>the fraction</strong> - the model's probability that the positive is the match, exactly the softmax from the line above.
+- <strong>$-\log(\cdot)$</strong> - the negative log that converts that probability into a penalty, large when the model is unsure and zero when it is certain.
+- <strong>$\mathcal{L}_{\text{InfoNCE}}$</strong> - the scalar loss, which is Chapter 21's cross-entropy reduced to a single term because the true label is always the positive.</p>
+<p data-bid="b23">The "true class" is always index 1 (the positive), so the cross-entropy is a single negative-log term. Compare this to Chapter 21's $-\sum_x P(x)\log Q(x)$: there the true distribution $P$ was a one-hot label; here the label is "the positive is the match," and $Q$ is the softmax over similarities. The machinery is identical.</p>
+<p data-bid="b24"><strong>Temperature is the concentration knob.</strong> Dividing scores by $\tau$ before the softmax is the same move Chapter 25 used on language-model logits and Chapter 6 used to describe Normal concentration. A <em>small</em> $\tau$ sharpens the softmax - differences between $s_+$ and the negatives get amplified, so the loss brutally penalizes any negative that creeps near the positive. A <em>large</em> $\tau$ flattens it, making the loss tolerant of fuzzy score gaps. Almost every real contrastive method tunes $\tau$ carefully, because it directly controls how aggressively the space is carved.</p>
+<h3 data-bid="b25" id="reconstructing-it-yourself-turning-it-into-a-gradient">Reconstructing it yourself - turning it into a gradient</h3>
+<p data-bid="b26">Push the algebra one step further, because this is where the intuition becomes a concrete force. Let $p_+ = \frac{\exp(s_+/\tau)}{\sum_k \exp(s_k/\tau)}$ be the softmax probability of the positive. Differentiating the loss with respect to a score $s_k$ gives, by the same softmax-gradient rule from Chapter 25:</p>
+<p data-bid="b27">$$\frac{\partial \mathcal{L}}{\partial s_k} = \frac{1}{\tau}\big(p_k - \mathbb{1}[k=\text{positive}]\big)$$</p>
+<p data-bid="b28"><strong>Reading it piece by piece:</strong>
+- <strong>$\partial \mathcal{L}/\partial s_k$</strong> - how much the loss changes when we nudge candidate $k$'s similarity score, the force gradient descent applies to it.
+- <strong>$1/\tau$</strong> - the temperature's inverse, which amplifies the push when $\tau$ is small and softens it when $\tau$ is large.
+- <strong>$p_k$</strong> - the softmax probability the model currently puts on candidate $k$, i.e. how confused it is about this candidate.
+- <strong>$\mathbb{1}[k=\text{positive}]$</strong> - an indicator that equals $1$ only for the true positive and $0$ for every negative, marking which candidate is the correct one.
+- <strong>the difference $p_k - \mathbb{1}[\cdot]$</strong> - the "probability minus target" residual from the cross-entropy gradient: negative for the positive (so it gets pulled up) and positive for negatives (so they get pushed down).</p>
+<p data-bid="b29">For the positive score ($k=+$), this is $\frac{1}{\tau}(p_+ - 1)$, which is <strong>negative</strong> whenever $p_+<1$ - so gradient descent <em>increases</em> $s_+$, pulling the positive closer. For any negative score, it is $\frac{1}{\tau}p_k$, <strong>positive</strong> - so descent <em>decreases</em> $s_k$, pushing negatives away, with strength proportional to how much the model currently confuses that negative with the match ($p_k$). The model spends its effort on the <em>hard</em> negatives - the ones it wrongly thinks are the positive - which is precisely why contrastive learning is so sample-efficient. This is Chapter 21's cross-entropy gradient at work on similarity instead of logits.</p>
+<div class="labcard">
+<div class="labkicker">Live - sharpen the softmax with temperature and watch the InfoNCE loss</div>
+<div class="labcontrols">
+  <div class="labctrl"><label>Temperature tau <b id="ch32_tau_label">0.50</b></label><input type="range" id="ch32_tau" min="0.05" max="2" step="0.05" value="0.5"></div>
+  <div class="labctrl"><label>Anchor index <b id="ch32_anchor_label">0</b></label><input type="range" id="ch32_anchor" min="0" max="3" step="1" value="0"></div>
+</div>
+<div class="labrow">
+  <button class="labbtn" id="ch32_run">Run</button>
+  <button class="labbtn secondary" id="ch32_reset">Reset</button>
+</div>
+<div class="labcanvas-wrap"><canvas id="ch32_canvas" width="820" height="240"></canvas></div>
+<div class="labstat-grid">
+  <div class="labstat"><div class="lbl">InfoNCE loss (nats)</div><div class="val" id="ch32_loss">-</div></div>
+  <div class="labstat"><div class="lbl">P(positive)</div><div class="val" id="ch32_ppos">-</div></div>
+  <div class="labstat"><div class="lbl">Top rival prob</div><div class="val" id="ch32_rival">-</div></div>
+</div>
+<p data-bid="b30" class="labnote">Four fixed embeddings; item 1 is the positive for the chosen anchor and the rest are negatives. Lower tau amplifies the score gaps, concentrating probability on the positive and driving the loss toward zero; higher tau flattens the bars and keeps the loss large.</p>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  var SL = window.StatsLab;
+  var emb = [[1.0,0.0],[0.8,0.6],[0.1,1.0],[-0.5,0.7]];
+  var labels = ['a0','p1(+)','n2','n3'];
+  function dot(u,v){ var s=0; for(var i=0;i<u.length;i++) s+=u[i]*v[i]; return s; }
+  function draw(){
+    var tau = Math.max(1e-3, parseFloat(document.getElementById('ch32_tau').value));
+    var anchor = parseInt(document.getElementById('ch32_anchor').value,10);
+    if(anchor<0||anchor>=emb.length) anchor=0;
+    document.getElementById('ch32_tau_label').textContent = tau.toFixed(2);
+    document.getElementById('ch32_anchor_label').textContent = anchor;
+    var sims = emb.map(function(e){ return dot(emb[anchor], e); });
+    var exps = sims.map(function(s){ return Math.exp(s/tau); });
+    var z = exps.reduce(function(a,b){return a+b;},0);
+    if(!(z>0)) z = 1e-9;
+    var probs = exps.map(function(e){ return e/z; });
+    var posIdx = (anchor===0) ? 1 : 0;
+    var ppos = probs[posIdx];
+    var loss = -Math.log(Math.max(ppos,1e-12));
+    document.getElementById('ch32_loss').textContent = loss.toFixed(4);
+    document.getElementById('ch32_ppos').textContent = ppos.toFixed(4);
+    var rival = 0, rivalIdx = -1;
+    for(var i=0;i<p data-bid="b31"robs.length;i++){ if(i!==posIdx && probs[i]>rival){ rival=probs[i]; rivalIdx=i; } }
+    document.getElementById('ch32_rival').textContent = rival.toFixed(4);
+
+    var plot = SL.makePlot(document.getElementById('ch32_canvas'), {l:50,r:20,t:16,b:50});
+    plot.setDomain([-0.5, emb.length-0.5],[0,1.05]); plot.clear(); plot.axes('candidate', 'softmax probability');
+    var ctx = plot.ctx;
+    for(var k=0;k<p data-bid="b32"robs.length;k++){
+      var color = (k===posIdx) ? SL.colors.accent3 : SL.colors.accent4;
+      ctx.fillStyle = color;
+      var x = plot.px(k), y = plot.py(probs[k]), y0 = plot.py(0);
+      ctx.fillRect(x-28, y, 56, y0-y);
+      ctx.fillStyle = SL.colors.ink; ctx.textAlign='center'; ctx.font='12px -apple-system,sans-serif';
+      ctx.fillText(probs[k].toFixed(3), x, y-6);
+      ctx.fillStyle = SL.colors.inkSoft;
+      ctx.fillText(labels[k], x, plot.py(0)+16);
+    }
+    plot.vline(anchor, SL.colors.accent, true);
+  }
+  document.getElementById('ch32_tau').addEventListener('input', draw);
+  document.getElementById('ch32_anchor').addEventListener('input', draw);
+  document.getElementById('ch32_run').addEventListener('click', draw);
+  document.getElementById('ch32_reset').addEventListener('click', function(){
+    document.getElementById('ch32_tau').value = '0.5';
+    document.getElementById('ch32_anchor').value = '0';
+    draw();
+  });
+  draw();
+});
+</script>
+
+<h2 data-bid="b33" id="worked-example-by-hand-larger">Worked example - by hand, larger</h2>
+<p data-bid="b34">Take three unit embeddings in a 2-D space: anchor $\mathbf{a}=(1,0)$, positive $\mathbf{p}=(0.8,0.6)$, and negative $\mathbf{n}=(0,1)$. All are already unit length, so cosine similarity is just the dot product. Let us compute the InfoNCE loss at temperature $\tau=0.5$ and find the gradient direction.</p>
+<p data-bid="b35"><strong>Step 1 - similarities.</strong> $s_+ = \mathbf{a}\cdot\mathbf{p} = (1)(0.8)+(0)(0.6)=0.8$. And $s_- = \mathbf{a}\cdot\mathbf{n} = (1)(0)+(0)(1)=0$. The positive scores $0.8$, the negative $0.0$.</p>
+<p data-bid="b36"><strong>Step 2 - divide by temperature.</strong> $s_+/\tau = 0.8/0.5 = 1.6$ and $s_-/\tau = 0.0/0.5 = 0.0$.</p>
+<p data-bid="b37"><strong>Step 3 - exponentiate and normalize.</strong> $\exp(1.6) = 4.953$, $\exp(0.0)=1.000$. Sum $=4.953+1.000=5.953$. Softmax probability of the positive: $p_+ = 4.953/5.953 = 0.8320$, and of the negative $p_- = 1.000/5.953 = 0.1680$.</p>
+<p data-bid="b38"><strong>Step 4 - InfoNCE loss.</strong> $\mathcal{L} = -\ln(0.8320) = 0.1839$ nats. The model already ranks the positive above the negative, so the loss is modest but nonzero - there is still room to sharpen.</p>
+<p data-bid="b39"><strong>Step 5 - the gradient direction.</strong> For the positive, $\partial\mathcal{L}/\partial s_+ = \frac{1}{0.5}(0.8320-1) = 2(-0.1680)=-0.336$. For the negative, $\partial\mathcal{L}/\partial s_- = \frac{1}{0.5}(0.1680-0) = 0.336$. Gradient descent moves in the <em>negative</em> gradient direction: it wants $s_+$ to go <strong>up</strong> (by $0.336$ per unit step) and $s_-$ to go <strong>down</strong> (by $0.336$). Concretely, nudging the positive embedding toward the anchor (increasing the angle-alignment) and the negative away will shave the loss. Note how the negative's push strength is exactly its current softmax mass $0.168$ - the confusion it causes is its punishment.</p>
+<p data-bid="b40"><strong>The takeaway: contrastive learning is not a mysterious new paradigm - it is softmax cross-entropy applied to a similarity matrix, where the "correct class" is the augmented twin, and the temperature sets how hard the loss punishes adjacent strangers.</strong></p>
+<h3 data-bid="b41" id="why-many-negatives-and-why-batch-size-is-everything">Why many negatives - and why batch size is everything</h3>
+<p data-bid="b42">Look again at the denominator: it sums over all $N-1$ negatives. With only a handful of negatives, the task is trivially easy - the model can separate the positive from a few random distractors without learning anything deep. With thousands of negatives in the denominator, the model must distinguish the positive from a vast crowd, which forces it to encode fine-grained, genuinely semantic structure. This is why SimCLR's headline finding was that <em>larger batch sizes dramatically improve representation quality</em>: more in-batch negatives means a harder, richer contrastive problem per step. It is also why techniques like a <strong>memory bank</strong> or <strong>momentum queue</strong> (as in MoCo) exist - to keep thousands of negatives available even when the GPU batch is small.</p>
+<h3 data-bid="b43" id="a-lower-bound-on-mutual-information">A lower bound on mutual information</h3>
+<p data-bid="b44">Why is it called Info<strong>NCE</strong> - "Noise Contrastive Estimation"? Because the loss is a bound on how much the two views share. The mutual information (Chapter 21's entropy toolkit) between the anchor $x$ and its positive's context $c$ satisfies:</p>
+<p data-bid="b45">$$I(x;c) \ge \log N - \mathcal{L}_{\text{InfoNCE}}$$</p>
+<p data-bid="b46"><strong>Reading it piece by piece:</strong>
+- <strong>$I(x;c)$</strong> - the mutual information between the anchor view $x$ and the positive context $c$, the shared content contrastive learning is trying to maximize.
+- <strong>$\log N$</strong> - the entropy of choosing one of $N$ equally likely candidates, the ceiling on how much information a match can convey.
+- <strong>$\mathcal{L}_{\text{InfoNCE}}$</strong> - the loss from above, which measures how much confusion remains about which candidate is the positive.
+- <strong>$\log N - \mathcal{L}_{\text{InfoNCE}}$</strong> - the information actually guaranteed: start from the maximum $\log N$ and subtract the confusion the loss records.
+- <strong>$\ge$</strong> - the inequality guaranteeing this expression never exceeds the true mutual information, making the loss a certified lower bound to be tightened by minimizing it.</p>
+<p data-bid="b47">Read it slowly. With $N$ candidates and a perfect classifier ($\mathcal{L}=0$), the bound gives $\log N$ - the maximum information you could possibly convey by picking one of $N$ things, which is exactly the entropy of a uniform choice over $N$ items (Chapter 21's $\log$ of the number of equally likely outcomes). If the model can always find the positive among $N$ negatives, the two views must share at least $\log N$ nats of information. If the loss is high, the views share less. So minimizing InfoNCE <em>maximizes a lower bound on the mutual information between the two augmented views</em> - the augmentations are the "channel," and contrastive learning squeezes maximum shared information through it. This is the deep reason the recipe works: it is information maximization in disguise.</p>
+<h2 data-bid="b48" id="check-your-understanding">Check your understanding</h2>
+<ul>
+<li data-bid="b49">Explain, in your own words, why cosine similarity is the natural comparison for embeddings, and how it connects to the correlation coefficient from Chapter 7.</li>
+<li data-bid="b50">InfoNCE is described as "cross-entropy with the positive as the true class." What exactly plays the role of the true distribution $P$ and the model distribution $Q$ from Chapter 21?</li>
+<li data-bid="b51">Why does increasing the number of negatives $N$ make the learning problem harder and - paradoxically - the resulting embeddings better?</li>
+</ul>
+<h2 data-bid="b52" id="exercises">Exercises</h2>
+<h3 data-bid="b53" id="exercise-1-infonce-by-hand">Exercise 1 - InfoNCE by hand</h3>
+<p data-bid="b54">Anchor $\mathbf{a}$, positive $\mathbf{p}$, and a single negative $\mathbf{n}$ have raw dot-product scores $s_+=2.0$ and $s_-=1.0$. Using $\tau=1.0$, compute the softmax probability of the positive and the InfoNCE loss. Then repeat with $\tau=0.25$ and explain the difference.</p>
+<details><summary>Show solution</summary>
+
+With $\tau=1.0$: $\exp(2.0)=7.389$, $\exp(1.0)=2.718$, sum $=10.107$. So $p_+ = 7.389/10.107 = 0.7311$, and $\mathcal{L} = -\ln(0.7311) = 0.3133$ nats.
+
+With $\tau=0.25$: $s_+/\tau = 8.0$ and $s_-/\tau = 4.0$. $\exp(8)=2980.96$, $\exp(4)=54.60$, sum $=3035.56$. So $p_+ = 2980.96/3035.56 = 0.9820$, and $\mathcal{L} = -\ln(0.9820) = 0.0182$ nats.
+
+Lower temperature amplifies the score gap ($1.0$ becomes a gap of $4.0$ in temperature units), so the softmax concentrates almost all mass on the positive and the loss plummets. This is the concentration-control role of $\tau$: sharp temperature makes an already-correct ranking look near-perfect, and makes any error far more costly.
+
+</details>
+
+<h3 data-bid="b55" id="exercise-2-the-gradient-on-the-negative">Exercise 2 - The gradient on the negative</h3>
+<p data-bid="b56">Using the same setup as Exercise 1 at $\tau=1.0$ (where $p_+=0.7311$, $p_-=0.2689$), compute $\partial\mathcal{L}/\partial s_+$ and $\partial\mathcal{L}/\partial s_-$, and state which way gradient descent moves each score.</p>
+<details><summary>Show solution</summary>
+
+The softmax-gradient rule gives $\partial\mathcal{L}/\partial s_k = \frac{1}{\tau}(p_k-\mathbb{1}[k=+])$.
+
+Positive: $\frac{1}{1.0}(0.7311-1) = -0.2689$. Negative: $\frac{1}{1.0}(0.2689-0)=+0.2689$.
+
+Gradient descent steps against the gradient: it *increases* $s_+$ (by $0.2689$ per unit step) and *decreases* $s_-$ (by $0.2689$). This pulls the positive embedding closer to the anchor and pushes the negative away, with the negative's push proportional to its softmax mass $0.2689$ - the harder the model confuses it, the harder it is shoved. Notice the two magnitudes are exactly equal here because $N=2$; with many negatives each individual push is smaller but their sum drives the loss.
+
+</details>
+
+<h3 data-bid="b57" id="exercise-3-conceptual-why-augmentations-define-the-objective">Exercise 3 - Conceptual: why augmentations define the objective</h3>
+<p data-bid="b58">A team trains a contrastive image model using only horizontal flips as augmentation, then deploys it for a task where left-right orientation matters (e.g., distinguishing the letter "b" from "d"). Predict what goes wrong and connect it to the idea that augmentations encode invariances.</p>
+<details><summary>Show solution</summary>
+
+A horizontal flip augmentation declares "a flipped image is the same object" - it *forces* the embedding to be invariant to left-right orientation. The model therefore learns to place "b" and "d" (horizontal mirror images) at nearly the same point, destroying exactly the distinction the deployment task needs.
+
+This is the flip side of the augmentations-are-inductive-bias claim: the model can only learn to ignore what you *tell it* to ignore, and it will aggressively ignore it. The fix is to remove the flip augmentation (or use augmentations that preserve the task-relevant structure), so the positive pair no longer asserts the invariance you don't want. The general lesson: you choose the invariances by choosing the augmentations, and choosing badly makes the embedding blind to information you later need.
+
+</details>
+
+<h2 data-bid="b59" id="why-this-matters-in-ai-and-in-everyday-life">Why This Matters - In AI and In Everyday Life</h2>
+<p data-bid="b60"><strong>In AI / machine learning:</strong></p>
+<ul>
+<li data-bid="b61"><strong>CLIP and zero-shot classification</strong>: CLIP trains an image encoder and a text encoder with a symmetric InfoNCE objective, so a photo's embedding lands near the embedding of its caption. The result is a shared image-text space where you can classify an unseen image category just by embedding the category name as text and finding the nearest image concept -- no retraining required.</li>
+<li data-bid="b62"><strong>Self-supervised pretraining</strong>: SimCLR, MoCo, and BYOL learn image representations from unlabeled data with no hand-annotations at all, then fine-tune cheaply on small labeled datasets -- directly attacking the label bottleneck that Chapter 15's supervised models depend on.</li>
+<li data-bid="b63"><strong>Retrieval and vector databases</strong>: every "semantic search" or recommendation system is nearest-neighbor lookup in an embedding space this chapter's objective built, so cosine similarity and InfoNCE are the literal mathematical substrate of modern search infrastructure.</li>
+<li data-bid="b64"><strong>Sentence embeddings and RAG</strong>: models like Sentence-BERT use contrastive objectives to place semantically equivalent sentences near each other, which is what makes retrieval-augmented generation able to fetch the right passage for a query.</li>
+</ul>
+<p data-bid="b65"><strong>In everyday, non-AI life:</strong></p>
+<ul>
+<li data-bid="b66"><strong>Reverse image search and "find similar"</strong>: when you upload a photo and a service returns visually or semantically similar ones, it is ranking results by cosine similarity in a learned embedding space.</li>
+<li data-bid="b67"><strong>Music and product recommendations</strong>: a streaming service suggests a song "because you liked this one" by placing songs as points and walking to nearby ones -- the same embedding geometry, learned from behavioral positives and negatives.</li>
+</ul>
+<h2 data-bid="b68" id="whats-next">What's next</h2>
+<p data-bid="b69">Chapter 33 asks the question contrastive learning carefully sidesteps: matching similar things and finding structure is not the same as knowing what <em>causes</em> what. Embeddings can tell you two variables co-occur, but not whether intervening on one would change the other - and that leap, from association to intervention, is exactly what <strong>Causal Inference and Do-Calculus</strong> formalizes.</p>
+    </div>
+    <div class="navfooter">
+      <span><a href="31_variational_inference_elbo.html">&larr; Previous chapter</a></span>
+      <span><a href="33_causal_inference_do_calculus.html">Next chapter &rarr;</a></span>
+    </div>
+  </div>
+  <div class="pane-right">
+    <h4>Figures in this chapter</h4>
+    <div id="railContent"></div>
+  </div>
+</div>
+
+<!-- floating selection toolbar -->
+<div id="selToolbar">
+  <button data-color="yellow" title="Mark interesting">🟡</button>
+  <button data-color="green" title="Mark understood">🟢</button>
+  <button data-color="red" title="Mark confusing">🔴</button>
+  <button data-color="blue" title="Mark to review later">🔵</button>
+  <button id="btnAddNote" title="Highlight + add a note">📝</button>
+</div>
+
+<!-- note edit popup -->
+<div id="notePopup">
+  <textarea placeholder="Write a note to yourself..."></textarea>
+  <div class="row">
+    <button class="danger" id="btnDeleteHl">Remove highlight</button>
+    <div>
+      <button id="btnCloseNote">Close</button>
+      <button class="primary" id="btnSaveNote">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- notes side panel -->
+<div id="notesOverlay"></div>
+<div id="notesPanel">
+  <div class="header">
+    <b>My Notes - this page</b>
+    <button class="iconbtn" id="btnCloseNotesPanel">✕</button>
+  </div>
+  <div class="list" id="notesList"></div>
+  <div class="footer">
+    <button id="btnExportNotes">⬇ Export all notes</button>
+    <button id="btnImportNotes">⬆ Import notes</button>
+    <input type="file" id="importFile" accept="application/json" style="display:none;">
+  </div>
+</div>
+
+<script src="../assets/app.js"></script>
+</body>
+</html>

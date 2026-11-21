@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 29: Transformers and Attention - Statistics You Can Calculate (Almost) by Hand</title>
+<link rel="stylesheet" href="../assets/app.css">
+<script>
+window.MathJax = { tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']], processEscapes: true } };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+</head>
+<body data-chapter="29_transformers_attention_statistics">
+<div class="topbar">
+  <div class="left">
+    <button class="iconbtn hamburger" id="btnSidebarToggle">☰</button>
+    <a href="../index.html">Statistics for AI</a>
+  </div>
+  <div class="right">
+    <button class="iconbtn" id="btnNotesPanel">📒 My Notes</button>
+  </div>
+</div>
+<div id="sidebarOverlay"></div>
+<div class="layout">
+  <nav class="sidebar" id="sidebar">
+    <input type="text" id="sidebarFilter" placeholder="Filter chapters...">
+<details open><summary>Orientation</summary><ul>
+<li class="" data-title="chapter 0: how to use this book, and the math notation you'll see"><a href="00_how_to_use_this_book.html">Chapter 0: How to Use This Book, and the Math Notation You'll See</a></li>
+</ul></details>
+<details open><summary>Part I - Describing the World</summary><ul>
+<li class="" data-title="chapter 1: data, populations, and samples - thinking like a statistician"><a href="01_data_populations_samples.html">Chapter 1: Data, Populations, and Samples - Thinking Like a Statistician</a></li>
+<li class="" data-title="chapter 2: describing data - center, spread, and shape"><a href="02_descriptive_statistics.html">Chapter 2: Describing Data - Center, Spread, and Shape</a></li>
+<li class="" data-title="chapter 3: probability foundations - events, rules, and conditioning"><a href="03_probability_foundations.html">Chapter 3: Probability Foundations - Events, Rules, and Conditioning</a></li>
+<li class="" data-title="chapter 4: bayes' theorem - updating beliefs with evidence"><a href="04_bayes_theorem.html">Chapter 4: Bayes' Theorem - Updating Beliefs With Evidence</a></li>
+<li class="" data-title="chapter 5: random variables and discrete distributions"><a href="05_random_variables_discrete.html">Chapter 5: Random Variables and Discrete Distributions</a></li>
+<li class="" data-title="chapter 6: continuous distributions and the normal distribution"><a href="06_continuous_distributions.html">Chapter 6: Continuous Distributions and the Normal Distribution</a></li>
+<li class="" data-title="chapter 7: expectation, variance, covariance, and correlation"><a href="07_expectation_variance_covariance.html">Chapter 7: Expectation, Variance, Covariance, and Correlation</a></li>
+<li class="" data-title="chapter 8: the central limit theorem - the secret engine of statistics"><a href="08_central_limit_theorem.html">Chapter 8: The Central Limit Theorem - The Secret Engine of Statistics</a></li>
+</ul></details>
+<details open><summary>Part II - Inferring From Data</summary><ul>
+<li class="" data-title="chapter 9: sampling and estimation"><a href="09_sampling_and_estimation.html">Chapter 9: Sampling and Estimation</a></li>
+<li class="" data-title="chapter 10: maximum likelihood estimation"><a href="10_maximum_likelihood_estimation.html">Chapter 10: Maximum Likelihood Estimation</a></li>
+<li class="" data-title="chapter 11: confidence intervals"><a href="11_confidence_intervals.html">Chapter 11: Confidence Intervals</a></li>
+<li class="" data-title="chapter 12: hypothesis testing and p-values"><a href="12_hypothesis_testing.html">Chapter 12: Hypothesis Testing and p-values</a></li>
+<li class="" data-title="chapter 13: t-tests, chi-square, and anova"><a href="13_ttests_chisquare_anova.html">Chapter 13: t-tests, Chi-square, and ANOVA</a></li>
+<li class="" data-title="chapter 14: correlation and simple linear regression"><a href="14_simple_linear_regression.html">Chapter 14: Correlation and Simple Linear Regression</a></li>
+<li class="" data-title="chapter 15: multiple regression, r², and overfitting"><a href="15_multiple_regression.html">Chapter 15: Multiple Regression, R², and Overfitting</a></li>
+</ul></details>
+<details open><summary>Part III - The Bridge Into Machine Learning</summary><ul>
+<li class="" data-title="chapter 16: bias-variance tradeoff, cross-validation, and regularization"><a href="16_bias_variance_regularization.html">Chapter 16: Bias-Variance Tradeoff, Cross-Validation, and Regularization</a></li>
+<li class="" data-title="chapter 17: bayesian statistics in depth"><a href="17_bayesian_statistics.html">Chapter 17: Bayesian Statistics in Depth</a></li>
+<li class="" data-title="chapter 18: resampling - bootstrap and permutation tests"><a href="18_resampling_methods.html">Chapter 18: Resampling - Bootstrap and Permutation Tests</a></li>
+<li class="" data-title="chapter 19: linear algebra essentials for statistics and ml"><a href="19_linear_algebra_essentials.html">Chapter 19: Linear Algebra Essentials for Statistics and ML</a></li>
+<li class="" data-title="chapter 20: multivariate statistics - covariance matrices and pca"><a href="20_multivariate_pca.html">Chapter 20: Multivariate Statistics - Covariance Matrices and PCA</a></li>
+</ul></details>
+<details open><summary>Part IV - The Statistics Inside Modern AI</summary><ul>
+<li class="" data-title="chapter 21: information theory - entropy, cross-entropy, and kl divergence"><a href="21_information_theory.html">Chapter 21: Information Theory - Entropy, Cross-Entropy, and KL Divergence</a></li>
+<li class="" data-title="chapter 22: statistical learning theory - why generalization works at all"><a href="22_statistical_learning_theory.html">Chapter 22: Statistical Learning Theory - Why Generalization Works At All</a></li>
+<li class="" data-title="chapter 23: probabilistic models and latent variables (mixtures, em)"><a href="23_latent_variable_models.html">Chapter 23: Probabilistic Models and Latent Variables (Mixtures, EM)</a></li>
+<li class="" data-title="chapter 24: markov chains and monte carlo methods"><a href="24_markov_chains_monte_carlo.html">Chapter 24: Markov Chains and Monte Carlo Methods</a></li>
+<li class="" data-title="chapter 25: the statistics hiding inside neural networks"><a href="25_statistics_in_neural_networks.html">Chapter 25: The Statistics Hiding Inside Neural Networks</a></li>
+<li class="" data-title="chapter 26: where to go next"><a href="26_where_to_go_next.html">Chapter 26: Where to Go Next</a></li>
+</ul></details>
+<details open><summary>Part V - The Statistical Frontier of Modern AI</summary><ul>
+<li class="" data-title="chapter 27: the statistical frontier - how modern ai actually uses these ideas today"><a href="27_frontier_ai_statistics.html">Chapter 27: The Statistical Frontier - How Modern AI Actually Uses These Ideas Today</a></li>
+</ul></details>
+<details open><summary>Part VI - Advanced AI Algorithms: The Statistical Engine Room</summary><ul>
+<li class="" data-title="chapter 28: diffusion models and score matching - statistics as generation"><a href="28_diffusion_models_score_matching.html">Chapter 28: Diffusion Models and Score Matching - Statistics as Generation</a></li>
+<li class="current" data-title="chapter 29: transformers and attention - statistics you can calculate (almost) by hand"><a href="29_transformers_attention_statistics.html">Chapter 29: Transformers and Attention - Statistics You Can Calculate (Almost) by Hand</a></li>
+<li class="" data-title="chapter 30: reinforcement learning and policy gradients - statistics that learn from rewards"><a href="30_reinforcement_learning_policy_gradients.html">Chapter 30: Reinforcement Learning and Policy Gradients - Statistics That Learn From Rewards</a></li>
+<li class="" data-title="chapter 31: variational inference and the elbo - approximate bayes at scale"><a href="31_variational_inference_elbo.html">Chapter 31: Variational Inference and the ELBO - Approximate Bayes at Scale</a></li>
+<li class="" data-title="chapter 32: contrastive learning and infonce - statistics that learns embeddings"><a href="32_contrastive_learning_infonce.html">Chapter 32: Contrastive Learning and InfoNCE - Statistics That Learns Embeddings</a></li>
+<li class="" data-title="chapter 33: causal inference and do-calculus - when correlation is not enough"><a href="33_causal_inference_do_calculus.html">Chapter 33: Causal Inference and Do-Calculus - When Correlation Is Not Enough</a></li>
+<li class="" data-title="chapter 34: graphical models and message passing - statistics as graphs"><a href="34_graphical_models_message_passing.html">Chapter 34: Graphical Models and Message Passing - Statistics as Graphs</a></li>
+<li class="" data-title="chapter 35: optimization, generalization, and double descent - why big models work"><a href="35_optimization_generalization_double_descent.html">Chapter 35: Optimization, Generalization, and Double Descent - Why Big Models Work</a></li>
+<li class="" data-title="chapter 36: time series and modern sequence models - statistics over time"><a href="36_time_series_sequence_models.html">Chapter 36: Time Series and Modern Sequence Models - Statistics Over Time</a></li>
+</ul></details>
+<details open><summary>Part VII - Aligning AI With Human Preferences: The Statistics of RLHF</summary><ul>
+<li class="" data-title="chapter 37: preference data and reward modeling - statistics from human judgments"><a href="37_preference_data_reward_modeling.html">Chapter 37: Preference Data and Reward Modeling - Statistics From Human Judgments</a></li>
+<li class="" data-title="chapter 38: rlhf, dpo, and preference optimization - turning preferences into a loss function"><a href="38_dpo_and_preference_optimization.html">Chapter 38: RLHF, DPO, and Preference Optimization - Turning Preferences Into a Loss Function</a></li>
+<li class="" data-title="chapter 39: reinforcement learning with verifiable rewards - and how reasoning models are trained"><a href="39_rl_verifiable_rewards_reasoning.html">Chapter 39: Reinforcement Learning With Verifiable Rewards - and How Reasoning Models Are Trained</a></li>
+</ul></details>
+  </nav>
+  <div class="pane-left">
+    <div class="article" id="article">
+<h1 id="chapter-29-transformers-and-attention-statistics-you-can-calculate-almost-by-hand">Chapter 29: Transformers and Attention - Statistics You Can Calculate (Almost) by Hand</h1>
+<h2 data-bid="b1" id="the-idea-this-chapter-builds-toward">The idea this chapter builds toward</h2>
+<p data-bid="b2">Every GPT, Claude, Gemini, and Llama model - and the diffusion systems of Chapter 28 that use text conditioning - is built on one operation: <strong>attention</strong>. It sounds exotic, but it is a soft, data-dependent <strong>weighted average</strong>, which is something you already do every time you compute an expectation (Chapter 7). The whole trick of a transformer is: for each token, decide <em>how much to pay attention</em> to every other token, then take the correspondingly weighted average. This chapter strips attention down to its statistical bones - a softmax-weighted mean (Chapter 25's softmax), a variance-control scaling (Chapter 7's $\text{Var}(aX)=a^2\text{Var}(X)$), and a learned kernel smoothing (a Nadaraya-Watson estimator) - and shows you can compute one attention output entirely by hand with real numbers.</p>
+<blockquote data-bid="b3">
+<p data-bid="b4"><strong>Intuition, in one breath:</strong> Attention is just a weighted average where the weights are computed on the fly from how similar each item is to the query - so the model softly blends information from wherever it is most relevant.</p>
+</blockquote>
+<h2 data-bid="b5" id="attention-as-a-weighted-average-a-data-dependent-expectation">Attention as a weighted average - a data-dependent expectation</h2>
+<p data-bid="b6">Chapter 7 defined the expectation of a quantity $f(X)$ as $E[f(X)] = \sum_x P(x) f(x)$: a weighted average with weights that sum to 1. Attention is exactly this, with two twists: the "weights" are computed fresh for each query from data, and the "quantity being averaged" is itself data (the values). Given a query built from one token, and a set of items (all tokens) each carrying a value, the attention output is</p>
+<p data-bid="b7">$$\text{out} = \sum_{j} a_j\, v_j, \qquad a_j \ge 0, \quad \sum_j a_j = 1.$$</p>
+<p data-bid="b8"><strong>Reading it piece by piece:</strong>
+- <strong>$\text{out}$</strong> - the attention output: the blended result for the current query token, a weighted combination of everything it looked at.
+- <strong>$j$</strong> - the index running over all tokens (all items) being attended to.
+- <strong>$v_j$</strong> - the value of token $j$: the actual information that token contributes if attended to.
+- <strong>$a_j$</strong> - the attention weight on token $j$: how much this query cares about that token, computed fresh from the data for each query.
+- <strong>$a_j \ge 0, \sum_j a_j = 1$</strong> - the weights form a proper probability distribution, which is what makes the sum a true weighted mean rather than an arbitrary mixture.</p>
+<p data-bid="b9">It is a weighted mean, structurally identical to Chapter 7's expectation - the novelty is only in <em>how the weights $a_j$ are chosen</em>. The weights are sometimes called attention probabilities, and it is worth taking that word literally: they are a categorical distribution over the tokens (Chapter 5), so attention is a <em>soft, data-dependent</em> expectation rather than a fixed one.</p>
+<h2 data-bid="b10" id="queries-keys-and-values-three-views-of-each-token">Queries, keys, and values - three views of each token</h2>
+<p data-bid="b11">Each token is projected (via learned linear maps, Chapter 14's regression weights in disguise) into three vectors:</p>
+<ul>
+<li data-bid="b12"><strong>Query</strong> $q$: "what am I looking for?" - the request from the current token.</li>
+<li data-bid="b13"><strong>Key</strong> $k$: "what do I offer, as a matchable label?" - how a token advertises itself.</li>
+<li data-bid="b14"><strong>Value</strong> $v$: "what information do I actually contribute if attended to?"</li>
+</ul>
+<p data-bid="b15">The natural way to score how well token $i$'s request matches token $j$'s offer is a <strong>dot product</strong> $q_i \cdot k_j = \sum_d q_{i,d}k_{j,d}$. This is similarity-as-inner-product, the same geometric idea behind Chapter 20's PCA and the covariance machinery of Chapter 7: vectors pointing the same way have a large positive dot product. So the raw attention scores are similarities, and we want to turn similarities into a probability distribution over tokens.</p>
+<h2 data-bid="b16" id="softmax-turns-scores-into-attention-probabilities">Softmax turns scores into attention probabilities</h2>
+<p data-bid="b17">To convert raw scores $s_j = q\cdot k_j$ into non-negative weights summing to 1, apply <strong>softmax</strong> (Chapter 25):</p>
+<p data-bid="b18">$$a_j = \frac{e^{s_j}}{\sum_{j'} e^{s_{j'}}}.$$</p>
+<p data-bid="b19"><strong>Reading it piece by piece:</strong>
+- <strong>$s_j$</strong> - the raw similarity score between the query and token $j$ (the scaled dot product), which can be any real number.
+- <strong>$e^{s_j}$</strong> - exponentiation of that score, which forces positivity and grows steeply with the score.
+- <strong>$\sum_{j'} e^{s_{j'}}$</strong> - the normalizer summed over all tokens, turning the exponentiated scores into fractions that sum to one.
+- <strong>$a_j$</strong> - the resulting attention probability for token $j$; because a big score gap makes one term dominate, softmax acts as a smooth argmax that concentrates weight on the best match.</p>
+<p data-bid="b20">This is the exact softmax of Chapter 25 - exponentiate to force positivity, normalize to sum to one - with the crucial statistical reading: softmax is a <strong>smooth argmax</strong>. For a large score gap it concentrates almost all weight on the best-matching token (like argmax, a hard maximum); for near-equal scores it spreads weight out evenly (like a uniform average). The "temperature" knob from Chapters 21/25 controls exactly this concentration: dividing scores by a temperature $T$ before softmax flattens or sharpens the attention distribution, the same knob used to control entropy at inference.</p>
+<div class="labcard">
+<div class="labkicker">Live - softmax attention weights over 5 tokens</div>
+<div class="labcontrols">
+  <div class="labctrl"><label>Query token <b id="ch29_q_label">0</b></label><input type="range" id="ch29_q" min="0" max="4" step="1" value="0"></div>
+  <div class="labctrl"><label>Temperature <b id="ch29_temp_label">1.00</b></label><input type="range" id="ch29_temp" min="0.1" max="4" step="0.05" value="1"></div>
+</div>
+<div class="labrow"><button class="labbtn" id="ch29_run">Run attention</button></div>
+<div class="labcanvas-wrap"><canvas id="ch29_canvas" width="820" height="240"></canvas></div>
+<div class="labstat-grid">
+  <div class="labstat"><div class="lbl">Top weight</div><div class="val" id="ch29_top">-</div></div>
+  <div class="labstat"><div class="lbl">Output[0]</div><div class="val" id="ch29_out">-</div></div>
+  <div class="labstat"><div class="lbl">Entropy</div><div class="val" id="ch29_ent">-</div></div>
+</div>
+<p data-bid="b21" class="labnote">Bar heights are the softmax attention weights of the chosen query over the 5 tokens. Low temperature sharpens attention onto a single best-matching token; high temperature flattens it toward a uniform average.</p>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  var SL = window.StatsLab;
+  var Q = [[1,1,0,1],[0,1,1,0],[1,0,1,1],[0,0,1,0],[1,1,1,0]];
+  var K = [[1,0,1,0],[0,1,0,1],[1,1,0,1],[0,1,1,1],[1,0,0,1]];
+  var V = [[2,0,1,1],[0,2,1,0],[1,1,2,0],[0,1,0,2],[1,0,2,1]];
+  function dot(a,b){ var s=0; for(var i=0;i<a.length;i++) s+=a[i]*b[i]; return s; }
+  function draw(){
+    var qi = parseInt(document.getElementById('ch29_q').value);
+    var T = parseFloat(document.getElementById('ch29_temp').value);
+    document.getElementById('ch29_q_label').textContent = qi;
+    document.getElementById('ch29_temp_label').textContent = T.toFixed(2);
+    var d = K[0].length;
+    var scores = [], i;
+    for(i=0;i<K.length;i++) scores.push(dot(Q[qi],K[i])/Math.sqrt(d)/T);
+    var maxS = Math.max.apply(null,scores);
+    var exps = scores.map(function(s){ return Math.exp(s-maxS); });
+    var sum = exps.reduce(function(a,b){ return a+b; },0);
+    if(sum <= 0) sum = 1;
+    var w = exps.map(function(e){ return e/sum; });
+    var ent = 0;
+    w.forEach(function(p){ if(p>1e-12) ent -= p*Math.log(p); });
+    var top = 0; for(i=1;i<w.length;i++) if(w[i]>w[top]) top=i;
+    document.getElementById('ch29_top').textContent = 'tok '+top+' ('+(w[top]*100).toFixed(1)+'%)';
+    document.getElementById('ch29_ent').textContent = ent.toFixed(3);
+    var out0 = 0; for(i=0;i<w.length;i++) out0 += w[i]*V[i][0];
+    document.getElementById('ch29_out').textContent = out0.toFixed(4);
+    var plot = SL.makePlot(document.getElementById('ch29_canvas'));
+    plot.setDomain([-0.5,4.5],[0,Math.max(0.05,Math.max.apply(null,w))*1.15]);
+    plot.clear(); plot.axes('token index','attention weight');
+    plot.bars(w.map(function(v,i){ return [i,v]; }), SL.colors.accent, 0.6);
+    plot.vline(top, SL.colors.accent4, true);
+  }
+  document.getElementById('ch29_q').addEventListener('input', draw);
+  document.getElementById('ch29_temp').addEventListener('input', draw);
+  document.getElementById('ch29_run').addEventListener('click', draw);
+  draw();
+});
+</script>
+
+<h2 data-bid="b22" id="scaling-by-xmathplaceholder29x-variance-control-not-decoration">Scaling by $1/\sqrt{d}$ - variance control, not decoration</h2>
+<p data-bid="b23">The transformer divides scores by $\sqrt{d}$ (where $d$ is the key/query dimension) before softmax. This is not cosmetic. If queries and keys have $d$ independent coordinates each with mean 0 and variance 1, then the dot product $q\cdot k = \sum_{d'} q_{d'}k_{d'}$ is a sum of $d$ independent terms, each of variance 1, so (Chapter 7's variance-of-a-sum rule) $\text{Var}(q\cdot k) = d$. Dividing the score by $\sqrt{d}$ gives a quantity of variance $d \cdot (1/\sqrt{d})^2 = 1$ - exactly the $a^2\text{Var}(X)$ scaling rule from Chapter 7 applied to kill the growth. Without it, large $d$ produces huge scores, softmax saturates to near-one-hot, and gradients vanish - the same signal-explosion failure mode as bad weight initialization in Chapter 25.</p>
+<h2 data-bid="b24" id="attention-is-a-learned-kernel-the-nadaraya-watson-estimator">Attention is a learned kernel - the Nadaraya-Watson estimator</h2>
+<p data-bid="b25">Now the punchline that makes attention feel inevitable. <strong>Nadaraya-Watson kernel regression</strong> (1964) estimates a function's value at a query $x$ by a weighted average of observed $y_j$:</p>
+<p data-bid="b26">$$\hat f(x) = \sum_j \frac{K\!\left(\frac{x-x_j}{h}\right)}{\sum_{j'} K\!\left(\frac{x-x_{j'}}{h}\right)}\, y_j,$$</p>
+<p data-bid="b27"><strong>Reading it piece by piece:</strong>
+- <strong>$\hat f(x)$</strong> - the estimated function value at the query point $x$: a smooth, locally weighted prediction.
+- <strong>$x_j$ and $y_j$</strong> - the stored inputs and their observed outputs; each observation contributes to the estimate at $x$.
+- <strong>$K$</strong> - the kernel, a similarity function (the Gaussian bell is the classic choice) that scores how close the query is to each stored input.
+- <strong>$\frac{x-x_j}{h}$</strong> - the gap between query and observation, rescaled by the bandwidth $h$; larger $h$ widens each kernel and smooths more.
+- <strong>the fraction</strong> - the kernel value divided by the sum of all kernel values, normalizing similarities into weights that sum to one.
+- <strong>$\sum_j \ldots y_j$</strong> - the weighted average of the observed outputs, where nearby inputs (large kernel) get more say.</p>
+<p data-bid="b28">where $K$ is a kernel (a similarity function; Chapter 6's Gaussian bell is the classic choice) and $h$ is a bandwidth. Compare to attention with a naive fixed similarity $s_j = x\cdot x_j$ and softmax weights: <strong>they are the same equation.</strong> Attention <em>is</em> Nadaraya-Watson kernel regression, where the kernel is learned (the $q\cdot k$ construction replaces a fixed $K$) and the softmax temperature plays the role of the bandwidth. In fact a plain Nadaraya-Watson estimator is exactly attention <em>without the softmax</em> - just normalized similarities as weights. So the transformer's core operation was hiding inside classical nonparametric regression since 1964; the transformer's contribution was making the kernel (and the whole thing) learnable and stacking it in depth.</p>
+<h2 data-bid="b29" id="positional-encodings-attention-is-order-blind-so-add-order-back">Positional encodings - attention is order-blind, so add order back</h2>
+<p data-bid="b30">The weighted average $\sum_j a_j v_j$ is a <strong>sum</strong> - it treats its inputs as an unordered set. Permuting the tokens permutes the summands but leaves the result unchanged, so raw attention cannot tell "dog bites man" from "man bites dog." <strong>Positional encodings</strong> fix this by adding a position-dependent vector to each token's representation, so token identity carries a location tag. Original transformers used fixed sinusoids of varying frequency (a Fourier-style code); modern LLMs commonly use <em>learned</em> or <em>rotary</em> (RoPE) encodings. Either way, the statistical purpose is the same: inject the ordering information that a plain set-average throws away.</p>
+<h2 data-bid="b31" id="worked-example-by-hand-larger">Worked example - by hand, larger</h2>
+<p data-bid="b32">Let's compute one attention output for a single query against three tokens with 2-dimensional keys and values. Suppose the query and keys/values are (we fold the $1/\sqrt{d}$, here $1/\sqrt2=0.7071$, into the scores):</p>
+<p data-bid="b33">Tokens with keys $k_1=(1,0)$, $k_2=(0,1)$, $k_3=(1,1)$ and values $v_1=(2,0)$, $v_2=(0,2)$, $v_3=(1,1)$. Query $q=(1,1)$.</p>
+<p data-bid="b34"><strong>Raw scores (dot products).</strong> $s_1 = q\cdot k_1 = 1\cdot1+1\cdot0 = 1$. $s_2 = 1\cdot0+1\cdot1 = 1$. $s_3 = 1\cdot1+1\cdot1 = 2$.</p>
+<p data-bid="b35"><strong>Scale by $1/\sqrt2$.</strong> $s_1 = 1\times0.7071 = 0.7071$, $s_2 = 0.7071$, $s_3 = 2\times0.7071 = 1.4142$. Now exponentiate: $e^{0.7071}=2.0281$ (twice), and $e^{1.4142}=4.1133$.</p>
+<p data-bid="b36"><strong>Softmax normalization.</strong> Sum $= 2.0281+2.0281+4.1133 = 8.1695$. So $a_1 = 2.0281/8.1695 = 0.2483$, $a_2 = 0.2483$, $a_3 = 4.1133/8.1695 = 0.5035$. Check: $0.2483+0.2483+0.5035 = 1.0001 \approx 1$. Token 3 matches best ($q\cdot k_3$ largest), so it gets roughly half the weight; tokens 1 and 2 tie.</p>
+<p data-bid="b37"><strong>Weighted output.</strong> $\text{out} = a_1 v_1 + a_2 v_2 + a_3 v_3 = 0.2483(2,0) + 0.2483(0,2) + 0.5035(1,1)$.
+Component 1: $0.2483\times2 + 0.2483\times0 + 0.5035\times1 = 0.4966 + 0.5035 = 1.0001$.
+Component 2: $0.2483\times0 + 0.2483\times2 + 0.5035\times1 = 0.4966 + 0.5035 = 1.0001$.
+So $\text{out} \approx (1.000, 1.000)$ - neatly, the attention blended the values toward the query-aligned direction.</p>
+<p data-bid="b38"><strong>The takeaway:</strong> one attention head is literally "score each token by dot-product similarity to the query, softmax the scores into weights, take the weighted average of the values" - a learned, soft, data-dependent mean you can compute with a calculator, no magic.</p>
+<h2 data-bid="b39" id="check-your-understanding">Check your understanding</h2>
+<ul>
+<li data-bid="b40">Why is attention called a "soft, data-dependent expectation," and how is that the same object as Chapter 7's $E[f(X)]=\sum_x P(x)f(x)$?</li>
+<li data-bid="b41">Why divide the scores by $\sqrt{d}$? Derive the variance of an unscaled dot product of $d$ standard-Normal coordinates and explain what goes wrong without the scaling (link to Chapter 7's variance rules).</li>
+<li data-bid="b42">In what sense is a transformer's attention identical to a Nadaraya-Watson kernel regression, and what makes the transformer version "learned"?</li>
+</ul>
+<h2 data-bid="b43" id="exercises">Exercises</h2>
+<h3 data-bid="b44" id="exercise-1-attention-weights-by-hand">Exercise 1 - Attention weights, by hand</h3>
+<p data-bid="b45">With query $q=(2,0)$ and keys $k_1=(1,0)$, $k_2=(0,1)$, using scale $1/\sqrt2=0.7071$, compute the scaled scores and the softmax attention weights over the two tokens.</p>
+<details><summary>Show solution</summary>
+
+Raw scores: $s_1 = q\cdot k_1 = 2\cdot1+0\cdot0 = 2$; $s_2 = q\cdot k_2 = 2\cdot0+0\cdot1 = 0$.
+
+Scaled: $2\times0.7071 = 1.4142$; $0\times0.7071 = 0$.
+
+Exponentials: $e^{1.4142}=4.1133$, $e^{0}=1$. Sum $=5.1133$.
+
+Weights: $a_1 = 4.1133/5.1133 = 0.8045$, $a_2 = 1/5.1133 = 0.1955$. Check: sum $=1.000$.
+
+Because the query points exactly along $k_1$, token 1 gets most of the weight - softmax concentrates on the best dot-product match, exactly the smooth-argmax behavior described. Raising the score gap (or lowering temperature) would push $a_1$ toward 1.
+
+</details>
+
+<h3 data-bid="b46" id="exercise-2-why-scale-conceptually">Exercise 2 - Why scale, conceptually</h3>
+<p data-bid="b47">Suppose $d=100$ and query/key coordinates are independent standard Normal. What is $\text{Var}(q\cdot k)$? What happens to the softmax when $d$ is large and you <em>forget</em> the $1/\sqrt{d}$ scaling, and why does that hurt training?</p>
+<details><summary>Show solution</summary>
+
+Each term $q_{d'}k_{d'}$ has variance $1$ (product of two independent standard Normals, with $E[q_{d'}^2]=1$, $E[k_{d'}^2]=1$). Summing $d=100$ independent such terms gives $\text{Var}(q\cdot k) = 100$, so the score has standard deviation $\sqrt{100}=10$.
+
+Unscaled, scores routinely reach $\pm30$. Feeding such large values into softmax makes it saturate: one weight races to $\approx1$ and the rest to $\approx0$, so attention becomes nearly one-hot. The gradient of softmax w.r.t. its inputs is tiny when the distribution is saturated (Chapter 25's cross-entropy gradient scales with how spread the distribution is), so gradients vanish and training stalls. Dividing by $\sqrt{d}$ renormalizes the score to variance $d\cdot(1/\sqrt{d})^2 = 1$ via Chapter 7's $a^2\text{Var}(X)$ rule, keeping softmax in a well-behaved regime regardless of head dimension.
+
+</details>
+
+<h3 data-bid="b48" id="exercise-3-positional-order">Exercise 3 - Positional order</h3>
+<p data-bid="b49">Two tokens have identical keys and values but swap positions. One version of the sentence is "dog bites man," the other "man bites dog." A single attention head with no positional encoding is applied. Explain why it produces the same output for both, and how a positional encoding fixes it.</p>
+<details><summary>Show solution</summary>
+
+Attention computes $\sum_j a_j v_j$ - a *sum*, whose value does not depend on the order of its terms. If the two tokens have identical keys and values, swapping their positions just reorders the summands, and the query (which, without positional info, also cannot see position) produces the same scores and hence the same weights. The output is therefore identical for "dog bites man" and "man bites dog," even though the meanings differ.
+
+A positional encoding adds a position-dependent vector to each token's key/value/query representation. Now token $j$ at position 1 has a key different from token $j$ at position 2, so the dot-product scores (and the resulting weights and output) depend on order. The ordering information that the set-like weighted average discards is restored by tagging each element with its location - turning an order-blind mean into an order-aware one.
+
+</details>
+
+<h2 data-bid="b50" id="why-this-matters-in-ai-and-in-everyday-life">Why This Matters - In AI and In Everyday Life</h2>
+<p data-bid="b51"><strong>In AI / machine learning:</strong></p>
+<ul>
+<li data-bid="b52"><strong>Every modern LLM</strong> - GPT, Claude, Gemini, Llama - is a stack of attention layers; the softmax-weighted average computed here is the fundamental building block performed trillions of times per training run.</li>
+<li data-bid="b53"><strong>The KV cache</strong> in inference serving stores the keys and values of already-seen tokens so each new token's attention query only needs to score against cached $(\text{key},\text{value})$ pairs - a direct engineering consequence of attention being "query against all stored keys, average the stored values," and the reason long-context inference is memory-bound.</li>
+<li data-bid="b54"><strong>Multi-head attention and long-context tricks</strong> (grouped-query attention, sliding-window and sparse attention) are all schemes for choosing <em>which</em> tokens to include in that weighted average, trading compute against quality.</li>
+<li data-bid="b55"><strong>Temperature and top-p sampling</strong> in text generation manipulate the same softmax-from-scores machinery this chapter uses for attention, sharing the entropy-control logic of Chapters 21 and 25.</li>
+</ul>
+<p data-bid="b56"><strong>In everyday, non-AI life:</strong></p>
+<ul>
+<li data-bid="b57"><strong>Averaging advice from friends weighted by how relevant each is to your exact question</strong> is a Nadaraya-Watson blend: you upweight whoever's expertise best matches your query, then combine their "values" accordingly - attention, with people as tokens.</li>
+<li data-bid="b58"><strong>A jury reaching a verdict</strong> is a soft aggregate of opinions with more weight given to members whose reasoning best matches the questions at hand - a human weighted average that mirrors the attention operation.</li>
+</ul>
+<h2 data-bid="b59" id="whats-next">What's next</h2>
+<p data-bid="b60">Chapter 30 turns to how a model like the transformers of this chapter is <em>optimized to do the right thing</em> - not merely to predict the next token, but to make decisions that maximize long-run reward: <strong>Reinforcement Learning and Policy Gradients</strong>. There you'll see Chapter 10's likelihood and Chapter 21's KL divergence reappear as the mathematics of improving a policy, connecting the generation machinery of Chapters 28 and 29 to the learning-from-feedback loop behind modern RLHF.</p>
+    </div>
+    <div class="navfooter">
+      <span><a href="28_diffusion_models_score_matching.html">&larr; Previous chapter</a></span>
+      <span><a href="30_reinforcement_learning_policy_gradients.html">Next chapter &rarr;</a></span>
+    </div>
+  </div>
+  <div class="pane-right">
+    <h4>Figures in this chapter</h4>
+    <div id="railContent"></div>
+  </div>
+</div>
+
+<!-- floating selection toolbar -->
+<div id="selToolbar">
+  <button data-color="yellow" title="Mark interesting">🟡</button>
+  <button data-color="green" title="Mark understood">🟢</button>
+  <button data-color="red" title="Mark confusing">🔴</button>
+  <button data-color="blue" title="Mark to review later">🔵</button>
+  <button id="btnAddNote" title="Highlight + add a note">📝</button>
+</div>
+
+<!-- note edit popup -->
+<div id="notePopup">
+  <textarea placeholder="Write a note to yourself..."></textarea>
+  <div class="row">
+    <button class="danger" id="btnDeleteHl">Remove highlight</button>
+    <div>
+      <button id="btnCloseNote">Close</button>
+      <button class="primary" id="btnSaveNote">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- notes side panel -->
+<div id="notesOverlay"></div>
+<div id="notesPanel">
+  <div class="header">
+    <b>My Notes - this page</b>
+    <button class="iconbtn" id="btnCloseNotesPanel">✕</button>
+  </div>
+  <div class="list" id="notesList"></div>
+  <div class="footer">
+    <button id="btnExportNotes">⬇ Export all notes</button>
+    <button id="btnImportNotes">⬆ Import notes</button>
+    <input type="file" id="importFile" accept="application/json" style="display:none;">
+  </div>
+</div>
+
+<script src="../assets/app.js"></script>
+</body>
+</html>

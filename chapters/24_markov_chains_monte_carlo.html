@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 24: Markov Chains and Monte Carlo Methods</title>
+<link rel="stylesheet" href="../assets/app.css">
+<script>
+window.MathJax = { tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']], processEscapes: true } };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+</head>
+<body data-chapter="24_markov_chains_monte_carlo">
+<div class="topbar">
+  <div class="left">
+    <button class="iconbtn hamburger" id="btnSidebarToggle">☰</button>
+    <a href="../index.html">Statistics for AI</a>
+  </div>
+  <div class="right">
+    <button class="iconbtn" id="btnNotesPanel">📒 My Notes</button>
+  </div>
+</div>
+<div id="sidebarOverlay"></div>
+<div class="layout">
+  <nav class="sidebar" id="sidebar">
+    <input type="text" id="sidebarFilter" placeholder="Filter chapters...">
+<details open><summary>Orientation</summary><ul>
+<li class="" data-title="chapter 0: how to use this book, and the math notation you'll see"><a href="00_how_to_use_this_book.html">Chapter 0: How to Use This Book, and the Math Notation You'll See</a></li>
+</ul></details>
+<details open><summary>Part I - Describing the World</summary><ul>
+<li class="" data-title="chapter 1: data, populations, and samples - thinking like a statistician"><a href="01_data_populations_samples.html">Chapter 1: Data, Populations, and Samples - Thinking Like a Statistician</a></li>
+<li class="" data-title="chapter 2: describing data - center, spread, and shape"><a href="02_descriptive_statistics.html">Chapter 2: Describing Data - Center, Spread, and Shape</a></li>
+<li class="" data-title="chapter 3: probability foundations - events, rules, and conditioning"><a href="03_probability_foundations.html">Chapter 3: Probability Foundations - Events, Rules, and Conditioning</a></li>
+<li class="" data-title="chapter 4: bayes' theorem - updating beliefs with evidence"><a href="04_bayes_theorem.html">Chapter 4: Bayes' Theorem - Updating Beliefs With Evidence</a></li>
+<li class="" data-title="chapter 5: random variables and discrete distributions"><a href="05_random_variables_discrete.html">Chapter 5: Random Variables and Discrete Distributions</a></li>
+<li class="" data-title="chapter 6: continuous distributions and the normal distribution"><a href="06_continuous_distributions.html">Chapter 6: Continuous Distributions and the Normal Distribution</a></li>
+<li class="" data-title="chapter 7: expectation, variance, covariance, and correlation"><a href="07_expectation_variance_covariance.html">Chapter 7: Expectation, Variance, Covariance, and Correlation</a></li>
+<li class="" data-title="chapter 8: the central limit theorem - the secret engine of statistics"><a href="08_central_limit_theorem.html">Chapter 8: The Central Limit Theorem - The Secret Engine of Statistics</a></li>
+</ul></details>
+<details open><summary>Part II - Inferring From Data</summary><ul>
+<li class="" data-title="chapter 9: sampling and estimation"><a href="09_sampling_and_estimation.html">Chapter 9: Sampling and Estimation</a></li>
+<li class="" data-title="chapter 10: maximum likelihood estimation"><a href="10_maximum_likelihood_estimation.html">Chapter 10: Maximum Likelihood Estimation</a></li>
+<li class="" data-title="chapter 11: confidence intervals"><a href="11_confidence_intervals.html">Chapter 11: Confidence Intervals</a></li>
+<li class="" data-title="chapter 12: hypothesis testing and p-values"><a href="12_hypothesis_testing.html">Chapter 12: Hypothesis Testing and p-values</a></li>
+<li class="" data-title="chapter 13: t-tests, chi-square, and anova"><a href="13_ttests_chisquare_anova.html">Chapter 13: t-tests, Chi-square, and ANOVA</a></li>
+<li class="" data-title="chapter 14: correlation and simple linear regression"><a href="14_simple_linear_regression.html">Chapter 14: Correlation and Simple Linear Regression</a></li>
+<li class="" data-title="chapter 15: multiple regression, r², and overfitting"><a href="15_multiple_regression.html">Chapter 15: Multiple Regression, R², and Overfitting</a></li>
+</ul></details>
+<details open><summary>Part III - The Bridge Into Machine Learning</summary><ul>
+<li class="" data-title="chapter 16: bias-variance tradeoff, cross-validation, and regularization"><a href="16_bias_variance_regularization.html">Chapter 16: Bias-Variance Tradeoff, Cross-Validation, and Regularization</a></li>
+<li class="" data-title="chapter 17: bayesian statistics in depth"><a href="17_bayesian_statistics.html">Chapter 17: Bayesian Statistics in Depth</a></li>
+<li class="" data-title="chapter 18: resampling - bootstrap and permutation tests"><a href="18_resampling_methods.html">Chapter 18: Resampling - Bootstrap and Permutation Tests</a></li>
+<li class="" data-title="chapter 19: linear algebra essentials for statistics and ml"><a href="19_linear_algebra_essentials.html">Chapter 19: Linear Algebra Essentials for Statistics and ML</a></li>
+<li class="" data-title="chapter 20: multivariate statistics - covariance matrices and pca"><a href="20_multivariate_pca.html">Chapter 20: Multivariate Statistics - Covariance Matrices and PCA</a></li>
+</ul></details>
+<details open><summary>Part IV - The Statistics Inside Modern AI</summary><ul>
+<li class="" data-title="chapter 21: information theory - entropy, cross-entropy, and kl divergence"><a href="21_information_theory.html">Chapter 21: Information Theory - Entropy, Cross-Entropy, and KL Divergence</a></li>
+<li class="" data-title="chapter 22: statistical learning theory - why generalization works at all"><a href="22_statistical_learning_theory.html">Chapter 22: Statistical Learning Theory - Why Generalization Works At All</a></li>
+<li class="" data-title="chapter 23: probabilistic models and latent variables (mixtures, em)"><a href="23_latent_variable_models.html">Chapter 23: Probabilistic Models and Latent Variables (Mixtures, EM)</a></li>
+<li class="current" data-title="chapter 24: markov chains and monte carlo methods"><a href="24_markov_chains_monte_carlo.html">Chapter 24: Markov Chains and Monte Carlo Methods</a></li>
+<li class="" data-title="chapter 25: the statistics hiding inside neural networks"><a href="25_statistics_in_neural_networks.html">Chapter 25: The Statistics Hiding Inside Neural Networks</a></li>
+<li class="" data-title="chapter 26: where to go next"><a href="26_where_to_go_next.html">Chapter 26: Where to Go Next</a></li>
+</ul></details>
+<details open><summary>Part V - The Statistical Frontier of Modern AI</summary><ul>
+<li class="" data-title="chapter 27: the statistical frontier - how modern ai actually uses these ideas today"><a href="27_frontier_ai_statistics.html">Chapter 27: The Statistical Frontier - How Modern AI Actually Uses These Ideas Today</a></li>
+</ul></details>
+<details open><summary>Part VI - Advanced AI Algorithms: The Statistical Engine Room</summary><ul>
+<li class="" data-title="chapter 28: diffusion models and score matching - statistics as generation"><a href="28_diffusion_models_score_matching.html">Chapter 28: Diffusion Models and Score Matching - Statistics as Generation</a></li>
+<li class="" data-title="chapter 29: transformers and attention - statistics you can calculate (almost) by hand"><a href="29_transformers_attention_statistics.html">Chapter 29: Transformers and Attention - Statistics You Can Calculate (Almost) by Hand</a></li>
+<li class="" data-title="chapter 30: reinforcement learning and policy gradients - statistics that learn from rewards"><a href="30_reinforcement_learning_policy_gradients.html">Chapter 30: Reinforcement Learning and Policy Gradients - Statistics That Learn From Rewards</a></li>
+<li class="" data-title="chapter 31: variational inference and the elbo - approximate bayes at scale"><a href="31_variational_inference_elbo.html">Chapter 31: Variational Inference and the ELBO - Approximate Bayes at Scale</a></li>
+<li class="" data-title="chapter 32: contrastive learning and infonce - statistics that learns embeddings"><a href="32_contrastive_learning_infonce.html">Chapter 32: Contrastive Learning and InfoNCE - Statistics That Learns Embeddings</a></li>
+<li class="" data-title="chapter 33: causal inference and do-calculus - when correlation is not enough"><a href="33_causal_inference_do_calculus.html">Chapter 33: Causal Inference and Do-Calculus - When Correlation Is Not Enough</a></li>
+<li class="" data-title="chapter 34: graphical models and message passing - statistics as graphs"><a href="34_graphical_models_message_passing.html">Chapter 34: Graphical Models and Message Passing - Statistics as Graphs</a></li>
+<li class="" data-title="chapter 35: optimization, generalization, and double descent - why big models work"><a href="35_optimization_generalization_double_descent.html">Chapter 35: Optimization, Generalization, and Double Descent - Why Big Models Work</a></li>
+<li class="" data-title="chapter 36: time series and modern sequence models - statistics over time"><a href="36_time_series_sequence_models.html">Chapter 36: Time Series and Modern Sequence Models - Statistics Over Time</a></li>
+</ul></details>
+<details open><summary>Part VII - Aligning AI With Human Preferences: The Statistics of RLHF</summary><ul>
+<li class="" data-title="chapter 37: preference data and reward modeling - statistics from human judgments"><a href="37_preference_data_reward_modeling.html">Chapter 37: Preference Data and Reward Modeling - Statistics From Human Judgments</a></li>
+<li class="" data-title="chapter 38: rlhf, dpo, and preference optimization - turning preferences into a loss function"><a href="38_dpo_and_preference_optimization.html">Chapter 38: RLHF, DPO, and Preference Optimization - Turning Preferences Into a Loss Function</a></li>
+<li class="" data-title="chapter 39: reinforcement learning with verifiable rewards - and how reasoning models are trained"><a href="39_rl_verifiable_rewards_reasoning.html">Chapter 39: Reinforcement Learning With Verifiable Rewards - and How Reasoning Models Are Trained</a></li>
+</ul></details>
+  </nav>
+  <div class="pane-left">
+    <div class="article" id="article">
+<h1 id="chapter-24-markov-chains-and-monte-carlo-methods">Chapter 24: Markov Chains and Monte Carlo Methods</h1>
+<h2 data-bid="b1" id="the-idea-this-chapter-builds-toward">The idea this chapter builds toward</h2>
+<p data-bid="b2">This chapter covers two related tools that recur constantly in modern statistics and AI: <strong>Markov chains</strong> (a simple, powerful way to model systems that evolve randomly over time, where the future depends only on the present state, not the full history) and <strong>Monte Carlo methods</strong> (using repeated random simulation to approximate quantities too hard to compute exactly). Combined, they form <strong>MCMC (Markov Chain Monte Carlo)</strong> - the computational technique that, as promised in Chapter 17, finally made Bayesian statistics practical for complex, real-world, many-parameter models.</p>
+<blockquote data-bid="b3">
+<p data-bid="b4"><strong>Intuition, in one breath:</strong> A Markov chain says "where you go next depends only on where you are now, not on how you got here," and Monte Carlo says "if you can't compute it exactly, simulate it a lot and average." MCMC is these two ideas married: build a random walk that wanders in proportion to how probable each place should be, then just record where it went.</p>
+</blockquote>
+<h2 data-bid="b5" id="markov-chains-the-future-depends-only-on-the-present">Markov chains - "the future depends only on the present"</h2>
+<p data-bid="b6">A <strong>Markov chain</strong> describes a system that moves between a set of <strong>states</strong>, where the probability of moving to any next state depends <em>only</em> on the current state - not on the sequence of states that led there. This is called the <strong>Markov property</strong> (memorylessness, a cousin of the Exponential distribution's memoryless property from Chapter 6, but applied to discrete state sequences rather than continuous waiting times).</p>
+<h3 data-bid="b7" id="worked-example-a-simple-weather-model">Worked example - a simple weather model</h3>
+<p data-bid="b8">Suppose weather is either "Sunny" or "Rainy," and tomorrow's weather depends only on today's: if today is Sunny, there's an 80% chance tomorrow is also Sunny (20% Rainy); if today is Rainy, there's a 60% chance tomorrow is also Rainy (40% Sunny). This is fully captured by a <strong>transition matrix</strong>:</p>
+<p data-bid="b9">$$T = \begin{bmatrix}0.8 & 0.2\\0.4 & 0.6\end{bmatrix} \quad \text{(rows: from state, columns: to state; Sunny, Rainy)}$$</p>
+<img class="has-rail" data-figid="f1" alt="A state diagram with two circles, Sunny and Rainy, connected by curved transition arrows labeled with their probabilities, plus a small self-loop on each circle." src="../images/ch24_markov_state_diagram.png" /><p data-bid="b10" class="img-caption has-rail" data-figid="f1"><em>Every Markov chain can be drawn this way: one circle per state, one arrow per possible transition, labeled with its probability. Notice every state's outgoing arrows (including its self-loop) sum to exactly 1 - you have to go somewhere, possibly back to where you started. This picture contains the entire model; nothing about the chain's future behavior depends on anything not drawn here.</em></p>
+<p data-bid="b11"><strong>A genuinely useful question</strong>: if you run this process for a very long time, what fraction of days end up Sunny vs. Rainy overall, regardless of where you started? This long-run distribution is called the <strong>stationary distribution</strong> - a probability distribution over states that, once reached, the chain stays in forever (applying the transition matrix to it reproduces the exact same distribution). For this example, solving $\pi T = \pi$ (finding the stationary distribution, a close mathematical cousin of the eigenvector equation from Chapter 19 - the stationary distribution is literally the eigenvector of $T^T$ with eigenvalue 1) gives a long-run Sunny probability of $\frac{0.4}{0.2+0.4} = \frac{2}{3}$, regardless of whether you started on a Sunny or Rainy day - a genuinely useful and non-obvious fact: <strong>the chain "forgets" its starting point over time and settles into one fixed long-run behavior</strong>, a property that turns out to be the entire key to why MCMC works, below.</p>
+<h2 data-bid="b12" id="monte-carlo-methods-approximating-hard-quantities-by-repeated-random-simulation">Monte Carlo methods - approximating hard quantities by repeated random simulation</h2>
+<p data-bid="b13">You've actually already used Monte Carlo methods throughout this book without the formal name attached: every time you've simulated an experiment thousands of times in the companion code (Chapter 3's Monty Hall simulation, Chapter 9's estimator comparisons, Chapter 18's bootstrap and permutation tests) to approximate some probability or statistic you couldn't easily compute by exact formula, that was a <strong>Monte Carlo method</strong>: using repeated random sampling to numerically approximate a quantity that's hard or impossible to compute exactly in closed form.</p>
+<h3 data-bid="b14" id="the-backstory-nuclear-weapons-research-and-a-card-game">The backstory - nuclear weapons research and a card game</h3>
+<p data-bid="b15">The name and modern formalization trace to <strong>Stanislaw Ulam and John von Neumann</strong>, working at Los Alamos National Laboratory in the late 1940s on nuclear weapon design, specifically needing to estimate how neutrons would scatter and multiply through fissile material - a problem with no clean closed-form solution, but one that could be approximated by simulating many random neutron paths and averaging the outcomes. Ulam reportedly got the core idea while recovering from an illness and playing solitaire, wondering about the probability of winning a given hand - realizing that rather than working out the combinatorics exactly (extremely hard for solitaire), he could simply <em>play out</em> many random simulated games and count how often he won. The method needed a public, unclassified code-name for the then-secret weapons project, and a colleague, Nicholas Metropolis, suggested "Monte Carlo" - a reference to the famous Monaco casino, where Ulam's uncle reportedly gambled, a fittingly playful name for a method fundamentally about exploiting randomness to get useful answers.</p>
+<h2 data-bid="b16" id="mcmc-combining-both-ideas-to-sample-from-distributions-you-cant-directly-compute">MCMC - combining both ideas to sample from distributions you can't directly compute</h2>
+<p data-bid="b17">Here's the exact problem MCMC solves, directly connecting back to Chapter 17: Bayesian posterior distributions, $P(\theta\mid\text{data}) \propto P(\text{data}\mid\theta)P(\theta)$, are usually only known <strong>up to their normalizing constant</strong> - you can compute the <em>relative</em> height of the posterior at any given $\theta$ (just multiply likelihood by prior), but computing the exact normalizing constant $P(\text{data})$ (Chapter 4's "evidence" term) requires integrating over every possible $\theta$ value, which is intractable for complex, many-parameter models. <strong>MCMC's trick</strong>: construct a specially-designed Markov chain whose <strong>stationary distribution is exactly the posterior distribution you want</strong>, even though you never needed to know its normalizing constant to build that chain. Then, you simply run the chain for a long time and record the sequence of states it visits - because of the stationary-distribution property demonstrated in the weather example above, the chain will visit different $\theta$ values <em>in proportion to their true posterior probability</em>, even though you never explicitly computed that probability's exact formula. Collect enough samples from running the chain, and you have an empirical approximation of the entire posterior distribution, ready for histogramming, computing credible intervals (Chapter 17), or any other downstream use - all without ever touching the intractable normalizing integral directly.</p>
+<h3 data-bid="b18" id="the-metropolis-hastings-algorithm-sketched">The Metropolis-Hastings algorithm, sketched</h3>
+<p data-bid="b19">The classic recipe for constructing such a chain (named for the same Metropolis who suggested "Monte Carlo," plus Hastings' later 1970 generalization): at each step, propose a random small move from your current $\theta$ to a nearby candidate $\theta'$; compute the ratio of the (unnormalized) posterior at $\theta'$ versus at $\theta$ - crucially, this ratio's normalizing constants cancel out exactly, since they're the same constant at both points, which is precisely why you never need to know that constant; if the candidate $\theta'$ has higher (unnormalized) posterior probability, always accept the move; if lower, accept it anyway but only with a probability equal to that ratio (this crucial willingness to sometimes accept a "worse" move, rather than only ever climbing uphill, is exactly what prevents the chain from getting permanently stuck at a single peak and lets it properly explore the full shape of the posterior, including other nearby peaks). Over many iterations, this simple accept/reject rule provably constructs a chain whose stationary distribution is exactly your target posterior.</p>
+<h2 data-bid="b20" id="why-this-matters-for-ai-directly">Why this matters for AI directly</h2>
+<p data-bid="b21">Modern <strong>Bayesian deep learning</strong>, probabilistic programming languages (like Stan, PyMC, or NumPyro), and Bayesian hyperparameter optimization all lean on MCMC or its faster modern approximations (variational inference, briefly mentioned in Chapter 17, trades some accuracy for dramatically more speed by turning the sampling problem into an optimization problem instead). More broadly, <strong>Hidden Markov Models</strong> - Markov chains where the true state is latent/unobserved (directly extending Chapter 23's latent-variable theme, with EM-style algorithms used to fit them) - underlie classical approaches to speech recognition, genetic sequence analysis, and part-of-speech tagging in early natural language processing, making this chapter's Markov chain vocabulary a genuine prerequisite for understanding how NLP was done before the deep-learning-dominated era that followed.</p>
+<h2 data-bid="b22" id="figures">Figures</h2>
+<img class="has-rail" data-figid="f2" alt="The Sunny/Rainy Markov chain started from two different initial states, both converging to the same long-run stationary distribution (P(Sunny)=2/3) -- the chain 'forgets' where it started." src="../images/ch24_markov_chains_monte_carlo_fig1.png" /><p data-bid="b23" class="img-caption has-rail" data-figid="f2"><em>The Sunny/Rainy Markov chain started from two different initial states, both converging to the same long-run stationary distribution (P(Sunny)=2/3) -- the chain 'forgets' where it started.</em></p>
+<img class="has-rail" data-figid="f3" alt="Samples drawn by a from-scratch Metropolis-Hastings sampler, histogrammed against the true target density -- recovered without ever computing the distribution's normalizing constant." src="../images/ch24_markov_chains_monte_carlo_fig2.png" /><p data-bid="b24" class="img-caption has-rail" data-figid="f3"><em>Samples drawn by a from-scratch Metropolis-Hastings sampler, histogrammed against the true target density -- recovered without ever computing the distribution's normalizing constant.</em></p>
+<h2 data-bid="b25" id="run-it-yourself">Run it yourself</h2>
+<p data-bid="b26"><code>book/code/ch24_markov_chains_monte_carlo.py</code> simulates the weather Markov chain example directly (confirming the $\frac{2}{3}$/$\frac{1}{3}$ stationary distribution empirically by running the chain for thousands of steps from different starting points and watching them converge to the same long-run proportions), then implements a from-scratch Metropolis-Hastings sampler to draw samples from a target posterior distribution known only up to its normalizing constant, and compares the resulting histogram of samples against the distribution's true (separately, exactly computable in this toy example) shape to confirm the sampler recovered it correctly.</p>
+<p data-bid="b27"re><code class="language-bash">python book/code/ch24_markov_chains_monte_carlo.py
+</code></pre>
+<h2 data-bid="b28" id="why-this-matters-in-ai-and-in-everyday-life">Why This Matters - In AI and In Everyday Life</h2>
+<p data-bid="b29"><strong>In AI / machine learning:</strong></p>
+<ul>
+<li data-bid="b30"><strong>Google's original PageRank algorithm</strong>: modeling a web surfer randomly clicking links as a Markov chain, and finding its stationary distribution, is literally how PageRank ranked the early web.</li>
+<li data-bid="b31"><strong>Reinforcement learning's entire mathematical foundation</strong>: a Markov Decision Process (the formal object behind RL) is this chapter's Markov chain plus actions and rewards -- there is no modern RL theory without this chapter.</li>
+<li data-bid="b32"><strong>Diffusion models' reverse sampling process</strong>: generating an image with a diffusion model is literally a (deterministic or stochastic) Markov chain run backward, stepping from pure noise through a long sequence of latent states to a clean image, and the noise-injection-and-denoise iteration is a direct relative of this chapter's transition dynamics.</li>
+<li data-bid="b33"><strong>Temperature/sampling in LLM token generation</strong>: autoregressive text generation samples each next token conditioned only on the current context, which is a Markov-style process over token sequences; nucleus/top-k sampling are Monte Carlo draws from that conditional distribution, and MCMC-based decoding methods use the accept/reject logic from this chapter to enforce constraints.</li>
+</ul>
+<p data-bid="b34"><strong>In everyday, non-AI life:</strong></p>
+<ul>
+<li data-bid="b35"><strong>Board games like Monopoly or snakes-and-ladders</strong>: your next position depends only on your current position and the dice roll, not on how you got there -- a textbook Markov chain playing out at the kitchen table.</li>
+<li data-bid="b36"><strong>Queueing at a bank or call center</strong>: models of how many people are in line next, given only how many are in line now (not the full history), use exactly this chapter's Markov chain machinery for staffing decisions.</li>
+</ul>
+<h2 data-bid="b37" id="worked-example-by-hand-larger">Worked example - by hand, larger</h2>
+<p data-bid="b38">Consider a token-level toy model - a two-state Markov chain describing whether a document alternates between a "technical" mode and a "conversational" mode. Suppose the transition matrix is
+$$T = \begin{bmatrix}0.7 & 0.3\\0.2 & 0.8\end{bmatrix} \quad \text{(rows: current mode; columns: next mode; technical, conversational).}$$
+If you're using a technical word, there's a 70% chance the next word is technical and 30% conversational; from conversational, 20% chance next is technical and 80% conversational. Let's find the long-run fraction of technical words.</p>
+<p data-bid="b39"><strong>Set up the stationary equations.</strong> We want row vector $\pi = (\pi_T, \pi_C)$ with $\pi T = \pi$ and $\pi_T + \pi_C = 1$. Writing out the first component: total probability of being technical next is $0.7\pi_T + 0.2\pi_C = \pi_T$. Rearranging: $0.2\pi_C = 0.3\pi_T$, so $\pi_C = 1.5\,\pi_T$. With $\pi_T + \pi_C = 1$: $\pi_T + 1.5\pi_T = 2.5\pi_T = 1$, giving $\pi_T = 0.4$ and $\pi_C = 0.6$. So in the long run 40% of tokens sit in technical mode, regardless of the starting mode.</p>
+<p data-bid="b40"><strong>Verify by one step.</strong> Start from $\pi_T=0.4$, $\pi_C=0.6$. Next technical probability: $0.7\times0.4 + 0.2\times0.6 = 0.28+0.12 = 0.40$. Next conversational: $0.3\times0.4+0.8\times0.6 = 0.12+0.48 = 0.60$. Unchanged - confirming the fixed point, exactly as $\pi T=\pi$ requires.</p>
+<p data-bid="b41"><strong>Now a Metropolis-Hastings step.</strong> Suppose you're sampling a parameter $\theta$ with unnormalized target $p(\theta) \propto e^{-\theta^2/2}$ (a standard Normal, only known up to that constant). You're at $\theta=1.0$; you propose $\theta' = 1.5$ from a symmetric random-walk proposal. The acceptance ratio is
+$$\frac{p(\theta')}{p(\theta)} = \frac{e^{-(1.5)^2/2}}{e^{-(1.0)^2/2}} = \frac{e^{-1.125}}{e^{-0.5}} = e^{-0.625} = 0.5353.$$
+Since $0.5353 < 1$, you accept the move only with probability $0.5353$ - so about 46% of the time you <em>reject</em> and stay at $1.0$, even though you're moving <em>toward</em> the peak. This occasional refusal to climb is what keeps the chain exploring the full distribution's shape rather than sliding deterministically to $\theta=0$.</p>
+<p data-bid="b42"><strong>The takeaway:</strong> the stationary distribution is found by solving a simple linear balance of "probability in vs. probability out" for each state, and Metropolis-Hastings builds samples from it using only <em>ratios</em> of the target - never its impossible-to-compute normalizing constant.</p>
+<h2 data-bid="b43" id="check-your-understanding">Check your understanding</h2>
+<ul>
+<li data-bid="b44">Explain, in your own words, why the weather chain's long-run behavior stops depending on whether you started on a Sunny or Rainy day.</li>
+<li data-bid="b45">Why does Metropolis-Hastings's accept/reject ratio let you avoid ever computing the posterior's normalizing constant?</li>
+<li data-bid="b46">Why is "sometimes accept a worse candidate" a necessary feature of the algorithm, rather than a bug to be removed?</li>
+</ul>
+<h2 data-bid="b47" id="exercises">Exercises</h2>
+<h3 data-bid="b48" id="exercise-1-stationary-distribution-by-hand">Exercise 1 - Stationary distribution by hand</h3>
+<p data-bid="b49">A 2-state Markov chain has transition matrix $T = \begin{bmatrix}0.9 & 0.1\\0.5 & 0.5\end{bmatrix}$ (rows: from, columns: to). Find the stationary distribution.</p>
+<details><summary>Show solution</summary>
+
+Solve $\pi T = \pi$ with $\pi = (\pi_1,\pi_2)$ and $\pi_1+\pi_2=1$. First component: next-state-1 probability $0.9\pi_1 + 0.5\pi_2 = \pi_1$. Rearrange: $0.5\pi_2 = 0.1\pi_1$, so $\pi_1 = 5\pi_2$. Then $5\pi_2 + \pi_2 = 1$ gives $\pi_2 = 1/6 \approx 0.1667$ and $\pi_1 = 5/6 \approx 0.8333$.
+
+Check: $0.9\times0.8333 + 0.5\times0.1667 = 0.7500+0.0833 = 0.8333$. ✓. State 1 is "sticky" (self-transition 0.9), so it dominates the long-run occupancy.
+
+</details>
+
+<h3 data-bid="b50" id="exercise-2-a-monte-carlo-estimate">Exercise 2 - A Monte Carlo estimate</h3>
+<p data-bid="b51">You want to estimate $\pi \approx 3.14159$ without using the constant. Describe a Monte Carlo procedure and compute its expected error behavior as the number of samples grows.</p>
+<details><summary>Show solution</summary>
+
+Throw $n$ uniform random points into the unit square $[0,1]\times[0,1]$ and count how many fall inside the quarter-circle $x^2+y^2\le1$. That count $k$ is Binomial$(n,p)$ with $p = \frac{\text{area of quarter circle}}{\text{area of square}} = \frac{\pi/4}{1} = \pi/4$. So estimate $\hat\pi = 4k/n$.
+
+Its standard error: $\text{SE}(\hat\pi) = 4\sqrt{p(1-p)/n} = 4\sqrt{(\pi/4)(1-\pi/4)/n}$. With $\pi/4\approx0.7854$: $4\sqrt{0.7854\times0.2146/n} = 4\sqrt{0.1685/n} = 4\times0.4105/\sqrt{n} = 1.642/\sqrt{n}$.
+
+To get an error of 0.01 you need $\sqrt{n} \ge 164.2$, i.e. $n \approx 27{,}000$ points; to gain one more digit (error 0.001) you need ~100x more, $n\approx2.7$ million. This is the universal $1/\sqrt n$ Monte Carlo convergence rate - get a decimal of accuracy, pay 100x the samples.
+
+</details>
+
+<h3 data-bid="b52" id="exercise-3-why-mcmc-needs-the-acceptreject-step">Exercise 3 - Why MCMC needs the accept/reject step</h3>
+<p data-bid="b53">Explain why a sampler that <em>always</em> accepted moves in the uphill direction only (pure gradient ascent on the unnormalized density) would fail to produce samples from the target distribution, using this chapter's weather/intuition and the concept of the stationary distribution.</p>
+<details><summary>Show solution</summary>
+
+Pure uphill ascent is deterministic: from any start it climbs to the nearest local maximum and stays. The sequence of visited points then has all its mass at a few peaks and *zero* mass in the low-density valleys between them. Sampling from that sequence would badly misrepresent the target density, whose true mass is spread across the whole distribution, including the low-probability regions.
+
+Metropolis-Hastings adds controlled downhill moves precisely so the chain's stationary distribution - the distribution it settles into over long runs - is exactly the target. The acceptance probability (the ratio for downhill, always accept for uphill) is calibrated so that the probability flux between any two regions balances in the long run, which is the defining condition of stationarity. Remove the occasional "worse" accept and the balance breaks, the stationary distribution changes, and the samples are no longer from the distribution you wanted.
+
+</details>
+
+<h2 data-bid="b54" id="whats-next">What's next</h2>
+<p data-bid="b55">Chapter 25 is the capstone synthesis chapter: it walks through where every single piece of probability and statistics you've learned across this entire book - MLE, cross-entropy, the Normal distribution, the bias-variance tradeoff, Bayesian priors, and more - shows up, by name and by mechanism, directly inside the design and training of neural networks.</p>
+    </div>
+    <div class="navfooter">
+      <span><a href="23_latent_variable_models.html">&larr; Previous chapter</a></span>
+      <span><a href="25_statistics_in_neural_networks.html">Next chapter &rarr;</a></span>
+    </div>
+  </div>
+  <div class="pane-right">
+    <h4>Figures in this chapter</h4>
+    <div id="railContent"></div>
+  </div>
+</div>
+
+<!-- floating selection toolbar -->
+<div id="selToolbar">
+  <button data-color="yellow" title="Mark interesting">🟡</button>
+  <button data-color="green" title="Mark understood">🟢</button>
+  <button data-color="red" title="Mark confusing">🔴</button>
+  <button data-color="blue" title="Mark to review later">🔵</button>
+  <button id="btnAddNote" title="Highlight + add a note">📝</button>
+</div>
+
+<!-- note edit popup -->
+<div id="notePopup">
+  <textarea placeholder="Write a note to yourself..."></textarea>
+  <div class="row">
+    <button class="danger" id="btnDeleteHl">Remove highlight</button>
+    <div>
+      <button id="btnCloseNote">Close</button>
+      <button class="primary" id="btnSaveNote">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- notes side panel -->
+<div id="notesOverlay"></div>
+<div id="notesPanel">
+  <div class="header">
+    <b>My Notes - this page</b>
+    <button class="iconbtn" id="btnCloseNotesPanel">✕</button>
+  </div>
+  <div class="list" id="notesList"></div>
+  <div class="footer">
+    <button id="btnExportNotes">⬇ Export all notes</button>
+    <button id="btnImportNotes">⬆ Import notes</button>
+    <input type="file" id="importFile" accept="application/json" style="display:none;">
+  </div>
+</div>
+
+<script src="../assets/app.js"></script>
+</body>
+</html>

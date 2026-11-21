@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 33: Causal Inference and Do-Calculus - When Correlation Is Not Enough</title>
+<link rel="stylesheet" href="../assets/app.css">
+<script>
+window.MathJax = { tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']], processEscapes: true } };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+</head>
+<body data-chapter="33_causal_inference_do_calculus">
+<div class="topbar">
+  <div class="left">
+    <button class="iconbtn hamburger" id="btnSidebarToggle">☰</button>
+    <a href="../index.html">Statistics for AI</a>
+  </div>
+  <div class="right">
+    <button class="iconbtn" id="btnNotesPanel">📒 My Notes</button>
+  </div>
+</div>
+<div id="sidebarOverlay"></div>
+<div class="layout">
+  <nav class="sidebar" id="sidebar">
+    <input type="text" id="sidebarFilter" placeholder="Filter chapters...">
+<details open><summary>Orientation</summary><ul>
+<li class="" data-title="chapter 0: how to use this book, and the math notation you'll see"><a href="00_how_to_use_this_book.html">Chapter 0: How to Use This Book, and the Math Notation You'll See</a></li>
+</ul></details>
+<details open><summary>Part I - Describing the World</summary><ul>
+<li class="" data-title="chapter 1: data, populations, and samples - thinking like a statistician"><a href="01_data_populations_samples.html">Chapter 1: Data, Populations, and Samples - Thinking Like a Statistician</a></li>
+<li class="" data-title="chapter 2: describing data - center, spread, and shape"><a href="02_descriptive_statistics.html">Chapter 2: Describing Data - Center, Spread, and Shape</a></li>
+<li class="" data-title="chapter 3: probability foundations - events, rules, and conditioning"><a href="03_probability_foundations.html">Chapter 3: Probability Foundations - Events, Rules, and Conditioning</a></li>
+<li class="" data-title="chapter 4: bayes' theorem - updating beliefs with evidence"><a href="04_bayes_theorem.html">Chapter 4: Bayes' Theorem - Updating Beliefs With Evidence</a></li>
+<li class="" data-title="chapter 5: random variables and discrete distributions"><a href="05_random_variables_discrete.html">Chapter 5: Random Variables and Discrete Distributions</a></li>
+<li class="" data-title="chapter 6: continuous distributions and the normal distribution"><a href="06_continuous_distributions.html">Chapter 6: Continuous Distributions and the Normal Distribution</a></li>
+<li class="" data-title="chapter 7: expectation, variance, covariance, and correlation"><a href="07_expectation_variance_covariance.html">Chapter 7: Expectation, Variance, Covariance, and Correlation</a></li>
+<li class="" data-title="chapter 8: the central limit theorem - the secret engine of statistics"><a href="08_central_limit_theorem.html">Chapter 8: The Central Limit Theorem - The Secret Engine of Statistics</a></li>
+</ul></details>
+<details open><summary>Part II - Inferring From Data</summary><ul>
+<li class="" data-title="chapter 9: sampling and estimation"><a href="09_sampling_and_estimation.html">Chapter 9: Sampling and Estimation</a></li>
+<li class="" data-title="chapter 10: maximum likelihood estimation"><a href="10_maximum_likelihood_estimation.html">Chapter 10: Maximum Likelihood Estimation</a></li>
+<li class="" data-title="chapter 11: confidence intervals"><a href="11_confidence_intervals.html">Chapter 11: Confidence Intervals</a></li>
+<li class="" data-title="chapter 12: hypothesis testing and p-values"><a href="12_hypothesis_testing.html">Chapter 12: Hypothesis Testing and p-values</a></li>
+<li class="" data-title="chapter 13: t-tests, chi-square, and anova"><a href="13_ttests_chisquare_anova.html">Chapter 13: t-tests, Chi-square, and ANOVA</a></li>
+<li class="" data-title="chapter 14: correlation and simple linear regression"><a href="14_simple_linear_regression.html">Chapter 14: Correlation and Simple Linear Regression</a></li>
+<li class="" data-title="chapter 15: multiple regression, r², and overfitting"><a href="15_multiple_regression.html">Chapter 15: Multiple Regression, R², and Overfitting</a></li>
+</ul></details>
+<details open><summary>Part III - The Bridge Into Machine Learning</summary><ul>
+<li class="" data-title="chapter 16: bias-variance tradeoff, cross-validation, and regularization"><a href="16_bias_variance_regularization.html">Chapter 16: Bias-Variance Tradeoff, Cross-Validation, and Regularization</a></li>
+<li class="" data-title="chapter 17: bayesian statistics in depth"><a href="17_bayesian_statistics.html">Chapter 17: Bayesian Statistics in Depth</a></li>
+<li class="" data-title="chapter 18: resampling - bootstrap and permutation tests"><a href="18_resampling_methods.html">Chapter 18: Resampling - Bootstrap and Permutation Tests</a></li>
+<li class="" data-title="chapter 19: linear algebra essentials for statistics and ml"><a href="19_linear_algebra_essentials.html">Chapter 19: Linear Algebra Essentials for Statistics and ML</a></li>
+<li class="" data-title="chapter 20: multivariate statistics - covariance matrices and pca"><a href="20_multivariate_pca.html">Chapter 20: Multivariate Statistics - Covariance Matrices and PCA</a></li>
+</ul></details>
+<details open><summary>Part IV - The Statistics Inside Modern AI</summary><ul>
+<li class="" data-title="chapter 21: information theory - entropy, cross-entropy, and kl divergence"><a href="21_information_theory.html">Chapter 21: Information Theory - Entropy, Cross-Entropy, and KL Divergence</a></li>
+<li class="" data-title="chapter 22: statistical learning theory - why generalization works at all"><a href="22_statistical_learning_theory.html">Chapter 22: Statistical Learning Theory - Why Generalization Works At All</a></li>
+<li class="" data-title="chapter 23: probabilistic models and latent variables (mixtures, em)"><a href="23_latent_variable_models.html">Chapter 23: Probabilistic Models and Latent Variables (Mixtures, EM)</a></li>
+<li class="" data-title="chapter 24: markov chains and monte carlo methods"><a href="24_markov_chains_monte_carlo.html">Chapter 24: Markov Chains and Monte Carlo Methods</a></li>
+<li class="" data-title="chapter 25: the statistics hiding inside neural networks"><a href="25_statistics_in_neural_networks.html">Chapter 25: The Statistics Hiding Inside Neural Networks</a></li>
+<li class="" data-title="chapter 26: where to go next"><a href="26_where_to_go_next.html">Chapter 26: Where to Go Next</a></li>
+</ul></details>
+<details open><summary>Part V - The Statistical Frontier of Modern AI</summary><ul>
+<li class="" data-title="chapter 27: the statistical frontier - how modern ai actually uses these ideas today"><a href="27_frontier_ai_statistics.html">Chapter 27: The Statistical Frontier - How Modern AI Actually Uses These Ideas Today</a></li>
+</ul></details>
+<details open><summary>Part VI - Advanced AI Algorithms: The Statistical Engine Room</summary><ul>
+<li class="" data-title="chapter 28: diffusion models and score matching - statistics as generation"><a href="28_diffusion_models_score_matching.html">Chapter 28: Diffusion Models and Score Matching - Statistics as Generation</a></li>
+<li class="" data-title="chapter 29: transformers and attention - statistics you can calculate (almost) by hand"><a href="29_transformers_attention_statistics.html">Chapter 29: Transformers and Attention - Statistics You Can Calculate (Almost) by Hand</a></li>
+<li class="" data-title="chapter 30: reinforcement learning and policy gradients - statistics that learn from rewards"><a href="30_reinforcement_learning_policy_gradients.html">Chapter 30: Reinforcement Learning and Policy Gradients - Statistics That Learn From Rewards</a></li>
+<li class="" data-title="chapter 31: variational inference and the elbo - approximate bayes at scale"><a href="31_variational_inference_elbo.html">Chapter 31: Variational Inference and the ELBO - Approximate Bayes at Scale</a></li>
+<li class="" data-title="chapter 32: contrastive learning and infonce - statistics that learns embeddings"><a href="32_contrastive_learning_infonce.html">Chapter 32: Contrastive Learning and InfoNCE - Statistics That Learns Embeddings</a></li>
+<li class="current" data-title="chapter 33: causal inference and do-calculus - when correlation is not enough"><a href="33_causal_inference_do_calculus.html">Chapter 33: Causal Inference and Do-Calculus - When Correlation Is Not Enough</a></li>
+<li class="" data-title="chapter 34: graphical models and message passing - statistics as graphs"><a href="34_graphical_models_message_passing.html">Chapter 34: Graphical Models and Message Passing - Statistics as Graphs</a></li>
+<li class="" data-title="chapter 35: optimization, generalization, and double descent - why big models work"><a href="35_optimization_generalization_double_descent.html">Chapter 35: Optimization, Generalization, and Double Descent - Why Big Models Work</a></li>
+<li class="" data-title="chapter 36: time series and modern sequence models - statistics over time"><a href="36_time_series_sequence_models.html">Chapter 36: Time Series and Modern Sequence Models - Statistics Over Time</a></li>
+</ul></details>
+<details open><summary>Part VII - Aligning AI With Human Preferences: The Statistics of RLHF</summary><ul>
+<li class="" data-title="chapter 37: preference data and reward modeling - statistics from human judgments"><a href="37_preference_data_reward_modeling.html">Chapter 37: Preference Data and Reward Modeling - Statistics From Human Judgments</a></li>
+<li class="" data-title="chapter 38: rlhf, dpo, and preference optimization - turning preferences into a loss function"><a href="38_dpo_and_preference_optimization.html">Chapter 38: RLHF, DPO, and Preference Optimization - Turning Preferences Into a Loss Function</a></li>
+<li class="" data-title="chapter 39: reinforcement learning with verifiable rewards - and how reasoning models are trained"><a href="39_rl_verifiable_rewards_reasoning.html">Chapter 39: Reinforcement Learning With Verifiable Rewards - and How Reasoning Models Are Trained</a></li>
+</ul></details>
+  </nav>
+  <div class="pane-left">
+    <div class="article" id="article">
+<h1 id="chapter-33-causal-inference-and-do-calculus-when-correlation-is-not-enough">Chapter 33: Causal Inference and Do-Calculus - When Correlation Is Not Enough</h1>
+<h2 data-bid="b1" id="the-idea-this-chapter-builds-toward">The idea this chapter builds toward</h2>
+<p data-bid="b2">Chapter 7 warned you that correlation is not causation with the ice-cream-and-drowning example, and Chapter 15 flagged Simpson's paradox without resolving it. This chapter finally builds the machinery to <em>do</em> something about it. The central object is a distinction that looks like a small notational tweak and turns out to reorganize everything: $P(Y\mid X)$ - what you see - is not $P(Y\mid do(X))$ - what happens when you <em>intervene</em>. Judea Pearl's <strong>do-calculus</strong> gives you rules for moving between them, and <strong>DAGs</strong> let you write down your causal assumptions so they can be checked instead of hidden.</p>
+<blockquote data-bid="b3">
+<p data-bid="b4"><strong>Intuition, in one breath:</strong> Observing that people who take a vitamin are healthier doesn't tell you whether the vitamin helps - maybe health-conscious people just take vitamins - so causal inference is the discipline of asking "what if I <em>forced</em> this?" rather than "what do the people who already have it look like?", and do-calculus is how you answer that from data you didn't have to randomize.</p>
+</blockquote>
+<h2 data-bid="b5" id="correlation-vs-causation-revisited-with-teeth">Correlation vs. causation, revisited with teeth</h2>
+<p data-bid="b6">Chapter 7's ice cream and drowning example: both rise in summer, driven by a hidden third variable, temperature. Seeing more ice cream does not make you drown. The observed association $\text{Corr}(\text{ice cream}, \text{drowning})$ is real and strong, yet the causal effect of ice cream on drowning is exactly zero. The confounder - the common cause - manufactures the association.</p>
+<p data-bid="b7">The mistake is subtle and pervasive: the joint distribution $P(\text{drowning}, \text{ice cream})$ genuinely does encode a statistical dependency, and a model trained to predict drowning might legitimately use ice-cream sales as a <em>predictive</em> feature. But no amount of data can turn that into "if I banned ice cream, drownings would fall." Prediction and intervention are different questions about the same numbers, and only a causal model - extra assumptions that data alone cannot supply - bridges them. That extra ingredient is the whole subject.</p>
+<h2 data-bid="b8" id="two-distributions-you-must-never-conflate">Two distributions you must never conflate</h2>
+<p data-bid="b9">Push the notation carefully, because the entire chapter lives in this gap.</p>
+<p data-bid="b10">$P(Y \mid X = x)$ is a <strong>conditional</strong>, and Chapter 3/4 already told you exactly what it is: the distribution of $Y$ among the units that <em>happen to have</em> $X=x$. It is a filter on an observed population.</p>
+<p data-bid="b11">$P(Y \mid do(X = x))$ is an <strong>interventional</strong> distribution: the distribution of $Y$ in a world where we <em>step in and set</em> $X=x$ for everyone, breaking whatever causes $X$ normally. In Pearl's notation the $do(\cdot)$ operator <em>deletes the arrows into $X$</em>. Observation just looks; intervention reaches in and rewrites the mechanism.</p>
+<p data-bid="b12">When do these two coincide? Precisely when the units taking $X=x$ are not otherwise different from those taking other values - i.e., when $X$ has no confounders (no common causes with $Y$). A <strong>randomized controlled experiment</strong> (Chapter 13's design principle) forces this by construction: the coin flip that assigns treatment is a cause of $X$ but has no other path to $Y$, so "who happened to get $X=x$" carries no information beyond $X$ itself. That single fact is why randomization is the gold standard, and why every observational method in this chapter is a patch to <em>simulate</em> it.</p>
+<h2 data-bid="b13" id="directed-acyclic-graphs-writing-down-your-assumptions">Directed acyclic graphs - writing down your assumptions</h2>
+<p data-bid="b14">A <strong>DAG</strong> is a graph with nodes (variables) and directed arrows (direct causal effects), with no cycles (nothing causes itself, even indirectly). Its power is that it encodes <strong>conditional independence</strong> assumptions in a form you can reason about and that a computer can check. Recall Chapter 3's chain rule and independence: a DAG is essentially a <em>factorization statement</em> - it says the joint distribution factorizes over each node's parents:</p>
+<p data-bid="b15">$$P(x_1,\dots,x_n) = \prod_i P\big(x_i \mid \text{parents}(x_i)\big)$$</p>
+<p data-bid="b16"><strong>Reading it piece by piece:</strong>
+- <strong>$P(x_1,\dots,x_n)$</strong> - the full joint distribution over all $n$ variables, the thing the DAG claims to encode.
+- <strong>$\prod_i$</strong> - a product over every variable, asserting the joint factorizes into one small piece per node instead of one giant table.
+- <strong>$P(x_i \mid \text{parents}(x_i))$</strong> - the conditional probability of variable $x_i$ given only its direct parents in the graph, the local rule each arrow writes down.
+- <strong>$\text{parents}(x_i)$</strong> - the set of variables with arrows pointing into $x_i$, the only inputs this factor is allowed to depend on.
+- <strong>the omitted variables</strong> - every variable not in $\text{parents}(x_i)$ is asserted conditionally irrelevant, which is the independence assumption doing the real work.</p>
+<p data-bid="b17">Every arrow you draw asserts "this variable directly influences that one"; every arrow you <em>omit</em> asserts "there is no direct influence here." The omitted arrows do the real work - they are your assumptions, stated out loud where they can be challenged.</p>
+<p data-bid="b18">Three structures explain almost everything:</p>
+<ul>
+<li data-bid="b19"><strong>Chain</strong>: $X \to M \to Y$. $M$ is a <strong>mediator</strong>. $X$ and $Y$ are dependent, but conditioning on $M$ <em>blocks</em> the path (once you know the mediator, $X$ adds nothing about $Y$).</li>
+<li data-bid="b20"><strong>Fork</strong>: $X \leftarrow C \to Y$. $C$ is a <strong>confounder</strong>, a common cause. Conditioning on $C$ <em>blocks</em> the spurious path and isolates the genuine one.</li>
+<li data-bid="b21"><strong>Collider</strong>: $X \to C \leftarrow Y$. $C$ is a common <em>effect</em>. This is the treacherous one: $X$ and $Y$ are normally independent, but conditioning on $C$ <em>opens</em> a path between them - so controlling for a collider creates a spurious association that wasn't there before. This is why "just adjust for everything you measured" is a genuinely bad heuristic.</li>
+</ul>
+<h2 data-bid="b22" id="the-backdoor-criterion-how-to-actually-compute-a-causal-effect">The backdoor criterion - how to actually compute a causal effect</h2>
+<p data-bid="b23">The backdoor criterion tells you which variables to adjust for. A set $Z$ satisfies the <strong>backdoor criterion</strong> for estimating the effect of $X$ on $Y$ if (1) no member of $Z$ is a descendant of $X$, and (2) $Z$ blocks every "backdoor" path from $X$ to $Y$ - every path that enters $X$ through an arrow pointing <em>into</em> it. Intuitively, $Z$ must block all the spurious routes created by confounders while leaving the genuine $X\to Y$ routes alone.</p>
+<p data-bid="b24">When such a $Z$ exists, the causal effect is recovered by the <strong>backdoor adjustment formula</strong>:</p>
+<p data-bid="b25">$$P\big(Y \mid do(X=x)\big) = \sum_z P(Y \mid X=x, Z=z)\,P(Z=z)$$</p>
+<p data-bid="b26"><strong>Reading it piece by piece:</strong>
+- <strong>$P(Y \mid do(X=x))$</strong> - the interventional distribution we want: the outcome rate if we forcibly set $X=x$ for everyone rather than watching who happens to have it.
+- <strong>$\sum_z$</strong> - a sum over the strata of the adjustment set $Z$, blending each stratum's answer into one overall figure.
+- <strong>$P(Y \mid X=x, Z=z)$</strong> - the observed outcome rate among units with $X=x$ <em>within</em> confounder stratum $z$, the conditional we can actually read off the data.
+- <strong>$P(Z=z)$</strong> - the population share of stratum $z$, the weight used to average strata; note it is the natural population mix, not the mix induced by $X$.
+- <strong>the product</strong> - each stratum's rate weighted by how common that stratum is, so the confounder is balanced as if everyone had been in every stratum.
+- <strong>the whole sum</strong> - the standardized causal effect, which recovers $do(X=x)$ from observational data whenever $Z$ satisfies the backdoor criterion.</p>
+<p data-bid="b27">This is a <strong>standardization</strong>: within each stratum of the confounder, read off the observed conditional $Y$-rate, then average those strata using the <em>population</em> distribution of $Z$, not the distribution induced by $X$. That reweighting is the mathematical act of "as if everyone"-balancing the confounder across treatment groups. The next worked example makes this concrete.</p>
+<div class="labcard">
+<div class="labkicker">Live - build Simpson's reversal and undo it with backdoor adjustment</div>
+<div class="labcontrols">
+  <div class="labctrl"><label>Fraction in stratum 1 <b id="ch33_frac_label">0.50</b></label><input type="range" id="ch33_frac" min="0.05" max="0.95" step="0.01" value="0.5"></div>
+  <div class="labctrl"><label>Treatment advantage in stratum 1 <b id="ch33_adv1_label">+0.10</b></label><input type="range" id="ch33_adv1" min="-0.20" max="0.30" step="0.01" value="0.10"></div>
+  <div class="labctrl"><label>Treatment advantage in stratum 2 <b id="ch33_adv2_label">+0.10</b></label><input type="range" id="ch33_adv2" min="-0.20" max="0.30" step="0.01" value="0.10"></div>
+  <div class="labctrl"><label>Treatment share in stratum 1 <b id="ch33_treat1_label">0.20</b></label><input type="range" id="ch33_treat1" min="0.05" max="0.95" step="0.01" value="0.20"></div>
+  <div class="labctrl"><label>Treatment share in stratum 2 <b id="ch33_treat2_label">0.80</b></label><input type="range" id="ch33_treat2" min="0.05" max="0.95" step="0.01" value="0.80"></div>
+</div>
+<div class="labrow">
+  <button class="labbtn" id="ch33_run">Run</button>
+  <button class="labbtn secondary" id="ch33_reset">Reset</button>
+</div>
+<div class="labcanvas-wrap"><canvas id="ch33_canvas" width="820" height="240"></canvas></div>
+<div class="labstat-grid">
+  <div class="labstat"><div class="lbl">Naive pooled diff (T-U)</div><div class="val" id="ch33_naive">-</div></div>
+  <div class="labstat"><div class="lbl">Adjusted effect (backdoor)</div><div class="val" id="ch33_adj">-</div></div>
+</div>
+<p data-bid="b28" class="labnote">Stratum 1 has a high baseline recovery; stratum 2 a low one. If treatment is concentrated in the low-baseline stratum, the pooled difference can turn negative even though treatment helps within both strata - Simpson's reversal. The adjusted effect (weighted average of the within-stratum differences) stays positive.</p>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  var SL = window.StatsLab;
+  function draw(){
+    var w1 = parseFloat(document.getElementById('ch33_frac').value);
+    var adv1 = parseFloat(document.getElementById('ch33_adv1').value);
+    var adv2 = parseFloat(document.getElementById('ch33_adv2').value);
+    var t1 = parseFloat(document.getElementById('ch33_treat1').value);
+    var t2 = parseFloat(document.getElementById('ch33_treat2').value);
+    var w2 = 1 - w1;
+    document.getElementById('ch33_frac_label').textContent = w1.toFixed(2);
+    document.getElementById('ch33_adv1_label').textContent = (adv1>=0?'+':'')+adv1.toFixed(2);
+    document.getElementById('ch33_adv2_label').textContent = (adv2>=0?'+':'')+adv2.toFixed(2);
+    document.getElementById('ch33_treat1_label').textContent = t1.toFixed(2);
+    document.getElementById('ch33_treat2_label').textContent = t2.toFixed(2);
+
+    var base1 = 0.85, base2 = 0.20;
+    var rate0_1 = base1, rate1_1 = base1 + adv1;
+    var rate0_2 = base2, rate1_2 = base2 + adv2;
+    rate1_1 = Math.max(0, Math.min(1, rate1_1));
+    rate1_2 = Math.max(0, Math.min(1, rate1_2));
+
+    var poolT = w1*t1*rate1_1 + w2*t2*rate1_2;
+    var poolC = w1*(1-t1)*rate0_1 + w2*(1-t2)*rate0_2;
+    var pooledTreatShare = w1*t1 + w2*t2;
+    var pooledCtrlShare = w1*(1-t1) + w2*(1-t2);
+    var rateTreat = pooledTreatShare>0 ? poolT/pooledTreatShare : 0;
+    var rateCtrl = pooledCtrlShare>0 ? poolC/pooledCtrlShare : 0;
+    var naive = rateTreat - rateCtrl;
+    var adj = w1*adv1 + w2*adv2;
+
+    document.getElementById('ch33_naive').textContent = (naive>=0?'+':'')+naive.toFixed(4);
+    document.getElementById('ch33_adj').textContent = (adj>=0?'+':'')+adj.toFixed(4);
+
+    var plot = SL.makePlot(document.getElementById('ch33_canvas'), {l:55,r:20,t:16,b:50});
+    var vals = [rateTreat, rateCtrl, w1*adv1, w2*adv2];
+    var maxV = 0.05;
+    vals.forEach(function(v){ if(v>maxV) maxV=v; });
+    maxV = Math.max(maxV*1.25, 0.2);
+    plot.setDomain([0,4.2],[0,maxV]); plot.clear(); plot.axes('', 'recovery rate / effect');
+    var ctx = plot.ctx;
+    var bars = [
+      {x:0.7, v:rateTreat, color:SL.colors.accent, label:'Treated (pooled)'},
+      {x:1.7, v:rateCtrl, color:SL.colors.accent2, label:'Untreated (pooled)'},
+      {x:3.0, v:w1*adv1, color:SL.colors.accent3, label:'Stratum 1 contrib'},
+      {x:4.0, v:w2*adv2, color:SL.colors.accent3, label:'Stratum 2 contrib'}
+    ];
+    bars.forEach(function(b){
+      ctx.fillStyle = b.color;
+      var x = plot.px(b.x), y = plot.py(b.v), y0 = plot.py(0);
+      ctx.fillRect(x-32, Math.min(y,y0), 64, Math.abs(y0-y));
+      ctx.fillStyle = SL.colors.ink; ctx.textAlign='center'; ctx.font='12px -apple-system,sans-serif';
+      ctx.fillText(b.v.toFixed(3), x, Math.min(y,y0)-6);
+      ctx.fillStyle = SL.colors.inkSoft; ctx.font='11px -apple-system,sans-serif';
+      ctx.fillText(b.label, x, plot.py(0)+16);
+    });
+    plot.vline(2.35, SL.colors.border, true);
+  }
+  ['ch33_frac','ch33_adv1','ch33_adv2','ch33_treat1','ch33_treat2'].forEach(function(id){
+    document.getElementById(id).addEventListener('input', draw);
+  });
+  document.getElementById('ch33_run').addEventListener('click', draw);
+  document.getElementById('ch33_reset').addEventListener('click', function(){
+    document.getElementById('ch33_frac').value = '0.5';
+    document.getElementById('ch33_adv1').value = '0.10';
+    document.getElementById('ch33_adv2').value = '0.10';
+    document.getElementById('ch33_treat1').value = '0.20';
+    document.getElementById('ch33_treat2').value = '0.80';
+    draw();
+  });
+  draw();
+});
+</script>
+
+<h2 data-bid="b29" id="worked-example-by-hand-larger">Worked example - by hand, larger</h2>
+<p data-bid="b30">A hospital studies whether a drug improves recovery. It is observational: doctors give the drug mostly to <em>older, sicker</em> patients, and older patients recover less on their own. We will show the naive association says the drug <strong>hurts</strong>, Simpson's paradox flips it, and the backdoor adjustment reveals the drug <strong>helps</strong>.</p>
+<p data-bid="b31">The confounder is age, split into "young" and "old." Here is the full table of recovery counts:</p>
+<table>
+<thead>
+<tr>
+<th>Age group</th>
+<th>Drug</th>
+<th>Recovered</th>
+<th>Total</th>
+<th>Recovery rate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Young</td>
+<td>Yes</td>
+<td>450</td>
+<td>500</td>
+<td>0.90</td>
+</tr>
+<tr>
+<td>Young</td>
+<td>No</td>
+<td>850</td>
+<td>1000</td>
+<td>0.85</td>
+</tr>
+<tr>
+<td>Old</td>
+<td>Yes</td>
+<td>40</td>
+<td>200</td>
+<td>0.20</td>
+</tr>
+<tr>
+<td>Old</td>
+<td>No</td>
+<td>5</td>
+<td>50</td>
+<td>0.10</td>
+</tr>
+</tbody>
+</table>
+<p data-bid="b32"><strong>Step 1 - the naive (pooled) association.</strong> Collapse over age.
+Drug: $450+40 = 490$ recoveries out of $500+200 = 700$, rate $= 490/700 = 0.7000$.
+No drug: $850+5 = 855$ out of $1000+50 = 1050$, rate $= 855/1050 = 0.8143$.</p>
+<p data-bid="b33">Naive difference: $0.7000 - 0.8143 = -0.1143$ - the drug looks like it <strong>hurts</strong> by about 11 percentage points. A naive analyst would kill this drug.</p>
+<p data-bid="b34"><strong>Step 2 - stratified (within-age) effect.</strong> Now slice by age. Young: drug $0.90$ vs no-drug $0.85$, a $+0.05$ benefit. Old: drug $0.20$ vs no-drug $0.10$, a $+0.10$ benefit. The drug <strong>helps in both strata</strong>. This is Simpson's reversal: helps everywhere, hurts in the pool, purely because the treated are overwhelmingly old (200/700 treated vs 50/1050 untreated are old), dragging the pooled treated rate into the low-baseline region.</p>
+<p data-bid="b35"><strong>Step 3 - backdoor adjustment.</strong> Apply $P(Y\mid do(X)) = \sum_z P(Y\mid X,Z)\,P(Z)$ using the <strong>population</strong> age weights. Total population $= 500+1000+200+50 = 1750$, so $P(\text{young}) = 1500/1750 = 0.8571$ and $P(\text{old}) = 250/1750 = 0.1429$.</p>
+<p data-bid="b36">Interventional recovery under drug:
+$$P(Y\mid do(\text{drug})) = (0.90)(0.8571) + (0.20)(0.1429) = 0.7714 + 0.0286 = 0.8000.$$</p>
+<p data-bid="b37"><strong>Reading it piece by piece:</strong>
+- <strong>$(0.90)(0.8571)$</strong> - the young stratum's recovery rate under the drug times the young share of the population, that stratum's contribution.
+- <strong>$(0.20)(0.1429)$</strong> - the old stratum's recovery rate under the drug times the old share of the population.
+- <strong>$0.8571$ and $0.1429$</strong> - the population age weights $P(\text{young})$ and $P(\text{old})$, used to rebalance the strata to the whole population.
+- <strong>$0.8000$</strong> - the resulting interventional recovery rate if the drug were forced on everyone, the weighted blend of the two strata.</p>
+<p data-bid="b38">Under no drug:
+$$P(Y\mid do(\text{no drug})) = (0.85)(0.8571) + (0.10)(0.1429) = 0.7286 + 0.0143 = 0.7429.$$</p>
+<p data-bid="b39"><strong>Reading it piece by piece:</strong>
+- <strong>$(0.85)(0.8571)$</strong> - the young stratum's recovery rate without the drug, weighted by the young population share.
+- <strong>$(0.10)(0.1429)$</strong> - the old stratum's recovery rate without the drug, weighted by the old population share.
+- <strong>$0.7429$</strong> - the interventional recovery rate if the drug were withheld from everyone, the same standardization applied to the control arm.
+- <strong>the comparison with $0.8000$</strong> - their difference is the causal effect, and it lands on the plus side once both arms share the same population age mix.</p>
+<p data-bid="b40">Adjusted causal effect: $0.8000 - 0.7429 = +0.0571$ - the drug <strong>helps</strong> by about 5.7 percentage points, matching the stratum-level benefits and <em>reversing</em> the naive conclusion. Notice how the standardization fixed the imbalance: it reweights the drug's outcome rates to the whole population's age mix, undoing the "treated are mostly old" distortion.</p>
+<p data-bid="b41"><strong>The takeaway: the naive pooled comparison said the drug HURTS (-0.11), every within-age stratum said it HELPS, and only the backdoor-adjusted estimate (+0.057) - computed by reweighting strata to the population - recovered the truth. Simpson's paradox is not a paradox; it is what happens when you average over a confounder you failed to adjust for.</strong></p>
+<h2 data-bid="b42" id="randomized-experiments-ivs-and-selection">Randomized experiments, IVs, and selection</h2>
+<p data-bid="b43">The cleanest fix is the one from Chapter 13: <strong>randomize</strong>. Assign treatment by coin flip, and the randomization arrow into $X$ has no path to $Y$ except through $X$, so there are no backdoor paths at all and $P(Y\mid do(X)) = P(Y\mid X)$ automatically. No adjustment needed - the design did the work that the arithmetic above did post hoc.</p>
+<p data-bid="b44">When you cannot randomize, fallbacks exist. <strong>Instrumental variables</strong> use a variable $I$ that affects $X$ but reaches $Y$ <em>only</em> through $X$ (no direct or confounding path) - like a lottery assignment that nudges who takes the drug without influencing recovery directly. Under strong assumptions, $I$ isolates the causal part of $X$'s variation. And <strong>selection</strong>: sometimes a "sample" is chosen on a variable related to both treatment and outcome (hospitalizing only severe cases), which is a collider-like bias - no amount of in-sample adjustment fixes it if the selection itself is the problem. Knowing which of these structures you face is the whole game.</p>
+<h2 data-bid="b45" id="check-your-understanding">Check your understanding</h2>
+<ul>
+<li data-bid="b46">Explain the difference between $P(Y\mid X)$ and $P(Y\mid do(X))$ in terms of "who happens to have $X$" versus "who is made to have $X$, and why randomization makes them equal."</li>
+<li data-bid="b47">Why does conditioning on a collider <em>create</em> an association between otherwise independent variables, whereas conditioning on a confounder <em>removes</em> one?</li>
+<li data-bid="b48">In the worked example, what single feature of the data caused the pooled comparison to reverse the truth, and how did the backdoor formula correct for it?</li>
+</ul>
+<h2 data-bid="b49" id="exercises">Exercises</h2>
+<h3 data-bid="b50" id="exercise-1-backdoor-adjustment-by-hand">Exercise 1 - Backdoor adjustment by hand</h3>
+<p data-bid="b51">Using the worked example's table, compute the adjusted effect if the population instead were <strong>half young and half old</strong> ($P(\text{young})=P(\text{old})=0.5$). Does the drug still help?</p>
+<details><summary>Show solution</summary>
+
+Recompute the standardization with equal weights.
+
+Under drug: $(0.90)(0.5) + (0.20)(0.5) = 0.45 + 0.10 = 0.55$.
+Under no drug: $(0.85)(0.5) + (0.10)(0.5) = 0.425 + 0.05 = 0.475$.
+
+Effect $= 0.55 - 0.475 = +0.075$. The drug helps by about 7.5 points.
+
+This is larger than the $+0.057$ from the actual population, because the real population is mostly young (0.857), and the stratum-specific *baseline* rates are higher among the young - but the *drug's incremental benefit* is actually larger in the old stratum ($+0.10$ vs $+0.05$). So a population with more old people credits the drug with a bigger average benefit. The lesson: the adjusted effect depends on the target population's confounder mix - a genuinely causal quantity can differ across populations, which is why "the effect" always means "for this population."
+
+</details>
+
+<h3 data-bid="b52" id="exercise-2-identify-the-structure">Exercise 2 - Identify the structure</h3>
+<p data-bid="b53">For each scenario, name the structure (chain, fork, collider) and whether you should adjust for the middle variable to estimate $X$'s causal effect on $Y$: (a) Exercise $\to$ Fitness $\to$ Heart health; (b) Age $\to$ Drug $\to$ Recovery, Age $\to$ Recovery; (c) Talent $\to$ Fame $\leftarrow$ Looks (with Talent and Looks independent).</p>
+<details><summary>Show solution</summary>
+
+(a) **Chain** ($X\to M\to Y$). Fitness is a mediator. Do **not** adjust for it - you'd block the very mechanism by which exercise helps, measuring only the direct effect and losing the indirect one. To get the total effect, leave it uncontrolled.
+
+(b) This is a **fork/confounding** structure: Age is a common cause of both Drug (who gets treated) and Recovery. Do **adjust** for age - this is exactly the worked example, and failing to adjust is what caused Simpson's reversal.
+
+(c) **Collider** ($X\to C\leftarrow Y$). Fame is a common effect of Talent and Looks, and the two causes are independent. Do **not** adjust for fame. Conditioning on fame (e.g., studying only famous people) *opens* a spurious path, inducing a negative association between talent and looks - among the famous, a lack of looks seems to "require" more talent. Adjusting for a collider is a classic and damaging error.
+
+</details>
+
+<h3 data-bid="b54" id="exercise-3-conceptual-why-adjust-for-everything-fails">Exercise 3 - Conceptual: why "adjust for everything" fails</h3>
+<p data-bid="b55">A junior analyst argues: "To be safe, I'll control for every variable I measured whenever I estimate a causal effect." Give two distinct reasons this can actively make the estimate worse, referencing structures from this chapter.</p>
+<details><summary>Show solution</summary>
+
+Two failure modes:
+
+1. **Controlling for a mediator (chain).** If $X\to M\to Y$, adjusting for $M$ blocks the causal path and removes part (sometimes all) of the real effect. You'd wrongly conclude $X$ has little influence when in fact its influence runs *through* $M$. Over-controlling here understates or erases a genuine causal effect.
+
+2. **Controlling for a collider.** If $X\to C\leftarrow Y$, $X$ and $Y$ may be marginally independent, but conditioning on $C$ opens a backdoor path and *manufactures* a spurious association. Adding such a variable introduces bias that wasn't present in the naive estimate.
+
+So "adjust for everything" is not conservative - it trades one bias for others. The right move is to use a DAG to identify exactly which variables satisfy the backdoor criterion and adjust for *those*, not the whole kitchen sink. Overcontrol bias is a real, named phenomenon.
+
+</details>
+
+<h2 data-bid="b56" id="why-this-matters-in-ai-and-in-everyday-life">Why This Matters - In AI and In Everyday Life</h2>
+<p data-bid="b57"><strong>In AI / machine learning:</strong></p>
+<ul>
+<li data-bid="b58"><strong>Counterfactual reasoning in language models</strong>: modern models are increasingly asked "what would happen if..." questions, and answering them correctly requires the $do(\cdot)$ vs. observation distinction rather than correlational recall.</li>
+<li data-bid="b59"><strong>Fairness and bias auditing</strong>: deciding whether a model's use of a protected attribute is discriminatory is a causal question -- is race a <em>cause</em> of the outcome or merely correlated through a confounder? -- and DAG-based adjustment is how serious audits frame it.</li>
+<li data-bid="b60"><strong>Causal feature selection and robustness</strong>: models that latch onto spurious correlates (ice-cream-sales-style proxies) fail under distribution shift; identifying causally stable features via backdoor structure is a route to more robust predictors.</li>
+<li data-bid="b61"><strong>Off-policy evaluation and recommendation</strong>: estimating what a system's effect <em>would</em> have been under a different policy, from logged data generated by the old policy, is exactly the confounding problem this chapter's tools address.</li>
+</ul>
+<p data-bid="b62"><strong>In everyday, non-AI life:</strong></p>
+<ul>
+<li data-bid="b63"><strong>Reading "people who do X are healthier" headlines</strong>: knowing that the study probably reports $P(\text{health}\mid X)$ and not $P(\text{health}\mid do(X))$ is what lets you spot a confounded claim instantly.</li>
+<li data-bid="b64"><strong>Personal decisions from observational advice</strong>: "successful people wake up at 5am" is a correlate, not an intervention -- forcing yourself to wake early may do nothing if the real driver was something else that early risers share.</li>
+</ul>
+<h2 data-bid="b65" id="whats-next">What's next</h2>
+<p data-bid="b66">Chapter 34 turns the DAGs of this chapter into full probabilistic machinery. Once causal structure is written as a graph, the same graph can be <em>run</em> - messages passed along its edges to compute marginals, conditionals, and likelihoods efficiently. That is <strong>Graphical Models and Message Passing</strong>, and it is where the structures you just drew by hand become algorithms the computer executes for you.</p>
+    </div>
+    <div class="navfooter">
+      <span><a href="32_contrastive_learning_infonce.html">&larr; Previous chapter</a></span>
+      <span><a href="34_graphical_models_message_passing.html">Next chapter &rarr;</a></span>
+    </div>
+  </div>
+  <div class="pane-right">
+    <h4>Figures in this chapter</h4>
+    <div id="railContent"></div>
+  </div>
+</div>
+
+<!-- floating selection toolbar -->
+<div id="selToolbar">
+  <button data-color="yellow" title="Mark interesting">🟡</button>
+  <button data-color="green" title="Mark understood">🟢</button>
+  <button data-color="red" title="Mark confusing">🔴</button>
+  <button data-color="blue" title="Mark to review later">🔵</button>
+  <button id="btnAddNote" title="Highlight + add a note">📝</button>
+</div>
+
+<!-- note edit popup -->
+<div id="notePopup">
+  <textarea placeholder="Write a note to yourself..."></textarea>
+  <div class="row">
+    <button class="danger" id="btnDeleteHl">Remove highlight</button>
+    <div>
+      <button id="btnCloseNote">Close</button>
+      <button class="primary" id="btnSaveNote">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- notes side panel -->
+<div id="notesOverlay"></div>
+<div id="notesPanel">
+  <div class="header">
+    <b>My Notes - this page</b>
+    <button class="iconbtn" id="btnCloseNotesPanel">✕</button>
+  </div>
+  <div class="list" id="notesList"></div>
+  <div class="footer">
+    <button id="btnExportNotes">⬇ Export all notes</button>
+    <button id="btnImportNotes">⬆ Import notes</button>
+    <input type="file" id="importFile" accept="application/json" style="display:none;">
+  </div>
+</div>
+
+<script src="../assets/app.js"></script>
+</body>
+</html>

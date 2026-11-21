@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 2: Describing Data - Center, Spread, and Shape</title>
+<link rel="stylesheet" href="../assets/app.css">
+<script>
+window.MathJax = { tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']], processEscapes: true } };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+</head>
+<body data-chapter="02_descriptive_statistics">
+<div class="topbar">
+  <div class="left">
+    <button class="iconbtn hamburger" id="btnSidebarToggle">☰</button>
+    <a href="../index.html">Statistics for AI</a>
+  </div>
+  <div class="right">
+    <button class="iconbtn" id="btnNotesPanel">📒 My Notes</button>
+  </div>
+</div>
+<div id="sidebarOverlay"></div>
+<div class="layout">
+  <nav class="sidebar" id="sidebar">
+    <input type="text" id="sidebarFilter" placeholder="Filter chapters...">
+<details open><summary>Orientation</summary><ul>
+<li class="" data-title="chapter 0: how to use this book, and the math notation you'll see"><a href="00_how_to_use_this_book.html">Chapter 0: How to Use This Book, and the Math Notation You'll See</a></li>
+</ul></details>
+<details open><summary>Part I - Describing the World</summary><ul>
+<li class="" data-title="chapter 1: data, populations, and samples - thinking like a statistician"><a href="01_data_populations_samples.html">Chapter 1: Data, Populations, and Samples - Thinking Like a Statistician</a></li>
+<li class="current" data-title="chapter 2: describing data - center, spread, and shape"><a href="02_descriptive_statistics.html">Chapter 2: Describing Data - Center, Spread, and Shape</a></li>
+<li class="" data-title="chapter 3: probability foundations - events, rules, and conditioning"><a href="03_probability_foundations.html">Chapter 3: Probability Foundations - Events, Rules, and Conditioning</a></li>
+<li class="" data-title="chapter 4: bayes' theorem - updating beliefs with evidence"><a href="04_bayes_theorem.html">Chapter 4: Bayes' Theorem - Updating Beliefs With Evidence</a></li>
+<li class="" data-title="chapter 5: random variables and discrete distributions"><a href="05_random_variables_discrete.html">Chapter 5: Random Variables and Discrete Distributions</a></li>
+<li class="" data-title="chapter 6: continuous distributions and the normal distribution"><a href="06_continuous_distributions.html">Chapter 6: Continuous Distributions and the Normal Distribution</a></li>
+<li class="" data-title="chapter 7: expectation, variance, covariance, and correlation"><a href="07_expectation_variance_covariance.html">Chapter 7: Expectation, Variance, Covariance, and Correlation</a></li>
+<li class="" data-title="chapter 8: the central limit theorem - the secret engine of statistics"><a href="08_central_limit_theorem.html">Chapter 8: The Central Limit Theorem - The Secret Engine of Statistics</a></li>
+</ul></details>
+<details open><summary>Part II - Inferring From Data</summary><ul>
+<li class="" data-title="chapter 9: sampling and estimation"><a href="09_sampling_and_estimation.html">Chapter 9: Sampling and Estimation</a></li>
+<li class="" data-title="chapter 10: maximum likelihood estimation"><a href="10_maximum_likelihood_estimation.html">Chapter 10: Maximum Likelihood Estimation</a></li>
+<li class="" data-title="chapter 11: confidence intervals"><a href="11_confidence_intervals.html">Chapter 11: Confidence Intervals</a></li>
+<li class="" data-title="chapter 12: hypothesis testing and p-values"><a href="12_hypothesis_testing.html">Chapter 12: Hypothesis Testing and p-values</a></li>
+<li class="" data-title="chapter 13: t-tests, chi-square, and anova"><a href="13_ttests_chisquare_anova.html">Chapter 13: t-tests, Chi-square, and ANOVA</a></li>
+<li class="" data-title="chapter 14: correlation and simple linear regression"><a href="14_simple_linear_regression.html">Chapter 14: Correlation and Simple Linear Regression</a></li>
+<li class="" data-title="chapter 15: multiple regression, r², and overfitting"><a href="15_multiple_regression.html">Chapter 15: Multiple Regression, R², and Overfitting</a></li>
+</ul></details>
+<details open><summary>Part III - The Bridge Into Machine Learning</summary><ul>
+<li class="" data-title="chapter 16: bias-variance tradeoff, cross-validation, and regularization"><a href="16_bias_variance_regularization.html">Chapter 16: Bias-Variance Tradeoff, Cross-Validation, and Regularization</a></li>
+<li class="" data-title="chapter 17: bayesian statistics in depth"><a href="17_bayesian_statistics.html">Chapter 17: Bayesian Statistics in Depth</a></li>
+<li class="" data-title="chapter 18: resampling - bootstrap and permutation tests"><a href="18_resampling_methods.html">Chapter 18: Resampling - Bootstrap and Permutation Tests</a></li>
+<li class="" data-title="chapter 19: linear algebra essentials for statistics and ml"><a href="19_linear_algebra_essentials.html">Chapter 19: Linear Algebra Essentials for Statistics and ML</a></li>
+<li class="" data-title="chapter 20: multivariate statistics - covariance matrices and pca"><a href="20_multivariate_pca.html">Chapter 20: Multivariate Statistics - Covariance Matrices and PCA</a></li>
+</ul></details>
+<details open><summary>Part IV - The Statistics Inside Modern AI</summary><ul>
+<li class="" data-title="chapter 21: information theory - entropy, cross-entropy, and kl divergence"><a href="21_information_theory.html">Chapter 21: Information Theory - Entropy, Cross-Entropy, and KL Divergence</a></li>
+<li class="" data-title="chapter 22: statistical learning theory - why generalization works at all"><a href="22_statistical_learning_theory.html">Chapter 22: Statistical Learning Theory - Why Generalization Works At All</a></li>
+<li class="" data-title="chapter 23: probabilistic models and latent variables (mixtures, em)"><a href="23_latent_variable_models.html">Chapter 23: Probabilistic Models and Latent Variables (Mixtures, EM)</a></li>
+<li class="" data-title="chapter 24: markov chains and monte carlo methods"><a href="24_markov_chains_monte_carlo.html">Chapter 24: Markov Chains and Monte Carlo Methods</a></li>
+<li class="" data-title="chapter 25: the statistics hiding inside neural networks"><a href="25_statistics_in_neural_networks.html">Chapter 25: The Statistics Hiding Inside Neural Networks</a></li>
+<li class="" data-title="chapter 26: where to go next"><a href="26_where_to_go_next.html">Chapter 26: Where to Go Next</a></li>
+</ul></details>
+<details open><summary>Part V - The Statistical Frontier of Modern AI</summary><ul>
+<li class="" data-title="chapter 27: the statistical frontier - how modern ai actually uses these ideas today"><a href="27_frontier_ai_statistics.html">Chapter 27: The Statistical Frontier - How Modern AI Actually Uses These Ideas Today</a></li>
+</ul></details>
+<details open><summary>Part VI - Advanced AI Algorithms: The Statistical Engine Room</summary><ul>
+<li class="" data-title="chapter 28: diffusion models and score matching - statistics as generation"><a href="28_diffusion_models_score_matching.html">Chapter 28: Diffusion Models and Score Matching - Statistics as Generation</a></li>
+<li class="" data-title="chapter 29: transformers and attention - statistics you can calculate (almost) by hand"><a href="29_transformers_attention_statistics.html">Chapter 29: Transformers and Attention - Statistics You Can Calculate (Almost) by Hand</a></li>
+<li class="" data-title="chapter 30: reinforcement learning and policy gradients - statistics that learn from rewards"><a href="30_reinforcement_learning_policy_gradients.html">Chapter 30: Reinforcement Learning and Policy Gradients - Statistics That Learn From Rewards</a></li>
+<li class="" data-title="chapter 31: variational inference and the elbo - approximate bayes at scale"><a href="31_variational_inference_elbo.html">Chapter 31: Variational Inference and the ELBO - Approximate Bayes at Scale</a></li>
+<li class="" data-title="chapter 32: contrastive learning and infonce - statistics that learns embeddings"><a href="32_contrastive_learning_infonce.html">Chapter 32: Contrastive Learning and InfoNCE - Statistics That Learns Embeddings</a></li>
+<li class="" data-title="chapter 33: causal inference and do-calculus - when correlation is not enough"><a href="33_causal_inference_do_calculus.html">Chapter 33: Causal Inference and Do-Calculus - When Correlation Is Not Enough</a></li>
+<li class="" data-title="chapter 34: graphical models and message passing - statistics as graphs"><a href="34_graphical_models_message_passing.html">Chapter 34: Graphical Models and Message Passing - Statistics as Graphs</a></li>
+<li class="" data-title="chapter 35: optimization, generalization, and double descent - why big models work"><a href="35_optimization_generalization_double_descent.html">Chapter 35: Optimization, Generalization, and Double Descent - Why Big Models Work</a></li>
+<li class="" data-title="chapter 36: time series and modern sequence models - statistics over time"><a href="36_time_series_sequence_models.html">Chapter 36: Time Series and Modern Sequence Models - Statistics Over Time</a></li>
+</ul></details>
+<details open><summary>Part VII - Aligning AI With Human Preferences: The Statistics of RLHF</summary><ul>
+<li class="" data-title="chapter 37: preference data and reward modeling - statistics from human judgments"><a href="37_preference_data_reward_modeling.html">Chapter 37: Preference Data and Reward Modeling - Statistics From Human Judgments</a></li>
+<li class="" data-title="chapter 38: rlhf, dpo, and preference optimization - turning preferences into a loss function"><a href="38_dpo_and_preference_optimization.html">Chapter 38: RLHF, DPO, and Preference Optimization - Turning Preferences Into a Loss Function</a></li>
+<li class="" data-title="chapter 39: reinforcement learning with verifiable rewards - and how reasoning models are trained"><a href="39_rl_verifiable_rewards_reasoning.html">Chapter 39: Reinforcement Learning With Verifiable Rewards - and How Reasoning Models Are Trained</a></li>
+</ul></details>
+  </nav>
+  <div class="pane-left">
+    <div class="article" id="article">
+<h1 id="chapter-2-describing-data-center-spread-and-shape">Chapter 2: Describing Data - Center, Spread, and Shape</h1>
+<h2 data-bid="b1" id="the-idea-this-chapter-builds-toward">The idea this chapter builds toward</h2>
+<p data-bid="b2">A single number can never fully describe a pile of data, but a <em>few well-chosen</em> numbers can describe it well enough to reason about. This chapter gives you the standard toolkit: where is the data centered, how spread out is it, and what shape does it have. You'll also see the single most important cautionary example in descriptive statistics: datasets that are <em>wildly</em> different in shape but share identical means and variances (Anscombe's Quartet) - proof that you must <em>look</em> at data, never just summarize it blindly.</p>
+<blockquote data-bid="b3">
+<p data-bid="b4"><strong>Intuition, in one breath:</strong> A few good numbers can capture the center, the spread, and the shape of your data - but they can also lie in perfect agreement, so always glance at the picture too.</p>
+</blockquote>
+<h2 data-bid="b5" id="measures-of-center">Measures of center</h2>
+<h3 data-bid="b6" id="mean-average">Mean (average)</h3>
+<p data-bid="b7">$$\bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i$$</p>
+<p data-bid="b8">In plain words: add everything up, divide by how many there are. Intuition: the mean is the "balance point" of the data - if you put each data point as a weight on a number line, the mean is where it balances like a seesaw.</p>
+<p data-bid="b9"><strong>Weakness</strong>: the mean is extremely sensitive to outliers. Example: incomes of 5 people: $30k, 32k, 35k, 38k, 1{,}000k$ (one billionaire). Mean = $\frac{30+32+35+38+1000}{5} = \frac{1135}{5} = 227$k. That "average income of 227k" badly misrepresents 4 of the 5 people. This is not a rare edge case - income, latency, and error-magnitude data in real systems are <em>routinely</em> this skewed.</p>
+<h3 data-bid="b10" id="reconstructing-it-yourself-why-is-add-and-divide-the-right-way-to-summarize-data-at-all">Reconstructing it yourself - why is "add and divide" the right way to summarize data at all?</h3>
+<p data-bid="b11">Here's a question worth sitting with before accepting the mean as obviously correct: suppose you have data points $x_1,\ldots,x_n$ and you want to pick a single number $c$ that best represents all of them. <strong>If your first guess is "just pick whatever number makes the total squared distance to every point as small as possible" - let's actually test that guess and see what falls out.</strong> Define the total squared error as a function of your candidate center $c$:</p>
+<p data-bid="b12">$$E(c) = \sum_{i=1}^n (x_i - c)^2$$</p>
+<p data-bid="b13">To find the $c$ that minimizes this, use the same calculus move you'll see repeated in Chapters 10 and 14: take the derivative with respect to $c$ and set it to zero (at a minimum, the slope is flat).</p>
+<p data-bid="b14">$$\frac{dE}{dc} = \sum_{i=1}^n -2(x_i-c) = 0 \;\implies\; \sum_{i=1}^n x_i = nc \;\implies\; c = \frac{1}{n}\sum_{i=1}^n x_i = \bar x$$</p>
+<p data-bid="b15"><strong>The mean is not an arbitrary convention - it is the unique number that minimizes total squared distance to your data.</strong> This single fact is the hidden thread connecting an enormous amount of this book: it's why least-squares regression (Chapter 14) fits a line by minimizing squared residuals (the line's predictions are, at each point, trying to be a "local mean"); it's why Gauss's reverse-engineered Normal distribution (Chapter 6) was built specifically to make averaging the statistically optimal choice; and it's a direct preview of the bias-variance decomposition's use of squared error in Chapter 16. If you had instead minimized <em>absolute</em> distance, $\sum|x_i-c|$, the calculus works out differently (the derivative of $|x_i-c|$ isn't smooth at $c=x_i$, which is exactly the "mean absolute deviation is less mathematically convenient" point from the backstory below) and the minimizing $c$ turns out to be the <strong>median</strong> instead - which is a genuinely satisfying, rarely-taught fact: <strong>mean minimizes squared error, median minimizes absolute error</strong>, and that distinction alone explains why each one is "robust" or "sensitive" to outliers in exactly the way you're about to see.</p>
+<h3 data-bid="b16" id="median">Median</h3>
+<p data-bid="b17">The middle value when data is sorted. For the income example above, sorted data is $30, 32, 35, 38, 1000$; the middle (3rd of 5) value is $35$k. The median shrugs off the billionaire entirely - it only cares about <em>position</em>, not <em>magnitude</em>. This is why "median household income" is reported in the news, not "average household income": it's robust to outliers.</p>
+<p data-bid="b18">If you have an even number of points, the median is the average of the two middle values.</p>
+<h3 data-bid="b19" id="mode">Mode</h3>
+<p data-bid="b20">The most frequently occurring value. Most useful for categorical data (e.g., "the most common browser used is Chrome") where mean/median don't even make sense.</p>
+<h2 data-bid="b21" id="measures-of-spread">Measures of spread</h2>
+<p data-bid="b22">Knowing the center isn't enough - you also need to know how spread out the data is. Consider two classrooms with identical mean test score of 70: in Class A, everyone scored between 65-75. In Class B, scores range from 20-100. Same center, totally different story.</p>
+<h3 data-bid="b23" id="variance">Variance</h3>
+<p data-bid="b24">The intuitive goal: measure the <em>average squared distance</em> of each point from the mean.</p>
+<p data-bid="b25">$$\sigma^2 = \frac{1}{n}\sum_{i=1}^{n} (x_i - \mu)^2 \quad \text{(population variance)}$$</p>
+<p data-bid="b26">Why squared and not just the raw distance? Two reasons:
+1. Raw distances $(x_i - \mu)$ always sum to exactly zero (by definition of the mean, positive and negative deviations cancel). Squaring makes everything positive so it doesn't just cancel to zero.
+2. Squaring also penalizes large deviations disproportionately more than small ones - a point far from the mean contributes a lot more to variance than a point close to the mean. (You could use absolute value instead - that's called "mean absolute deviation" and is sometimes used, but it has worse mathematical properties for the theory built on top of it in later chapters - e.g. it isn't smoothly differentiable at zero, which matters once we start optimizing things.)</p>
+<img class="has-rail" data-figid="f1" alt="Left: raw deviations from the mean, shown as arrows, always sum to zero. Right: the same deviations squared, drawn as literal squares, always have positive area, and bigger misses cost dramatically more area." src="../images/ch02_squared_deviations.png" /><p data-bid="b27" class="img-caption has-rail" data-figid="f1"><em>Left: raw deviations from the mean point in opposite directions and always cancel out to exactly zero - useless as a measure of spread. Right: square each deviation and you get a literal square whose <strong>area</strong> is that deviation squared - always positive, and a point twice as far from the mean contributes four times the area, not twice. Variance is just the average of all these square areas.</em></p>
+<h3 data-bid="b28" id="sample-variance-the-n-1-surprise">Sample variance - the "n-1" surprise</h3>
+<p data-bid="b29">When you compute variance from a <em>sample</em> (not the full population), you divide by $n-1$ instead of $n$:</p>
+<p data-bid="b30">$$s^2 = \frac{1}{n-1}\sum_{i=1}^{n} (x_i - \bar{x})^2 \quad \text{(sample variance)}$$</p>
+<p data-bid="b31"><strong>Why n-1, intuitively?</strong> Because $\bar{x}$ (computed from the very same sample) is <em>already</em> the value that minimizes the sum of squared deviations for that specific sample - so $\sum (x_i - \bar{x})^2$ is, on average, a bit <em>smaller</em> than $\sum (x_i - \mu)^2$ would be if you magically knew the true $\mu$. The sample mean "overfits" slightly to its own sample. Dividing by $n-1$ instead of $n$ exactly corrects for this so that $s^2$ is an <em>unbiased</em> estimate of the true population variance $\sigma^2$ (we formalize "unbiased" precisely in Chapter 9 - for now, just trust that $n-1$ is the correction and remember the name for it: <strong>Bessel's correction</strong>). In practice, when $n$ is large (hundreds+), the difference between dividing by $n$ vs $n-1$ is negligible - this detail mostly matters for small samples.</p>
+<h3 data-bid="b32" id="standard-deviation">Standard deviation</h3>
+<p data-bid="b33">$$\sigma = \sqrt{\sigma^2}, \quad s = \sqrt{s^2}$$</p>
+<p data-bid="b34">Why take the square root at all? Because variance is in <em>squared units</em> (e.g., "dollars²" or "years²"), which isn't interpretable. Standard deviation brings it back to the original units, so you can say "the typical deviation from the mean is about $s$" in the same units as the data itself.</p>
+<h3 data-bid="b35" id="range-and-iqr-interquartile-range">Range and IQR (interquartile range)</h3>
+<ul>
+<li data-bid="b36"><strong>Range</strong> = max - min. Simple, but extremely sensitive to a single extreme outlier.</li>
+<li data-bid="b37"><strong>Percentile</strong>: the value below which a given percentage of data falls. The 50th percentile is the median.</li>
+<li data-bid="b38"><strong>IQR</strong> = (75th percentile) - (25th percentile): the spread of the <em>middle 50%</em> of the data, ignoring extreme tails. This is the basis of the classic <strong>box plot</strong>, and of the standard outlier rule-of-thumb: a point is a candidate outlier if it falls more than $1.5 \times \text{IQR}$ below Q1 or above Q3.</li>
+</ul>
+<div class="labcard">
+<div class="labkicker">Live - edit the data and watch every statistic recompute</div>
+<textarea id="ch02_data" rows="3">30, 32, 35, 38, 34, 31, 36, 33, 29, 37</textarea>
+<div class="labrow">
+  <button class="labbtn" id="ch02_update">Recompute</button>
+  <button class="labbtn secondary" id="ch02_outlier">Add one billionaire (+1000)</button>
+  <button class="labbtn secondary" id="ch02_random">Randomize 12 points</button>
+</div>
+<div class="labstat-grid">
+  <div class="labstat"><div class="lbl">Mean</div><div class="val" id="ch02_mean">-</div></div>
+  <div class="labstat"><div class="lbl">Median</div><div class="val" id="ch02_median">-</div></div>
+  <div class="labstat"><div class="lbl">Std Dev (n-1)</div><div class="val" id="ch02_std">-</div></div>
+  <div class="labstat"><div class="lbl">Variance</div><div class="val" id="ch02_var">-</div></div>
+  <div class="labstat"><div class="lbl">IQR</div><div class="val" id="ch02_iqr">-</div></div>
+  <div class="labstat"><div class="lbl">Skew</div><div class="val" id="ch02_skew">-</div></div>
+</div>
+<div class="labcanvas-wrap" style="margin-top:12px;"><canvas id="ch02_canvas" width="820" height="240"></canvas></div>
+<p data-bid="b39" class="labnote">Click "Add one billionaire" and watch the mean rocket away from the median while the median barely moves - Chapter 2's robustness argument, live.</p>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  var SL = window.StatsLab;
+  function parseData(){ return document.getElementById('ch02_data').value.split(',').map(function(s){return parseFloat(s.trim());}).filter(function(v){return !isNaN(v);}); }
+  function mode(arr){
+    var counts = {}; arr.forEach(function(v){ counts[v]=(counts[v]||0)+1; });
+    var best=null, bestCount=0;
+    for(var k in counts){ if(counts[k]>bestCount){ bestCount=counts[k]; best=k; } }
+    return bestCount>1 ? parseFloat(best) : null;
+  }
+  function update(){
+    var data = parseData();
+    if(data.length<2) return;
+    var m = SL.mean(data), med = SL.median(data), s = SL.std(data,1), v = SL.variance(data,1);
+    var q1 = SL.percentile(data,25), q3 = SL.percentile(data,75);
+    var lo = Math.min.apply(null,data), hi = Math.max.apply(null,data);
+    document.getElementById('ch02_mean').textContent = m.toFixed(2);
+    document.getElementById('ch02_median').textContent = med.toFixed(2);
+    document.getElementById('ch02_std').textContent = s.toFixed(2);
+    document.getElementById('ch02_var').textContent = v.toFixed(2);
+    document.getElementById('ch02_iqr').textContent = (q3-q1).toFixed(2);
+    document.getElementById('ch02_skew').textContent = m>med+0.01 ? 'right-skewed' : (m<med-0.01 ? 'left-skewed' : 'symmetric');
+
+    var plot = SL.makePlot(document.getElementById('ch02_canvas'), {l:50,r:20,t:16,b:60});
+    var bins = SL.histogram(data, Math.min(20,Math.max(5,Math.round(data.length/2))), [lo-1, hi+1]);
+    var maxC = Math.max.apply(null, bins.map(function(b){return b[1];}));
+    plot.setDomain([lo-1,hi+1],[0,maxC*1.2]); plot.clear(); plot.axes('value','count');
+    plot.bars(bins.map(function(b){return [b[0],b[1]];}), SL.colors.accent, 0.9);
+    plot.vline(m, SL.colors.accent4); plot.vline(med, SL.colors.accent3);
+
+    var ctx = plot.ctx, by = document.getElementById('ch02_canvas').height - 24;
+    ctx.strokeStyle = SL.colors.inkSoft; ctx.lineWidth = 1.5;
+    var pxQ1=plot.px(q1), pxQ3=plot.px(q3), pxMed=plot.px(med), pxLo=plot.px(lo), pxHi=plot.px(hi);
+    ctx.beginPath(); ctx.moveTo(pxLo,by); ctx.lineTo(pxQ1,by); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(pxQ3,by); ctx.lineTo(pxHi,by); ctx.stroke();
+    ctx.strokeRect(pxQ1, by-9, pxQ3-pxQ1, 18);
+    ctx.beginPath(); ctx.moveTo(pxMed,by-9); ctx.lineTo(pxMed,by+9); ctx.stroke();
+  }
+  document.getElementById('ch02_update').addEventListener('click', update);
+  document.getElementById('ch02_outlier').addEventListener('click', function(){
+    var el = document.getElementById('ch02_data');
+    el.value = el.value.trim().replace(/,\s*$/,'') + ', 1000';
+    update();
+  });
+  document.getElementById('ch02_random').addEventListener('click', function(){
+    var vals = []; for(var i=0;i<12;i++) vals.push(Math.round(SL.randNormal(50,12)));
+    document.getElementById('ch02_data').value = vals.join(', ');
+    update();
+  });
+  update();
+});
+</script>
+
+<h2 data-bid="b40" id="measures-of-shape">Measures of shape</h2>
+<h3 data-bid="b41" id="skewness">Skewness</h3>
+<p data-bid="b42">Measures <em>asymmetry</em>. A <strong>right-skewed</strong> (positively skewed) distribution has a long tail stretching to the right (e.g., income - most people cluster at modest values, a few earn enormous amounts). A <strong>left-skewed</strong> distribution has a long tail to the left. When data is skewed, mean and median diverge: in right-skewed data, mean &gt; median (the tail pulls the mean up), which is exactly what happened in our income example above (mean 227k vs median 35k).</p>
+<h3 data-bid="b43" id="kurtosis">Kurtosis</h3>
+<p data-bid="b44">Measures how "heavy-tailed" a distribution is relative to a normal distribution - i.e., does it produce extreme outliers more or less often than a bell curve would predict? High kurtosis ("fat tails") means extreme events are more common than a naive bell-curve intuition would suggest - important in risk modeling and anomaly detection.</p>
+<h2 data-bid="b45" id="the-backstory-how-would-you-have-invented-variance-yourself">The backstory - how would you have invented variance yourself?</h2>
+<p data-bid="b46">Put yourself in the shoes of an 18th/19th-century astronomer. You measure the position of a star on five different nights and get five slightly different numbers, because your telescope, your eyes, and the atmosphere all introduce tiny errors. You want one number to summarize "how spread out are my measurement errors" so you can judge how much to trust your instrument. Your first instinct is probably: average the raw deviations from the mean, $\frac{1}{n}\sum(x_i - \bar x)$. If you try this yourself on paper, you'll discover something immediately: it always comes out to exactly zero, no matter what the data is - not a useful measure of spread at all! This isn't a coincidence; it's a direct consequence of the mean being defined as the balance point (positive and negative deviations around a balance point cancel by construction, the same way a seesaw balances).</p>
+<p data-bid="b47">So your next instinct might be to strip the signs off before averaging - average the <em>absolute</em> deviations, $\frac1n\sum|x_i-\bar x|$. This actually works, and is a real statistic (<strong>mean absolute deviation</strong>), still used today. So why isn't it the standard? Because absolute value has an awkward kink at zero - it isn't smooth there, which made it mathematically unpleasant for 18th-century mathematicians (Gauss, Legendre, Laplace) who wanted to build a whole theory of errors on top of it, including finding the "best" line through noisy data (least-squares regression, foreshadowing Chapter 14). Squaring, instead of taking absolute value, kills the sign problem just as well, is smooth everywhere (so calculus - derivatives - works cleanly on it, which is exactly what the MLE derivation in Chapter 10 depends on), and has a bonus physical interpretation: squared deviations are literally the mathematics of "energy" or "moment of inertia" in physics, a connection Gauss (who was also a physicist) would have found natural. This is why variance historically grew out of <strong>Gauss's theory of errors</strong> (early 1800s) and underlies the method of least squares - not an arbitrary modern convention, but the mathematically convenient choice that happened to also be theoretically elegant.</p>
+<p data-bid="b48">As for "why divide by $n-1$, not $n$" - that correction came later, formalized by Friedrich Bessel in the 1820s (hence "Bessel's correction"), once statisticians rigorously worked out that using the sample mean (which is itself fit <em>to</em> the same sample) slightly understates the true spread. We'll fully justify this with the formal idea of bias in Chapter 9 - for now, the historical point is: this "n-1" wasn't guessed, it was <em>discovered</em> as the fix needed to make the estimator behave correctly on average.</p>
+<h2 data-bid="b49" id="more-real-world-examples-of-center-and-spread">More real-world examples of center and spread</h2>
+<ul>
+<li data-bid="b50"><strong>Finance</strong>: daily stock returns. The mean tells you expected return; the standard deviation ("volatility") tells you risk - two stocks with identical mean return but very different standard deviations are <em>very</em> different investments, which is why volatility, not just average return, is quoted everywhere in finance.</li>
+<li data-bid="b51"><strong>Manufacturing/quality control</strong>: a machine cutting metal rods to 10cm. The mean should be 10cm, but the standard deviation tells you how consistent the machine is - tight tolerances in engineering (e.g. aircraft parts) are fundamentally a demand for <em>low variance</em>, not just a correct mean.</li>
+<li data-bid="b52"><strong>ML model latency</strong>: a model's inference time might average 50ms, but if the standard deviation is high (or the distribution is right-skewed, Chapter 2's skewness idea), some requests might take 500ms+ - this is why production ML systems report p95/p99 latency (percentiles, from this chapter) instead of just the mean; the mean alone hides tail risk that angry users actually experience.</li>
+<li data-bid="b53"><strong>A/B testing dashboards</strong>: reporting "average time on page increased" without reporting spread can be misleading if a few power users skew the mean - median time-on-page is often more representative of the typical user, exactly like the income example above.</li>
+</ul>
+<h2 data-bid="b54" id="anscombes-quartet-the-warning-this-chapter-is-really-about">Anscombe's Quartet - the warning this chapter is really about</h2>
+<p data-bid="b55">In 1973, statistician Francis Anscombe constructed four different (x, y) datasets that all share: the same mean of x, same mean of y, same variance of x, same variance of y, same correlation, and even the same best-fit regression line - and yet, when plotted, look completely different (one is linear, one is a clean curve, one is linear with one outlier wrecking the fit, one is a vertical line of points plus one outlier). The lesson: <strong>summary statistics can be identical while the underlying data tells completely different stories. Always plot your data before trusting summary numbers.</strong> This is not a cute historical anecdote - it is the reason "exploratory data analysis" (plotting everything before modeling) is a mandatory first step in any real ML project, not an optional nicety.</p>
+<h2 data-bid="b56" id="figures">Figures</h2>
+<img class="has-rail" data-figid="f2" alt="A right-skewed income-like dataset: the histogram with mean and median marked, and the corresponding box plot. Notice how far the mean sits from the median." src="../images/ch02_descriptive_stats_fig1.png" /><p data-bid="b57" class="img-caption has-rail" data-figid="f2"><em>A right-skewed income-like dataset: the histogram with mean and median marked, and the corresponding box plot. Notice how far the mean sits from the median.</em></p>
+<img class="has-rail" data-figid="f3" alt="Anscombe's Quartet: four datasets with identical mean, variance, correlation, and regression line -- yet visibly different shapes." src="../images/ch02_descriptive_stats_fig2.png" /><p data-bid="b58" class="img-caption has-rail" data-figid="f3"><em>Anscombe's Quartet: four datasets with identical mean, variance, correlation, and regression line -- yet visibly different shapes.</em></p>
+<h2 data-bid="b59" id="run-it-yourself">Run it yourself</h2>
+<p data-bid="b60"><code>book/code/ch02_descriptive_stats.py</code> computes mean/median/mode/variance/std/IQR on a skewed income-like dataset (showing mean ≠ median clearly), draws a box plot and histogram, and then reproduces Anscombe's Quartet so you can see four identical-statistics datasets look utterly different side by side.</p>
+<p data-bid="b61"re><code class="language-bash">python book/code/ch02_descriptive_stats.py
+</code></pre>
+<h2 data-bid="b62" id="why-this-matters-in-ai-and-in-everyday-life">Why This Matters - In AI and In Everyday Life</h2>
+<p data-bid="b63"><strong>In AI / machine learning:</strong></p>
+<ul>
+<li data-bid="b64"><strong>Latency monitoring</strong>: production ML systems report p95/p99 latency (percentiles), not just the mean, because a skewed tail of slow requests is exactly what angry users experience and a mean would hide.</li>
+<li data-bid="b65"><strong>Outlier/label-noise detection</strong>: spotting mislabeled training examples or corrupted sensor readings often starts with exactly this chapter's IQR-based outlier rule before any model is trained.</li>
+<li data-bid="b66"><strong>Feature scaling and normalization in neural networks are this chapter applied literally</strong>: batch norm and layer norm compute per-feature batch means and standard deviations and re-center/rescale activations using exactly this chapter's mean and std -- standardizing data before it flows through a network is the same transform whether you call it preprocessing or a normalization layer.</li>
+<li data-bid="b67"><strong>Anomaly detection flags the tails via kurtosis and percentiles</strong>: production ML anomaly detectors routinely compare a live metric's percentile (or its excess kurtosis, "fat tails") against a training-era baseline, because a mean shift hides in the average while the tails -- where chapter 2's kurtosis and IQR live -- are where incidents actually announce themselves.</li>
+</ul>
+<p data-bid="b68"><strong>In everyday, non-AI life:</strong></p>
+<ul>
+<li data-bid="b69"><strong>Household income reporting</strong>: governments report <em>median</em> household income, not mean, precisely because a few very wealthy households would otherwise distort the mean upward (Chapter 2's billionaire example, for real).</li>
+<li data-bid="b70"><strong>Personal budgeting</strong>: looking at your median monthly spending versus the mean reveals whether one unusual expensive month is skewing your sense of "normal" spending.</li>
+</ul>
+<h2 data-bid="b71" id="worked-example-by-hand-larger">Worked example - by hand, larger</h2>
+<p data-bid="b72">Suppose a model's per-request latency (ms) on a small sample of 5 requests is $10, 12, 14, 16, 18$. The mean is $\bar{x} = \frac{10+12+14+16+18}{5} = \frac{70}{5} = 14$. The deviations from the mean are $-4, -2, 0, 2, 4$. Check they sum to zero: $-4-2+0+2+4 = 0$. Squared deviations: $16, 4, 0, 4, 16$, summing to $40$. Sample variance (Bessel's correction, divide by $n-1=4$): $s^2 = \frac{40}{4} = 10$. Sample standard deviation: $s = \sqrt{10} \approx 3.162$ ms.</p>
+<p data-bid="b73">Now median and IQR. Sorted data is already $10, 12, 14, 16, 18$. The median (3rd of 5) is $14$. For the quartiles, take the median of the lower half $\{10, 12\}$ = $11$ and of the upper half $\{16, 18\}$ = $17$, so $\text{IQR} = 17 - 11 = 6$. The outlier fences are $Q1 - 1.5\,\text{IQR} = 11 - 9 = 2$ and $Q3 + 1.5\,\text{IQR} = 17 + 9 = 26$; since all values lie in $[2, 26]$, no outliers.</p>
+<p data-bid="b74">Now inject one catastrophe: a single request takes $1000$ ms. New data $10, 12, 14, 16, 18, 1000$. New mean: $\frac{1070}{6} \approx 178.33$ ms - the mean has been shredded by one point, jumping from 14 to 178. The median is now the average of the two middle values $\frac{14+16}{2} = 15$ ms, barely moved. <strong>One number (the median) shrugged off the outlier while another (the mean) collapsed - which is exactly why latency dashboards report p95/p99, not just the mean.</strong></p>
+<p data-bid="b75"><strong>Center and spread are a team: report the robust pair (median, IQR) when outliers are real, and the mean-and-standard-deviation pair when the data is well behaved.</strong></p>
+<h2 data-bid="b76" id="check-your-understanding">Check your understanding</h2>
+<ul>
+<li data-bid="b77">Why does dividing by $n-1$ instead of $n$ make the sample variance a better estimate of the <em>population</em> variance?</li>
+<li data-bid="b78">If mean &gt; median, is the data more likely left-skewed or right-skewed, and why?</li>
+<li data-bid="b79">Why is squaring deviations preferred over taking their absolute value, beyond "it avoids cancellation to zero"?</li>
+</ul>
+<h2 data-bid="b80" id="exercises">Exercises</h2>
+<h3 data-bid="b81" id="exercise-1-variance-and-standard-deviation-by-hand">Exercise 1 - Variance and standard deviation by hand</h3>
+<p data-bid="b82">Compute the population variance $\sigma^2$ and standard deviation $\sigma$ of the values $2, 4, 4, 4, 5, 5, 7, 9$.</p>
+<details><summary>Show solution</summary>
+
+Mean: $\frac{2+4+4+4+5+5+7+9}{8} = \frac{40}{8} = 5$. Deviations: $-3, -1, -1, -1, 0, 0, 2, 4$. Squared: $9, 1, 1, 1, 0, 0, 4, 16$, summing to $32$. Population variance: $\frac{32}{8} = 4$. Standard deviation: $\sqrt{4} = 2$. (If treated as a sample, dividing by $n-1 = 7$ gives $s^2 = \frac{32}{7} \approx 4.571$, $s \approx 2.138$.)
+
+</details>
+
+<h3 data-bid="b83" id="exercise-2-why-the-billionaire-wrecks-the-mean-but-not-the-median">Exercise 2 - Why the billionaire wrecks the mean but not the median</h3>
+<p data-bid="b84">Incomes are $20, 22, 25, 30, 5000$ (thousands). Compute mean and median, then explain the gap.</p>
+<details><summary>Show solution</summary>
+
+Mean: $\frac{20+22+25+30+5000}{5} = \frac{5097}{5} = 1019.4$. Median: middle of the sorted list is $25$. The mean is about 40x the median because it sums the magnitude of the extreme value, while the median only looks at position. This is the robustness argument for reporting median household income.
+
+</details>
+
+<h3 data-bid="b85" id="exercise-3-conceptual-why-scale-matters-before-comparing-features">Exercise 3 - Conceptual: why scale matters before comparing features</h3>
+<p data-bid="b86">A model uses "income in dollars" (thousands) and "age in years" (tens). Why does comparing their raw variances mislead, and what transformation fixes it?</p>
+<details><summary>Show solution</summary>
+
+Raw variance depends on the units: income in thousands will have a numerically larger variance than age simply because its scale is larger, not because it is more informative or more variable relative to its own range. The fix is standardization to z-scores (Chapter 6), $\frac{x-\bar{x}}{s}$, which removes units and puts both features on the same scale - the same reason ML pipelines apply `StandardScaler` before scale-sensitive algorithms like k-NN or gradient descent.
+
+</details>
+
+<h2 data-bid="b87" id="whats-next">What's next</h2>
+<p data-bid="b88">Chapter 3 leaves "data I already have" and enters the world of probability itself - the mathematical language for describing uncertainty before you've observed anything, which is the foundation everything from Chapter 4 onward depends on.</p>
+    </div>
+    <div class="navfooter">
+      <span><a href="01_data_populations_samples.html">&larr; Previous chapter</a></span>
+      <span><a href="03_probability_foundations.html">Next chapter &rarr;</a></span>
+    </div>
+  </div>
+  <div class="pane-right">
+    <h4>Figures in this chapter</h4>
+    <div id="railContent"></div>
+  </div>
+</div>
+
+<!-- floating selection toolbar -->
+<div id="selToolbar">
+  <button data-color="yellow" title="Mark interesting">🟡</button>
+  <button data-color="green" title="Mark understood">🟢</button>
+  <button data-color="red" title="Mark confusing">🔴</button>
+  <button data-color="blue" title="Mark to review later">🔵</button>
+  <button id="btnAddNote" title="Highlight + add a note">📝</button>
+</div>
+
+<!-- note edit popup -->
+<div id="notePopup">
+  <textarea placeholder="Write a note to yourself..."></textarea>
+  <div class="row">
+    <button class="danger" id="btnDeleteHl">Remove highlight</button>
+    <div>
+      <button id="btnCloseNote">Close</button>
+      <button class="primary" id="btnSaveNote">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- notes side panel -->
+<div id="notesOverlay"></div>
+<div id="notesPanel">
+  <div class="header">
+    <b>My Notes - this page</b>
+    <button class="iconbtn" id="btnCloseNotesPanel">✕</button>
+  </div>
+  <div class="list" id="notesList"></div>
+  <div class="footer">
+    <button id="btnExportNotes">⬇ Export all notes</button>
+    <button id="btnImportNotes">⬆ Import notes</button>
+    <input type="file" id="importFile" accept="application/json" style="display:none;">
+  </div>
+</div>
+
+<script src="../assets/app.js"></script>
+</body>
+</html>

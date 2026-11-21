@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 3: Probability Foundations - Events, Rules, and Conditioning</title>
+<link rel="stylesheet" href="../assets/app.css">
+<script>
+window.MathJax = { tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']], processEscapes: true } };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+</head>
+<body data-chapter="03_probability_foundations">
+<div class="topbar">
+  <div class="left">
+    <button class="iconbtn hamburger" id="btnSidebarToggle">☰</button>
+    <a href="../index.html">Statistics for AI</a>
+  </div>
+  <div class="right">
+    <button class="iconbtn" id="btnNotesPanel">📒 My Notes</button>
+  </div>
+</div>
+<div id="sidebarOverlay"></div>
+<div class="layout">
+  <nav class="sidebar" id="sidebar">
+    <input type="text" id="sidebarFilter" placeholder="Filter chapters...">
+<details open><summary>Orientation</summary><ul>
+<li class="" data-title="chapter 0: how to use this book, and the math notation you'll see"><a href="00_how_to_use_this_book.html">Chapter 0: How to Use This Book, and the Math Notation You'll See</a></li>
+</ul></details>
+<details open><summary>Part I - Describing the World</summary><ul>
+<li class="" data-title="chapter 1: data, populations, and samples - thinking like a statistician"><a href="01_data_populations_samples.html">Chapter 1: Data, Populations, and Samples - Thinking Like a Statistician</a></li>
+<li class="" data-title="chapter 2: describing data - center, spread, and shape"><a href="02_descriptive_statistics.html">Chapter 2: Describing Data - Center, Spread, and Shape</a></li>
+<li class="current" data-title="chapter 3: probability foundations - events, rules, and conditioning"><a href="03_probability_foundations.html">Chapter 3: Probability Foundations - Events, Rules, and Conditioning</a></li>
+<li class="" data-title="chapter 4: bayes' theorem - updating beliefs with evidence"><a href="04_bayes_theorem.html">Chapter 4: Bayes' Theorem - Updating Beliefs With Evidence</a></li>
+<li class="" data-title="chapter 5: random variables and discrete distributions"><a href="05_random_variables_discrete.html">Chapter 5: Random Variables and Discrete Distributions</a></li>
+<li class="" data-title="chapter 6: continuous distributions and the normal distribution"><a href="06_continuous_distributions.html">Chapter 6: Continuous Distributions and the Normal Distribution</a></li>
+<li class="" data-title="chapter 7: expectation, variance, covariance, and correlation"><a href="07_expectation_variance_covariance.html">Chapter 7: Expectation, Variance, Covariance, and Correlation</a></li>
+<li class="" data-title="chapter 8: the central limit theorem - the secret engine of statistics"><a href="08_central_limit_theorem.html">Chapter 8: The Central Limit Theorem - The Secret Engine of Statistics</a></li>
+</ul></details>
+<details open><summary>Part II - Inferring From Data</summary><ul>
+<li class="" data-title="chapter 9: sampling and estimation"><a href="09_sampling_and_estimation.html">Chapter 9: Sampling and Estimation</a></li>
+<li class="" data-title="chapter 10: maximum likelihood estimation"><a href="10_maximum_likelihood_estimation.html">Chapter 10: Maximum Likelihood Estimation</a></li>
+<li class="" data-title="chapter 11: confidence intervals"><a href="11_confidence_intervals.html">Chapter 11: Confidence Intervals</a></li>
+<li class="" data-title="chapter 12: hypothesis testing and p-values"><a href="12_hypothesis_testing.html">Chapter 12: Hypothesis Testing and p-values</a></li>
+<li class="" data-title="chapter 13: t-tests, chi-square, and anova"><a href="13_ttests_chisquare_anova.html">Chapter 13: t-tests, Chi-square, and ANOVA</a></li>
+<li class="" data-title="chapter 14: correlation and simple linear regression"><a href="14_simple_linear_regression.html">Chapter 14: Correlation and Simple Linear Regression</a></li>
+<li class="" data-title="chapter 15: multiple regression, r², and overfitting"><a href="15_multiple_regression.html">Chapter 15: Multiple Regression, R², and Overfitting</a></li>
+</ul></details>
+<details open><summary>Part III - The Bridge Into Machine Learning</summary><ul>
+<li class="" data-title="chapter 16: bias-variance tradeoff, cross-validation, and regularization"><a href="16_bias_variance_regularization.html">Chapter 16: Bias-Variance Tradeoff, Cross-Validation, and Regularization</a></li>
+<li class="" data-title="chapter 17: bayesian statistics in depth"><a href="17_bayesian_statistics.html">Chapter 17: Bayesian Statistics in Depth</a></li>
+<li class="" data-title="chapter 18: resampling - bootstrap and permutation tests"><a href="18_resampling_methods.html">Chapter 18: Resampling - Bootstrap and Permutation Tests</a></li>
+<li class="" data-title="chapter 19: linear algebra essentials for statistics and ml"><a href="19_linear_algebra_essentials.html">Chapter 19: Linear Algebra Essentials for Statistics and ML</a></li>
+<li class="" data-title="chapter 20: multivariate statistics - covariance matrices and pca"><a href="20_multivariate_pca.html">Chapter 20: Multivariate Statistics - Covariance Matrices and PCA</a></li>
+</ul></details>
+<details open><summary>Part IV - The Statistics Inside Modern AI</summary><ul>
+<li class="" data-title="chapter 21: information theory - entropy, cross-entropy, and kl divergence"><a href="21_information_theory.html">Chapter 21: Information Theory - Entropy, Cross-Entropy, and KL Divergence</a></li>
+<li class="" data-title="chapter 22: statistical learning theory - why generalization works at all"><a href="22_statistical_learning_theory.html">Chapter 22: Statistical Learning Theory - Why Generalization Works At All</a></li>
+<li class="" data-title="chapter 23: probabilistic models and latent variables (mixtures, em)"><a href="23_latent_variable_models.html">Chapter 23: Probabilistic Models and Latent Variables (Mixtures, EM)</a></li>
+<li class="" data-title="chapter 24: markov chains and monte carlo methods"><a href="24_markov_chains_monte_carlo.html">Chapter 24: Markov Chains and Monte Carlo Methods</a></li>
+<li class="" data-title="chapter 25: the statistics hiding inside neural networks"><a href="25_statistics_in_neural_networks.html">Chapter 25: The Statistics Hiding Inside Neural Networks</a></li>
+<li class="" data-title="chapter 26: where to go next"><a href="26_where_to_go_next.html">Chapter 26: Where to Go Next</a></li>
+</ul></details>
+<details open><summary>Part V - The Statistical Frontier of Modern AI</summary><ul>
+<li class="" data-title="chapter 27: the statistical frontier - how modern ai actually uses these ideas today"><a href="27_frontier_ai_statistics.html">Chapter 27: The Statistical Frontier - How Modern AI Actually Uses These Ideas Today</a></li>
+</ul></details>
+<details open><summary>Part VI - Advanced AI Algorithms: The Statistical Engine Room</summary><ul>
+<li class="" data-title="chapter 28: diffusion models and score matching - statistics as generation"><a href="28_diffusion_models_score_matching.html">Chapter 28: Diffusion Models and Score Matching - Statistics as Generation</a></li>
+<li class="" data-title="chapter 29: transformers and attention - statistics you can calculate (almost) by hand"><a href="29_transformers_attention_statistics.html">Chapter 29: Transformers and Attention - Statistics You Can Calculate (Almost) by Hand</a></li>
+<li class="" data-title="chapter 30: reinforcement learning and policy gradients - statistics that learn from rewards"><a href="30_reinforcement_learning_policy_gradients.html">Chapter 30: Reinforcement Learning and Policy Gradients - Statistics That Learn From Rewards</a></li>
+<li class="" data-title="chapter 31: variational inference and the elbo - approximate bayes at scale"><a href="31_variational_inference_elbo.html">Chapter 31: Variational Inference and the ELBO - Approximate Bayes at Scale</a></li>
+<li class="" data-title="chapter 32: contrastive learning and infonce - statistics that learns embeddings"><a href="32_contrastive_learning_infonce.html">Chapter 32: Contrastive Learning and InfoNCE - Statistics That Learns Embeddings</a></li>
+<li class="" data-title="chapter 33: causal inference and do-calculus - when correlation is not enough"><a href="33_causal_inference_do_calculus.html">Chapter 33: Causal Inference and Do-Calculus - When Correlation Is Not Enough</a></li>
+<li class="" data-title="chapter 34: graphical models and message passing - statistics as graphs"><a href="34_graphical_models_message_passing.html">Chapter 34: Graphical Models and Message Passing - Statistics as Graphs</a></li>
+<li class="" data-title="chapter 35: optimization, generalization, and double descent - why big models work"><a href="35_optimization_generalization_double_descent.html">Chapter 35: Optimization, Generalization, and Double Descent - Why Big Models Work</a></li>
+<li class="" data-title="chapter 36: time series and modern sequence models - statistics over time"><a href="36_time_series_sequence_models.html">Chapter 36: Time Series and Modern Sequence Models - Statistics Over Time</a></li>
+</ul></details>
+<details open><summary>Part VII - Aligning AI With Human Preferences: The Statistics of RLHF</summary><ul>
+<li class="" data-title="chapter 37: preference data and reward modeling - statistics from human judgments"><a href="37_preference_data_reward_modeling.html">Chapter 37: Preference Data and Reward Modeling - Statistics From Human Judgments</a></li>
+<li class="" data-title="chapter 38: rlhf, dpo, and preference optimization - turning preferences into a loss function"><a href="38_dpo_and_preference_optimization.html">Chapter 38: RLHF, DPO, and Preference Optimization - Turning Preferences Into a Loss Function</a></li>
+<li class="" data-title="chapter 39: reinforcement learning with verifiable rewards - and how reasoning models are trained"><a href="39_rl_verifiable_rewards_reasoning.html">Chapter 39: Reinforcement Learning With Verifiable Rewards - and How Reasoning Models Are Trained</a></li>
+</ul></details>
+  </nav>
+  <div class="pane-left">
+    <div class="article" id="article">
+<h1 id="chapter-3-probability-foundations-events-rules-and-conditioning">Chapter 3: Probability Foundations - Events, Rules, and Conditioning</h1>
+<h2 data-bid="b1" id="why-we-need-a-whole-separate-subject-just-for-chance">Why we need a whole separate subject just for "chance"</h2>
+<p data-bid="b2">Descriptive statistics (Chapter 2) summarizes data you already collected. But before you collect data, you often need to <em>reason</em> about what's likely to happen - and after you collect data, you need a precise language to express "how sure are we?" Probability is that language. Everything from here through Chapter 8 is pure probability theory - no real datasets yet - because this is the scaffolding that inferential statistics (Chapter 9+) and ultimately ML model outputs ("this image is 93% likely to be a cat") are built on.</p>
+<blockquote data-bid="b3">
+<p data-bid="b4"><strong>Intuition, in one breath:</strong> Probability is just counting-favorable-cases in disguise, and every rule about "or", "and", and "given that" is bookkeeping to keep the counting honest.</p>
+</blockquote>
+<h2 data-bid="b5" id="sample-space-and-events">Sample space and events</h2>
+<p data-bid="b6">The <strong>sample space</strong> ($\Omega$, read "omega") is the set of <em>all possible outcomes</em> of a random process. Rolling a six-sided die: $\Omega = \{1,2,3,4,5,6\}$. Flipping two coins: $\Omega = \{HH, HT, TH, TT\}$.</p>
+<p data-bid="b7">An <strong>event</strong> is any subset of the sample space you care about - "rolling an even number" is the event $\{2,4,6\}$.</p>
+<p data-bid="b8">A probability $P(A)$ is a number between 0 and 1 assigned to event $A$, satisfying:
+- $P(A) \ge 0$ for any event.
+- $P(\Omega) = 1$ (something in the sample space definitely happens).
+- If two events can't both happen (mutually exclusive, e.g. "roll a 2" and "roll a 5"), $P(A \text{ or } B) = P(A) + P(B)$.</p>
+<p data-bid="b9">That's genuinely the entire axiomatic foundation. Everything else in probability is derived from these three rules.</p>
+<h2 data-bid="b10" id="the-backstory-probability-existed-for-centuries-before-anyone-agreed-what-it-meant">The backstory - probability existed for centuries before anyone agreed what it meant</h2>
+<p data-bid="b11">Gamblers and mathematicians (Pascal, Fermat, Huygens) were correctly computing odds for dice and card games as early as the 1650s, motivated by actual gambling disputes - a nobleman named Chevalier de Méré asked Pascal why one dice bet seemed profitable in practice but another, superficially similar one, wasn't, and the resulting correspondence between Pascal and Fermat is often cited as probability theory's true starting point. But for nearly 300 years afterward, "probability" had no single rigorous, agreed-upon mathematical foundation - different schools of thought argued about whether it fundamentally meant "long-run frequency of repeatable events" (the frequentist view) or "a rational degree of belief" (closer to how Bayes and Laplace, Chapter 4, used it). It was the Soviet mathematician <strong>Andrey Kolmogorov</strong>, in a short 1933 monograph, who settled the question not by picking a side in that philosophical debate, but by sidestepping it: he laid down the three bare axioms you saw above ($P(A)\ge 0$, $P(\Omega)=1$, additivity over mutually exclusive events) as a self-contained mathematical structure, borrowing the rigorous language of "measure theory" from pure mathematics. The genius of Kolmogorov's move was that <em>both</em> the frequentist and the Bayesian/belief interpretations of probability can sit on top of his same three axioms without contradiction - the axioms describe the <em>math</em>, while frequentist vs. Bayesian remains a separate question about what real-world meaning you attach to that math. This is why, even though Chapters 4 and 17 of this book present a philosophically different flavor of probability than the "classical" hypothesis-testing chapters (9-13), they're all built on the exact same Kolmogorov axioms you just learned - the disagreement is about interpretation, never about the arithmetic.</p>
+<h2 data-bid="b12" id="the-two-ways-to-get-a-probability-number">The two ways to get a probability number</h2>
+<ol>
+<li data-bid="b13"><strong>Classical/theoretical</strong>: count favorable outcomes over total outcomes, when all outcomes are equally likely. A fair die: $P(\text{roll a 4}) = \frac{1}{6}$.</li>
+<li data-bid="b14"><strong>Empirical/frequentist</strong>: run the experiment many times and compute the relative frequency. Roll a die 10,000 times, count how often you got a 4, divide by 10,000. As the number of trials grows, this empirical frequency converges to the theoretical probability - this convergence fact is called the <strong>Law of Large Numbers</strong>, and we'll prove it to ourselves visually in the code below (and formally connect it to Chapter 8).</li>
+</ol>
+<h2 data-bid="b15" id="combining-events-and-or-not">Combining events: AND, OR, NOT</h2>
+<h3 data-bid="b16" id="not-complement">NOT (complement)</h3>
+<p data-bid="b17">$$P(\text{not } A) = 1 - P(A)$$</p>
+<p data-bid="b18">If $P(\text{rain tomorrow}) = 0.3$, then $P(\text{no rain}) = 0.7$. Trivial but used constantly - often it's easier to compute the complement of what you want and subtract from 1.</p>
+<h3 data-bid="b19" id="or-union">OR (union)</h3>
+<p data-bid="b20">$$P(A \text{ or } B) = P(A) + P(B) - P(A \text{ and } B)$$</p>
+<p data-bid="b21">Why subtract the last term? Because if $A$ and $B$ overlap, naively adding $P(A) + P(B)$ double-counts the overlap region. Picture two overlapping circles (a Venn diagram) - adding both circles' areas counts the lens-shaped overlap twice, so you subtract it once to correct. If $A$ and $B$ are <strong>mutually exclusive</strong> (no overlap, like "roll a 2" and "roll a 5"), then $P(A \text{ and } B) = 0$ and the formula reduces to simple addition.</p>
+<img class="has-rail" data-figid="f1" alt="Left: the complement NOT A is everything outside the circle. Right: the union A or B double-counts the overlap unless you subtract it once." src="../images/ch03_venn_not_or.png" /><p data-bid="b22" class="img-caption has-rail" data-figid="f1"><em>Left: the complement $P(\text{not }A)=1-P(A)$ is just everything outside the circle. Right: when you add the areas of circle A and circle B, the overlapping lens gets counted twice - that's exactly why the formula subtracts $P(A\text{ and }B)$ once, to undo the double-count.</em></p>
+<h3 data-bid="b23" id="and-intersection-and-independence">AND (intersection) and independence</h3>
+<p data-bid="b24">This is the big one. Two events are <strong>independent</strong> if knowing one happened tells you <em>nothing</em> about whether the other happened. For independent events:</p>
+<p data-bid="b25">$$P(A \text{ and } B) = P(A) \times P(B)$$</p>
+<p data-bid="b26">Example: two separate fair coin flips. $P(\text{first is H}) = 0.5$, $P(\text{second is H}) = 0.5$, and since the coins don't influence each other, $P(\text{both H}) = 0.5 \times 0.5 = 0.25$. Check by enumeration: $\Omega = \{HH, HT, TH, TT\}$, each equally likely at $\frac{1}{4} = 0.25$. ✓.</p>
+<p data-bid="b27"><strong>But if events are NOT independent</strong>, multiplying their plain probabilities gives the wrong answer - you need <strong>conditional probability</strong> instead (next section), because what happens with $A$ changes the odds for $B$.</p>
+<h2 data-bid="b28" id="conditional-probability-the-single-most-important-concept-in-this-chapter">Conditional probability - the single most important concept in this chapter</h2>
+<p data-bid="b29">$P(B \mid A)$ ("the probability of B, <em>given that</em> A has happened") is defined as:</p>
+<p data-bid="b30">$$P(B \mid A) = \frac{P(A \text{ and } B)}{P(A)}$$</p>
+<p data-bid="b31"><strong>Intuition</strong>: once you know $A$ happened, you shrink your sample space down to just the part where $A$ is true, and ask what fraction of <em>that</em> shrunken space also satisfies $B$.</p>
+<img class="has-rail" data-figid="f2" alt="Left: the intersection A and B is only the overlapping lens. Right: conditional probability shrinks the whole universe down to just B, and asks what fraction of that smaller universe is also covered by A." src="../images/ch03_venn_and_conditional.png" /><p data-bid="b32" class="img-caption has-rail" data-figid="f2"><em>Left: $P(A\text{ and }B)$ is only the red overlapping lens - nothing outside it counts. Right: this is the picture that makes conditional probability click - once you're told B happened, B itself becomes your entire new universe, and $P(A\mid B)$ is simply "what fraction of that new, smaller universe is also covered by A" - red area divided by the whole orange circle's area.</em></p>
+<h3 data-bid="b33" id="worked-example">Worked example</h3>
+<p data-bid="b34">A deck of 52 cards. Let $A$ = "card is a King" (4 of 52), $B$ = "card is a face card" (Jack, Queen, King - 12 of 52).</p>
+<p data-bid="b35">$P(B \mid A)$ = "given the card is a King, what's the probability it's a face card?" Well, every King <em>is</em> a face card, so this should be 1. Check with the formula: $P(A \text{ and } B) = P(\text{King AND face card}) = P(\text{King}) = \frac{4}{52}$ (since all Kings are face cards, the intersection is just "King"). So $P(B\mid A) = \frac{4/52}{4/52} = 1$. ✓ Matches intuition.</p>
+<p data-bid="b36">Now the reverse: $P(A \mid B)$ = "given the card is a face card, what's the probability it's specifically a King?" Since face cards are Jack/Queen/King in equal number (4 each), it should be $\frac{1}{3}$. Check: $P(A \mid B) = \frac{P(A \text{ and }B)}{P(B)} = \frac{4/52}{12/52} = \frac{1}{3}$. ✓.</p>
+<p data-bid="b37">Notice $P(B\mid A) = 1$ but $P(A \mid B) = \frac{1}{3}$ - <strong>conditional probability is not symmetric</strong>. $P(B\mid A) \ne P(A \mid B)$ in general. This asymmetry, and how to flip from one to the other correctly, is <em>exactly</em> what Bayes' Theorem (Chapter 4) formalizes - so make sure this example feels solid before moving on, because Chapter 4 is built entirely on this one idea.</p>
+<h3 data-bid="b38" id="independence-restated-using-conditional-probability">Independence, restated using conditional probability</h3>
+<p data-bid="b39">A cleaner, equivalent definition: $A$ and $B$ are independent exactly when $P(B \mid A) = P(B)$ - i.e., learning that $A$ happened doesn't change your belief about $B$ at all.</p>
+<h3 data-bid="b40" id="reconstructing-it-yourself-the-gambling-dispute-that-started-it-all">Reconstructing it yourself - the gambling dispute that started it all</h3>
+<p data-bid="b41">In 1654, a nobleman and gambler named Antoine Gombaud (known as the Chevalier de Méré) posed a problem to Blaise Pascal that neither of them could resolve with the mathematics of the time: the "problem of points." Two players are betting on a series of coin flips, first to win a target number of rounds takes the whole pot - but the game is interrupted partway through, with one player ahead. <strong>How should the pot be split fairly?</strong> If your first instinct is "split it in proportion to rounds already won" - try that on a concrete case and see where your gut feeling disagrees with it.</p>
+<p data-bid="b42">Concrete case: first to 3 points wins. The game is interrupted with Player A having 2 points and Player B having 1 point. Splitting "in proportion to points won" (2:1) would give A exactly $\frac{2}{3}$ of the pot. But Pascal and Fermat, corresponding by letter over several months, realized this ignores something essential: what actually matters isn't points already banked, but <strong>the probability each player would have gone on to win if play had continued</strong>. Working that out requires exactly this chapter's tools: enumerate every possible way the remaining rounds could go, and add up the probability of each path that ends in a win for A.</p>
+<p data-bid="b43">With A needing 1 more point and B needing 2 more, consider the next two hypothetical flips (even though the game might end after just one): $\{AA, AB, BA, BB\}$, each equally likely at $\frac14$. A wins in the first three outcomes (A wins outright on the first flip in $AA$ and $AB$, and on the second flip in $BA$) - only $BB$ gives B both points he needs. So $P(\text{A ultimately wins}) = \frac34$, not $\frac23$. <strong>The fair split is 3:1, not 2:1</strong> - a result that only emerges once you stop asking "who's ahead right now" and start asking "what's the probability of each future, conditioned on where we actually are" - which is conditional probability, invented on the spot to solve a betting dispute, decades before anyone had written down the formula $P(B\mid A) = \frac{P(A\text{ and }B)}{P(A)}$ you learned earlier in this chapter. This exchange of letters between Pascal and Fermat is the event historians most commonly point to as probability theory's actual birth.</p>
+<h2 data-bid="b44" id="the-monty-hall-problem-a-famous-gut-check-for-conditional-reasoning">The Monty Hall problem - a famous gut-check for conditional reasoning</h2>
+<p data-bid="b45">Three doors: one hides a car, two hide goats. You pick door 1. The host (who knows what's behind every door) opens door 3, revealing a goat, and offers you the chance to switch to door 2. Should you switch?</p>
+<p data-bid="b46">Most people's gut says "50/50, doesn't matter." That gut feeling is wrong, and it's wrong for a precisely conditional-probability reason: the host's action is not random - he <em>always</em> reveals a goat, and this gives you information. Switching wins the car with probability $\frac{2}{3}$; staying wins with probability $\frac{1}{3}$. We don't derive this by hand here (it's a satisfying exercise, try it, or ask me), but the code below <em>simulates</em> the game thousands of times so you can watch the $\frac{2}{3}$ vs $\frac{1}{3}$ split emerge empirically - a good trust-building exercise before Chapter 4 does this kind of reasoning formally with Bayes' theorem.</p>
+<h2 data-bid="b47" id="figures">Figures</h2>
+<img class="has-rail" data-figid="f3" alt="Law of Large Numbers: the empirical frequency of rolling a 4 converges to the true probability 1/6 as the number of rolls grows (x-axis is log-scaled)." src="../images/ch03_probability_foundations_fig1.png" /><p data-bid="b48" class="img-caption has-rail" data-figid="f3"><em>Law of Large Numbers: the empirical frequency of rolling a 4 converges to the true probability 1/6 as the number of rolls grows (x-axis is log-scaled).</em></p>
+<h2 data-bid="b49" id="run-it-yourself">Run it yourself</h2>
+<p data-bid="b50"><code>book/code/ch03_probability_foundations.py</code> does three things: (1) simulates die rolls to show empirical frequency converging to $\frac{1}{6}$ (Law of Large Numbers), (2) verifies the card conditional-probability example by brute-force enumeration, (3) simulates Monty Hall 10,000 times for both the "always switch" and "always stay" strategies.</p>
+<p data-bid="b51"re><code class="language-bash">python book/code/ch03_probability_foundations.py
+</code></pre>
+<h2 data-bid="b52" id="why-this-matters-in-ai-and-in-everyday-life">Why This Matters - In AI and In Everyday Life</h2>
+<p data-bid="b53"><strong>In AI / machine learning:</strong></p>
+<ul>
+<li data-bid="b54"><strong>Combining independent model signals</strong>: an ensemble or a spam filter combining several independent weak signals relies directly on the multiplication rule for independent events to compute a combined probability.</li>
+<li data-bid="b55"><strong>Calibrated classifier outputs</strong>: a model saying "93% cat" is making a probability claim governed by exactly the axioms in this chapter -- it must behave like a real probability (between 0 and 1, consistent under AND/OR) to be trustworthy.</li>
+<li data-bid="b56"><strong>Softmax outputs are conditional probabilities over classes</strong>: a transformer's final layer computes $P(\text{token} \mid \text{context})$ via the softmax, and the product rule for independent events is exactly how sequence likelihoods are assembled token by token -- this chapter's AND rule is running inside every language model's decoding.</li>
+<li data-bid="b57"><strong>Ensembling and Bayesian model averaging lean on the multiplication rule</strong>: combining independent weak signals (or several models' predictions) assumes the independence in this chapter, and naive Bayes literally multiplies per-feature likelihoods -- if the features are actually dependent, the plain multiplication gives a wrong joint probability, which is precisely the failure the independence caveat warns about.</li>
+</ul>
+<p data-bid="b58"><strong>In everyday, non-AI life:</strong></p>
+<ul>
+<li data-bid="b59"><strong>Weather forecasts</strong>: "70% chance of rain" is a real probability statement built from historical frequency (the empirical/frequentist approach from this chapter).</li>
+<li data-bid="b60"><strong>Everyday risk reasoning</strong>: deciding whether to carry an umbrella by combining "chance of rain" with "chance I'll be outside" is literally the AND rule for independent-ish events.</li>
+</ul>
+<h2 data-bid="b61" id="worked-example-by-hand-larger">Worked example - by hand, larger</h2>
+<p data-bid="b62">Suppose a spam filter processes two emails. For a single email, $P(\text{spam}) = 0.2$ and $P(\text{ham}) = 0.8$. If the two emails are independent, $P(\text{both spam}) = 0.2 \times 0.2 = 0.04$, and $P(\text{at least one spam}) = 1 - P(\text{neither spam}) = 1 - (0.8 \times 0.8) = 1 - 0.64 = 0.36$. Check directly: the four equally structured outcomes are spam/spam $(0.04)$, spam/ham $(0.16)$, ham/spam $(0.16)$, ham/ham $(0.64)$; sum to $1.0$, and at least one spam $= 0.04 + 0.16 + 0.16 = 0.36$. ✓</p>
+<p data-bid="b63">Now add conditioning. A model produces the token "free" with probability $0.5$ if the email is spam and $0.05$ if it is ham. Given an email contains "free", $P(B \mid A) = P(\text{"free"} \mid \text{spam}) = 0.5$, while $P(A \mid B) = P(\text{spam} \mid \text{"free"}) = \frac{P(\text{"free"} \text{ and } \text{spam})}{P(\text{"free"})} = \frac{0.5 \times 0.2}{0.5 \times 0.2 + 0.05 \times 0.8} = \frac{0.1}{0.1 + 0.04} = \frac{0.1}{0.14} \approx 0.714$. The two conditional probabilities ($0.5$ and $0.714$) are clearly different - the asymmetry this chapter hammers on, and the exact flip Bayes' Theorem will formally invert in Chapter 4.</p>
+<p data-bid="b64">Finally, the OR rule with overlap: $P(\text{spam}) = 0.2$, $P(\text{contains "free"}) = 0.14$, and their intersection is $0.1$. So $P(\text{spam or "free"}) = 0.2 + 0.14 - 0.1 = 0.24$. Forgetting the subtraction would double-count the $0.1$ overlap and wrongly give $0.34$.</p>
+<p data-bid="b65"><strong>Every probability rule here is just careful counting of overlapping and non-overlapping regions - get the overlaps right and the arithmetic takes care of itself.</strong></p>
+<h2 data-bid="b66" id="check-your-understanding">Check your understanding</h2>
+<ul>
+<li data-bid="b67">Why does $P(A \text{ or } B) = P(A) + P(B) - P(A \text{ and } B)$ need that last subtraction term, in your own words (picture the Venn diagram)?</li>
+<li data-bid="b68">In the card example, explain in plain English why $P(B\mid A) \ne P(A\mid B)$ - what sample space is each one shrinking to?</li>
+<li data-bid="b69">Come up with your own pair of real-world events that are NOT independent, and explain which direction the conditioning would push the probability.</li>
+</ul>
+<h2 data-bid="b70" id="exercises">Exercises</h2>
+<h3 data-bid="b71" id="exercise-1-union-and-independence-with-numbers">Exercise 1 - Union and independence with numbers</h3>
+<p data-bid="b72">Two independent alarms each fire with probability $0.9$ when a fault occurs. What is the probability at least one fires?</p>
+<details><summary>Show solution</summary>
+
+$P(\text{at least one}) = 1 - P(\text{neither}) = 1 - (1-0.9)(1-0.9) = 1 - 0.1 \times 0.1 = 1 - 0.01 = 0.99$. Independence lets us multiply the failure probabilities. If the alarms were perfectly correlated instead, at least one firing would be only $0.9$, since the second adds no new information.
+
+</details>
+
+<h3 data-bid="b73" id="exercise-2-conditional-probability-by-counting">Exercise 2 - Conditional probability by counting</h3>
+<p data-bid="b74">A population has 1000 people. 100 have a condition. Of those 100, 90 test positive. Of the 900 without the condition, 45 test positive. Given a positive test, what is $P(\text{condition} \mid \text{positive})$?</p>
+<details><summary>Show solution</summary>
+
+Total positives $= 90 + 45 = 135$. Of these, 90 truly have the condition. So $P(\text{condition} \mid \text{positive}) = \frac{90}{135} = \frac{2}{3} \approx 0.667$. This is just the conditional-probability definition $\frac{P(A \text{ and } B)}{P(B)}$ instantiated as raw counts - the same counting that makes Chapter 4's Bayes' theorem intuitive.
+
+</details>
+
+<h3 data-bid="b75" id="exercise-3-conceptual-why-conditional-order-matters-for-a-classifier">Exercise 3 - Conceptual: why conditional order matters for a classifier</h3>
+<p data-bid="b76">A detector says "if there is a defect, I flag it 99% of the time." Why is that NOT the same as "if I flag it, there is a defect 99% of the time," and what extra quantity decides the difference?</p>
+<details><summary>Show solution</summary>
+
+The first is $P(\text{flag} \mid \text{defect}) = 0.99$; the second is $P(\text{defect} \mid \text{flag})$, and they are generally unequal - this is the $P(B\mid A) \ne P(A\mid B)$ asymmetry. What decides the gap is the base rate of defects (the prior). If defects are rare, even a 99% detection rate can produce flags that are mostly false alarms, exactly as in the medical-test reasoning. The classifier's precision depends on both the likelihood and the base rate, not the likelihood alone.
+
+</details>
+
+<h2 data-bid="b77" id="whats-next">What's next</h2>
+<p data-bid="b78">Chapter 4 takes the asymmetry we just saw ($P(B\mid A) \ne P(A\mid B)$) and gives you the exact formula for converting between them - Bayes' Theorem - which is simultaneously one of the oldest ideas in statistics and the literal mathematical foundation of how Naive Bayes classifiers, spam filters, medical test interpretation, and Bayesian deep learning all work.</p>
+    </div>
+    <div class="navfooter">
+      <span><a href="02_descriptive_statistics.html">&larr; Previous chapter</a></span>
+      <span><a href="04_bayes_theorem.html">Next chapter &rarr;</a></span>
+    </div>
+  </div>
+  <div class="pane-right">
+    <h4>Figures in this chapter</h4>
+    <div id="railContent"></div>
+  </div>
+</div>
+
+<!-- floating selection toolbar -->
+<div id="selToolbar">
+  <button data-color="yellow" title="Mark interesting">🟡</button>
+  <button data-color="green" title="Mark understood">🟢</button>
+  <button data-color="red" title="Mark confusing">🔴</button>
+  <button data-color="blue" title="Mark to review later">🔵</button>
+  <button id="btnAddNote" title="Highlight + add a note">📝</button>
+</div>
+
+<!-- note edit popup -->
+<div id="notePopup">
+  <textarea placeholder="Write a note to yourself..."></textarea>
+  <div class="row">
+    <button class="danger" id="btnDeleteHl">Remove highlight</button>
+    <div>
+      <button id="btnCloseNote">Close</button>
+      <button class="primary" id="btnSaveNote">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- notes side panel -->
+<div id="notesOverlay"></div>
+<div id="notesPanel">
+  <div class="header">
+    <b>My Notes - this page</b>
+    <button class="iconbtn" id="btnCloseNotesPanel">✕</button>
+  </div>
+  <div class="list" id="notesList"></div>
+  <div class="footer">
+    <button id="btnExportNotes">⬇ Export all notes</button>
+    <button id="btnImportNotes">⬆ Import notes</button>
+    <input type="file" id="importFile" accept="application/json" style="display:none;">
+  </div>
+</div>
+
+<script src="../assets/app.js"></script>
+</body>
+</html>

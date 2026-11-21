@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 10: Maximum Likelihood Estimation</title>
+<link rel="stylesheet" href="../assets/app.css">
+<script>
+window.MathJax = { tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']], processEscapes: true } };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+</head>
+<body data-chapter="10_maximum_likelihood_estimation">
+<div class="topbar">
+  <div class="left">
+    <button class="iconbtn hamburger" id="btnSidebarToggle">☰</button>
+    <a href="../index.html">Statistics for AI</a>
+  </div>
+  <div class="right">
+    <button class="iconbtn" id="btnNotesPanel">📒 My Notes</button>
+  </div>
+</div>
+<div id="sidebarOverlay"></div>
+<div class="layout">
+  <nav class="sidebar" id="sidebar">
+    <input type="text" id="sidebarFilter" placeholder="Filter chapters...">
+<details open><summary>Orientation</summary><ul>
+<li class="" data-title="chapter 0: how to use this book, and the math notation you'll see"><a href="00_how_to_use_this_book.html">Chapter 0: How to Use This Book, and the Math Notation You'll See</a></li>
+</ul></details>
+<details open><summary>Part I - Describing the World</summary><ul>
+<li class="" data-title="chapter 1: data, populations, and samples - thinking like a statistician"><a href="01_data_populations_samples.html">Chapter 1: Data, Populations, and Samples - Thinking Like a Statistician</a></li>
+<li class="" data-title="chapter 2: describing data - center, spread, and shape"><a href="02_descriptive_statistics.html">Chapter 2: Describing Data - Center, Spread, and Shape</a></li>
+<li class="" data-title="chapter 3: probability foundations - events, rules, and conditioning"><a href="03_probability_foundations.html">Chapter 3: Probability Foundations - Events, Rules, and Conditioning</a></li>
+<li class="" data-title="chapter 4: bayes' theorem - updating beliefs with evidence"><a href="04_bayes_theorem.html">Chapter 4: Bayes' Theorem - Updating Beliefs With Evidence</a></li>
+<li class="" data-title="chapter 5: random variables and discrete distributions"><a href="05_random_variables_discrete.html">Chapter 5: Random Variables and Discrete Distributions</a></li>
+<li class="" data-title="chapter 6: continuous distributions and the normal distribution"><a href="06_continuous_distributions.html">Chapter 6: Continuous Distributions and the Normal Distribution</a></li>
+<li class="" data-title="chapter 7: expectation, variance, covariance, and correlation"><a href="07_expectation_variance_covariance.html">Chapter 7: Expectation, Variance, Covariance, and Correlation</a></li>
+<li class="" data-title="chapter 8: the central limit theorem - the secret engine of statistics"><a href="08_central_limit_theorem.html">Chapter 8: The Central Limit Theorem - The Secret Engine of Statistics</a></li>
+</ul></details>
+<details open><summary>Part II - Inferring From Data</summary><ul>
+<li class="" data-title="chapter 9: sampling and estimation"><a href="09_sampling_and_estimation.html">Chapter 9: Sampling and Estimation</a></li>
+<li class="current" data-title="chapter 10: maximum likelihood estimation"><a href="10_maximum_likelihood_estimation.html">Chapter 10: Maximum Likelihood Estimation</a></li>
+<li class="" data-title="chapter 11: confidence intervals"><a href="11_confidence_intervals.html">Chapter 11: Confidence Intervals</a></li>
+<li class="" data-title="chapter 12: hypothesis testing and p-values"><a href="12_hypothesis_testing.html">Chapter 12: Hypothesis Testing and p-values</a></li>
+<li class="" data-title="chapter 13: t-tests, chi-square, and anova"><a href="13_ttests_chisquare_anova.html">Chapter 13: t-tests, Chi-square, and ANOVA</a></li>
+<li class="" data-title="chapter 14: correlation and simple linear regression"><a href="14_simple_linear_regression.html">Chapter 14: Correlation and Simple Linear Regression</a></li>
+<li class="" data-title="chapter 15: multiple regression, r², and overfitting"><a href="15_multiple_regression.html">Chapter 15: Multiple Regression, R², and Overfitting</a></li>
+</ul></details>
+<details open><summary>Part III - The Bridge Into Machine Learning</summary><ul>
+<li class="" data-title="chapter 16: bias-variance tradeoff, cross-validation, and regularization"><a href="16_bias_variance_regularization.html">Chapter 16: Bias-Variance Tradeoff, Cross-Validation, and Regularization</a></li>
+<li class="" data-title="chapter 17: bayesian statistics in depth"><a href="17_bayesian_statistics.html">Chapter 17: Bayesian Statistics in Depth</a></li>
+<li class="" data-title="chapter 18: resampling - bootstrap and permutation tests"><a href="18_resampling_methods.html">Chapter 18: Resampling - Bootstrap and Permutation Tests</a></li>
+<li class="" data-title="chapter 19: linear algebra essentials for statistics and ml"><a href="19_linear_algebra_essentials.html">Chapter 19: Linear Algebra Essentials for Statistics and ML</a></li>
+<li class="" data-title="chapter 20: multivariate statistics - covariance matrices and pca"><a href="20_multivariate_pca.html">Chapter 20: Multivariate Statistics - Covariance Matrices and PCA</a></li>
+</ul></details>
+<details open><summary>Part IV - The Statistics Inside Modern AI</summary><ul>
+<li class="" data-title="chapter 21: information theory - entropy, cross-entropy, and kl divergence"><a href="21_information_theory.html">Chapter 21: Information Theory - Entropy, Cross-Entropy, and KL Divergence</a></li>
+<li class="" data-title="chapter 22: statistical learning theory - why generalization works at all"><a href="22_statistical_learning_theory.html">Chapter 22: Statistical Learning Theory - Why Generalization Works At All</a></li>
+<li class="" data-title="chapter 23: probabilistic models and latent variables (mixtures, em)"><a href="23_latent_variable_models.html">Chapter 23: Probabilistic Models and Latent Variables (Mixtures, EM)</a></li>
+<li class="" data-title="chapter 24: markov chains and monte carlo methods"><a href="24_markov_chains_monte_carlo.html">Chapter 24: Markov Chains and Monte Carlo Methods</a></li>
+<li class="" data-title="chapter 25: the statistics hiding inside neural networks"><a href="25_statistics_in_neural_networks.html">Chapter 25: The Statistics Hiding Inside Neural Networks</a></li>
+<li class="" data-title="chapter 26: where to go next"><a href="26_where_to_go_next.html">Chapter 26: Where to Go Next</a></li>
+</ul></details>
+<details open><summary>Part V - The Statistical Frontier of Modern AI</summary><ul>
+<li class="" data-title="chapter 27: the statistical frontier - how modern ai actually uses these ideas today"><a href="27_frontier_ai_statistics.html">Chapter 27: The Statistical Frontier - How Modern AI Actually Uses These Ideas Today</a></li>
+</ul></details>
+<details open><summary>Part VI - Advanced AI Algorithms: The Statistical Engine Room</summary><ul>
+<li class="" data-title="chapter 28: diffusion models and score matching - statistics as generation"><a href="28_diffusion_models_score_matching.html">Chapter 28: Diffusion Models and Score Matching - Statistics as Generation</a></li>
+<li class="" data-title="chapter 29: transformers and attention - statistics you can calculate (almost) by hand"><a href="29_transformers_attention_statistics.html">Chapter 29: Transformers and Attention - Statistics You Can Calculate (Almost) by Hand</a></li>
+<li class="" data-title="chapter 30: reinforcement learning and policy gradients - statistics that learn from rewards"><a href="30_reinforcement_learning_policy_gradients.html">Chapter 30: Reinforcement Learning and Policy Gradients - Statistics That Learn From Rewards</a></li>
+<li class="" data-title="chapter 31: variational inference and the elbo - approximate bayes at scale"><a href="31_variational_inference_elbo.html">Chapter 31: Variational Inference and the ELBO - Approximate Bayes at Scale</a></li>
+<li class="" data-title="chapter 32: contrastive learning and infonce - statistics that learns embeddings"><a href="32_contrastive_learning_infonce.html">Chapter 32: Contrastive Learning and InfoNCE - Statistics That Learns Embeddings</a></li>
+<li class="" data-title="chapter 33: causal inference and do-calculus - when correlation is not enough"><a href="33_causal_inference_do_calculus.html">Chapter 33: Causal Inference and Do-Calculus - When Correlation Is Not Enough</a></li>
+<li class="" data-title="chapter 34: graphical models and message passing - statistics as graphs"><a href="34_graphical_models_message_passing.html">Chapter 34: Graphical Models and Message Passing - Statistics as Graphs</a></li>
+<li class="" data-title="chapter 35: optimization, generalization, and double descent - why big models work"><a href="35_optimization_generalization_double_descent.html">Chapter 35: Optimization, Generalization, and Double Descent - Why Big Models Work</a></li>
+<li class="" data-title="chapter 36: time series and modern sequence models - statistics over time"><a href="36_time_series_sequence_models.html">Chapter 36: Time Series and Modern Sequence Models - Statistics Over Time</a></li>
+</ul></details>
+<details open><summary>Part VII - Aligning AI With Human Preferences: The Statistics of RLHF</summary><ul>
+<li class="" data-title="chapter 37: preference data and reward modeling - statistics from human judgments"><a href="37_preference_data_reward_modeling.html">Chapter 37: Preference Data and Reward Modeling - Statistics From Human Judgments</a></li>
+<li class="" data-title="chapter 38: rlhf, dpo, and preference optimization - turning preferences into a loss function"><a href="38_dpo_and_preference_optimization.html">Chapter 38: RLHF, DPO, and Preference Optimization - Turning Preferences Into a Loss Function</a></li>
+<li class="" data-title="chapter 39: reinforcement learning with verifiable rewards - and how reasoning models are trained"><a href="39_rl_verifiable_rewards_reasoning.html">Chapter 39: Reinforcement Learning With Verifiable Rewards - and How Reasoning Models Are Trained</a></li>
+</ul></details>
+  </nav>
+  <div class="pane-left">
+    <div class="article" id="article">
+<h1 id="chapter-10-maximum-likelihood-estimation">Chapter 10: Maximum Likelihood Estimation</h1>
+<h2 data-bid="b1" id="the-idea-this-chapter-builds-toward">The idea this chapter builds toward</h2>
+<p data-bid="b2">Instead of guessing estimator formulas ad hoc ("let's just average the data" - why that formula and not another?), <strong>Maximum Likelihood Estimation (MLE)</strong> gives you a single, general <em>principle</em> for constructing the "best" estimator for any distribution's parameters: <strong>pick the parameter values that make the data you actually observed as likely as possible.</strong> This isn't just an abstract idea - it is, almost without exaggeration, the mathematical skeleton underneath how every standard machine learning loss function (mean squared error, cross-entropy, logistic loss) is derived. Understanding MLE is understanding <em>why</em> those specific loss functions were chosen, not just what they compute.</p>
+<blockquote data-bid="b3">
+<p data-bid="b4"><strong>Intuition, in one breath:</strong> Instead of asking "given a hypothesis, what data would I expect?", MLE flips the question and asks "given the data I actually saw, which hypothesis would have made it most unsurprising?" You then pick that hypothesis. It's reasoning backwards from evidence to explanation.</p>
+</blockquote>
+<h2 data-bid="b5" id="the-likelihood-function-flipping-probability-around">The likelihood function - flipping probability around</h2>
+<p data-bid="b6">Recall a distribution's PDF/PMF, $f(x \mid \theta)$, tells you the probability (density) of observing data value $x$, <em>given</em> a known parameter $\theta$ (like the mean $\mu$ or rate $\lambda$). The <strong>likelihood function</strong> flips the perspective: you now have <em>fixed, observed data</em>, and you treat $\theta$ as the unknown you're searching over:</p>
+<p data-bid="b7">$$L(\theta \mid x) = f(x \mid \theta)$$</p>
+<p data-bid="b8">Same formula, same numbers - but a different question. The PDF asks "given this $\theta$, how likely is this $x$?" The likelihood asks "given this $x$ (which already happened), how plausible is each candidate $\theta$?" This is exactly the $P(E\mid H)$-vs-$P(H\mid E)$ asymmetry from Chapter 4's Bayes' Theorem - likelihood is literally the $P(E \mid H)$ piece of that formula, just now applied with continuous parameters instead of two Bayes alternatives.</p>
+<p data-bid="b9">For multiple independent observations $x_1, \ldots, x_n$ (independence lets us multiply, from Chapter 3):</p>
+<p data-bid="b10">$$L(\theta \mid x_1,\ldots,x_n) = \prod_{i=1}^n f(x_i \mid \theta)$$</p>
+<p data-bid="b11"><strong>MLE's principle</strong>: find the $\hat\theta$ that maximizes $L(\theta)$ - the parameter value under which the data you actually saw was the <em>most probable</em> outcome.</p>
+<h2 data-bid="b12" id="why-we-take-the-log-and-why-this-connects-back-to-chapter-0">Why we take the log (and why this connects back to Chapter 0)</h2>
+<p data-bid="b13">Multiplying many probabilities (each less than 1) together produces an extremely tiny number that underflows on a computer, and is hard to differentiate (take the derivative of, to find the maximum) by hand. Since $\log$ is a strictly increasing function (Chapter 0), the $\theta$ that maximizes $L(\theta)$ is the <em>exact same</em> $\theta$ that maximizes $\log L(\theta)$. So we maximize the <strong>log-likelihood</strong> instead:</p>
+<p data-bid="b14">$$\log L(\theta) = \sum_{i=1}^n \log f(x_i \mid \theta)$$</p>
+<p data-bid="b15">Using $\log(a\times b) = \log a + \log b$ from Chapter 0, the product has become a sum - numerically stable, and each term's derivative is manageable. This is why you will see "log-likelihood" instead of plain "likelihood" absolutely everywhere in statistics and ML - it is never a different concept, just the numerically sane way to work with the same quantity.</p>
+<h2 data-bid="b16" id="worked-example-deriving-that-the-sample-mean-is-the-mle-for-a-normal-distributions-mean">Worked example: deriving that the sample mean IS the MLE for a Normal distribution's mean</h2>
+<p data-bid="b17">This is one of the most satisfying derivations in this book, because it proves the formula you've been using since Chapter 2 wasn't arbitrary - it falls directly out of the MLE principle.</p>
+<p data-bid="b18">Suppose $x_1, \ldots, x_n$ are drawn independently from $N(\mu, \sigma^2)$ with $\sigma$ known, and we want the MLE for $\mu$. The log-likelihood (dropping the terms not involving $\mu$, since they don't affect which $\mu$ maximizes it) is:</p>
+<p data-bid="b19">$$\log L(\mu) = -\frac{1}{2\sigma^2}\sum_{i=1}^n (x_i - \mu)^2 + \text{constant}$$</p>
+<p data-bid="b20">To find the maximizing $\mu$, take the derivative with respect to $\mu$ and set it to zero (standard calculus move: at a maximum, the slope is flat):</p>
+<p data-bid="b21">$$\frac{d}{d\mu}\log L(\mu) = \frac{1}{\sigma^2}\sum_{i=1}^n (x_i - \mu) = 0$$</p>
+<p data-bid="b22">$$\implies \sum_{i=1}^n (x_i - \mu) = 0 \implies \sum x_i = n\mu \implies \mu = \frac{1}{n}\sum x_i = \bar x$$</p>
+<p data-bid="b23"><strong>The MLE for the Normal mean is exactly the sample mean.</strong> This isn't a coincidence or a separate justification - "take the average" was secretly "find the most likely parameter" the entire time, for any data that's roughly Normally distributed (and by the CLT from Chapter 8, that's an extremely common situation).</p>
+<h2 data-bid="b24" id="the-deeper-payoff-mle-is-why-your-loss-functions-look-the-way-they-do">The deeper payoff: MLE is why your loss functions look the way they do</h2>
+<h3 data-bid="b25" id="mean-squared-error-gaussian-mle">Mean Squared Error = Gaussian MLE</h3>
+<p data-bid="b26">Look again at the expression we maximized above: $-\frac{1}{2\sigma^2}\sum(x_i-\mu)^2$. Maximizing this is the same as <em>minimizing</em> $\sum (x_i - \mu)^2$ - the <strong>sum of squared errors</strong>. This means: <strong>assuming your prediction errors are Normally distributed, minimizing mean squared error (MSE) in a regression model is mathematically identical to maximizing likelihood.</strong> This is <em>why</em> MSE was chosen as a standard regression loss - not an arbitrary convenient formula, but the MLE-correct choice under a Gaussian error assumption. (If your errors are <em>not</em> roughly Normal - e.g., heavy-tailed with occasional huge outlier errors - MSE is no longer the MLE-justified choice, and a different loss, like mean absolute error, may be more appropriate - a very practical modeling decision this derivation directly informs.)</p>
+<h3 data-bid="b27" id="cross-entropy-loss-bernoullicategorical-mle">Cross-entropy loss = Bernoulli/Categorical MLE</h3>
+<p data-bid="b28">For a binary classifier predicting probability $\hat p$ that a label is 1, assuming each label is a Bernoulli trial (Chapter 5) with that predicted probability, the likelihood of observing the true label $y \in \{0,1\}$ is $\hat p^{\,y}(1-\hat p)^{1-y}$. Taking the log and negating (convention: we minimize <em>negative</em> log-likelihood rather than maximize log-likelihood - same optimum, just flipped sign) gives exactly:</p>
+<p data-bid="b29">$$\text{loss} = -\big[y\log\hat p + (1-y)\log(1-\hat p)\big]$$</p>
+<p data-bid="b30">This is <strong>binary cross-entropy loss</strong> - the single most common loss function for classification in all of deep learning. It was not invented separately from statistics; it is the MLE-correct loss for a Bernoulli-distributed label, derived by the exact same recipe as MSE above, just with a different assumed distribution for the data. This is the single biggest "aha" this book offers: <strong>choosing a loss function is secretly choosing a probability distribution for your data/errors, and the loss function is just its negative log-likelihood.</strong> We'll return to this precise connection again in Chapter 25.</p>
+<h3 data-bid="b31" id="reconstructing-it-yourself-deriving-that-count-and-divide-is-the-mle-for-a-coins-bias">Reconstructing it yourself - deriving that "count and divide" is the MLE for a coin's bias</h3>
+<p data-bid="b32">Chapter 10 proved the Normal-mean case in full; let's close the loop on the Bernoulli/Binomial case referenced above and in Chapter 4's worked example, since it's the single most repeated MLE derivation in applied statistics. Suppose you observe $n$ independent coin flips with $k$ heads, and want the MLE for $p$, the true probability of heads. <strong>If your intuition says the answer has to be $\hat p = k/n$ - the obvious "just count" estimate - prove it rather than assume it.</strong></p>
+<p data-bid="b33">The likelihood of observing exactly this sequence (in any specific order) is $L(p) = p^k(1-p)^{n-k}$ (each of the $k$ heads contributes a factor of $p$, each of the $n-k$ tails a factor of $1-p$ - the $\binom{n}{k}$ ordering count from Chapter 5 is a constant with respect to $p$ and can be dropped, since it doesn't affect which $p$ maximizes the expression). Take the log (Chapter 0's reason: turns the product into a sum, easy to differentiate):</p>
+<p data-bid="b34">$$\log L(p) = k\log p + (n-k)\log(1-p)$$</p>
+<p data-bid="b35">Differentiate with respect to $p$ and set to zero:</p>
+<p data-bid="b36">$$\frac{d}{dp}\log L(p) = \frac{k}{p} - \frac{n-k}{1-p} = 0$$</p>
+<p data-bid="b37">Multiply through by $p(1-p)$ to clear denominators: $k(1-p) = (n-k)p \implies k - kp = np - kp \implies k = np \implies p = \frac{k}{n}$.</p>
+<p data-bid="b38"><strong>The MLE is exactly $\hat p = k/n$</strong> - the "obviously correct" count-and-divide estimate turns out to be, once again, not an arbitrary convention but the precise output of the same maximize-the-likelihood machine that gave you the sample mean for Normal data. This is exactly the calculation underneath every reported "conversion rate," every A/B test's observed click-through rate, and - as Chapter 25 will make explicit - the Bernoulli half of every binary cross-entropy training loop.</p>
+<h2 data-bid="b39" id="the-backstory-fishers-single-unifying-idea-1912-sharpened-1922">The backstory - Fisher's single unifying idea (1912, sharpened 1922)</h2>
+<p data-bid="b40">As a 22-year-old undergraduate in 1912, Fisher wrote a short paper proposing what he then called the "method of the most probable value" - the same core idea you learned above, though he hadn't yet worked out its full theoretical justification. A decade later, in his landmark 1922 paper "On the Mathematical Foundations of Theoretical Statistics," he renamed it <strong>maximum likelihood</strong> and did something genuinely remarkable: he showed that this <em>single, general recipe</em> - "pick the parameter that makes the observed data most probable" - reproduces, as special cases, a whole scattering of previously separate, individually-derived estimation formulas that statisticians had cobbled together over the preceding century (including Gauss's least-squares approach from Chapter 6, and the sample proportion for Binomial data). Before Fisher, each distribution effectively needed its own bespoke, cleverly-reasoned estimator, discovered somewhat independently. After Fisher, you had one universal procedure that mechanically <em>generates</em> the right estimator for any distribution you can write a likelihood for - an enormous unification, philosophically similar to how Newton's laws of motion unified previously separate rules for falling bodies, planetary orbits, and pendulums into one framework. This is exactly why MLE, not some competing ad hoc principle, became the default estimation tool taught in every statistics course since - and exactly why, a century later, it turns out to be the same object underlying loss-function design in deep learning, a field Fisher could not have anticipated but whose mathematical bones he effectively built.</p>
+<h2 data-bid="b41" id="mles-known-weaknesses-so-you-dont-over-trust-it">MLE's known weaknesses (so you don't over-trust it)</h2>
+<p data-bid="b42">MLE can overfit with small samples (it has no built-in preference for "simple" explanations - it will happily fit noise if that noise makes the observed data maximally likely) and it can behave badly for some distributions with small sample sizes (biased in finite samples, even though it's usually <em>asymptotically</em> unbiased and consistent as $n\to\infty$). The fix for the overfitting weakness - adding a preference for simpler/more plausible parameters - is exactly what Bayesian statistics (Chapter 17) and regularization (Chapter 16) formalize, by combining the likelihood with a <em>prior</em> belief (Chapter 4's Bayes' Theorem, reappearing here in a new costume).</p>
+<h2 data-bid="b43" id="more-real-world-examples-of-mle">More real-world examples of MLE</h2>
+<ul>
+<li data-bid="b44"><strong>Logistic regression</strong> (binary classification): fits coefficients by maximizing the Bernoulli log-likelihood described above - every time you call <code>.fit()</code> on a logistic regression model, you're running MLE.</li>
+<li data-bid="b45"><strong>Language models</strong>: training a next-word-prediction model by minimizing cross-entropy loss over a huge text corpus is, exactly, maximizing the likelihood of the observed training text under the model's predicted probability distribution over words - "the model that makes the real training data as unsurprising as possible" is a plain-English restatement of MLE.</li>
+<li data-bid="b46"><strong>Fitting a distribution to insurance claims data</strong>: an actuary fitting, say, a Gamma distribution to historical claim sizes to estimate future risk uses MLE to find the Gamma parameters that make the observed claims history most probable.</li>
+<li data-bid="b47"><strong>A/B test conversion rate estimation</strong>: the "obvious" estimator (observed conversions / total visitors) for a Binomial's $p$ is not a coincidence - it is exactly the MLE for Binomial data, derivable by the same log-likelihood-derivative-equals-zero recipe used above for the Normal mean.</li>
+</ul>
+<h2 data-bid="b48" id="figures">Figures</h2>
+<img class="has-rail" data-figid="f1" alt="The log-likelihood of Normal data as a function of candidate mu values. The peak sits exactly at the sample mean -- proof that the MLE for a Normal mean IS the sample mean." src="../images/ch10_maximum_likelihood_estimation_fig1.png" /><p data-bid="b49" class="img-caption has-rail" data-figid="f1"><em>The log-likelihood of Normal data as a function of candidate mu values. The peak sits exactly at the sample mean -- proof that the MLE for a Normal mean IS the sample mean.</em></p>
+<h2 data-bid="b50" id="run-it-yourself">Run it yourself</h2>
+<p data-bid="b51"><code>book/code/ch10_maximum_likelihood_estimation.py</code> generates data from a known Normal distribution, plots the log-likelihood as a function of candidate $\mu$ values (so you can see the "hill" being climbed and confirm its peak sits exactly at $\bar x$), and then demonstrates the MSE-as-Gaussian-MLE connection concretely by fitting a simple linear regression two ways - once via <code>scipy.optimize</code> maximizing Gaussian log-likelihood directly, once via plain least-squares - and showing they land on identical parameters.</p>
+<p data-bid="b52"re><code class="language-bash">python book/code/ch10_maximum_likelihood_estimation.py
+</code></pre>
+<h2 data-bid="b53" id="why-this-matters-in-ai-and-in-everyday-life">Why This Matters - In AI and In Everyday Life</h2>
+<p data-bid="b54"><strong>In AI / machine learning:</strong></p>
+<ul>
+<li data-bid="b55"><strong>Every standard neural network loss function</strong>: MSE, binary cross-entropy, and categorical cross-entropy are all literally negative log-likelihoods under a specific distributional assumption -- this chapter is the direct derivation of how deep learning training objectives were chosen.</li>
+<li data-bid="b56"><strong>Logistic regression and most classical ML model fitting</strong>: calling <code>.fit()</code> on a logistic regression or many other classical models is, under the hood, running exactly the MLE recipe from this chapter.</li>
+<li data-bid="b57"><strong>Transformer language-model pretraining</strong>: the cross-entropy objective used to train every large language model is literally the categorical MLE derived here - the model adjusts its weights to make the observed next tokens in the training corpus as probable as possible under its predicted distribution, so "pretraining" is maximum likelihood estimation at industrial scale.</li>
+<li data-bid="b58"><strong>Diffusion model training</strong>: noising and denoising objectives in diffusion models reduce, under a Gaussian noise assumption, to a Gaussian MLE - minimizing the mean squared error between the true noise and the network's predicted noise. This chapter's "MSE is Gaussian MLE" identity is the statistical justification for that entire training recipe.</li>
+</ul>
+<p data-bid="b59"><strong>In everyday, non-AI life:</strong></p>
+<ul>
+<li data-bid="b60"><strong>Estimating a true defect rate from inspected samples</strong>: if you inspect 50 items and find 3 defective, the "obvious" estimate of 6% defect rate is literally the MLE for a Binomial parameter, derivable by this chapter's recipe.</li>
+<li data-bid="b61"><strong>Fitting any theoretical curve to real measurements</strong>: an actuary fitting a claim-size distribution to historical insurance claims, or a physicist fitting a decay curve to measurements, is running MLE.</li>
+</ul>
+<h2 data-bid="b62" id="worked-example-by-hand-larger">Worked example - by hand, larger</h2>
+<p data-bid="b63">Now a case the chapter has only referenced abstractly: deriving the MLE for a <strong>Poisson rate</strong> $\lambda$, the parameter behind "how many times per interval does this happen?" - exactly the quantity you estimate when modeling, say, the number of user sign-ups per hour or the number of errors a model makes per thousand requests. This is a different distribution from the Normal and Bernoulli cases above, so it is a genuine test that the <em>principle</em> is general, not a trick that only works for two examples.</p>
+<p data-bid="b64">Suppose you observe an autonomously running service and count the number of crashes in each of $n=5$ hours: counts $3, 1, 4, 2, 5$ (total $k = 15$ crashes across 5 hours). The Poisson PMF for a single count $x$ with rate $\lambda$ is $f(x\mid\lambda) = \frac{\lambda^x e^{-\lambda}}{x!}$.</p>
+<p data-bid="b65"><strong>Step 1 - write the likelihood.</strong> Independent observations let us multiply:</p>
+<p data-bid="b66">$$L(\lambda) = \prod_{i=1}^n \frac{\lambda^{x_i} e^{-\lambda}}{x_i!} = \frac{\lambda^{\sum x_i} e^{-n\lambda}}{\prod_i x_i!}$$</p>
+<p data-bid="b67"><strong>Step 2 - take the log</strong> (Chapter 10's reason: turn the product into a sum). Dropping the $\prod x_i!$ constant, since it does not involve $\lambda$:</p>
+<p data-bid="b68">$$\log L(\lambda) = \Big(\sum_i x_i\Big)\log\lambda - n\lambda + \text{constant} = 15\log\lambda - 5\lambda + \text{constant}.$$</p>
+<p data-bid="b69"><strong>Step 3 - differentiate and set to zero.</strong> Using $\frac{d}{d\lambda}\log\lambda = \frac{1}{\lambda}$:</p>
+<p data-bid="b70">$$\frac{d}{d\lambda}\log L(\lambda) = \frac{15}{\lambda} - 5 = 0.$$</p>
+<p data-bid="b71"><strong>Step 4 - solve.</strong> Multiply through by $\lambda$: $15 - 5\lambda = 0 \implies \lambda = \frac{15}{5} = 3$. The MLE for the Poisson rate is exactly the sample mean of the counts - $\hat\lambda = \bar x$, the same "just average the data" formula, now falling out of the same machine for a third distribution without any new special pleading. (You can confirm this is a maximum, not a minimum: $\frac{d^2}{d\lambda^2}\log L = -\frac{15}{\lambda^2} < 0$ everywhere positive.)</p>
+<p data-bid="b72"><strong>The plain-language takeaway: whatever distribution you write a likelihood for, MLE hands you back the estimator that makes your observed data look the least surprising - and for the Poisson, that turns out to be the average count per interval, no different in spirit from the Normal mean or the coin's $k/n$.</strong> This generality is the entire point: you learn one recipe, and it generates the right estimator for any distribution you can name.</p>
+<h2 data-bid="b73" id="check-your-understanding">Check your understanding</h2>
+<ul>
+<li data-bid="b74">Why does maximizing $\log L(\theta)$ give the same answer as maximizing $L(\theta)$ directly?</li>
+<li data-bid="b75">Walk through, in your own words, why setting the derivative of the log-likelihood to zero and solving gives $\mu = \bar x$ for Normal data.</li>
+<li data-bid="b76">If someone tells you "we use MSE because it's the standard choice," what deeper statistical assumption are they implicitly making about their errors, according to this chapter?</li>
+</ul>
+<h2 data-bid="b77" id="exercises">Exercises</h2>
+<h3 data-bid="b78" id="exercise-1-mle-for-an-exponential-waiting-time">Exercise 1 - MLE for an exponential waiting time</h3>
+<p data-bid="b79">A recommendation model's time-to-first-click (in seconds) for a stream of users is assumed Exponential with rate $\lambda$: $f(x\mid\lambda) = \lambda e^{-\lambda x}$. You observe $n = 4$ waiting times: $2, 3, 1, 6$ seconds. Derive the MLE for $\lambda$ by hand and give the numeric estimate.</p>
+<details><summary>Show solution</summary>
+
+Write the likelihood for independent observations:
+
+$$L(\lambda) = \prod_{i=1}^n \lambda e^{-\lambda x_i} = \lambda^n e^{-\lambda \sum_i x_i}.$$
+
+Take the log:
+
+$$\log L(\lambda) = n\log\lambda - \lambda\sum_i x_i = 4\log\lambda - 12\lambda.$$
+
+Differentiate and set to zero:
+
+$$\frac{d}{d\lambda}\log L(\lambda) = \frac{n}{\lambda} - \sum_i x_i = \frac{4}{\lambda} - 12 = 0 \implies \lambda = \frac{4}{12} = \frac{1}{3} \approx 0.333.$$
+
+So the MLE is $\hat\lambda = 1/\bar x = n / \sum x_i$ - the reciprocal of the sample mean, which makes sense: a higher rate means shorter typical waits. Numerically $\hat\lambda = 0.333$ per second (one click about every 3 seconds on average). Confirm it's a maximum: $\frac{d^2}{d\lambda^2}\log L = -\frac{n}{\lambda^2} < 0$.
+
+</details>
+
+<h3 data-bid="b80" id="exercise-2-cross-entropy-loss-by-hand-on-one-example">Exercise 2 - Cross-entropy loss by hand on one example</h3>
+<p data-bid="b81">A binary classifier outputs predicted probability $\hat p = 0.8$ for an item whose true label is $y = 1$. Compute the binary cross-entropy loss for this single example directly from its definition, then state what the loss would be if the same classifier had instead output $\hat p = 0.2$.</p>
+<details><summary>Show solution</summary>
+
+Binary cross-entropy for one example is
+
+$$\text{loss} = -\big[y\log\hat p + (1-y)\log(1-\hat p)\big].$$
+
+With $y=1$, $\hat p=0.8$: the second term vanishes since $(1-y)=0$, leaving
+
+$$\text{loss} = -\big[1\cdot\log 0.8\big] = -\log 0.8 \approx -(-0.2231) = 0.2231.$$
+
+With the same $y=1$ but $\hat p = 0.2$:
+
+$$\text{loss} = -\log 0.2 \approx 1.6094.$$
+
+The loss is dramatically higher when the classifier confidently predicts the *wrong* class - this is exactly the negative log-likelihood this chapter derived, and it is precisely why confidently wrong predictions get heavily punished during training: the gradient of $-\log$ becomes enormous as $\hat p \to 0$.
+
+</details>
+
+<h3 data-bid="b82" id="exercise-3-conceptual-why-mle-has-no-built-in-preference-for-simplicity">Exercise 3 - Conceptual: why MLE has no built-in preference for simplicity</h3>
+<p data-bid="b83">This chapter notes MLE "has no built-in preference for simple explanations - it will happily fit noise if that noise makes the observed data maximally likely." In the language of the MSE/overfitting discussion (Chapter 15), explain why this directly motivates adding a regularization penalty term, and what the penalty is doing in likelihood terms.</p>
+<details><summary>Show solution</summary>
+
+MLE maximizes $L(\theta)$ (equivalently minimizes negative log-likelihood) with respect to the data alone. Given enough free parameters, the maximizer will chase *any* pattern in the observed sample - including patterns that are pure sampling noise - because doing so genuinely makes that specific dataset more probable. Nothing in the objective says "prefer the parameter value that would also explain a *different* sample from the same population."
+
+Regularization adds a penalty $\lambda R(\theta)$ to the negative log-likelihood, so the objective becomes $\text{loss} = -\log L(\theta) + \lambda R(\theta)$. In likelihood terms, that penalty is formally equivalent to a prior distribution on $\theta$ - which is exactly Bayesian MAP estimation (Chapter 17): penalizing large weights corresponds to a Gaussian prior, penalizing absolute weights corresponds to a Laplace prior. The penalty *biases* the estimate toward simpler parameters, accepting a small amount of bias in exchange for a large reduction in variance, i.e. less overfitting - the bias-variance tradeoff of Chapter 9, now expressed as a prior.
+
+</details>
+
+<h2 data-bid="b84" id="whats-next">What's next</h2>
+<p data-bid="b85">Chapter 11 uses the CLT (Chapter 8) plus the sample mean's known standard error (Chapter 9) to build <strong>confidence intervals</strong> - a precise way to express "how wrong might this estimate be" rather than reporting a single bare number.</p>
+    </div>
+    <div class="navfooter">
+      <span><a href="09_sampling_and_estimation.html">&larr; Previous chapter</a></span>
+      <span><a href="11_confidence_intervals.html">Next chapter &rarr;</a></span>
+    </div>
+  </div>
+  <div class="pane-right">
+    <h4>Figures in this chapter</h4>
+    <div id="railContent"></div>
+  </div>
+</div>
+
+<!-- floating selection toolbar -->
+<div id="selToolbar">
+  <button data-color="yellow" title="Mark interesting">🟡</button>
+  <button data-color="green" title="Mark understood">🟢</button>
+  <button data-color="red" title="Mark confusing">🔴</button>
+  <button data-color="blue" title="Mark to review later">🔵</button>
+  <button id="btnAddNote" title="Highlight + add a note">📝</button>
+</div>
+
+<!-- note edit popup -->
+<div id="notePopup">
+  <textarea placeholder="Write a note to yourself..."></textarea>
+  <div class="row">
+    <button class="danger" id="btnDeleteHl">Remove highlight</button>
+    <div>
+      <button id="btnCloseNote">Close</button>
+      <button class="primary" id="btnSaveNote">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- notes side panel -->
+<div id="notesOverlay"></div>
+<div id="notesPanel">
+  <div class="header">
+    <b>My Notes - this page</b>
+    <button class="iconbtn" id="btnCloseNotesPanel">✕</button>
+  </div>
+  <div class="list" id="notesList"></div>
+  <div class="footer">
+    <button id="btnExportNotes">⬇ Export all notes</button>
+    <button id="btnImportNotes">⬆ Import notes</button>
+    <input type="file" id="importFile" accept="application/json" style="display:none;">
+  </div>
+</div>
+
+<script src="../assets/app.js"></script>
+</body>
+</html>

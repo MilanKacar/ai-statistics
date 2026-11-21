@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 14: Correlation and Simple Linear Regression</title>
+<link rel="stylesheet" href="../assets/app.css">
+<script>
+window.MathJax = { tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']], processEscapes: true } };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+</head>
+<body data-chapter="14_simple_linear_regression">
+<div class="topbar">
+  <div class="left">
+    <button class="iconbtn hamburger" id="btnSidebarToggle">☰</button>
+    <a href="../index.html">Statistics for AI</a>
+  </div>
+  <div class="right">
+    <button class="iconbtn" id="btnNotesPanel">📒 My Notes</button>
+  </div>
+</div>
+<div id="sidebarOverlay"></div>
+<div class="layout">
+  <nav class="sidebar" id="sidebar">
+    <input type="text" id="sidebarFilter" placeholder="Filter chapters...">
+<details open><summary>Orientation</summary><ul>
+<li class="" data-title="chapter 0: how to use this book, and the math notation you'll see"><a href="00_how_to_use_this_book.html">Chapter 0: How to Use This Book, and the Math Notation You'll See</a></li>
+</ul></details>
+<details open><summary>Part I - Describing the World</summary><ul>
+<li class="" data-title="chapter 1: data, populations, and samples - thinking like a statistician"><a href="01_data_populations_samples.html">Chapter 1: Data, Populations, and Samples - Thinking Like a Statistician</a></li>
+<li class="" data-title="chapter 2: describing data - center, spread, and shape"><a href="02_descriptive_statistics.html">Chapter 2: Describing Data - Center, Spread, and Shape</a></li>
+<li class="" data-title="chapter 3: probability foundations - events, rules, and conditioning"><a href="03_probability_foundations.html">Chapter 3: Probability Foundations - Events, Rules, and Conditioning</a></li>
+<li class="" data-title="chapter 4: bayes' theorem - updating beliefs with evidence"><a href="04_bayes_theorem.html">Chapter 4: Bayes' Theorem - Updating Beliefs With Evidence</a></li>
+<li class="" data-title="chapter 5: random variables and discrete distributions"><a href="05_random_variables_discrete.html">Chapter 5: Random Variables and Discrete Distributions</a></li>
+<li class="" data-title="chapter 6: continuous distributions and the normal distribution"><a href="06_continuous_distributions.html">Chapter 6: Continuous Distributions and the Normal Distribution</a></li>
+<li class="" data-title="chapter 7: expectation, variance, covariance, and correlation"><a href="07_expectation_variance_covariance.html">Chapter 7: Expectation, Variance, Covariance, and Correlation</a></li>
+<li class="" data-title="chapter 8: the central limit theorem - the secret engine of statistics"><a href="08_central_limit_theorem.html">Chapter 8: The Central Limit Theorem - The Secret Engine of Statistics</a></li>
+</ul></details>
+<details open><summary>Part II - Inferring From Data</summary><ul>
+<li class="" data-title="chapter 9: sampling and estimation"><a href="09_sampling_and_estimation.html">Chapter 9: Sampling and Estimation</a></li>
+<li class="" data-title="chapter 10: maximum likelihood estimation"><a href="10_maximum_likelihood_estimation.html">Chapter 10: Maximum Likelihood Estimation</a></li>
+<li class="" data-title="chapter 11: confidence intervals"><a href="11_confidence_intervals.html">Chapter 11: Confidence Intervals</a></li>
+<li class="" data-title="chapter 12: hypothesis testing and p-values"><a href="12_hypothesis_testing.html">Chapter 12: Hypothesis Testing and p-values</a></li>
+<li class="" data-title="chapter 13: t-tests, chi-square, and anova"><a href="13_ttests_chisquare_anova.html">Chapter 13: t-tests, Chi-square, and ANOVA</a></li>
+<li class="current" data-title="chapter 14: correlation and simple linear regression"><a href="14_simple_linear_regression.html">Chapter 14: Correlation and Simple Linear Regression</a></li>
+<li class="" data-title="chapter 15: multiple regression, r², and overfitting"><a href="15_multiple_regression.html">Chapter 15: Multiple Regression, R², and Overfitting</a></li>
+</ul></details>
+<details open><summary>Part III - The Bridge Into Machine Learning</summary><ul>
+<li class="" data-title="chapter 16: bias-variance tradeoff, cross-validation, and regularization"><a href="16_bias_variance_regularization.html">Chapter 16: Bias-Variance Tradeoff, Cross-Validation, and Regularization</a></li>
+<li class="" data-title="chapter 17: bayesian statistics in depth"><a href="17_bayesian_statistics.html">Chapter 17: Bayesian Statistics in Depth</a></li>
+<li class="" data-title="chapter 18: resampling - bootstrap and permutation tests"><a href="18_resampling_methods.html">Chapter 18: Resampling - Bootstrap and Permutation Tests</a></li>
+<li class="" data-title="chapter 19: linear algebra essentials for statistics and ml"><a href="19_linear_algebra_essentials.html">Chapter 19: Linear Algebra Essentials for Statistics and ML</a></li>
+<li class="" data-title="chapter 20: multivariate statistics - covariance matrices and pca"><a href="20_multivariate_pca.html">Chapter 20: Multivariate Statistics - Covariance Matrices and PCA</a></li>
+</ul></details>
+<details open><summary>Part IV - The Statistics Inside Modern AI</summary><ul>
+<li class="" data-title="chapter 21: information theory - entropy, cross-entropy, and kl divergence"><a href="21_information_theory.html">Chapter 21: Information Theory - Entropy, Cross-Entropy, and KL Divergence</a></li>
+<li class="" data-title="chapter 22: statistical learning theory - why generalization works at all"><a href="22_statistical_learning_theory.html">Chapter 22: Statistical Learning Theory - Why Generalization Works At All</a></li>
+<li class="" data-title="chapter 23: probabilistic models and latent variables (mixtures, em)"><a href="23_latent_variable_models.html">Chapter 23: Probabilistic Models and Latent Variables (Mixtures, EM)</a></li>
+<li class="" data-title="chapter 24: markov chains and monte carlo methods"><a href="24_markov_chains_monte_carlo.html">Chapter 24: Markov Chains and Monte Carlo Methods</a></li>
+<li class="" data-title="chapter 25: the statistics hiding inside neural networks"><a href="25_statistics_in_neural_networks.html">Chapter 25: The Statistics Hiding Inside Neural Networks</a></li>
+<li class="" data-title="chapter 26: where to go next"><a href="26_where_to_go_next.html">Chapter 26: Where to Go Next</a></li>
+</ul></details>
+<details open><summary>Part V - The Statistical Frontier of Modern AI</summary><ul>
+<li class="" data-title="chapter 27: the statistical frontier - how modern ai actually uses these ideas today"><a href="27_frontier_ai_statistics.html">Chapter 27: The Statistical Frontier - How Modern AI Actually Uses These Ideas Today</a></li>
+</ul></details>
+<details open><summary>Part VI - Advanced AI Algorithms: The Statistical Engine Room</summary><ul>
+<li class="" data-title="chapter 28: diffusion models and score matching - statistics as generation"><a href="28_diffusion_models_score_matching.html">Chapter 28: Diffusion Models and Score Matching - Statistics as Generation</a></li>
+<li class="" data-title="chapter 29: transformers and attention - statistics you can calculate (almost) by hand"><a href="29_transformers_attention_statistics.html">Chapter 29: Transformers and Attention - Statistics You Can Calculate (Almost) by Hand</a></li>
+<li class="" data-title="chapter 30: reinforcement learning and policy gradients - statistics that learn from rewards"><a href="30_reinforcement_learning_policy_gradients.html">Chapter 30: Reinforcement Learning and Policy Gradients - Statistics That Learn From Rewards</a></li>
+<li class="" data-title="chapter 31: variational inference and the elbo - approximate bayes at scale"><a href="31_variational_inference_elbo.html">Chapter 31: Variational Inference and the ELBO - Approximate Bayes at Scale</a></li>
+<li class="" data-title="chapter 32: contrastive learning and infonce - statistics that learns embeddings"><a href="32_contrastive_learning_infonce.html">Chapter 32: Contrastive Learning and InfoNCE - Statistics That Learns Embeddings</a></li>
+<li class="" data-title="chapter 33: causal inference and do-calculus - when correlation is not enough"><a href="33_causal_inference_do_calculus.html">Chapter 33: Causal Inference and Do-Calculus - When Correlation Is Not Enough</a></li>
+<li class="" data-title="chapter 34: graphical models and message passing - statistics as graphs"><a href="34_graphical_models_message_passing.html">Chapter 34: Graphical Models and Message Passing - Statistics as Graphs</a></li>
+<li class="" data-title="chapter 35: optimization, generalization, and double descent - why big models work"><a href="35_optimization_generalization_double_descent.html">Chapter 35: Optimization, Generalization, and Double Descent - Why Big Models Work</a></li>
+<li class="" data-title="chapter 36: time series and modern sequence models - statistics over time"><a href="36_time_series_sequence_models.html">Chapter 36: Time Series and Modern Sequence Models - Statistics Over Time</a></li>
+</ul></details>
+<details open><summary>Part VII - Aligning AI With Human Preferences: The Statistics of RLHF</summary><ul>
+<li class="" data-title="chapter 37: preference data and reward modeling - statistics from human judgments"><a href="37_preference_data_reward_modeling.html">Chapter 37: Preference Data and Reward Modeling - Statistics From Human Judgments</a></li>
+<li class="" data-title="chapter 38: rlhf, dpo, and preference optimization - turning preferences into a loss function"><a href="38_dpo_and_preference_optimization.html">Chapter 38: RLHF, DPO, and Preference Optimization - Turning Preferences Into a Loss Function</a></li>
+<li class="" data-title="chapter 39: reinforcement learning with verifiable rewards - and how reasoning models are trained"><a href="39_rl_verifiable_rewards_reasoning.html">Chapter 39: Reinforcement Learning With Verifiable Rewards - and How Reasoning Models Are Trained</a></li>
+</ul></details>
+  </nav>
+  <div class="pane-left">
+    <div class="article" id="article">
+<h1 id="chapter-14-correlation-and-simple-linear-regression">Chapter 14: Correlation and Simple Linear Regression</h1>
+<h2 data-bid="b1" id="the-idea-this-chapter-builds-toward">The idea this chapter builds toward</h2>
+<p data-bid="b2">Correlation (Chapter 7) tells you <em>whether</em> and <em>how strongly</em> two variables move together. <strong>Regression</strong> goes one step further: it builds an actual predictive equation - "given $x$, my best guess for $y$ is ___" - and gives you a principled way to find the <em>single best-fitting straight line</em> through a scatter of points. This is the first chapter in the book that produces a genuine predictive model, and everything from here through Chapter 15 (multiple regression) is the direct statistical ancestor of every ML regression/classification model you'll ever train.</p>
+<blockquote data-bid="b3">
+<p data-bid="b4"><strong>Intuition, in one breath:</strong> Regression draws the one straight line that passes as close as possible to all your points at once, then uses that line to predict. "Close" means the squared vertical misses are as small as they can be, which is exactly why the slope ends up being about how the two variables move together.</p>
+</blockquote>
+<h2 data-bid="b5" id="the-model">The model</h2>
+<p data-bid="b6">$$y = \beta_0 + \beta_1 x + \varepsilon$$</p>
+<ul>
+<li data-bid="b7">$\beta_0$: the intercept - predicted $y$ when $x=0$.</li>
+<li data-bid="b8">$\beta_1$: the slope - how much $y$ changes for each 1-unit increase in $x$.</li>
+<li data-bid="b9">$\varepsilon$ ("epsilon"): the <strong>error term</strong> - everything about $y$ that the line doesn't capture (noise, unmeasured factors). Standard regression assumes $\varepsilon \sim N(0, \sigma^2)$ - Normally distributed, centered at zero, with constant variance - an assumption that matters a lot, revisited in Chapter 15.</li>
+</ul>
+<h2 data-bid="b10" id="deriving-the-best-line-from-scratch-the-thought-process-not-just-the-formula">Deriving the "best" line from scratch - the thought process, not just the formula</h2>
+<p data-bid="b11">Here's the question Gauss and Legendre (early 1800s, the same least-squares story from Chapter 6) were actually solving: given a scatter of $(x_i, y_i)$ points that clearly don't lie on any single perfect line, what does "best line" even mean, and how do you find it?</p>
+<p data-bid="b12"><strong>Step 1 - decide what "error" means for a candidate line.</strong> For any candidate line $\hat y = b_0 + b_1 x$, each data point has a <strong>residual</strong>: $e_i = y_i - \hat y_i$ - the vertical gap between the actual point and the line's prediction at that $x$. A "good" line should make these residuals small overall.</p>
+<p data-bid="b13"><strong>Step 2 - decide how to combine many residuals into one number to minimize.</strong> You can't just sum raw residuals (same cancellation problem as Chapter 2's mean deviations - positive and negative residuals would cancel, letting a terrible line with huge errors in both directions look "perfect"). Gauss's solution: square each residual before summing, for exactly the same reasons variance is defined with squares (removes sign, penalizes big misses disproportionately, stays smooth for calculus). This defines the <strong>sum of squared errors (SSE)</strong>:</p>
+<p data-bid="b14">$$SSE(b_0, b_1) = \sum_{i=1}^n (y_i - b_0 - b_1 x_i)^2$$</p>
+<p data-bid="b15"><strong>Step 3 - actually minimize it.</strong> This is now a pure calculus problem: find the $(b_0, b_1)$ that minimizes $SSE$. Take the derivative of $SSE$ with respect to $b_0$, set it to zero; take the derivative with respect to $b_1$, set it to zero; solve the resulting two equations together (this is the "method of least squares," and the two zero-derivative equations are called the "normal equations"). Carrying out that calculus (not reproduced step-by-step here, but it's a very standard derivation you can look up or ask me to walk through live) yields clean closed-form answers:</p>
+<p data-bid="b16">$$\hat\beta_1 = \frac{\sum (x_i-\bar x)(y_i - \bar y)}{\sum (x_i - \bar x)^2} = \frac{\text{Cov}(X,Y)}{\text{Var}(X)}, \qquad \hat\beta_0 = \bar y - \hat\beta_1 \bar x$$</p>
+<p data-bid="b17"><strong>This is deeply satisfying once you see it</strong>: the best-fit slope is <em>exactly</em> the covariance between X and Y (Chapter 7), divided by the variance of X alone - i.e., "how much do X and Y move together, relative to how much X moves on its own." And the intercept formula guarantees the fitted line always passes exactly through the point $(\bar x, \bar y)$ - the "center of mass" of the data - which makes sense: the single most representative point in the whole dataset should sit exactly on your best-fit line.</p>
+<h3 data-bid="b18" id="connecting-back-to-correlation">Connecting back to correlation</h3>
+<p data-bid="b19">Recall $\rho = \frac{\text{Cov}(X,Y)}{\sigma_X \sigma_Y}$ from Chapter 7. A little algebra shows $\hat\beta_1 = \rho \times \frac{\sigma_Y}{\sigma_X}$ - the regression slope is literally the correlation coefficient, rescaled by the ratio of the two variables' spreads. This is <em>exactly</em> the mathematical mechanism behind Galton's "regression to the mean" (Chapter 7's backstory): whenever $|\rho| < 1$ (almost always, in real noisy data), the predicted change in $y$ is always a <em>shrunken</em> fraction of the change in $x$ - predictions regress toward the mean by construction, not as some mysterious biological force.</p>
+<h2 data-bid="b20" id="worked-example-by-hand">Worked example - by hand</h2>
+<p data-bid="b21">Five data points relating hours studied ($x$) to exam score ($y$): $(1, 52), (2, 60), (3, 61), (4, 68), (5, 75)$.</p>
+<p data-bid="b22">$\bar x = 3, \bar y = 63.2$. Compute $\sum(x_i-\bar x)(y_i-\bar y)$: deviations in $x$ are $(-2,-1,0,1,2)$; deviations in $y$ are $(-11.2,-3.2,-2.2,4.8,11.8)$. Products: $22.4, 3.2, 0, 4.8, 23.6$, summing to $54.0$. $\sum(x_i-\bar x)^2 = 4+1+0+1+4=10$.</p>
+<p data-bid="b23">$$\hat\beta_1 = \frac{54.0}{10} = 5.4, \qquad \hat\beta_0 = 63.2 - 5.4(3) = 63.2 - 16.2 = 47.0$$</p>
+<p data-bid="b24">Fitted line: $\hat y = 47.0 + 5.4x$ - each additional hour of studying predicts about 5.4 more exam points, and a student who studied zero hours is predicted to score 47.</p>
+<h2 data-bid="b25" id="r2-how-good-is-the-fit">R² - how good is the fit?</h2>
+<p data-bid="b26">$$R^2 = 1 - \frac{SSE}{SST}, \qquad SST = \sum(y_i-\bar y)^2$$</p>
+<p data-bid="b27"><strong>Intuition</strong>: $SST$ ("total sum of squares") measures how much $y$ varies if you <em>ignore</em> $x$ entirely and just always predict $\bar y$ (the simplest possible baseline model). $SSE$ measures how much variation is <em>left over</em> after using your regression line. $R^2$ is the <em>fraction of y's variation that your line explains</em>: $R^2=1$ means a perfect fit (no leftover error at all); $R^2=0$ means your line does no better than just guessing the average every time. For simple linear regression specifically, $R^2 = \rho^2$ - exactly the squared correlation coefficient, which is a nice, tidy fact worth remembering: a correlation of 0.7 corresponds to an $R^2$ of only 0.49 - the line explains less than half the variance despite "0.7" sounding like a strong relationship, a very common point of confusion worth internalizing.</p>
+<div class="labcard">
+<div class="labkicker">Live - generate data at a target correlation and watch the fit</div>
+<div class="labcontrols">
+  <div class="labctrl"><label>Target correlation (&rho;) <b id="ch14_rho_label">0.70</b></label><input type="range" id="ch14_rho" min="-1" max="1" step="0.05" value="0.7"></div>
+  <div class="labctrl"><label>Number of points <b id="ch14_n_label">60</b></label><input type="range" id="ch14_n" min="10" max="300" value="60"></div>
+</div>
+<div class="labrow">
+  <button class="labbtn secondary" id="ch14_regen">Regenerate data</button>
+  <label class="labcheck"><input type="checkbox" id="ch14_parabola"> Parabola mode (Y=X&sup2;, correlation's blind spot)</label>
+</div>
+<div class="labcanvas-wrap"><canvas id="ch14_canvas" width="820" height="320"></canvas></div>
+<div class="labstat-grid">
+  <div class="labstat"><div class="lbl">Correlation (r)</div><div class="val" id="ch14_corr">-</div></div>
+  <div class="labstat"><div class="lbl">R&sup2;</div><div class="val" id="ch14_r2">-</div></div>
+  <div class="labstat"><div class="lbl">Slope</div><div class="val" id="ch14_slope">-</div></div>
+  <div class="labstat"><div class="lbl">Intercept</div><div class="val" id="ch14_intercept">-</div></div>
+</div>
+<p data-bid="b28" class="labnote">Turn on parabola mode: Y becomes perfectly determined by X, yet the computed correlation sits near zero because the relationship is curved, not linear - always plot your data.</p>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  var SL = window.StatsLab;
+  var data = [];
+  function regenerate(){
+    var rho = parseFloat(document.getElementById('ch14_rho').value);
+    var n = parseInt(document.getElementById('ch14_n').value);
+    var parabola = document.getElementById('ch14_parabola').checked;
+    data = [];
+    for(var i=0;i<n;i++){
+      var x = SL.randNormal(0,1), y;
+      if(parabola) y = x*x + SL.randNormal(0,0.05);
+      else y = rho*x + Math.sqrt(Math.max(0,1-rho*rho))*SL.randNormal(0,1);
+      data.push([x,y]);
+    }
+    draw();
+  }
+  function draw(){
+    var xs = data.map(function(d){return d[0];}), ys = data.map(function(d){return d[1];});
+    var xbar = SL.mean(xs), ybar = SL.mean(ys);
+    var sx = SL.std(xs,1), sy = SL.std(ys,1);
+    var cov=0; for(var i=0;i<xs.length;i++) cov += (xs[i]-xbar)*(ys[i]-ybar);
+    cov /= (xs.length-1);
+    var r = cov/(sx*sy);
+    var slope = cov/SL.variance(xs,1);
+    var intercept = ybar - slope*xbar;
+    var sst = ys.reduce(function(a,y){return a+(y-ybar)*(y-ybar);},0);
+    var sse = xs.reduce(function(a,x,ii){return a+Math.pow(ys[ii]-(intercept+slope*x),2);},0);
+    var r2 = 1-sse/sst;
+    document.getElementById('ch14_corr').textContent = r.toFixed(3);
+    document.getElementById('ch14_r2').textContent = r2.toFixed(3);
+    document.getElementById('ch14_slope').textContent = slope.toFixed(3);
+    document.getElementById('ch14_intercept').textContent = intercept.toFixed(3);
+
+    var xlo = Math.min.apply(null,xs)-0.5, xhi = Math.max.apply(null,xs)+0.5;
+    var ylo = Math.min.apply(null,ys)-0.5, yhi = Math.max.apply(null,ys)+0.5;
+    var plot = SL.makePlot(document.getElementById('ch14_canvas'));
+    plot.setDomain([xlo,xhi],[ylo,yhi]); plot.clear(); plot.axes('X','Y');
+    plot.scatter(data, SL.colors.accent+'cc', 3.5);
+    plot.line([[xlo, intercept+slope*xlo],[xhi, intercept+slope*xhi]], SL.colors.accent4, 2.5);
+  }
+  document.getElementById('ch14_rho').addEventListener('input', function(e){ document.getElementById('ch14_rho_label').textContent = parseFloat(e.target.value).toFixed(2); regenerate(); });
+  document.getElementById('ch14_n').addEventListener('input', function(e){ document.getElementById('ch14_n_label').textContent = e.target.value; regenerate(); });
+  document.getElementById('ch14_regen').addEventListener('click', regenerate);
+  document.getElementById('ch14_parabola').addEventListener('change', regenerate);
+  regenerate();
+});
+</script>
+
+<h3 data-bid="b29" id="reconstructing-it-yourself-proving-xmathplaceholder63x-instead-of-just-quoting-it">Reconstructing it yourself - proving $R^2 = \rho^2$ instead of just quoting it</h3>
+<p data-bid="b30"><strong>If your guess is that this equality should fall out of substituting the least-squares slope formula directly into $R^2$'s definition - it does, in about four lines.</strong> Start from $SSE = \sum(y_i - \hat y_i)^2$ with $\hat y_i = \bar y + \hat\beta_1(x_i - \bar x)$ (the fitted line, rewritten around the means). Substitute and expand:</p>
+<p data-bid="b31">$$y_i - \hat y_i = (y_i - \bar y) - \hat\beta_1(x_i-\bar x)$$</p>
+<p data-bid="b32">Square and sum over all $i$; the cross term, after using $\hat\beta_1 = \frac{\sum(x_i-\bar x)(y_i-\bar y)}{\sum(x_i-\bar x)^2}$ (this chapter's own slope formula) and simplifying, collapses the whole expression down to:</p>
+<p data-bid="b33">$$SSE = SST - \hat\beta_1^2\sum(x_i-\bar x)^2 = SST\left(1 - \rho^2\right)$$</p>
+<p data-bid="b34">(using $\hat\beta_1 = \rho\frac{\sigma_Y}{\sigma_X}$ from the "connecting back to correlation" section above, and $SST = \sum(y_i-\bar y)^2 = (n-1)\sigma_Y^2$, the algebra reduces the $\hat\beta_1^2\sum(x_i-\bar x)^2$ term to exactly $\rho^2 \cdot SST$ - a satisfying but slightly tedious substitution worth working through on paper once). Plug this directly into $R^2$'s definition:</p>
+<p data-bid="b35">$$R^2 = 1-\frac{SSE}{SST} = 1-\frac{SST(1-\rho^2)}{SST} = 1-(1-\rho^2) = \rho^2$$</p>
+<p data-bid="b36"><strong>$R^2=\rho^2$ isn't a coincidence to memorize - it's the direct algebraic consequence of the least-squares slope formula being built from correlation in the first place.</strong> It also tells you something the bare fact alone doesn't: because this derivation leaned on the <em>specific</em> least-squares slope formula from this chapter, $R^2=\rho^2$ is a fact unique to <em>simple linear</em> regression - the moment you add a second predictor in Chapter 15, $R^2$ and any single pairwise correlation stop being interchangeable, which is exactly why Chapter 15 needs its own, separate reasoning about what $R^2$ does and doesn't tell you.</p>
+<h2 data-bid="b37" id="checking-the-assumptions-residual-plots">Checking the assumptions - residual plots</h2>
+<p data-bid="b38">Regression's validity depends on assumptions about $\varepsilon$: roughly Normal, constant variance across the range of $x$ (called <strong>homoscedasticity</strong> - hetero<em>scedasticity</em>, its opposite, is when error spread grows or shrinks systematically across $x$, e.g. predictions for expensive houses having much bigger absolute errors than cheap houses), and no leftover systematic pattern. The standard diagnostic is a <strong>residual plot</strong>: plot residuals $e_i$ against $x_i$ (or against $\hat y_i$). A healthy fit shows residuals scattered randomly with no pattern and roughly constant spread; a curved pattern suggests you're missing a nonlinear relationship (you fit a line to a curve); a funnel/fan shape suggests heteroscedasticity. This single plot is one of the most useful two-second sanity checks in applied regression and is skipped far too often in practice - recall Anscombe's Quartet (Chapter 2): a residual plot would have instantly revealed that datasets 2 and 3 were poorly served by a straight line, despite an identical $R^2$ to dataset 1.</p>
+<h2 data-bid="b39" id="figures">Figures</h2>
+<img class="has-rail" data-figid="f1" alt="The hours-studied vs exam-score example: data points with the least-squares best-fit line and its equation." src="../images/ch14_simple_linear_regression_fig1.png" /><p data-bid="b40" class="img-caption has-rail" data-figid="f1"><em>The hours-studied vs exam-score example: data points with the least-squares best-fit line and its equation.</em></p>
+<img class="has-rail" data-figid="f2" alt="Anscombe's Quartet refit with linear regression. Top row: fitted lines (identical R^2 for all four). Bottom row: residual plots, which instantly expose the curved relationship, the outlier, and the degenerate x-values that R^2 alone hides." src="../images/ch14_simple_linear_regression_fig2.png" /><p data-bid="b41" class="img-caption has-rail" data-figid="f2"><em>Anscombe's Quartet refit with linear regression. Top row: fitted lines (identical R^2 for all four). Bottom row: residual plots, which instantly expose the curved relationship, the outlier, and the degenerate x-values that R^2 alone hides.</em></p>
+<h2 data-bid="b42" id="run-it-yourself">Run it yourself</h2>
+<p data-bid="b43"><code>book/code/ch14_simple_linear_regression.py</code> reproduces the hours-studied example by hand-formula and with <code>numpy.polyfit</code>/<code>scipy.stats.linregress</code>, computes and visualizes $R^2$, and then deliberately re-fits all four Anscombe's Quartet datasets from Chapter 2 with linear regression plus residual plots side by side - showing you exactly how a residual plot exposes the three "badly fit by a line" datasets that an $R^2$/correlation number alone would hide.</p>
+<p data-bid="b44"re><code class="language-bash">python book/code/ch14_simple_linear_regression.py
+</code></pre>
+<h2 data-bid="b45" id="why-this-matters-in-ai-and-in-everyday-life">Why This Matters - In AI and In Everyday Life</h2>
+<p data-bid="b46"><strong>In AI / machine learning:</strong></p>
+<ul>
+<li data-bid="b47"><strong>The simplest baseline model in any ML pipeline</strong>: before trying anything fancy, fitting simple linear regression tells you how much signal a single feature carries, and gives a sanity-check baseline to beat.</li>
+<li data-bid="b48"><strong>Interpretable feature effects</strong>: a regression slope answering "how much does predicted output change per unit of this one feature" is often more valuable for stakeholder trust than a complex black-box model's equivalent behavior.</li>
+<li data-bid="b49"><strong>The linear probe on embeddings</strong>: checking whether a concept (say, sentiment) is linearly encoded in a transformer's learned representations is exactly fitting this chapter's regression on the embedding vector - a high $R^2$ from a linear probe means the representation exposes that concept along a straight direction.</li>
+<li data-bid="b50"><strong>Scaling laws in model training</strong>: the observation that loss falls roughly linearly with log(compute) or log(parameters) is a simple linear regression on log-transformed axes, used to predict how much bigger a model must grow to reach a target loss before spending the training budget.</li>
+</ul>
+<p data-bid="b51"><strong>In everyday, non-AI life:</strong></p>
+<ul>
+<li data-bid="b52"><strong>Predicting house prices from square footage</strong>: one of the most common real-estate analytics examples, and a direct application of this chapter's exact formula.</li>
+<li data-bid="b53"><strong>Predicting sales from advertising spend</strong>: marketing teams routinely fit this exact simple regression to estimate return on ad spend before committing to a bigger campaign.</li>
+</ul>
+<h2 data-bid="b54" id="worked-example-by-hand-larger">Worked example - by hand, larger</h2>
+<p data-bid="b55">The earlier worked example used five points and stopped at the slope and intercept. Here is a larger one - six points, a different domain, and carried all the way through to $R^2$ - relating a model's <strong>batch size</strong> $x$ (in hundreds) to its measured <strong>throughput</strong> $y$ (in thousands of tokens/sec).</p>
+<p data-bid="b56">Data: $(1, 10), (2, 13), (3, 15), (4, 16), (5, 20), (6, 22)$.</p>
+<p data-bid="b57"><strong>Step 1 - means.</strong> $\bar x = \frac{1+2+3+4+5+6}{6} = \frac{21}{6} = 3.5$, and $\bar y = \frac{10+13+15+16+20+22}{6} = \frac{96}{6} = 16$.</p>
+<p data-bid="b58"><strong>Step 2 - the pieces of the slope.</strong> $x$-deviations from 3.5: $-2.5, -1.5, -0.5, 0.5, 1.5, 2.5$. $y$-deviations from 16: $-6, -3, -1, 0, 4, 6$.</p>
+<p data-bid="b59">Cross products $(x_i-\bar x)(y_i-\bar y)$: $(-2.5)(-6)=15$, $(-1.5)(-3)=4.5$, $(-0.5)(-1)=0.5$, $(0.5)(0)=0$, $(1.5)(4)=6$, $(2.5)(6)=15$. Sum $= 15+4.5+0.5+0+6+15 = 41.0$.</p>
+<p data-bid="b60">Squared $x$-deviations: $6.25 + 2.25 + 0.25 + 0.25 + 2.25 + 6.25 = 17.5$.</p>
+<p data-bid="b61"><strong>Step 3 - slope and intercept.</strong></p>
+<p data-bid="b62">$$\hat\beta_1 = \frac{41.0}{17.5} \approx 2.343, \qquad \hat\beta_0 = \bar y - \hat\beta_1\bar x = 16 - 2.343(3.5) = 16 - 8.2 = 7.8.$$</p>
+<p data-bid="b63">Fitted line: $\hat y = 7.8 + 2.343x$ - each additional 100 units of batch size predicts about 2,343 more tokens/sec.</p>
+<p data-bid="b64"><strong>Step 4 - $R^2$.</strong> First $SST = \sum(y_i-\bar y)^2 = 36 + 9 + 1 + 0 + 16 + 36 = 98$. Predictions: $7.8+2.343(1)=10.143$, $12.486$, $14.829$, $17.171$, $19.514$, $21.857$. Residuals (actual - predicted): $-0.143, 0.514, 0.171, -1.171, 0.486, 0.143$. Squared and summed:</p>
+<p data-bid="b65">$$SSE = 0.0204 + 0.2642 + 0.0292 + 1.3712 + 0.2362 + 0.0204 \approx 1.942.$$</p>
+<p data-bid="b66">$$R^2 = 1 - \frac{SSE}{SST} = 1 - \frac{1.942}{98} \approx 1 - 0.0198 = 0.980.$$</p>
+<p data-bid="b67"><strong>Step 5 - interpret.</strong> The line explains about 98% of the variation in throughput, so batch size alone is a strong predictor here. As a cross-check, $R^2 = \rho^2$ from this chapter: the correlation is $\sqrt{0.980} \approx 0.990$, which checks out - these six points really do lie almost on a straight line.</p>
+<p data-bid="b68"><strong>The plain-language takeaway: the slope is just "how the two variables move together, rescaled by how much $x$ moves on its own," and $R^2$ is just the fraction of $y$'s wobble your line accounts for - compute the sums of squared deviations by hand once and the formulas stop being magic.</strong></p>
+<h2 data-bid="b69" id="check-your-understanding">Check your understanding</h2>
+<ul>
+<li data-bid="b70">Walk through why squaring residuals (rather than using absolute value) was the natural choice here, echoing Chapter 2's variance argument - where exactly does the calculus/differentiability argument matter in the derivation above?</li>
+<li data-bid="b71">Why does $\hat\beta_1 = \rho \cdot \sigma_Y/\sigma_X$ explain "regression to the mean" whenever $|\rho|<1$?</li>
+<li data-bid="b72">For one of Anscombe's Quartet's non-linear datasets, explain what a residual plot would show that a bare $R^2$ number wouldn't.</li>
+</ul>
+<h2 data-bid="b73" id="exercises">Exercises</h2>
+<h3 data-bid="b74" id="exercise-1-fit-a-line-by-hand">Exercise 1 - Fit a line by hand</h3>
+<p data-bid="b75">Four points relate a small feature's value $x$ to a model's output $y$: $(0, 2), (1, 5), (2, 5), (3, 8)$. Compute $\hat\beta_1$, $\hat\beta_0$, and $R^2$.</p>
+<details><summary>Show solution</summary>
+
+Means: $\bar x = \frac{0+1+2+3}{4} = 1.5$, $\bar y = \frac{2+5+5+8}{4} = 5$.
+
+$x$-deviations: $-1.5, -0.5, 0.5, 1.5$. $y$-deviations: $-3, 0, 0, 3$.
+
+Cross products: $4.5, 0, 0, 4.5$; sum $= 9.0$. Squared $x$-deviations: $2.25+0.25+0.25+2.25 = 5.0$.
+
+$$\hat\beta_1 = \frac{9.0}{5.0} = 1.8, \qquad \hat\beta_0 = 5 - 1.8(1.5) = 5 - 2.7 = 2.3.$$
+
+Line: $\hat y = 2.3 + 1.8x$.
+
+$SST = 9 + 0 + 0 + 9 = 18$. Predictions: $2.3, 4.1, 5.9, 7.7$. Residuals: $-0.3, 0.9, -0.9, 0.3$; squares $0.09, 0.81, 0.81, 0.09$; $SSE = 1.8$.
+
+$$R^2 = 1 - \frac{1.8}{18} = 1 - 0.1 = 0.9.$$
+
+So the line explains 90% of the variance, consistent with $\rho^2 = 0.9 \Rightarrow \rho \approx 0.949$.
+
+</details>
+
+<h3 data-bid="b76" id="exercise-2-why-a-correlation-of-07-is-less-impressive-than-it-sounds">Exercise 2 - Why a correlation of 0.7 is less impressive than it sounds</h3>
+<p data-bid="b77">A feature has correlation $\rho = 0.70$ with the target. Compute $R^2$ and explain what it means for prediction, then state what correlation would be needed for $R^2 = 0.70$.</p>
+<details><summary>Show solution</summary>
+
+For simple linear regression, $R^2 = \rho^2 = 0.70^2 = 0.49$. So the fitted line explains only 49% of the target's variation - barely half. "0.7" feels strong, but squared it means the model leaves a bit more than half the variance unexplained.
+
+For $R^2 = 0.70$ you need $\rho = \sqrt{0.70} \approx 0.837$. The takeaway: because the relationship between $\rho$ and explained variance is quadratic, correlations must be quite high before a single-feature linear model explains most of the variance - a classic trap when reading coefficients of determination reported as correlations.
+
+</details>
+
+<h3 data-bid="b78" id="exercise-3-conceptual-residuals-versus-xmathplaceholder156x">Exercise 3 - Conceptual: residuals versus $R^2$</h3>
+<p data-bid="b79">Two different datasets both produce a fitted line with $R^2 = 0.85$. Explain, using the residual-plot idea from this chapter, why these two models could still be very different in quality, and what single diagnostic would distinguish them.</p>
+<details><summary>Show solution</summary>
+
+$R^2$ aggregates all residuals into a single number, so two datasets with the same $R^2$ can have wildly different *patterns* of residuals. One might have residuals scattered randomly with roughly constant spread (a well-specified linear model), while the other might have residuals forming a curve (implying the true relationship is nonlinear - a line is the wrong model), or a funnel shape (heteroscedasticity - error spread grows with $x$), or a few huge outliers (which can inflate $R^2$ while the line is badly wrong elsewhere).
+
+The distinguishing diagnostic is the **residual plot**: plot $e_i$ against $x_i$ (or $\hat y_i$). Unpatterned, constant-spread residuals indicate a healthy fit regardless of the $R^2$ value; visible curvature, funnels, or clustered outliers indicate a model problem that $R^2$ alone cannot reveal. This is exactly the point of Anscombe's Quartet - identical summary statistics, radically different data - and it is why you should always look at the residual plot, never trust $R^2$ on its own.
+
+</details>
+
+<h2 data-bid="b80" id="whats-next">What's next</h2>
+<p data-bid="b81">Chapter 15 extends this to <strong>multiple</strong> predictors at once (not just one $x$, but many features simultaneously), introduces $R^2$'s correction for model complexity (adjusted $R^2$), and gives you your first full, precise look at <strong>overfitting</strong> - a concept you'll recognize instantly once you see it, because you've already met its building blocks across Chapters 2, 9, and 13.</p>
+    </div>
+    <div class="navfooter">
+      <span><a href="13_ttests_chisquare_anova.html">&larr; Previous chapter</a></span>
+      <span><a href="15_multiple_regression.html">Next chapter &rarr;</a></span>
+    </div>
+  </div>
+  <div class="pane-right">
+    <h4>Figures in this chapter</h4>
+    <div id="railContent"></div>
+  </div>
+</div>
+
+<!-- floating selection toolbar -->
+<div id="selToolbar">
+  <button data-color="yellow" title="Mark interesting">🟡</button>
+  <button data-color="green" title="Mark understood">🟢</button>
+  <button data-color="red" title="Mark confusing">🔴</button>
+  <button data-color="blue" title="Mark to review later">🔵</button>
+  <button id="btnAddNote" title="Highlight + add a note">📝</button>
+</div>
+
+<!-- note edit popup -->
+<div id="notePopup">
+  <textarea placeholder="Write a note to yourself..."></textarea>
+  <div class="row">
+    <button class="danger" id="btnDeleteHl">Remove highlight</button>
+    <div>
+      <button id="btnCloseNote">Close</button>
+      <button class="primary" id="btnSaveNote">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- notes side panel -->
+<div id="notesOverlay"></div>
+<div id="notesPanel">
+  <div class="header">
+    <b>My Notes - this page</b>
+    <button class="iconbtn" id="btnCloseNotesPanel">✕</button>
+  </div>
+  <div class="list" id="notesList"></div>
+  <div class="footer">
+    <button id="btnExportNotes">⬇ Export all notes</button>
+    <button id="btnImportNotes">⬆ Import notes</button>
+    <input type="file" id="importFile" accept="application/json" style="display:none;">
+  </div>
+</div>
+
+<script src="../assets/app.js"></script>
+</body>
+</html>

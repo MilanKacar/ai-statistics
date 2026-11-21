@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 6: Continuous Distributions and the Normal Distribution</title>
+<link rel="stylesheet" href="../assets/app.css">
+<script>
+window.MathJax = { tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']], processEscapes: true } };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+</head>
+<body data-chapter="06_continuous_distributions">
+<div class="topbar">
+  <div class="left">
+    <button class="iconbtn hamburger" id="btnSidebarToggle">☰</button>
+    <a href="../index.html">Statistics for AI</a>
+  </div>
+  <div class="right">
+    <button class="iconbtn" id="btnNotesPanel">📒 My Notes</button>
+  </div>
+</div>
+<div id="sidebarOverlay"></div>
+<div class="layout">
+  <nav class="sidebar" id="sidebar">
+    <input type="text" id="sidebarFilter" placeholder="Filter chapters...">
+<details open><summary>Orientation</summary><ul>
+<li class="" data-title="chapter 0: how to use this book, and the math notation you'll see"><a href="00_how_to_use_this_book.html">Chapter 0: How to Use This Book, and the Math Notation You'll See</a></li>
+</ul></details>
+<details open><summary>Part I - Describing the World</summary><ul>
+<li class="" data-title="chapter 1: data, populations, and samples - thinking like a statistician"><a href="01_data_populations_samples.html">Chapter 1: Data, Populations, and Samples - Thinking Like a Statistician</a></li>
+<li class="" data-title="chapter 2: describing data - center, spread, and shape"><a href="02_descriptive_statistics.html">Chapter 2: Describing Data - Center, Spread, and Shape</a></li>
+<li class="" data-title="chapter 3: probability foundations - events, rules, and conditioning"><a href="03_probability_foundations.html">Chapter 3: Probability Foundations - Events, Rules, and Conditioning</a></li>
+<li class="" data-title="chapter 4: bayes' theorem - updating beliefs with evidence"><a href="04_bayes_theorem.html">Chapter 4: Bayes' Theorem - Updating Beliefs With Evidence</a></li>
+<li class="" data-title="chapter 5: random variables and discrete distributions"><a href="05_random_variables_discrete.html">Chapter 5: Random Variables and Discrete Distributions</a></li>
+<li class="current" data-title="chapter 6: continuous distributions and the normal distribution"><a href="06_continuous_distributions.html">Chapter 6: Continuous Distributions and the Normal Distribution</a></li>
+<li class="" data-title="chapter 7: expectation, variance, covariance, and correlation"><a href="07_expectation_variance_covariance.html">Chapter 7: Expectation, Variance, Covariance, and Correlation</a></li>
+<li class="" data-title="chapter 8: the central limit theorem - the secret engine of statistics"><a href="08_central_limit_theorem.html">Chapter 8: The Central Limit Theorem - The Secret Engine of Statistics</a></li>
+</ul></details>
+<details open><summary>Part II - Inferring From Data</summary><ul>
+<li class="" data-title="chapter 9: sampling and estimation"><a href="09_sampling_and_estimation.html">Chapter 9: Sampling and Estimation</a></li>
+<li class="" data-title="chapter 10: maximum likelihood estimation"><a href="10_maximum_likelihood_estimation.html">Chapter 10: Maximum Likelihood Estimation</a></li>
+<li class="" data-title="chapter 11: confidence intervals"><a href="11_confidence_intervals.html">Chapter 11: Confidence Intervals</a></li>
+<li class="" data-title="chapter 12: hypothesis testing and p-values"><a href="12_hypothesis_testing.html">Chapter 12: Hypothesis Testing and p-values</a></li>
+<li class="" data-title="chapter 13: t-tests, chi-square, and anova"><a href="13_ttests_chisquare_anova.html">Chapter 13: t-tests, Chi-square, and ANOVA</a></li>
+<li class="" data-title="chapter 14: correlation and simple linear regression"><a href="14_simple_linear_regression.html">Chapter 14: Correlation and Simple Linear Regression</a></li>
+<li class="" data-title="chapter 15: multiple regression, r², and overfitting"><a href="15_multiple_regression.html">Chapter 15: Multiple Regression, R², and Overfitting</a></li>
+</ul></details>
+<details open><summary>Part III - The Bridge Into Machine Learning</summary><ul>
+<li class="" data-title="chapter 16: bias-variance tradeoff, cross-validation, and regularization"><a href="16_bias_variance_regularization.html">Chapter 16: Bias-Variance Tradeoff, Cross-Validation, and Regularization</a></li>
+<li class="" data-title="chapter 17: bayesian statistics in depth"><a href="17_bayesian_statistics.html">Chapter 17: Bayesian Statistics in Depth</a></li>
+<li class="" data-title="chapter 18: resampling - bootstrap and permutation tests"><a href="18_resampling_methods.html">Chapter 18: Resampling - Bootstrap and Permutation Tests</a></li>
+<li class="" data-title="chapter 19: linear algebra essentials for statistics and ml"><a href="19_linear_algebra_essentials.html">Chapter 19: Linear Algebra Essentials for Statistics and ML</a></li>
+<li class="" data-title="chapter 20: multivariate statistics - covariance matrices and pca"><a href="20_multivariate_pca.html">Chapter 20: Multivariate Statistics - Covariance Matrices and PCA</a></li>
+</ul></details>
+<details open><summary>Part IV - The Statistics Inside Modern AI</summary><ul>
+<li class="" data-title="chapter 21: information theory - entropy, cross-entropy, and kl divergence"><a href="21_information_theory.html">Chapter 21: Information Theory - Entropy, Cross-Entropy, and KL Divergence</a></li>
+<li class="" data-title="chapter 22: statistical learning theory - why generalization works at all"><a href="22_statistical_learning_theory.html">Chapter 22: Statistical Learning Theory - Why Generalization Works At All</a></li>
+<li class="" data-title="chapter 23: probabilistic models and latent variables (mixtures, em)"><a href="23_latent_variable_models.html">Chapter 23: Probabilistic Models and Latent Variables (Mixtures, EM)</a></li>
+<li class="" data-title="chapter 24: markov chains and monte carlo methods"><a href="24_markov_chains_monte_carlo.html">Chapter 24: Markov Chains and Monte Carlo Methods</a></li>
+<li class="" data-title="chapter 25: the statistics hiding inside neural networks"><a href="25_statistics_in_neural_networks.html">Chapter 25: The Statistics Hiding Inside Neural Networks</a></li>
+<li class="" data-title="chapter 26: where to go next"><a href="26_where_to_go_next.html">Chapter 26: Where to Go Next</a></li>
+</ul></details>
+<details open><summary>Part V - The Statistical Frontier of Modern AI</summary><ul>
+<li class="" data-title="chapter 27: the statistical frontier - how modern ai actually uses these ideas today"><a href="27_frontier_ai_statistics.html">Chapter 27: The Statistical Frontier - How Modern AI Actually Uses These Ideas Today</a></li>
+</ul></details>
+<details open><summary>Part VI - Advanced AI Algorithms: The Statistical Engine Room</summary><ul>
+<li class="" data-title="chapter 28: diffusion models and score matching - statistics as generation"><a href="28_diffusion_models_score_matching.html">Chapter 28: Diffusion Models and Score Matching - Statistics as Generation</a></li>
+<li class="" data-title="chapter 29: transformers and attention - statistics you can calculate (almost) by hand"><a href="29_transformers_attention_statistics.html">Chapter 29: Transformers and Attention - Statistics You Can Calculate (Almost) by Hand</a></li>
+<li class="" data-title="chapter 30: reinforcement learning and policy gradients - statistics that learn from rewards"><a href="30_reinforcement_learning_policy_gradients.html">Chapter 30: Reinforcement Learning and Policy Gradients - Statistics That Learn From Rewards</a></li>
+<li class="" data-title="chapter 31: variational inference and the elbo - approximate bayes at scale"><a href="31_variational_inference_elbo.html">Chapter 31: Variational Inference and the ELBO - Approximate Bayes at Scale</a></li>
+<li class="" data-title="chapter 32: contrastive learning and infonce - statistics that learns embeddings"><a href="32_contrastive_learning_infonce.html">Chapter 32: Contrastive Learning and InfoNCE - Statistics That Learns Embeddings</a></li>
+<li class="" data-title="chapter 33: causal inference and do-calculus - when correlation is not enough"><a href="33_causal_inference_do_calculus.html">Chapter 33: Causal Inference and Do-Calculus - When Correlation Is Not Enough</a></li>
+<li class="" data-title="chapter 34: graphical models and message passing - statistics as graphs"><a href="34_graphical_models_message_passing.html">Chapter 34: Graphical Models and Message Passing - Statistics as Graphs</a></li>
+<li class="" data-title="chapter 35: optimization, generalization, and double descent - why big models work"><a href="35_optimization_generalization_double_descent.html">Chapter 35: Optimization, Generalization, and Double Descent - Why Big Models Work</a></li>
+<li class="" data-title="chapter 36: time series and modern sequence models - statistics over time"><a href="36_time_series_sequence_models.html">Chapter 36: Time Series and Modern Sequence Models - Statistics Over Time</a></li>
+</ul></details>
+<details open><summary>Part VII - Aligning AI With Human Preferences: The Statistics of RLHF</summary><ul>
+<li class="" data-title="chapter 37: preference data and reward modeling - statistics from human judgments"><a href="37_preference_data_reward_modeling.html">Chapter 37: Preference Data and Reward Modeling - Statistics From Human Judgments</a></li>
+<li class="" data-title="chapter 38: rlhf, dpo, and preference optimization - turning preferences into a loss function"><a href="38_dpo_and_preference_optimization.html">Chapter 38: RLHF, DPO, and Preference Optimization - Turning Preferences Into a Loss Function</a></li>
+<li class="" data-title="chapter 39: reinforcement learning with verifiable rewards - and how reasoning models are trained"><a href="39_rl_verifiable_rewards_reasoning.html">Chapter 39: Reinforcement Learning With Verifiable Rewards - and How Reasoning Models Are Trained</a></li>
+</ul></details>
+  </nav>
+  <div class="pane-left">
+    <div class="article" id="article">
+<h1 id="chapter-6-continuous-distributions-and-the-normal-distribution">Chapter 6: Continuous Distributions and the Normal Distribution</h1>
+<h2 data-bid="b1" id="the-idea-this-chapter-builds-toward">The idea this chapter builds toward</h2>
+<p data-bid="b2">For continuous quantities (height, time, error magnitude, pixel intensity, model weights), we can't ask "what's $P(X = 2.0)$ exactly" in the same way as discrete - there are infinitely many possible values, so the probability of landing on any <em>exact</em> number is essentially zero. Instead, we talk about the probability of falling in a <em>range</em>, and we describe the distribution with a <strong>density curve</strong> instead of a bar chart of exact probabilities. And then this chapter introduces the single most important distribution in statistics - the <strong>Normal (Gaussian) distribution</strong> - and, crucially, <em>why</em> it keeps appearing everywhere, which is not an accident.</p>
+<blockquote data-bid="b3">
+<p data-bid="b4"><strong>Intuition, in one breath:</strong> For continuous quantities you never ask "exactly this value" - only "how much of the area under the curve sits over here," and the bell shape shows up because so much of nature is the sum of many small effects.</p>
+</blockquote>
+<h2 data-bid="b5" id="from-pmf-to-pdf-why-we-need-a-new-concept">From PMF to PDF - why we need a new concept</h2>
+<p data-bid="b6">For discrete variables (Chapter 5), the PMF gave you $P(X=k)$ directly, and all those probabilities summed to 1. For continuous variables, we instead use a <strong>Probability Density Function (PDF)</strong>, written $f(x)$. Crucially, $f(x)$ is <strong>not</strong> a probability - it can even be greater than 1. What it represents is <em>relative likelihood density</em>: taller regions of the curve mean values near there are more likely than values under shorter regions. To get an actual probability, you compute the <strong>area under the curve</strong> over a range:</p>
+<p data-bid="b7">$$P(a \le X \le b) = \text{area under } f(x) \text{ between } a \text{ and } b$$</p>
+<p data-bid="b8">(Formally this area is computed via an integral, $\int_a^b f(x)\,dx$ - you will never need to compute one by hand in this book; <code>scipy</code> does it for you, and the intuition "area under the curve = probability of landing in that range" is all you need to carry forward.) Two consequences worth internalizing:
+- $P(X = \text{exactly } 2.000000\ldots) = 0$ for any single exact point - there's no area under a curve at a single point with zero width. This is why with continuous data we always talk about ranges ("between 1.9 and 2.1") not exact values.
+- The total area under the whole curve, across all possible values, must equal 1 (same "something happens" requirement as before).</p>
+<h2 data-bid="b9" id="the-uniform-distribution-the-simplest-continuous-case">The Uniform distribution - the simplest continuous case</h2>
+<p data-bid="b10">Every value in a range $[a, b]$ is equally likely; the density is flat. Example: a random number generator producing any value between 0 and 1 with equal density. Useful as a baseline/building block (e.g., it's literally what <code>np.random.random()</code> samples from), and as the "maximally uninformative" prior in Bayesian statistics (Chapter 17) when you truly have no reason to favor one value over another within a range.</p>
+<h2 data-bid="b11" id="the-exponential-distribution-waiting-times">The Exponential distribution - waiting times</h2>
+<p data-bid="b12">Models the time between independent, randomly occurring events (the continuous cousin of the Poisson distribution from Chapter 5 - in fact, if event <em>counts</em> per unit time follow Poisson, the <em>time gap</em> between consecutive events follows Exponential). Example: time between server requests, time until a component fails (if failure is memoryless - doesn't "wear out," which is a strong assumption, but a common starting model). Its defining and slightly counterintuitive property is being <strong>memoryless</strong>: if you've already waited 10 minutes for a bus with exponentially-distributed arrival times, your expected <em>additional</em> wait is exactly the same as if you'd just started waiting. (Real bus arrivals usually aren't memoryless - that's why this assumption is a modeling simplification, worth flagging when you use it.)</p>
+<h2 data-bid="b13" id="the-star-of-the-show-the-normal-gaussian-distribution">The star of the show: the Normal (Gaussian) distribution</h2>
+<h3 data-bid="b14" id="what-it-looks-like-and-why-the-formula-is-shaped-the-way-it-is">What it looks like and why the formula is shaped the way it is</h3>
+<p data-bid="b15">$$f(x) = \frac{1}{\sigma\sqrt{2\pi}} \, e^{-\frac{(x-\mu)^2}{2\sigma^2}}$$</p>
+<p data-bid="b16">You don't need to memorize this, but here's what each piece is <em>doing</em>:</p>
+<ul>
+<li data-bid="b17">$(x - \mu)^2$: distance of $x$ from the center $\mu$, squared (so symmetric - equally far above or below the mean counts the same, and larger deviations are penalized much more, same reasoning as variance in Chapter 2).</li>
+<li data-bid="b18">Dividing by $2\sigma^2$: controls how fast the density shrinks as you move away from the mean. Large $\sigma$ (big spread) means the penalty for being far from the mean kicks in more slowly → wide, flat bell curve. Small $\sigma$ → narrow, tall, peaked bell curve.</li>
+<li data-bid="b19">$e^{-(\cdots)}$: exponentiating a negative, ever-growing penalty means the density drops off extremely fast (and smoothly) as you move away from the center - this specific exponential-of-negative-square shape is what gives the "bell" silhouette, with thin tails that approach but never quite touch zero.</li>
+<li data-bid="b20">$\frac{1}{\sigma\sqrt{2\pi}}$: just a normalizing constant out front, chosen so that the total area under the whole curve works out to exactly 1 (recall: total probability must be 1). It's not a mysterious constant - it's whatever makes the areas add up correctly, and $\sqrt{2\pi}$ falls out of the calculus of that normalization (you never need to re-derive it).</li>
+</ul>
+<p data-bid="b21">The Normal distribution is fully described by just two numbers: $\mu$ (center) and $\sigma$ (spread). Shorthand notation: $X \sim N(\mu, \sigma^2)$ ("X is distributed Normal with mean mu, variance sigma-squared").</p>
+<h3 data-bid="b22" id="the-68-95-997-rule">The 68-95-99.7 rule</h3>
+<p data-bid="b23">For <em>any</em> Normal distribution, regardless of $\mu$ and $\sigma$:
+- About 68% of values fall within 1 standard deviation of the mean ($\mu \pm \sigma$).
+- About 95% fall within 2 standard deviations ($\mu \pm 2\sigma$).
+- About 99.7% fall within 3 standard deviations ($\mu \pm 3\sigma$).</p>
+<p data-bid="b24">This is an extremely useful mental ruler: if adult male heights are roughly Normal with $\mu=175$cm, $\sigma=7$cm, then about 95% of men are between $175 \pm 14 = [161, 189]$cm, and someone at 200cm is roughly 3.5 standard deviations out - genuinely rare. This rule is also exactly what "z-scores" (next section) and later "confidence intervals" (Chapter 11) and "p-values" (Chapter 12) are built from.</p>
+<h3 data-bid="b25" id="the-z-score-putting-any-normal-variable-on-a-universal-scale">The z-score - putting any Normal variable on a universal scale</h3>
+<p data-bid="b26">$$z = \frac{x - \mu}{\sigma}$$</p>
+<p data-bid="b27"><strong>Intuition</strong>: this converts "x" into "how many standard deviations away from the mean is x," regardless of the original units or scale. A z-score of +2 always means "2 standard deviations above the mean," whether you're talking about height, test scores, or model residuals. This is called <strong>standardizing</strong> and is exactly the "StandardScaler" / "z-score normalization" preprocessing step used constantly in ML to put features on comparable scales before training a model (a feature like "income in dollars" and "age in years" live on wildly different scales - standardizing both to z-scores lets algorithms sensitive to scale, like gradient descent or k-NN, treat them fairly).</p>
+<h2 data-bid="b28" id="the-backstory-three-different-people-independently-bump-into-the-same-curve">The backstory - three different people independently bump into the same curve</h2>
+<p data-bid="b29"><strong>Abraham de Moivre</strong> (1733, extending work on gambling problems posed to him by friends) was trying to approximate Binomial probabilities (Chapter 5) for large $n$, because computing $\binom{n}{k}p^k(1-p)^{n-k}$ by hand for, say, $n=1000$ is brutally tedious. Using Stirling's approximation (a formula for approximating large factorials), he showed that for large $n$, the Binomial PMF's <em>shape</em>, plotted as a function of $k$, collapses into a smooth curve that is exactly the Gaussian bell shape - this is actually a special case of the Central Limit Theorem (Chapter 8), discovered about 150 years before the CLT was understood in full generality. De Moivre wasn't trying to invent a new distribution for its own sake - he stumbled into it purely as a computational shortcut for a different, already-familiar distribution, which is a very common way important math gets discovered: as a convenient approximation that turns out to be deeper than the original problem.</p>
+<p data-bid="b30"><strong>Carl Friedrich Gauss</strong> (early 1800s, hence "Gaussian distribution") approached it from an entirely different direction: astronomy. He had many noisy telescope measurements of the same celestial object and wanted the mathematically "best" way to combine them into one estimate, and the "best" way to describe how errors scatter around the truth. He essentially worked backwards: he <em>assumed</em> the sample mean should be the best estimator of the true value (a very natural assumption) and asked "what error distribution would make the arithmetic mean the mathematically optimal (maximum likelihood, in the language of Chapter 10, though that formal framework came a century later) choice?" Solving that reverse-engineering problem, the answer that falls out is precisely the bell-curve formula from this chapter - so in Gauss's hands, the Normal distribution wasn't an empirical observation but the unique answer to "what error law makes averaging the right thing to do?" This is genuinely one of the most elegant derivations in the history of statistics, and it directly foreshadows Chapter 10's proof that the sample mean is the Gaussian MLE - Gauss essentially ran that exact argument in reverse to <em>construct</em> the Normal distribution in the first place.</p>
+<p data-bid="b31"><strong>Adolphe Quetelet</strong> (1830s-40s), a Belgian astronomer-turned-social-scientist, then applied Gauss's error-curve idea to a radically different domain: human bodies. He collected chest measurements of Scottish soldiers and heights of French conscripts and found they, too, followed this same bell curve - not measurement <em>error</em> around a single true star position, but genuine natural variation around an "average man" (<em>l'homme moyen</em>, his term) that he treated as a kind of biological ideal. This was controversial (and arguably sociologically naive) but it's the historical moment the Normal distribution jumped from "a tool for astronomers' measurement errors" to "a general pattern seen throughout nature" - which is also roughly when Francis Galton (Darwin's half-cousin) started using Quetelet's bell curve to study inherited traits, which directly leads into Chapter 7's covariance/correlation story.</p>
+<h3 data-bid="b32" id="deriving-the-shape-one-more-layer-deeper">Deriving the shape, one more layer deeper</h3>
+<p data-bid="b33">Why specifically $e^{-x^2}$ and not some other fast-decaying function? Gauss's "reverse-engineering" argument above actually pins this down precisely: he required that estimating a location parameter from several independent noisy measurements by <strong>averaging</strong> them must give the <em>maximum likelihood</em> answer (the single most statistically justifiable way to combine repeated measurements). Working through what likelihood function has this property forces the log of the density to be a quadratic function of the error, $-c(x-\mu)^2$ for some positive constant $c$ - and exponentiating a (negative) quadratic is exactly $e^{-c(x-\mu)^2}$, the Gaussian shape. In other words: <strong>the Gaussian is the unique error distribution for which "just average your measurements" is mathematically optimal</strong> - which is a deeply satisfying explanation for why it is also the natural target of the Central Limit Theorem (averaging keeps producing it, because it's the fixed point of averaging, in a sense).</p>
+<div class="labcard">
+<div class="labkicker">Live - explore Normal, Uniform, and Exponential</div>
+<div class="labrow">
+  <select id="ch06_dist">
+    <option value="normal" selected>Normal</option>
+    <option value="uniform">Uniform</option>
+    <option value="exponential">Exponential</option>
+  </select>
+</div>
+<div class="labcontrols" id="ch06_params"></div>
+<div class="labcanvas-wrap"><canvas id="ch06_canvas" width="820" height="260"></canvas></div>
+<div class="labstat-grid">
+  <div class="labstat"><div class="lbl">Mean</div><div class="val" id="ch06_mean">-</div></div>
+  <div class="labstat"><div class="lbl">Variance</div><div class="val" id="ch06_var">-</div></div>
+  <div class="labstat"><div class="lbl">Std Dev</div><div class="val" id="ch06_std">-</div></div>
+</div>
+<p data-bid="b34" class="labnote" id="ch06_hint"></p>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  var SL = window.StatsLab;
+  var distSelect = document.getElementById('ch06_dist');
+  var paramsDiv = document.getElementById('ch06_params');
+  var CONFIGS = {
+    normal: {params:[{id:'mu', label:'mu (mean)', min:-10, max:10, step:0.1, val:0},
+                      {id:'sigma', label:'sigma (std dev)', min:0.2, max:5, step:0.1, val:1}]},
+    uniform: {params:[{id:'a', label:'a (min)', min:-10, max:5, step:0.1, val:0},
+                       {id:'b', label:'b (max)', min:0, max:15, step:0.1, val:5}]},
+    exponential: {params:[{id:'lambda', label:'lambda (rate)', min:0.1, max:3, step:0.05, val:1}]},
+  };
+  function buildParams(){
+    var cfg = CONFIGS[distSelect.value];
+    paramsDiv.innerHTML = '';
+    cfg.params.forEach(function(p){
+      var div = document.createElement('div'); div.className='labctrl';
+      div.innerHTML = '<label>'+p.label+' <b id="ch06_'+p.id+'_label">'+p.val+'</b></label>'+
+        '<input type="range" id="ch06_'+p.id+'" min="'+p.min+'" max="'+p.max+'" step="'+p.step+'" value="'+p.val+'">';
+      paramsDiv.appendChild(div);
+    });
+    cfg.params.forEach(function(p){
+      var el = document.getElementById('ch06_'+p.id);
+      el.addEventListener('input', function(){ document.getElementById('ch06_'+p.id+'_label').textContent = el.value; draw(); });
+    });
+  }
+  function getParam(id){ return parseFloat(document.getElementById('ch06_'+id).value); }
+  function draw(){
+    var dist = distSelect.value;
+    var plot = SL.makePlot(document.getElementById('ch06_canvas'));
+    var meanV, varV, hint='';
+    if(dist==='normal'){
+      var mu = getParam('mu'), sigma = getParam('sigma'); meanV=mu; varV=sigma*sigma;
+      var pts=[]; for(var x=mu-4*sigma; x<=mu+4*sigma; x+=sigma*8/200) pts.push([x, SL.normalPDF(x,mu,sigma)]);
+      var maxY = Math.max.apply(null, pts.map(function(p){return p[1];}));
+      plot.setDomain([mu-4*sigma, mu+4*sigma],[0,maxY*1.2]); plot.clear(); plot.axes('x','density f(x)');
+      plot.line(pts, SL.colors.accent3, 2.5);
+      hint = '~68% of mass lies within 1 sigma, ~95% within 2 sigma, ~99.7% within 3 sigma, regardless of mu/sigma.';
+    } else if(dist==='uniform'){
+      var a = getParam('a'), b = getParam('b'); if(b<=a) b=a+0.5;
+      meanV=(a+b)/2; varV=Math.pow(b-a,2)/12;
+      var h = 1/(b-a);
+      plot.setDomain([a-1,b+1],[0,h*1.3]); plot.clear(); plot.axes('x','density f(x)');
+      plot.line([[a-1,0],[a,0],[a,h],[b,h],[b,0],[b+1,0]], SL.colors.accent, 2.5);
+      hint = 'Every value in [a,b] is equally likely. Flat density = h = 1/(b-a).';
+    } else if(dist==='exponential'){
+      var lambda = getParam('lambda'); meanV=1/lambda; varV=1/(lambda*lambda);
+      var xmax = 5/lambda;
+      var ptsE=[]; for(var xx=0;xx<=xmax;xx+=xmax/200) ptsE.push([xx, lambda*Math.exp(-lambda*xx)]);
+      var maxYE = Math.max.apply(null, ptsE.map(function(p){return p[1];}));
+      plot.setDomain([0,xmax],[0,maxYE*1.2]); plot.clear(); plot.axes('x (time)','density f(x)');
+      plot.line(ptsE, SL.colors.accent4, 2.5);
+      hint = 'Models waiting time between independent events. Memoryless: expected additional wait never depends on how long you already waited.';
+    }
+    document.getElementById('ch06_mean').textContent = meanV.toFixed(3);
+    document.getElementById('ch06_var').textContent = varV.toFixed(3);
+    document.getElementById('ch06_std').textContent = Math.sqrt(varV).toFixed(3);
+    document.getElementById('ch06_hint').textContent = hint;
+  }
+  distSelect.addEventListener('change', function(){ buildParams(); draw(); });
+  buildParams(); draw();
+});
+</script>
+
+<h3 data-bid="b35" id="reconstructing-it-yourself-where-does-xmathplaceholder42x-actually-come-from">Reconstructing it yourself - where does $\sqrt{2\pi}$ actually come from?</h3>
+<p data-bid="b36">You were told the $\frac{1}{\sigma\sqrt{2\pi}}$ out front is "whatever constant makes the area equal 1," which is true but unsatisfying - where does a circle constant ($\pi$) come from in a formula about a bell-shaped curve that has nothing visibly round about it? <strong>If your first guess is "it must come from some clever trick with circles," you're exactly right - let's see the trick.</strong></p>
+<p data-bid="b37">The question is: what is $I = \int_{-\infty}^{\infty} e^{-x^2}dx$ (the plain, unnormalized bell curve's total area)? This integral has no elementary antiderivative - you cannot solve it by any standard calculus technique applied directly. The trick mathematicians actually use (first done rigorously by Laplace) is deliberately sideways: instead of computing $I$, compute $I^2$, written as a <em>product of two copies</em> using a dummy second variable $y$:</p>
+<p data-bid="b38">$$I^2 = \left(\int_{-\infty}^{\infty} e^{-x^2}dx\right)\left(\int_{-\infty}^{\infty} e^{-y^2}dy\right) = \int\int_{-\infty}^{\infty} e^{-(x^2+y^2)}\,dx\,dy$$</p>
+<p data-bid="b39">This double integral is now spread over the entire 2D plane, and $x^2+y^2$ is exactly the squared distance from the origin - which means this integral becomes dramatically easier in <strong>polar coordinates</strong> ($x^2+y^2 = r^2$, with area element $dx\,dy = r\,dr\,d\theta$):</p>
+<p data-bid="b40">$$I^2 = \int_0^{2\pi}\int_0^{\infty} e^{-r^2}\, r\,dr\,d\theta$$</p>
+<p data-bid="b41">The $r$ sitting next to $e^{-r^2}$ is exactly what makes this solvable by ordinary substitution ($u=r^2$), giving $\int_0^\infty e^{-r^2}r\,dr = \frac12$, and the leftover $\theta$ integral around a full circle just contributes a factor of $2\pi$ - literally, the circumference-related constant falls out because switching to polar coordinates to solve this specific integral means sweeping all the way around a circle. So $I^2 = 2\pi \times \frac12 = \pi$, meaning $I = \sqrt{\pi}$. Accounting for the actual $\sigma$ and the $\frac12$ in the real Gaussian exponent (a short rescaling step, not shown here) turns this $\sqrt\pi$ into the $\sigma\sqrt{2\pi}$ you've been dividing by all chapter. <strong>The $\pi$ in the bell curve is there because proving the area under a bell curve equals a fixed number secretly requires computing the area of a circle</strong> - one of the most delightful "where did that come from" moments in all of probability, and the reason this specific integral (the "Gaussian integral") is often called the most important integral in statistics despite having no closed-form antiderivative on its own.</p>
+<h2 data-bid="b42" id="more-real-world-examples-of-continuous-distributions">More real-world examples of continuous distributions</h2>
+<ul>
+<li data-bid="b43"><strong>Normal</strong>: IQ scores (by construction, standardized to be roughly Normal), blood pressure readings across a population, measurement error in a calibrated scientific instrument, residual noise in sensor readings.</li>
+<li data-bid="b44"><strong>Normal in ML specifically</strong>: neural network weight <em>initialization</em> is frequently drawn from a Normal (or related) distribution (Chapter 25 goes deep on why); residuals of a well-fit regression model are assumed approximately Normal (Chapter 14-15); many statistical tests (Chapter 12-13) explicitly assume Normally-distributed data or Normally-distributed sampling distributions via the CLT.</li>
+<li data-bid="b45"><strong>Exponential</strong>: time between earthquakes in a region (approximately, over short windows), time until a lightbulb or machine part fails under a "constant hazard rate" assumption, time between arriving customer support tickets.</li>
+<li data-bid="b46"><strong>Uniform</strong>: a well-shuffled deck's position of any specific card, pseudo-random number generation itself, rounding error when a continuous quantity is rounded to the nearest unit (uniformly distributed between -0.5 and +0.5 of the rounding unit, a fact used in signal processing noise analysis).</li>
+</ul>
+<h2 data-bid="b47" id="why-is-the-normal-distribution-everywhere-the-real-payoff-of-this-chapter">WHY is the Normal distribution everywhere? (the real payoff of this chapter)</h2>
+<p data-bid="b48">This is the question most courses skip past, and it's the single most important "why" in this book, because the answer is the <strong>Central Limit Theorem</strong>, which we dedicate the <em>entirety</em> of Chapter 8 to. The one-paragraph preview: whenever a quantity is the result of <strong>adding up many small, independent, random influences</strong> (e.g., height is affected by many independent genes and environmental factors; measurement error is the sum of many tiny independent error sources; even a sample mean, as you saw bouncing around in Chapter 1's code, is itself a sum of many random data points divided by n), the <em>sum</em> of those influences tends toward a Normal distribution, almost regardless of what the individual influences' own distributions looked like. This is such a strong, surprising, and universal mathematical fact that it alone explains why bell curves show up in biology, measurement error, finance, and - critically for us - in the sampling distributions that make hypothesis testing and confidence intervals (Chapters 9-12) work at all. Hold that thought; Chapter 8 proves it to you visually.</p>
+<h2 data-bid="b49" id="figures">Figures</h2>
+<img class="has-rail" data-figid="f1" alt="The Uniform, Exponential, and Normal probability density functions side by side." src="../images/ch06_continuous_distributions_fig1.png" /><p data-bid="b50" class="img-caption has-rail" data-figid="f1"><em>The Uniform, Exponential, and Normal probability density functions side by side.</em></p>
+<img class="has-rail" data-figid="f2" alt="The 68-95-99.7 rule for the Standard Normal distribution: the shaded regions show the area (probability) within 1, 2, and 3 standard deviations of the mean." src="../images/ch06_continuous_distributions_fig2.png" /><p data-bid="b51" class="img-caption has-rail" data-figid="f2"><em>The 68-95-99.7 rule for the Standard Normal distribution: the shaded regions show the area (probability) within 1, 2, and 3 standard deviations of the mean.</em></p>
+<h2 data-bid="b52" id="run-it-yourself">Run it yourself</h2>
+<p data-bid="b53"><code>book/code/ch06_continuous_distributions.py</code> plots the Uniform, Exponential, and Normal PDFs, shades the 68-95-99.7 regions under a Normal curve with actual computed areas, and converts a worked height example into z-scores to make the "universal scale" idea concrete.</p>
+<p data-bid="b54"re><code class="language-bash">python book/code/ch06_continuous_distributions.py
+</code></pre>
+<h2 data-bid="b55" id="why-this-matters-in-ai-and-in-everyday-life">Why This Matters - In AI and In Everyday Life</h2>
+<p data-bid="b56"><strong>In AI / machine learning:</strong></p>
+<ul>
+<li data-bid="b57"><strong>Neural network weight initialization and noise models</strong>: weights are commonly drawn from Normal distributions, and regression/generative models routinely assume Normally-distributed noise -- both leaning directly on this chapter.</li>
+<li data-bid="b58"><strong>Sensor noise in robotics and autonomous vehicles</strong>: measurement error from LIDAR, GPS, or cameras is frequently modeled as Normal or Exponential (for time-between-events) noise feeding into a perception pipeline.</li>
+<li data-bid="b59"><strong>Trajectory noise in diffusion models is Gaussian by construction</strong>: the forward noising process adds Normal noise step by step, and the reverse denoising process assumes that same Gaussian structure -- without the Normal distribution's convenient $e^{-x^2}$ form, diffusion's closed-form noising and denoising schedules would not exist.</li>
+<li data-bid="b60"><strong>VAE latent spaces and weight initializers both lean on the Gaussian</strong>: variational autoencoders force the latent code toward a standard Normal prior (reparameterization trick samples a Normal), and nearly every weight-initialization scheme (Xavier, He) draws from a Normal or scaled-Normal -- this chapter's distribution is doing load-bearing work in generative modeling, not just descriptive statistics.</li>
+</ul>
+<p data-bid="b61"><strong>In everyday, non-AI life:</strong></p>
+<ul>
+<li data-bid="b62"><strong>Standardized test scores</strong>: SAT/IQ-style scores are explicitly constructed to be Normally distributed, and z-scores are how colleges and psychologists compare people across different tests.</li>
+<li data-bid="b63"><strong>Waiting for a bus or a bank queue</strong>: the time between arrivals is a classic real-world Exponential-distribution scenario, memoryless property and all.</li>
+</ul>
+<h2 data-bid="b64" id="worked-example-by-hand-larger">Worked example - by hand, larger</h2>
+<p data-bid="b65">Suppose a regression model's residuals are approximately Normal with mean $\mu = 0$ and standard deviation $\sigma = 2$ (units are thousands of dollars). We want to reason about how far off a typical prediction is.</p>
+<p data-bid="b66">First, z-scores. A residual of $x = 3$ becomes $z = \frac{3-0}{2} = 1.5$. A residual of $x = -4$ becomes $z = \frac{-4-0}{2} = -2.0$. By the 68-95-99.7 rule, about 68% of residuals lie within $|z| \le 1$, i.e. within $\pm 2$ thousand; about 95% lie within $|z| \le 2$, i.e. within $\pm 4$ thousand; and about 99.7% within $|z| \le 3$, i.e. within $\pm 6$ thousand.</p>
+<p data-bid="b67">Now the wait-time side, using the Exponential distribution in the same chapter. Server requests arrive with an average rate of $\lambda = 0.5$ per second, so the <em>time between</em> requests is Exponential with mean $\frac{1}{\lambda} = 2$ seconds and variance $\frac{1}{\lambda^2} = 4$ (standard deviation $2$ seconds). What's the probability the next request takes more than 4 seconds? For Exponential, $P(X > x) = e^{-\lambda x}$, so $P(X > 4) = e^{-0.5 \times 4} = e^{-2} \approx 0.1353$ - about 13.5%. Check the memoryless property: having already waited 3 seconds, the chance of waiting <em>another</em> 4 is still $e^{-2} \approx 0.1353$, unchanged.</p>
+<p data-bid="b68">Finally the Uniform case: if rounding error is Uniform on $[-0.5, 0.5]$, the density is flat at $h = \frac{1}{0.5 - (-0.5)} = 1$, so any sub-interval of width 0.1 has probability $0.1 \times 1 = 0.1$.</p>
+<p data-bid="b69"><strong>Three continuous distributions, one shared habit: never ask for the probability of an exact value - always ask what fraction of the area (or of the mass) falls in the range you care about.</strong></p>
+<h2 data-bid="b70" id="check-your-understanding">Check your understanding</h2>
+<ul>
+<li data-bid="b71">Why is $P(X = 2.0)$ meaningless (essentially zero) for a continuous random variable, but $P(1.9 \le X \le 2.1)$ is not?</li>
+<li data-bid="b72">If $\sigma$ doubles while $\mu$ stays the same, what happens to the shape of the Normal curve, and why, tracing through the formula's logic?</li>
+<li data-bid="b73">A person is 189cm tall, and height is $N(175, 7^2)$. Compute their z-score and describe what percentile-ish range that roughly corresponds to using the 68-95-99.7 rule.</li>
+</ul>
+<h2 data-bid="b74" id="exercises">Exercises</h2>
+<h3 data-bid="b75" id="exercise-1-z-scores-and-the-68-95-997-rule">Exercise 1 - z-scores and the 68-95-99.7 rule</h3>
+<p data-bid="b76">Model weights are initialized $N(0, 1)$. What fraction of weights fall between $-2$ and $+2$, and what is the z-score of a weight of $2.5$?</p>
+<details><summary>Show solution</summary>
+
+Between $-2$ and $+2$ is exactly $|z| \le 2$, which by the 68-95-99.7 rule covers about 95% of weights. The z-score of $2.5$ is $z = \frac{2.5 - 0}{1} = 2.5$ - between 2 and 3 standard deviations out, so it sits in the outer ~5% tail, moderately unusual for a randomly initialized weight.
+
+</details>
+
+<h3 data-bid="b77" id="exercise-2-exponential-waiting-time">Exercise 2 - Exponential waiting time</h3>
+<p data-bid="b78">A queue's service times are Exponential with rate $\lambda = 0.25$ per minute. What is the probability a service takes more than 8 minutes, and what is the mean service time?</p>
+<details><summary>Show solution</summary>
+
+Mean service time $= \frac{1}{\lambda} = \frac{1}{0.25} = 4$ minutes. The tail probability is $P(X > 8) = e^{-\lambda x} = e^{-0.25 \times 8} = e^{-2} \approx 0.1353$, about 13.5%. By memorylessness, having already waited 5 minutes, the probability of waiting another 8 minutes is still the same 13.5%.
+
+</details>
+
+<h3 data-bid="b79" id="exercise-3-conceptual-why-we-standardize-features">Exercise 3 - Conceptual: why we standardize features</h3>
+<p data-bid="b80">Explain why a neural network benefits from z-score standardizing inputs, and what goes wrong if two features have wildly different scales.</p>
+<details><summary>Show solution</summary>
+
+Standardizing converts each feature to z-scores, $\frac{x-\mu}{\sigma}$, so all features share a comparable scale regardless of their original units. Without it, a feature measured in large units (e.g., income in dollars) dominates the gradient magnitude relative to a small-unit feature (e.g., age), making gradient descent slow and ill-conditioned and biasing distance-based methods like k-NN. Standardizing restores a level playing field, which is exactly the same motivation as the z-score transformation used throughout classical statistics.
+
+</details>
+
+<h2 data-bid="b81" id="whats-next">What's next</h2>
+<p data-bid="b82">Chapter 7 formalizes <strong>expectation</strong> (the true population mean, as a probability-weighted average) and <strong>variance</strong> for random variables in general, then extends to <strong>covariance and correlation</strong> - how two random variables move together - setting up the vocabulary needed for regression (Chapters 14-15) and multivariate statistics (Chapter 20).</p>
+    </div>
+    <div class="navfooter">
+      <span><a href="05_random_variables_discrete.html">&larr; Previous chapter</a></span>
+      <span><a href="07_expectation_variance_covariance.html">Next chapter &rarr;</a></span>
+    </div>
+  </div>
+  <div class="pane-right">
+    <h4>Figures in this chapter</h4>
+    <div id="railContent"></div>
+  </div>
+</div>
+
+<!-- floating selection toolbar -->
+<div id="selToolbar">
+  <button data-color="yellow" title="Mark interesting">🟡</button>
+  <button data-color="green" title="Mark understood">🟢</button>
+  <button data-color="red" title="Mark confusing">🔴</button>
+  <button data-color="blue" title="Mark to review later">🔵</button>
+  <button id="btnAddNote" title="Highlight + add a note">📝</button>
+</div>
+
+<!-- note edit popup -->
+<div id="notePopup">
+  <textarea placeholder="Write a note to yourself..."></textarea>
+  <div class="row">
+    <button class="danger" id="btnDeleteHl">Remove highlight</button>
+    <div>
+      <button id="btnCloseNote">Close</button>
+      <button class="primary" id="btnSaveNote">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- notes side panel -->
+<div id="notesOverlay"></div>
+<div id="notesPanel">
+  <div class="header">
+    <b>My Notes - this page</b>
+    <button class="iconbtn" id="btnCloseNotesPanel">✕</button>
+  </div>
+  <div class="list" id="notesList"></div>
+  <div class="footer">
+    <button id="btnExportNotes">⬇ Export all notes</button>
+    <button id="btnImportNotes">⬆ Import notes</button>
+    <input type="file" id="importFile" accept="application/json" style="display:none;">
+  </div>
+</div>
+
+<script src="../assets/app.js"></script>
+</body>
+</html>

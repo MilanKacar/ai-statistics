@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 1: Data, Populations, and Samples - Thinking Like a Statistician</title>
+<link rel="stylesheet" href="../assets/app.css">
+<script>
+window.MathJax = { tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']], processEscapes: true } };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+</head>
+<body data-chapter="01_data_populations_samples">
+<div class="topbar">
+  <div class="left">
+    <button class="iconbtn hamburger" id="btnSidebarToggle">☰</button>
+    <a href="../index.html">Statistics for AI</a>
+  </div>
+  <div class="right">
+    <button class="iconbtn" id="btnNotesPanel">📒 My Notes</button>
+  </div>
+</div>
+<div id="sidebarOverlay"></div>
+<div class="layout">
+  <nav class="sidebar" id="sidebar">
+    <input type="text" id="sidebarFilter" placeholder="Filter chapters...">
+<details open><summary>Orientation</summary><ul>
+<li class="" data-title="chapter 0: how to use this book, and the math notation you'll see"><a href="00_how_to_use_this_book.html">Chapter 0: How to Use This Book, and the Math Notation You'll See</a></li>
+</ul></details>
+<details open><summary>Part I - Describing the World</summary><ul>
+<li class="current" data-title="chapter 1: data, populations, and samples - thinking like a statistician"><a href="01_data_populations_samples.html">Chapter 1: Data, Populations, and Samples - Thinking Like a Statistician</a></li>
+<li class="" data-title="chapter 2: describing data - center, spread, and shape"><a href="02_descriptive_statistics.html">Chapter 2: Describing Data - Center, Spread, and Shape</a></li>
+<li class="" data-title="chapter 3: probability foundations - events, rules, and conditioning"><a href="03_probability_foundations.html">Chapter 3: Probability Foundations - Events, Rules, and Conditioning</a></li>
+<li class="" data-title="chapter 4: bayes' theorem - updating beliefs with evidence"><a href="04_bayes_theorem.html">Chapter 4: Bayes' Theorem - Updating Beliefs With Evidence</a></li>
+<li class="" data-title="chapter 5: random variables and discrete distributions"><a href="05_random_variables_discrete.html">Chapter 5: Random Variables and Discrete Distributions</a></li>
+<li class="" data-title="chapter 6: continuous distributions and the normal distribution"><a href="06_continuous_distributions.html">Chapter 6: Continuous Distributions and the Normal Distribution</a></li>
+<li class="" data-title="chapter 7: expectation, variance, covariance, and correlation"><a href="07_expectation_variance_covariance.html">Chapter 7: Expectation, Variance, Covariance, and Correlation</a></li>
+<li class="" data-title="chapter 8: the central limit theorem - the secret engine of statistics"><a href="08_central_limit_theorem.html">Chapter 8: The Central Limit Theorem - The Secret Engine of Statistics</a></li>
+</ul></details>
+<details open><summary>Part II - Inferring From Data</summary><ul>
+<li class="" data-title="chapter 9: sampling and estimation"><a href="09_sampling_and_estimation.html">Chapter 9: Sampling and Estimation</a></li>
+<li class="" data-title="chapter 10: maximum likelihood estimation"><a href="10_maximum_likelihood_estimation.html">Chapter 10: Maximum Likelihood Estimation</a></li>
+<li class="" data-title="chapter 11: confidence intervals"><a href="11_confidence_intervals.html">Chapter 11: Confidence Intervals</a></li>
+<li class="" data-title="chapter 12: hypothesis testing and p-values"><a href="12_hypothesis_testing.html">Chapter 12: Hypothesis Testing and p-values</a></li>
+<li class="" data-title="chapter 13: t-tests, chi-square, and anova"><a href="13_ttests_chisquare_anova.html">Chapter 13: t-tests, Chi-square, and ANOVA</a></li>
+<li class="" data-title="chapter 14: correlation and simple linear regression"><a href="14_simple_linear_regression.html">Chapter 14: Correlation and Simple Linear Regression</a></li>
+<li class="" data-title="chapter 15: multiple regression, r², and overfitting"><a href="15_multiple_regression.html">Chapter 15: Multiple Regression, R², and Overfitting</a></li>
+</ul></details>
+<details open><summary>Part III - The Bridge Into Machine Learning</summary><ul>
+<li class="" data-title="chapter 16: bias-variance tradeoff, cross-validation, and regularization"><a href="16_bias_variance_regularization.html">Chapter 16: Bias-Variance Tradeoff, Cross-Validation, and Regularization</a></li>
+<li class="" data-title="chapter 17: bayesian statistics in depth"><a href="17_bayesian_statistics.html">Chapter 17: Bayesian Statistics in Depth</a></li>
+<li class="" data-title="chapter 18: resampling - bootstrap and permutation tests"><a href="18_resampling_methods.html">Chapter 18: Resampling - Bootstrap and Permutation Tests</a></li>
+<li class="" data-title="chapter 19: linear algebra essentials for statistics and ml"><a href="19_linear_algebra_essentials.html">Chapter 19: Linear Algebra Essentials for Statistics and ML</a></li>
+<li class="" data-title="chapter 20: multivariate statistics - covariance matrices and pca"><a href="20_multivariate_pca.html">Chapter 20: Multivariate Statistics - Covariance Matrices and PCA</a></li>
+</ul></details>
+<details open><summary>Part IV - The Statistics Inside Modern AI</summary><ul>
+<li class="" data-title="chapter 21: information theory - entropy, cross-entropy, and kl divergence"><a href="21_information_theory.html">Chapter 21: Information Theory - Entropy, Cross-Entropy, and KL Divergence</a></li>
+<li class="" data-title="chapter 22: statistical learning theory - why generalization works at all"><a href="22_statistical_learning_theory.html">Chapter 22: Statistical Learning Theory - Why Generalization Works At All</a></li>
+<li class="" data-title="chapter 23: probabilistic models and latent variables (mixtures, em)"><a href="23_latent_variable_models.html">Chapter 23: Probabilistic Models and Latent Variables (Mixtures, EM)</a></li>
+<li class="" data-title="chapter 24: markov chains and monte carlo methods"><a href="24_markov_chains_monte_carlo.html">Chapter 24: Markov Chains and Monte Carlo Methods</a></li>
+<li class="" data-title="chapter 25: the statistics hiding inside neural networks"><a href="25_statistics_in_neural_networks.html">Chapter 25: The Statistics Hiding Inside Neural Networks</a></li>
+<li class="" data-title="chapter 26: where to go next"><a href="26_where_to_go_next.html">Chapter 26: Where to Go Next</a></li>
+</ul></details>
+<details open><summary>Part V - The Statistical Frontier of Modern AI</summary><ul>
+<li class="" data-title="chapter 27: the statistical frontier - how modern ai actually uses these ideas today"><a href="27_frontier_ai_statistics.html">Chapter 27: The Statistical Frontier - How Modern AI Actually Uses These Ideas Today</a></li>
+</ul></details>
+<details open><summary>Part VI - Advanced AI Algorithms: The Statistical Engine Room</summary><ul>
+<li class="" data-title="chapter 28: diffusion models and score matching - statistics as generation"><a href="28_diffusion_models_score_matching.html">Chapter 28: Diffusion Models and Score Matching - Statistics as Generation</a></li>
+<li class="" data-title="chapter 29: transformers and attention - statistics you can calculate (almost) by hand"><a href="29_transformers_attention_statistics.html">Chapter 29: Transformers and Attention - Statistics You Can Calculate (Almost) by Hand</a></li>
+<li class="" data-title="chapter 30: reinforcement learning and policy gradients - statistics that learn from rewards"><a href="30_reinforcement_learning_policy_gradients.html">Chapter 30: Reinforcement Learning and Policy Gradients - Statistics That Learn From Rewards</a></li>
+<li class="" data-title="chapter 31: variational inference and the elbo - approximate bayes at scale"><a href="31_variational_inference_elbo.html">Chapter 31: Variational Inference and the ELBO - Approximate Bayes at Scale</a></li>
+<li class="" data-title="chapter 32: contrastive learning and infonce - statistics that learns embeddings"><a href="32_contrastive_learning_infonce.html">Chapter 32: Contrastive Learning and InfoNCE - Statistics That Learns Embeddings</a></li>
+<li class="" data-title="chapter 33: causal inference and do-calculus - when correlation is not enough"><a href="33_causal_inference_do_calculus.html">Chapter 33: Causal Inference and Do-Calculus - When Correlation Is Not Enough</a></li>
+<li class="" data-title="chapter 34: graphical models and message passing - statistics as graphs"><a href="34_graphical_models_message_passing.html">Chapter 34: Graphical Models and Message Passing - Statistics as Graphs</a></li>
+<li class="" data-title="chapter 35: optimization, generalization, and double descent - why big models work"><a href="35_optimization_generalization_double_descent.html">Chapter 35: Optimization, Generalization, and Double Descent - Why Big Models Work</a></li>
+<li class="" data-title="chapter 36: time series and modern sequence models - statistics over time"><a href="36_time_series_sequence_models.html">Chapter 36: Time Series and Modern Sequence Models - Statistics Over Time</a></li>
+</ul></details>
+<details open><summary>Part VII - Aligning AI With Human Preferences: The Statistics of RLHF</summary><ul>
+<li class="" data-title="chapter 37: preference data and reward modeling - statistics from human judgments"><a href="37_preference_data_reward_modeling.html">Chapter 37: Preference Data and Reward Modeling - Statistics From Human Judgments</a></li>
+<li class="" data-title="chapter 38: rlhf, dpo, and preference optimization - turning preferences into a loss function"><a href="38_dpo_and_preference_optimization.html">Chapter 38: RLHF, DPO, and Preference Optimization - Turning Preferences Into a Loss Function</a></li>
+<li class="" data-title="chapter 39: reinforcement learning with verifiable rewards - and how reasoning models are trained"><a href="39_rl_verifiable_rewards_reasoning.html">Chapter 39: Reinforcement Learning With Verifiable Rewards - and How Reasoning Models Are Trained</a></li>
+</ul></details>
+  </nav>
+  <div class="pane-left">
+    <div class="article" id="article">
+<h1 id="chapter-1-data-populations-and-samples-thinking-like-a-statistician">Chapter 1: Data, Populations, and Samples - Thinking Like a Statistician</h1>
+<h2 data-bid="b1" id="the-one-idea-this-whole-chapter-is-building-toward">The one idea this whole chapter is building toward</h2>
+<p data-bid="b2"><strong>You almost never have all the data you wish you had, so every number you compute is a guess about something bigger, and that guess has uncertainty attached to it.</strong> That's it. That single sentence is the root of statistics, and later, the root of why machine learning models can fail on new data even though they looked perfect on the data you trained them on.</p>
+<blockquote data-bid="b3">
+<p data-bid="b4"><strong>Intuition, in one breath:</strong> You're always peeking at a slice and guessing about the whole pie - and the honest part of statistics is admitting how big the slice's blind spot is.</p>
+</blockquote>
+<h2 data-bid="b5" id="population-vs-sample">Population vs. sample</h2>
+<p data-bid="b6">A <strong>population</strong> is the entire set of things you actually care about. A <strong>sample</strong> is the subset you actually managed to observe or measure.</p>
+<p data-bid="b7">Example: you want to know the average height of adult men in Austria. The population is <em>every adult man in Austria</em> (millions of people). You cannot measure all of them. So you measure, say, 500 men you can access - that's your sample. You compute the average height of those 500 men, and you <em>hope</em> it's close to the true average of the whole population.</p>
+<p data-bid="b8">This gap - sample vs. population - is unavoidable, and almost the entire machinery of statistics exists to answer one question: <strong>"Given what I saw in my sample, how confident can I be about the population, and how wrong might I be?"</strong></p>
+<h3 data-bid="b9" id="why-this-matters-for-ai-specifically">Why this matters for AI specifically</h3>
+<p data-bid="b10">When you train a model, your training set is a <em>sample</em> from the real-world distribution of situations the model will eventually face (the "population" of all possible inputs, past and future). Your model's performance on the training set tells you about the sample. What you actually care about is performance on the population - i.e. on new, unseen data. That gap is precisely what train/test splits, cross-validation, and the entire concept of "generalization" exist to manage. We will come back to this exact analogy in Chapter 9 and again in Chapter 16 - keep it in the back of your mind.</p>
+<h2 data-bid="b11" id="reconstructing-it-yourself-the-problem-laplace-actually-faced">Reconstructing it yourself - the problem Laplace actually faced</h2>
+<p data-bid="b12">Put yourself in 1783 France. The king's finance minister wants to know the population of the entire country - a number needed for taxation and conscription planning - but a full door-to-door census of 25+ million people is impossibly slow and expensive. Pierre-Simon Laplace (the same Laplace who later perfected Bayes' Theorem, Chapter 4) was handed this exact problem. <strong>If your first instinct is "just count the people in a few small regions, then scale up by area" - try that, and see where it breaks.</strong></p>
+<p data-bid="b13">Laplace's actual approach: he had reliable birth records (church registries recorded every baptism) for the whole country, and he knew that the <em>ratio</em> of total population to annual births was roughly constant across regions. So he picked a small number of specific regions (a sample), went through the trouble of actually counting every single person in just those regions (not estimating - a genuine, exhaustive local count), and divided each region's true population by its number of recorded births to get a ratio - "roughly 1 birth per 28 people," in his result. Then: multiply that ratio by the <em>nationally available</em> birth record count (which, unlike population, was already tracked everywhere) to estimate the national population, without ever counting most of France directly.</p>
+<p data-bid="b14"><strong>Why this is the entire chapter in miniature</strong>: Laplace's "regions actually counted" were his <em>sample</em>; "all of France" was his <em>population</em>; the birth-to-population ratio was a <em>statistic</em> computed from the sample, used to estimate a population-level quantity he could never measure directly. And crucially, Laplace didn't stop at a single number - he was one of the first to also report how much that estimated ratio might vary if he'd picked different sample regions, an early ancestor of the confidence interval you'll meet properly in Chapter 11. The entire modern machinery of "sample now, infer about the whole population, and be honest about how much the estimate could be off" was being invented, by hand, to solve a tax-collector's practical problem - not as abstract theory for its own sake.</p>
+<h2 data-bid="b15" id="parameter-vs-statistic-the-naming-convention">Parameter vs. statistic - the naming convention</h2>
+<p data-bid="b16">This is a small but important vocabulary distinction that will remove confusion later:</p>
+<ul>
+<li data-bid="b17">A <strong>parameter</strong> is a true numeric fact about the population (e.g., the actual average height of all Austrian men). We almost never know it exactly. Convention: parameters get Greek letters, like $\mu$ (mu) for the true population mean.</li>
+<li data-bid="b18">A <strong>statistic</strong> is a number computed from your sample (e.g., the average height of your 500 measured men). Convention: statistics get Latin letters with a hat or bar, like $\bar{x}$ (x-bar) for the sample mean.</li>
+</ul>
+<p data-bid="b19">So $\bar{x}$ is our <em>estimate</em> of $\mu$. They are usually not exactly equal. The entire question of "how close is $\bar{x}$ likely to be to $\mu$?" is what Chapters 8-11 formalize.</p>
+<h2 data-bid="b20" id="types-of-data-why-the-type-changes-what-math-youre-allowed-to-do">Types of data - why the type changes what math you're allowed to do</h2>
+<p data-bid="b21">Not all data behaves the same way, and using the wrong summary on the wrong type of data produces nonsense. Four categories:</p>
+<ol>
+<li data-bid="b22"><strong>Nominal</strong> (categories with no order): eye color, country, model architecture name. You can count frequencies, but "average eye color" is meaningless.</li>
+<li data-bid="b23"><strong>Ordinal</strong> (categories with order, but unclear spacing): star ratings 1-5, education level. You can say "higher/lower," but you can't assume the <em>gap</em> between 1★ and 2★ equals the gap between 4★ and 5★.</li>
+<li data-bid="b24"><strong>Discrete numeric</strong> (countable numbers): number of children, number of clicks. Can only take specific values (often integers).</li>
+<li data-bid="b25"><strong>Continuous numeric</strong> (measurable, infinitely divisible in principle): height, weight, temperature, time.</li>
+</ol>
+<p data-bid="b26">Why this matters in practice: if you one-hot encode a categorical feature versus treat it as an ordinal integer versus treat it as continuous, you are making a <em>statistical claim</em> about its structure, and if that claim is wrong, your model learns a false pattern. This is a frequent, very real bug source in ML pipelines - e.g., encoding "small/medium/large" as 1/2/3 implicitly claims the gap from small→medium equals medium→large.</p>
+<h2 data-bid="b27" id="variables-independent-vs-dependent">Variables: independent vs. dependent</h2>
+<p data-bid="b28">In an experiment or a dataset, a <strong>dependent variable</strong> is the thing you're trying to explain or predict (sometimes called the <em>target</em>, <em>label</em>, or <em>response</em>). An <strong>independent variable</strong> is something you think might explain or influence it (sometimes called a <em>feature</em>, <em>predictor</em>, or <em>covariate</em>). "Does hours studied (independent) predict exam score (dependent)?" In ML terms: independent variables = <code>X</code>, dependent variable = <code>y</code>. Same concept, different vocabulary across fields - worth knowing both names since papers mix terminology.</p>
+<h2 data-bid="b29" id="worked-example-by-hand-no-code-yet">Worked example - by hand, no code yet</h2>
+<p data-bid="b30">Suppose the <em>true</em> population here is "all 10 employees in a small team," and their true ages (known to us only because we made up this toy example) are:</p>
+<p data-bid="b31">$$22, 25, 25, 28, 30, 31, 35, 40, 45, 60$$</p>
+<p data-bid="b32">The true population mean is $\mu = \frac{22+25+25+28+30+31+35+40+45+60}{10} = \frac{341}{10} = 34.1$.</p>
+<p data-bid="b33">Now imagine you can only survey 4 of them at random - say you happen to get $25, 28, 31, 45$. Your sample mean is $\bar{x} = \frac{25+28+31+45}{4} = \frac{129}{4} = 32.25$.</p>
+<p data-bid="b34">Notice: $\bar{x} = 32.25 \ne \mu = 34.1$. Your sample estimate is off by 1.85. If you'd drawn a <em>different</em> 4 people, you'd get a different $\bar{x}$ - maybe closer, maybe farther. This variability of the sample mean, across different possible samples, is exactly what later chapters (8, 9, 11) put precise numbers on (standard error, confidence intervals). For now, just internalize: <strong>the sample mean is a random quantity that depends on which sample you happened to draw</strong>, and the true mean is a fixed (if unknown) number.</p>
+<div class="labcard">
+<div class="labkicker">Live - draw your own samples</div>
+<div class="labcontrols">
+  <div class="labctrl"><label>Sample size (n) <b id="ch01_n_label">30</b></label><input type="range" id="ch01_n" min="2" max="500" value="30"></div>
+  <div class="labctrl"><label>Samples to draw at once <b id="ch01_reps_label">1</b></label><input type="range" id="ch01_reps" min="1" max="500" value="1"></div>
+</div>
+<div class="labrow">
+  <button class="labbtn" id="ch01_draw">Draw sample(s)</button>
+  <button class="labbtn secondary" id="ch01_reset">Reset population</button>
+</div>
+<div class="labcanvas-wrap"><canvas id="ch01_canvas" width="820" height="260"></canvas></div>
+<div class="lablegend">
+  <span><i class="labswatch" style="background:var(--border)"></i>Population</span>
+  <span><i class="labswatch" style="background:var(--accent2)"></i>Sampled points</span>
+  <span><i class="labswatch" style="background:var(--accent4)"></i>True mean (&mu;)</span>
+  <span><i class="labswatch" style="background:var(--accent)"></i>Sample mean (x&#772;)</span>
+</div>
+<div class="labcanvas-wrap" style="margin-top:12px;"><canvas id="ch01_hist" width="820" height="200"></canvas></div>
+<div class="labstat-grid">
+  <div class="labstat"><div class="lbl">True mean</div><div class="val" id="ch01_truemean">-</div></div>
+  <div class="labstat"><div class="lbl">Latest sample mean</div><div class="val" id="ch01_samplemean">-</div></div>
+  <div class="labstat"><div class="lbl">Std dev of sample means so far</div><div class="val" id="ch01_se">-</div></div>
+</div>
+<p data-bid="b35" class="labnote">Drag n up, then draw 200+ samples repeatedly: watch the bottom histogram (all sample means drawn so far) get visibly narrower. That's the Central Limit Theorem (Chapter 8), already happening.</p>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  var SL = window.StatsLab;
+  var population = [], allMeans = [], lastSample = [];
+  function genPop(){ population = []; for(var i=0;i<10000;i++) population.push(Math.max(18, Math.min(90, SL.randNormal(34,10)))); }
+  genPop();
+
+  function drawPop(){
+    var plot = SL.makePlot(document.getElementById('ch01_canvas'));
+    var bins = SL.histogram(population, 40, [15,95]);
+    var maxC = Math.max.apply(null, bins.map(function(b){return b[1];}));
+    plot.setDomain([15,95],[0,maxC*1.15]); plot.clear(); plot.axes('age','count');
+    plot.bars(bins.map(function(b){return [b[0],b[1]];}), SL.colors.border, 0.95);
+    var trueMean = SL.mean(population);
+    plot.vline(trueMean, SL.colors.accent4);
+    if(lastSample.length){
+      var ctx = plot.ctx; ctx.fillStyle = SL.colors.accent2;
+      lastSample.forEach(function(v){ var x = plot.px(v); ctx.fillRect(x-1, plot.py(0)-10, 2, 10); });
+      var sMean = SL.mean(lastSample);
+      plot.vline(sMean, SL.colors.accent);
+      document.getElementById('ch01_samplemean').textContent = sMean.toFixed(2);
+    }
+    document.getElementById('ch01_truemean').textContent = trueMean.toFixed(2);
+  }
+  function drawHist(){
+    var plot = SL.makePlot(document.getElementById('ch01_hist'));
+    if(allMeans.length<2){ plot.clear(); return; }
+    var lo = Math.min.apply(null, allMeans)-1, hi = Math.max.apply(null, allMeans)+1;
+    var bins = SL.histogram(allMeans, 30, [lo,hi]);
+    var maxC = Math.max.apply(null, bins.map(function(b){return b[1];}));
+    plot.setDomain([lo,hi],[0,maxC*1.15]); plot.clear(); plot.axes('sample mean value','frequency');
+    plot.bars(bins.map(function(b){return [b[0],b[1]];}), SL.colors.accent, 0.95);
+    plot.vline(SL.mean(population), SL.colors.accent4);
+    document.getElementById('ch01_se').textContent = allMeans.length>1 ? SL.std(allMeans,1).toFixed(3) : '-';
+  }
+  function drawSample(){
+    var n = parseInt(document.getElementById('ch01_n').value);
+    var reps = parseInt(document.getElementById('ch01_reps').value);
+    for(var r=0;r<reps;r++){
+      var sample = [];
+      for(var i=0;i<n;i++) sample.push(population[Math.floor(Math.random()*population.length)]);
+      if(r===reps-1) lastSample = sample;
+      allMeans.push(SL.mean(sample));
+    }
+    if(allMeans.length>5000) allMeans = allMeans.slice(-5000);
+    drawPop(); drawHist();
+  }
+  document.getElementById('ch01_n').addEventListener('input', function(e){ document.getElementById('ch01_n_label').textContent = e.target.value; });
+  document.getElementById('ch01_reps').addEventListener('input', function(e){ document.getElementById('ch01_reps_label').textContent = e.target.value; });
+  document.getElementById('ch01_draw').addEventListener('click', drawSample);
+  document.getElementById('ch01_reset').addEventListener('click', function(){ genPop(); allMeans=[]; lastSample=[]; drawPop(); drawHist(); });
+  drawPop();
+});
+</script>
+
+<h2 data-bid="b36" id="figures">Figures</h2>
+<img class="has-rail" data-figid="f1" alt="Sample means from the same population, drawn at n=5, 30, 200. Notice the spread shrinks as n grows -- the seed of the Central Limit Theorem (Chapter 8)." src="../images/ch01_population_vs_sample_fig1.png" /><p data-bid="b37" class="img-caption has-rail" data-figid="f1"><em>Sample means from the same population, drawn at n=5, 30, 200. Notice the spread shrinks as n grows -- the seed of the Central Limit Theorem (Chapter 8).</em></p>
+<h2 data-bid="b38" id="run-it-yourself">Run it yourself</h2>
+<p data-bid="b39">Open <code>book/code/ch01_population_vs_sample.py</code>. It builds a "population" of 10,000 fake people with a known true mean age, then repeatedly draws small random samples and shows you how the sample mean bounces around the true mean - and how that bouncing shrinks as your sample size grows. Watching that shrinkage happen visually is one of the most useful two-minute exercises in all of statistics; it's the seed of the Central Limit Theorem in Chapter 8.</p>
+<p data-bid="b40"re><code class="language-bash">python book/code/ch01_population_vs_sample.py
+</code></pre>
+<h2 data-bid="b41" id="why-this-matters-in-ai-and-in-everyday-life">Why This Matters - In AI and In Everyday Life</h2>
+<p data-bid="b42"><strong>In AI / machine learning:</strong></p>
+<ul>
+<li data-bid="b43"><strong>Train/test splits are population vs. sample wearing a different hat</strong>: your training set is a sample from the real-world population of inputs the model will eventually face; test accuracy is a <em>sample statistic</em> standing in for true population performance.</li>
+<li data-bid="b44"><strong>Dataset bias</strong>: a face-recognition or hiring model trained on a non-representative sample of people will systematically misjudge the parts of the population it rarely saw -- a direct, high-stakes version of Chapter 1's population/sample gap.</li>
+<li data-bid="b45"><strong>Distribution shift in production is the sample/population gap reopening</strong>: a model trained on last year's traffic (a sample) is deployed on this year's inputs (a changed population), so its offline validation statistic stops estimating the population it now faces -- the exact failure mode this chapter builds the vocabulary for, and why monitoring live data drift matters.</li>
+<li data-bid="b46"><strong>K-fold cross-validation trades one sample split for many</strong>: instead of one train/test draw, K-fold averages K sample estimates of performance, reducing the variance of your estimate of true (population) performance -- a direct application of "more draws of the sample statistic give a steadier guess about the population."</li>
+</ul>
+<p data-bid="b47"><strong>In everyday, non-AI life:</strong></p>
+<ul>
+<li data-bid="b48"><strong>Political polling</strong>: pollsters survey a few thousand people (the sample) to estimate how millions will vote (the population), and every reported result is an estimate with inherent uncertainty.</li>
+<li data-bid="b49"><strong>Factory quality control</strong>: inspecting 50 items from a production run of 100,000 to estimate the overall defect rate, because checking every single unit isn't feasible.</li>
+</ul>
+<h2 data-bid="b50" id="worked-example-by-hand-larger">Worked example - by hand, larger</h2>
+<p data-bid="b51">Imagine an AI team wants to know the mean inference latency (in ms) of a deployed model across <em>all</em> possible requests it will ever serve - that's the population, unknown and effectively infinite. They can only measure a sample. Suppose a sample of 5 requests gives latencies $48, 52, 50, 55, 45$ ms. Sample mean: $\bar{x} = \frac{48+52+50+55+45}{5} = \frac{250}{5} = 50$ ms.</p>
+<p data-bid="b52">Now suppose the <em>true</em> population mean is $\mu = 54$ ms (which the team doesn't know). The sample estimate is off by $50 - 54 = -4$ ms - it underestimates. Draw a second sample of 5, say $60, 58, 52, 49, 61$: $\bar{x} = \frac{280}{5} = 56$ ms, now overestimating by $+2$. A third sample, $54, 53, 51, 56, 47$: $\bar{x} = \frac{261}{5} = 52.2$ ms, off by $-1.8$.</p>
+<p data-bid="b53">The lesson is not which specific sample is "right" - none of them is guaranteed right - but that the sample mean <em>bounces around</em> the true mean by a few units, sometimes over, sometimes under. Averaging the three sample means, $\frac{50 + 56 + 52.2}{3} = \frac{158.2}{3} \approx 52.7$, lands closer to the truth than any single sample happened to, which is the first hint of why more data (and later, the Central Limit Theorem in Chapter 8) tightens your guess.</p>
+<p data-bid="b54"><strong>A sample mean is one roll of the dice, not a verdict - it's a random draw from a cloud of possible sample means, and the only honest way to read it is with the uncertainty of that cloud in mind.</strong></p>
+<h2 data-bid="b55" id="check-your-understanding">Check your understanding</h2>
+<ul>
+<li data-bid="b56">Why is $\bar{x}$ written with Latin letters and $\mu$ with Greek letters - what's the actual distinction being encoded?</li>
+<li data-bid="b57">If you surveyed <em>all 10</em> employees instead of 4, would $\bar{x}$ still be "random"? Why or why not?</li>
+<li data-bid="b58">Give an ML example of a "population" and a "sample" that's different from the training/test-set analogy above.</li>
+</ul>
+<h2 data-bid="b59" id="exercises">Exercises</h2>
+<h3 data-bid="b60" id="exercise-1-compute-a-sample-mean-and-its-miss-distance">Exercise 1 - Compute a sample mean and its miss distance</h3>
+<p data-bid="b61">A holding-out validation set of 4 examples yields losses $0.4, 0.5, 0.7, 0.2$. The true (unknown) population mean loss is $\mu = 0.5$. Compute $\bar{x}$ and the estimation error $\bar{x} - \mu$.</p>
+<details><summary>Show solution</summary>
+
+$\bar{x} = \frac{0.4 + 0.5 + 0.7 + 0.2}{4} = \frac{1.8}{4} = 0.45$. Error $= 0.45 - 0.5 = -0.05$. The validation set under-estimated the true loss by 0.05, which is exactly the population/sample gap this chapter warns about - the number is a guess, not the truth.
+
+</details>
+
+<h3 data-bid="b62" id="exercise-2-parameter-vs-statistic-in-an-ml-setting">Exercise 2 - Parameter vs. statistic, in an ML setting</h3>
+<p data-bid="b63">A team reports "our model's accuracy on the test set is 0.91." Which symbol names this number, and what is the corresponding unknown parameter? Why can't they report the parameter directly?</p>
+<details><summary>Show solution</summary>
+
+The reported 0.91 is a *statistic* - call it $\hat{p}$ (or $\bar{x}$ for a proportion) - computed from the test set. The parameter is the true accuracy on the entire population of inputs the model will face, which we could call $p$. It cannot be reported directly because the population is unobservable: the test set is only a sample, so 0.91 is an estimate with uncertainty attached.
+
+</details>
+
+<h3 data-bid="b64" id="exercise-3-conceptual-why-traintest-splits-matter">Exercise 3 - Conceptual: why train/test splits matter</h3>
+<p data-bid="b65">Explain in one paragraph why training a model and reporting its accuracy on the <em>same</em> data is the population/sample gap being violated, and what a held-out test set restores.</p>
+<details><summary>Show solution</summary>
+
+Reporting accuracy on the training data lets the model's summary statistic be computed on the very sample it was fitted to, so the model can memorize sample-specific noise rather than population structure - the statistic no longer estimates the population honestly. A held-out test set is an independent sample from the population that the model never saw, so its accuracy is a fresh draw analogous to $\bar{x}$ estimating $\mu$. The gap is restored because the test sample's randomness is independent of the model's fitting.
+
+</details>
+
+<h2 data-bid="b66" id="whats-next">What's next</h2>
+<p data-bid="b67">Chapter 2 asks: given a sample, how do we <em>summarize</em> it numerically and visually - not just the mean, but spread and shape too, and why each of those summaries can mislead you if used alone (the classic case: two wildly different datasets can have the identical mean).</p>
+    </div>
+    <div class="navfooter">
+      <span><a href="00_how_to_use_this_book.html">&larr; Previous chapter</a></span>
+      <span><a href="02_descriptive_statistics.html">Next chapter &rarr;</a></span>
+    </div>
+  </div>
+  <div class="pane-right">
+    <h4>Figures in this chapter</h4>
+    <div id="railContent"></div>
+  </div>
+</div>
+
+<!-- floating selection toolbar -->
+<div id="selToolbar">
+  <button data-color="yellow" title="Mark interesting">🟡</button>
+  <button data-color="green" title="Mark understood">🟢</button>
+  <button data-color="red" title="Mark confusing">🔴</button>
+  <button data-color="blue" title="Mark to review later">🔵</button>
+  <button id="btnAddNote" title="Highlight + add a note">📝</button>
+</div>
+
+<!-- note edit popup -->
+<div id="notePopup">
+  <textarea placeholder="Write a note to yourself..."></textarea>
+  <div class="row">
+    <button class="danger" id="btnDeleteHl">Remove highlight</button>
+    <div>
+      <button id="btnCloseNote">Close</button>
+      <button class="primary" id="btnSaveNote">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- notes side panel -->
+<div id="notesOverlay"></div>
+<div id="notesPanel">
+  <div class="header">
+    <b>My Notes - this page</b>
+    <button class="iconbtn" id="btnCloseNotesPanel">✕</button>
+  </div>
+  <div class="list" id="notesList"></div>
+  <div class="footer">
+    <button id="btnExportNotes">⬇ Export all notes</button>
+    <button id="btnImportNotes">⬆ Import notes</button>
+    <input type="file" id="importFile" accept="application/json" style="display:none;">
+  </div>
+</div>
+
+<script src="../assets/app.js"></script>
+</body>
+</html>

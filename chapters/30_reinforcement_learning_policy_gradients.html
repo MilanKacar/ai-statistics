@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 30: Reinforcement Learning and Policy Gradients - Statistics That Learn From Rewards</title>
+<link rel="stylesheet" href="../assets/app.css">
+<script>
+window.MathJax = { tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']], processEscapes: true } };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+</head>
+<body data-chapter="30_reinforcement_learning_policy_gradients">
+<div class="topbar">
+  <div class="left">
+    <button class="iconbtn hamburger" id="btnSidebarToggle">☰</button>
+    <a href="../index.html">Statistics for AI</a>
+  </div>
+  <div class="right">
+    <button class="iconbtn" id="btnNotesPanel">📒 My Notes</button>
+  </div>
+</div>
+<div id="sidebarOverlay"></div>
+<div class="layout">
+  <nav class="sidebar" id="sidebar">
+    <input type="text" id="sidebarFilter" placeholder="Filter chapters...">
+<details open><summary>Orientation</summary><ul>
+<li class="" data-title="chapter 0: how to use this book, and the math notation you'll see"><a href="00_how_to_use_this_book.html">Chapter 0: How to Use This Book, and the Math Notation You'll See</a></li>
+</ul></details>
+<details open><summary>Part I - Describing the World</summary><ul>
+<li class="" data-title="chapter 1: data, populations, and samples - thinking like a statistician"><a href="01_data_populations_samples.html">Chapter 1: Data, Populations, and Samples - Thinking Like a Statistician</a></li>
+<li class="" data-title="chapter 2: describing data - center, spread, and shape"><a href="02_descriptive_statistics.html">Chapter 2: Describing Data - Center, Spread, and Shape</a></li>
+<li class="" data-title="chapter 3: probability foundations - events, rules, and conditioning"><a href="03_probability_foundations.html">Chapter 3: Probability Foundations - Events, Rules, and Conditioning</a></li>
+<li class="" data-title="chapter 4: bayes' theorem - updating beliefs with evidence"><a href="04_bayes_theorem.html">Chapter 4: Bayes' Theorem - Updating Beliefs With Evidence</a></li>
+<li class="" data-title="chapter 5: random variables and discrete distributions"><a href="05_random_variables_discrete.html">Chapter 5: Random Variables and Discrete Distributions</a></li>
+<li class="" data-title="chapter 6: continuous distributions and the normal distribution"><a href="06_continuous_distributions.html">Chapter 6: Continuous Distributions and the Normal Distribution</a></li>
+<li class="" data-title="chapter 7: expectation, variance, covariance, and correlation"><a href="07_expectation_variance_covariance.html">Chapter 7: Expectation, Variance, Covariance, and Correlation</a></li>
+<li class="" data-title="chapter 8: the central limit theorem - the secret engine of statistics"><a href="08_central_limit_theorem.html">Chapter 8: The Central Limit Theorem - The Secret Engine of Statistics</a></li>
+</ul></details>
+<details open><summary>Part II - Inferring From Data</summary><ul>
+<li class="" data-title="chapter 9: sampling and estimation"><a href="09_sampling_and_estimation.html">Chapter 9: Sampling and Estimation</a></li>
+<li class="" data-title="chapter 10: maximum likelihood estimation"><a href="10_maximum_likelihood_estimation.html">Chapter 10: Maximum Likelihood Estimation</a></li>
+<li class="" data-title="chapter 11: confidence intervals"><a href="11_confidence_intervals.html">Chapter 11: Confidence Intervals</a></li>
+<li class="" data-title="chapter 12: hypothesis testing and p-values"><a href="12_hypothesis_testing.html">Chapter 12: Hypothesis Testing and p-values</a></li>
+<li class="" data-title="chapter 13: t-tests, chi-square, and anova"><a href="13_ttests_chisquare_anova.html">Chapter 13: t-tests, Chi-square, and ANOVA</a></li>
+<li class="" data-title="chapter 14: correlation and simple linear regression"><a href="14_simple_linear_regression.html">Chapter 14: Correlation and Simple Linear Regression</a></li>
+<li class="" data-title="chapter 15: multiple regression, r², and overfitting"><a href="15_multiple_regression.html">Chapter 15: Multiple Regression, R², and Overfitting</a></li>
+</ul></details>
+<details open><summary>Part III - The Bridge Into Machine Learning</summary><ul>
+<li class="" data-title="chapter 16: bias-variance tradeoff, cross-validation, and regularization"><a href="16_bias_variance_regularization.html">Chapter 16: Bias-Variance Tradeoff, Cross-Validation, and Regularization</a></li>
+<li class="" data-title="chapter 17: bayesian statistics in depth"><a href="17_bayesian_statistics.html">Chapter 17: Bayesian Statistics in Depth</a></li>
+<li class="" data-title="chapter 18: resampling - bootstrap and permutation tests"><a href="18_resampling_methods.html">Chapter 18: Resampling - Bootstrap and Permutation Tests</a></li>
+<li class="" data-title="chapter 19: linear algebra essentials for statistics and ml"><a href="19_linear_algebra_essentials.html">Chapter 19: Linear Algebra Essentials for Statistics and ML</a></li>
+<li class="" data-title="chapter 20: multivariate statistics - covariance matrices and pca"><a href="20_multivariate_pca.html">Chapter 20: Multivariate Statistics - Covariance Matrices and PCA</a></li>
+</ul></details>
+<details open><summary>Part IV - The Statistics Inside Modern AI</summary><ul>
+<li class="" data-title="chapter 21: information theory - entropy, cross-entropy, and kl divergence"><a href="21_information_theory.html">Chapter 21: Information Theory - Entropy, Cross-Entropy, and KL Divergence</a></li>
+<li class="" data-title="chapter 22: statistical learning theory - why generalization works at all"><a href="22_statistical_learning_theory.html">Chapter 22: Statistical Learning Theory - Why Generalization Works At All</a></li>
+<li class="" data-title="chapter 23: probabilistic models and latent variables (mixtures, em)"><a href="23_latent_variable_models.html">Chapter 23: Probabilistic Models and Latent Variables (Mixtures, EM)</a></li>
+<li class="" data-title="chapter 24: markov chains and monte carlo methods"><a href="24_markov_chains_monte_carlo.html">Chapter 24: Markov Chains and Monte Carlo Methods</a></li>
+<li class="" data-title="chapter 25: the statistics hiding inside neural networks"><a href="25_statistics_in_neural_networks.html">Chapter 25: The Statistics Hiding Inside Neural Networks</a></li>
+<li class="" data-title="chapter 26: where to go next"><a href="26_where_to_go_next.html">Chapter 26: Where to Go Next</a></li>
+</ul></details>
+<details open><summary>Part V - The Statistical Frontier of Modern AI</summary><ul>
+<li class="" data-title="chapter 27: the statistical frontier - how modern ai actually uses these ideas today"><a href="27_frontier_ai_statistics.html">Chapter 27: The Statistical Frontier - How Modern AI Actually Uses These Ideas Today</a></li>
+</ul></details>
+<details open><summary>Part VI - Advanced AI Algorithms: The Statistical Engine Room</summary><ul>
+<li class="" data-title="chapter 28: diffusion models and score matching - statistics as generation"><a href="28_diffusion_models_score_matching.html">Chapter 28: Diffusion Models and Score Matching - Statistics as Generation</a></li>
+<li class="" data-title="chapter 29: transformers and attention - statistics you can calculate (almost) by hand"><a href="29_transformers_attention_statistics.html">Chapter 29: Transformers and Attention - Statistics You Can Calculate (Almost) by Hand</a></li>
+<li class="current" data-title="chapter 30: reinforcement learning and policy gradients - statistics that learn from rewards"><a href="30_reinforcement_learning_policy_gradients.html">Chapter 30: Reinforcement Learning and Policy Gradients - Statistics That Learn From Rewards</a></li>
+<li class="" data-title="chapter 31: variational inference and the elbo - approximate bayes at scale"><a href="31_variational_inference_elbo.html">Chapter 31: Variational Inference and the ELBO - Approximate Bayes at Scale</a></li>
+<li class="" data-title="chapter 32: contrastive learning and infonce - statistics that learns embeddings"><a href="32_contrastive_learning_infonce.html">Chapter 32: Contrastive Learning and InfoNCE - Statistics That Learns Embeddings</a></li>
+<li class="" data-title="chapter 33: causal inference and do-calculus - when correlation is not enough"><a href="33_causal_inference_do_calculus.html">Chapter 33: Causal Inference and Do-Calculus - When Correlation Is Not Enough</a></li>
+<li class="" data-title="chapter 34: graphical models and message passing - statistics as graphs"><a href="34_graphical_models_message_passing.html">Chapter 34: Graphical Models and Message Passing - Statistics as Graphs</a></li>
+<li class="" data-title="chapter 35: optimization, generalization, and double descent - why big models work"><a href="35_optimization_generalization_double_descent.html">Chapter 35: Optimization, Generalization, and Double Descent - Why Big Models Work</a></li>
+<li class="" data-title="chapter 36: time series and modern sequence models - statistics over time"><a href="36_time_series_sequence_models.html">Chapter 36: Time Series and Modern Sequence Models - Statistics Over Time</a></li>
+</ul></details>
+<details open><summary>Part VII - Aligning AI With Human Preferences: The Statistics of RLHF</summary><ul>
+<li class="" data-title="chapter 37: preference data and reward modeling - statistics from human judgments"><a href="37_preference_data_reward_modeling.html">Chapter 37: Preference Data and Reward Modeling - Statistics From Human Judgments</a></li>
+<li class="" data-title="chapter 38: rlhf, dpo, and preference optimization - turning preferences into a loss function"><a href="38_dpo_and_preference_optimization.html">Chapter 38: RLHF, DPO, and Preference Optimization - Turning Preferences Into a Loss Function</a></li>
+<li class="" data-title="chapter 39: reinforcement learning with verifiable rewards - and how reasoning models are trained"><a href="39_rl_verifiable_rewards_reasoning.html">Chapter 39: Reinforcement Learning With Verifiable Rewards - and How Reasoning Models Are Trained</a></li>
+</ul></details>
+  </nav>
+  <div class="pane-left">
+    <div class="article" id="article">
+<h1 id="chapter-30-reinforcement-learning-and-policy-gradients-statistics-that-learn-from-rewards">Chapter 30: Reinforcement Learning and Policy Gradients - Statistics That Learn From Rewards</h1>
+<h2 data-bid="b1" id="the-idea-this-chapter-builds-toward">The idea this chapter builds toward</h2>
+<p data-bid="b2">Every chapter so far has trained a model to <em>predict</em> something - a label, a probability, a latent structure - by comparing its output against a target that was handed to it. This chapter attacks a genuinely harder problem: what if there is no correct answer to imitate, only a scalar <em>reward</em> that tells you "that outcome was good" after the fact? That is the <strong>reinforcement learning (RL)</strong> setting, and the central statistical tool for it is the <strong>policy gradient</strong> - an estimator that takes a noisy, single reward and turns it into a gradient that nudges the policy's parameters toward better outcomes. The remarkable part: the whole thing falls out of the <strong>log-derivative trick</strong>, which is Chapter 10's log-likelihood differentiation wearing a new costume, and the resulting estimator is just a <strong>Monte Carlo average</strong> (Chapter 24) of an <strong>expectation</strong> (Chapter 7). This chapter is where several threads you've already learned quietly converge into the machinery behind RLHF.</p>
+<blockquote data-bid="b3">
+<p data-bid="b4"><strong>Intuition, in one breath:</strong> You try an action, you see how well it went, and you crank up the probability of whatever you just did in proportion to how good it was - no teacher, just reward and repetition. Do this often enough and the tuning drifts toward the actions that pay off.</p>
+</blockquote>
+<h2 data-bid="b5" id="the-rl-setup-is-a-markov-decision-process-chapter-24s-markov-chains">The RL setup is a Markov decision process (Chapter 24's Markov chains)</h2>
+<p data-bid="b6">An RL problem is formalized as a <strong>Markov decision process (MDP)</strong>: at each time step you're in a state $s$, you pick an action $a$ according to a policy $\pi_\theta(a\mid s)$ (a probability distribution over actions, parameterized by $\theta$), you receive a reward $r$, and you move to a new state $s'$. The defining assumption is the <em>Markov property</em> - the future depends only on the present state and action, not the full history - exactly the memoryless structure from Chapter 24's Markov chains, here extended with the ability to <em>choose</em> the transitions.</p>
+<p data-bid="b7">A full episode (a sequence of states, actions, rewards) has a <strong>return</strong> $R = \sum_{t} \gamma^t r_t$, a discounted sum of rewards with discount factor $\gamma \in [0,1]$ (smaller $\gamma$ = a more myopic agent). This return is random: the environment can be stochastic, and the policy itself samples actions probabilistically. So the thing we actually want to maximize is the <strong>expected return</strong> under the policy:</p>
+<p data-bid="b8">$$J(\theta) = \mathbb{E}_{\tau \sim \pi_\theta}[R(\tau)]$$</p>
+<p data-bid="b9"><strong>Reading it piece by piece:</strong>
+- <strong>$J(\theta)$</strong> - the performance objective: the expected return we want to make as large as possible by tuning the policy parameters $\theta$.
+- <strong>$\tau$</strong> - a whole trajectory, the full sequence of states, actions, and rewards produced by one episode.
+- <strong>$\pi_\theta$</strong> - the policy, a probability distribution over actions that depends on $\theta$; trajectories are sampled from it, so changing the policy changes which outcomes occur.
+- <strong>$R(\tau)$</strong> - the return of that trajectory, the discounted sum of rewards along it; it is a random quantity because both the environment and the policy's action draws are stochastic.
+- <strong>$\mathbb{E}_{\tau \sim \pi_\theta}$</strong> - the expectation averaging over all trajectories the current policy might produce, the same averaging operator as Chapter 7, now over sequential outcomes.</p>
+<p data-bid="b10">where $\tau$ denotes a whole trajectory and the expectation is over trajectories sampled from the policy - the same expectation operator from Chapter 7, now averaged over a distribution of <em>sequential</em> outcomes instead of a single random variable.</p>
+<h2 data-bid="b11" id="the-log-derivative-trick-this-is-chapter-10s-log-likelihood">The log-derivative trick - this is Chapter 10's log-likelihood</h2>
+<p data-bid="b12">Here is the entire statistical engine, and it deserves slow attention because it is the hinge of the chapter. We want $\nabla_\theta J(\theta)$. Write the expectation as a sum over trajectories, $J = \sum_\tau p_\theta(\tau) R(\tau)$, and differentiate:</p>
+<p data-bid="b13">$$\nabla_\theta J = \sum_\tau \nabla_\theta p_\theta(\tau)\, R(\tau).$$</p>
+<p data-bid="b14">Now use the elementary calculus identity $\nabla_\theta p_\theta = p_\theta \,\nabla_\theta \log p_\theta$ (just the chain rule applied to $\log$, valid since $p_\theta > 0$). Substituting:</p>
+<p data-bid="b15">$$\nabla_\theta J = \sum_\tau p_\theta(\tau)\,\nabla_\theta \log p_\theta(\tau)\, R(\tau) = \mathbb{E}_{\tau\sim\pi_\theta}\!\left[ R(\tau)\, \nabla_\theta \log p_\theta(\tau)\right].$$</p>
+<p data-bid="b16"><strong>Reading it piece by piece:</strong>
+- <strong>$\nabla_\theta J$</strong> - the gradient of the objective, the direction in parameter space that improves expected return.
+- <strong>$p_\theta(\tau)$</strong> - the probability the policy assigns to trajectory $\tau$, a product of per-step action probabilities.
+- <strong>$\nabla_\theta \log p_\theta(\tau)$</strong> - the log-derivative (score) of that trajectory probability; taking the gradient of the log is what moves the gradient inside the probability, the hinge of the whole chapter.
+- <strong>$R(\tau)$</strong> - the trajectory's realized return, which now sits <em>outside</em> the gradient: it only reweights the log-gradient, it is not itself differentiated.
+- <strong>$\mathbb{E}_{\tau\sim\pi_\theta}[\cdot]$</strong> - the sum rewritten as an expectation over sampled trajectories, which is what lets us replace the intractable sum with Monte Carlo sampling.</p>
+<p data-bid="b17">That single move - <strong>push the gradient inside the probability by taking the gradient of the log</strong> - is called the <strong>log-derivative trick</strong> (also the <em>score-function</em> trick, where $\nabla_\theta \log p_\theta$ is the "score"). If it feels familiar, it should: it is the exact same object as Chapter 10's log-likelihood gradient $\frac{d}{d\theta}\log L(\theta)$, and the reason we take logs at all is the same Chapter 10 reason - logs turn products into sums, and here a trajectory's probability <em>is</em> a product of per-step action probabilities, so $\log p_\theta(\tau) = \sum_t \log \pi_\theta(a_t\mid s_t)$ (+ terms from the environment that don't depend on $\theta$ and so vanish under $\nabla_\theta$). The log-derivative trick is not a new trick - it is Chapter 10's insight that maximizing likelihood means moving in the direction of $\nabla_\theta \log p_\theta$.</p>
+<h2 data-bid="b18" id="reinforce-the-policy-gradient-as-a-monte-carlo-estimator-chapter-24">REINFORCE - the policy gradient as a Monte Carlo estimator (Chapter 24)</h2>
+<p data-bid="b19">The expectation above is now over trajectories, but crucially the <em>reward no longer appears inside a gradient</em>. That means we can estimate it by <strong>sampling</strong> - which is exactly what Chapter 24 taught. Run the policy, collect one episode, and use the single realized trajectory as your Monte Carlo estimate of the gradient:</p>
+<p data-bid="b20">$$\nabla_\theta J \approx R(\tau)\, \nabla_\theta \log p_\theta(\tau) = R(\tau)\sum_t \nabla_\theta \log \pi_\theta(a_t\mid s_t).$$</p>
+<p data-bid="b21"><strong>Reading it piece by piece:</strong>
+- <strong>$\approx$</strong> - the true expectation is replaced by one sampled trajectory, the Monte Carlo estimate from Chapter 24; averaged over many episodes it is unbiased.
+- <strong>$R(\tau)$</strong> - the single episode's return, the noisy scalar that scales the whole update: this is why one bad-luck episode can swing the estimate wildly.
+- <strong>$\nabla_\theta \log p_\theta(\tau)$</strong> - the trajectory's log-gradient, which the chapter notes factorizes into per-step action terms plus environment terms that are constant in $\theta$.
+- <strong>$\sum_t \nabla_\theta \log \pi_\theta(a_t\mid s_t)$</strong> - the sum over timesteps of each taken action's log-policy gradient, the only part that depends on $\theta$.
+- <strong>the product $R(\tau) \times \nabla_\theta \log p_\theta$</strong> - cranks up the log-probability of the sampled actions in proportion to how good the return turned out to be.</p>
+<p data-bid="b22">The algorithm that does this - sample an episode, compute the return, multiply by the sum of log-policy gradients, take a gradient-ascent step $\theta \leftarrow \theta + \alpha\, R(\tau)\sum_t \nabla_\theta \log\pi_\theta(a_t\mid s_t)$ - is <strong>REINFORCE</strong> (Williams, 1992). Two facts about it matter enormously. First, it is <strong>unbiased</strong>: because it is a Monte Carlo average of the true expectation, $\mathbb{E}[\text{estimate}] = \nabla_\theta J$ exactly, no matter how noisy any single episode is (Chapter 24's foundational property - sample means are unbiased). Second, it can have <strong>enormous variance</strong>: a single episode's return is a noisy scalar, and multiplying an entire trajectory's log-gradients by one such scalar is a recipe for wild swings. This is the central tension of policy-gradient methods, and everything below is a response to it.</p>
+<div class="labcard">
+<div class="labkicker">Live - REINFORCE on a 2-armed bandit with a running-mean baseline</div>
+<div class="labcontrols">
+  <div class="labctrl"><label>Learning rate <b id="ch30_lr_label">0.10</b></label><input type="range" id="ch30_lr" min="0.01" max="1" step="0.01" value="0.1"></div>
+  <div class="labctrl"><label>Episodes <b id="ch30_eps_label">1000</b></label><input type="range" id="ch30_eps" min="100" max="5000" step="100" value="1000"></div>
+</div>
+<div class="labrow">
+  <button class="labbtn" id="ch30_run">Run REINFORCE</button>
+  <button class="labbtn secondary" id="ch30_reset">Reset</button>
+</div>
+<div class="labcanvas-wrap"><canvas id="ch30_canvas" width="820" height="240"></canvas></div>
+<div class="labstat-grid">
+  <div class="labstat"><div class="lbl">p(A) final</div><div class="val" id="ch30_pa">-</div></div>
+  <div class="labstat"><div class="lbl">p(B) final</div><div class="val" id="ch30_pb">-</div></div>
+  <div class="labstat"><div class="lbl">Total reward</div><div class="val" id="ch30_tr">-</div></div>
+</div>
+<p data-bid="b23" class="labnote">True reward rates are A: 0.3, B: 0.6, so the optimum is to favour B. The line tracks p(A) = sigmoid(theta) over episodes; it should drift down toward 0 as REINFORCE discovers that B pays better. The dashed line marks the true best arm.</p>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  var SL = window.StatsLab;
+  var pA = 0.3, pB = 0.6;
+  var curve = [];
+  function sig(x){ return 1/(1+Math.exp(-x)); }
+  function run(){
+    var lr = parseFloat(document.getElementById('ch30_lr').value);
+    var eps = parseInt(document.getElementById('ch30_eps').value);
+    document.getElementById('ch30_lr_label').textContent = lr.toFixed(2);
+    document.getElementById('ch30_eps_label').textContent = eps;
+    var theta = 0, base = 0, totalReward = 0, cnt = 0;
+    curve = [];
+    for(var e=0;e<eps;e++){
+      var pa = sig(theta);
+      var act = Math.random() < pa ? 0 : 1;
+      var r = Math.random() < (act===0?pA:pB) ? 1 : 0;
+      totalReward += r; cnt++;
+      base += (r - base)/(cnt);
+      var adv = r - base;
+      var grad = act===0 ? (1-pa) : (-pa);
+      theta += lr * adv * grad;
+      if(e % Math.max(1,Math.floor(eps/200)) === 0) curve.push([e, sig(theta)]);
+      if(e === eps-1) curve.push([e, sig(theta)]);
+    }
+    var finalPa = sig(theta);
+    document.getElementById('ch30_pa').textContent = finalPa.toFixed(4);
+    document.getElementById('ch30_pb').textContent = (1-finalPa).toFixed(4);
+    document.getElementById('ch30_tr').textContent = totalReward+' / '+cnt;
+    draw();
+  }
+  function draw(){
+    var plot = SL.makePlot(document.getElementById('ch30_canvas'));
+    plot.setDomain([0, Math.max(1, curve.length? curve[curve.length-1][0] : 1)],[0,1]);
+    plot.clear(); plot.axes('episode','p(A)');
+    plot.hline(0.5, SL.colors.inkSoft, true, 1);
+    if(curve.length) plot.line(curve, SL.colors.accent, 2);
+    plot.vline(curve.length? curve[curve.length-1][0] : 0, SL.colors.accent3, true);
+  }
+  document.getElementById('ch30_lr').addEventListener('input', function(e){ document.getElementById('ch30_lr_label').textContent = parseFloat(e.target.value).toFixed(2); });
+  document.getElementById('ch30_eps').addEventListener('input', function(e){ document.getElementById('ch30_eps_label').textContent = e.target.value; });
+  document.getElementById('ch30_run').addEventListener('click', run);
+  document.getElementById('ch30_reset').addEventListener('click', function(){
+    curve = [];
+    ['ch30_pa','ch30_pb','ch30_tr'].forEach(function(id){ document.getElementById(id).textContent = '-'; });
+    draw();
+  });
+  draw();
+});
+</script>
+
+<h2 data-bid="b24" id="baselines-and-advantages-variance-reduction-chapter-7">Baselines and advantages - variance reduction (Chapter 7)</h2>
+<p data-bid="b25">Return to Chapter 7's variance machinery. The estimator $R(\tau)\nabla_\theta\log p_\theta(\tau)$ has high variance partly because $R$ can be large and, more subtly, because <em>every</em> action in a trajectory gets credited with the whole trajectory's reward, even actions that didn't cause it. The fix starts with a beautiful invariance: for <em>any</em> function $b(s)$ that doesn't depend on the action (a <strong>baseline</strong>, typically a learned value estimate of the state), $\mathbb{E}[\nabla_\theta \log \pi_\theta(a\mid s)\, b(s)] = 0$. This is because $\sum_a \pi_\theta(a\mid s)\nabla_\theta\log\pi_\theta(a\mid s) = \nabla_\theta \sum_a \pi_\theta(a\mid s) = \nabla_\theta 1 = 0$. So subtracting a baseline <strong>does not change the expected gradient</strong> - it stays unbiased - but it can <em>dramatically</em> shrink the variance, by centering the rewards so good-not-great actions aren't rewarded and by removing the state's inherent value level from the credit signal.</p>
+<p data-bid="b26">The standard baseline is the state-value function $V(s) = \mathbb{E}[R\mid s]$, the expected return from state $s$. The resulting quantity is the <strong>advantage</strong>:</p>
+<p data-bid="b27">$$A(s,a) = R - V(s) = \text{return} - \text{baseline},$$</p>
+<p data-bid="b28"><strong>Reading it piece by piece:</strong>
+- <strong>$R$</strong> - the actual return collected after taking action $a$ in state $s$.
+- <strong>$V(s)$</strong> - the state-value function, the expected return from state $s$ under the current policy; it acts as the baseline, a reference level that does not depend on the action chosen.
+- <strong>$A(s,a)$</strong> - the advantage: how much better (or worse) this action turned out than the state was already expected to be.
+- <strong>the subtraction</strong> - centering the return removes the state's inherent value level, so an action that merely plays out an already-good state gets near-zero credit, while genuinely good or lucky actions get positive credit; this leaves the expected gradient unchanged but shrinks its variance.</p>
+<p data-bid="b29">which answers the right question - "was this action <em>better than expected</em> in this state?" - rather than "was the total outcome good?" An action that merely plays out an already-good state gets near-zero advantage; only genuinely lucky or clever actions get positive credit. This is textbook Chapter 7: same mean, less variance, so a better-behaved estimator and faster, more stable learning.</p>
+<h2 data-bid="b30" id="ppo-the-clipped-surrogate-as-a-trust-region-tradeoff-chapter-16">PPO - the clipped surrogate as a trust-region tradeoff (Chapter 16)</h2>
+<p data-bid="b31">Plain REINFORCE takes a step per episode, which is wasteful, and taking too large a step can wreck the policy (a bad update changes the action distribution, which changes the data distribution, which makes the next update's assumption invalid - a vicious cycle). <strong>Proximal Policy Optimization (PPO)</strong> (Schulman et al., 2017) fixes both by reusing each batch of data for several epochs of updates and by <strong>clipping</strong> how far the policy's action probabilities are allowed to move in one update. It maximizes a <em>surrogate</em> objective</p>
+<p data-bid="b32">$$L^{\text{clip}}(\theta) = \mathbb{E}\!\left[\min\!\left( r_t(\theta) A_t,\; \text{clip}(r_t(\theta), 1-\epsilon, 1+\epsilon)\, A_t\right)\right],$$</p>
+<p data-bid="b33"><strong>Reading it piece by piece:</strong>
+- <strong>$L^{\text{clip}}(\theta)$</strong> - the surrogate objective PPO maximizes instead of the true policy gradient, designed to keep updates local and reusable.
+- <strong>$r_t(\theta)$</strong> - the probability ratio: how much more (or less) likely the taken action is under the new policy than the old one; $r_t = 1$ means no change.
+- <strong>$A_t$</strong> - the advantage at step $t$, the same return-minus-baseline signal from above, deciding the direction and size of the desired move.
+- <strong>$\text{clip}(r_t(\theta), 1-\epsilon, 1+\epsilon)$</strong> - the ratio clamped into a small band around 1, literally capping how far the action probability may move in one update.
+- <strong>$\min(\cdot,\cdot)$</strong> - takes the more pessimistic of the unclipped and clipped products, so the clip only ever removes an attempted update and never manufactures extra credit.
+- <strong>$\epsilon$</strong> - the band width (typically 0.1-0.2) tuning how strictly the policy must stay near the old one; this is the bias-variance tradeoff of Chapter 16 in operation.</p>
+<p data-bid="b34">where $r_t(\theta) = \frac{\pi_\theta(a_t\mid s_t)}{\pi_{\theta_{\text{old}}}(a_t\mid s_t)}$ is the ratio of new to old action probability and $\epsilon$ (typically $0.1$-$0.2$) caps how much that ratio can move. When an advantage is positive and the ratio tries to exceed $1+\epsilon$, the clip flattens the gradient - no more credit for pushing an already-favored action even further, which would be a reckless step. This is precisely the <strong>bias-variance tradeoff</strong> of Chapter 16: clipping deliberately <em>biases</em> each update toward staying local (introducing a small, controlled bias) in exchange for a large <em>reduction in variance and catastrophic-vs-stable behavior</em>, letting you take many reliable small steps instead of one reckless large one. It is a trust region in disguise - "improve, but don't leave the neighborhood where the current estimate is trustworthy."</p>
+<h2 data-bid="b35" id="rlhf-reward-models-chapter-27-and-a-kl-leash-chapter-21">RLHF - reward models (Chapter 27) and a KL leash (Chapter 21)</h2>
+<p data-bid="b36"><strong>Reinforcement learning from human feedback (RLHF)</strong> - the technique behind aligning modern chat models - assembles everything above into a pipeline. Humans can't score every possible response, but they <em>can</em> compare two responses and say which they prefer. Fitting a <strong>reward model</strong> to those pairwise preferences uses the <strong>Bradley-Terry</strong> model (from Chapter 27), which says the probability that response $a$ beats $b$ is $\sigma(r_a - r_b)$; training the reward model is just Chapter 10's MLE on that likelihood, giving a scalar "preferred-ness" score for any text. The language model is then the policy $\pi_\theta$, and PPO is run to maximize the reward model's score.</p>
+<p data-bid="b37">There's a critical wrinkle: the reward model is an imperfect proxy, and if you optimize it too hard the policy finds adversarial gibberish that scores highly but is useless - the reward-hacking failure. RLHF guards against this with a <strong>KL penalty</strong> to a frozen reference policy $\pi_{\text{ref}}$ (the pretrained model), maximizing $\mathbb{E}[r_\phi(x,y)] - \beta\,D_{KL}(\pi_\theta \| \pi_{\text{ref}})$. Chapter 21's KL divergence measures exactly how far the tuned policy has drifted from the sensible starting point; large $\beta$ keeps it on a short leash near $\pi_{\text{ref}}$, small $\beta$ lets it chase reward further. This is the same prior-keeping role Chapter 17's exercise named - the reference policy is a prior, the reward is the likelihood, and $\beta$ sets how much you trust each. So RLHF is a policy gradient (this chapter) with an advantage baseline (Chapter 7), a Bradley-Terry reward model (Chapter 27), and a KL-to-reference regularizer (Chapter 21) - nearly every earlier idea, one pipeline.</p>
+<h2 data-bid="b38" id="worked-example-by-hand-larger">Worked example - by hand, larger</h2>
+<p data-bid="b39">Let's run one full policy-gradient update by hand on the smallest possible problem: a <strong>two-armed bandit</strong> you can compute entirely with arithmetic. There are two actions, "A" and "B". The policy has one parameter $\theta$ governing the probability of A via a sigmoid: $p_\theta(A) = \sigma(\theta) = \frac{1}{1+e^{-\theta}}$, and $p_\theta(B) = 1 - p_\theta(A)$. We start at $\theta = 0$, so $p_\theta(A) = p_\theta(B) = 0.5$ - a fair coin.</p>
+<p data-bid="b40"><strong>Step 1 - sample an action and see a reward.</strong> Draw from the policy. Suppose we sample action <strong>A</strong>, and the environment hands back reward $R = 2$. (For a one-step bandit the return <em>is</em> this reward.)</p>
+<p data-bid="b41"><strong>Step 2 - compute the log-probability and its gradient.</strong> Since $p_\theta(A) = \sigma(\theta)$, we have $\log\pi_\theta(A) = \log\sigma(\theta) = -\log(1+e^{-\theta})$. Its derivative with respect to $\theta$ is the beautifully clean $\frac{d}{d\theta}\log\sigma(\theta) = 1 - \sigma(\theta) = 1 - 0.5 = 0.5$. (If we had sampled B, the gradient would be $\frac{d}{d\theta}\log(1-\sigma(\theta)) = -\sigma(\theta) = -0.5$.) This "$\pm$" structure - up for the chosen action, down for the other - is the whole geometry of policy gradients: the log-derivative sign always points toward raising the sampled action's probability.</p>
+<p data-bid="b42"><strong>Step 3 - form the REINFORCE estimator.</strong> The estimate of the gradient for this single sample is $R \times \nabla_\theta \log\pi_\theta(A) = 2 \times 0.5 = 1.0$. Unbiased, but note how a single reward $R=2$ is doing all the work - if the reward had been, say, $10$ or $-3$, the gradient estimate would swing wildly. This is the Chapter 7 variance problem, live.</p>
+<p data-bid="b43"><strong>Step 4 - subtract a baseline, form the advantage.</strong> Introduce a baseline $b = V(s)$, the expected return. Say our current value estimate is $b = 1$. Then the <strong>advantage</strong> is $A = R - b = 2 - 1 = 1$. The baseline-subtracted estimator is $A \times \nabla_\theta\log\pi_\theta(A) = 1 \times 0.5 = 0.5$ - same sign, but half the magnitude, because "this action was twice as good as average, not ten times as good" is the honest credit signal. With a baseline, a lucky action's raw reward no longer inflates the update.</p>
+<p data-bid="b44"><strong>Step 5 - take the ascent step and watch $\theta$ move.</strong> Use learning rate $\alpha = 0.1$ and gradient ascent, $\theta \leftarrow \theta + \alpha \cdot \text{(advantage gradient)} = 0 + 0.1 \times 0.5 = 0.05$. Recompute the probability: $p_\theta(A) = \sigma(0.05) = \frac{1}{1+e^{-0.05}} = \frac{1}{1+0.9512} = 0.5124$. <strong>The probability of the rewarded action A rose from $0.50$ to about $0.512$</strong> - a small, correct push in the rewarding direction.</p>
+<p data-bid="b45"><strong>Takeaway: one reward-scaled log-policy gradient moved the action probabilities in the right direction, the baseline kept the step proportionate to how <em>surprising</em> the reward was rather than how large, and iterating this exact three-line update - sample, weight by advantage, ascend - is all that REINFORCE, and underneath its elaborations, PPO and RLHF, are doing.</strong></p>
+<h2 data-bid="b46" id="check-your-understanding">Check your understanding</h2>
+<ul>
+<li data-bid="b47">Why does the log-derivative trick let us drop the gradient of the probability and multiply the <em>reward</em> by the gradient of the <em>log-probability</em> instead - and what Chapter 10 object is $\nabla_\theta\log p_\theta$ literally the generalization of?</li>
+<li data-bid="b48">Why does subtracting a baseline $b(s)$ that doesn't depend on the action leave the expected gradient unchanged, yet often reduce its variance (Chapter 7)?</li>
+<li data-bid="b49">In PPO's clipped objective, what is being traded off against what, and why does capping the probability ratio $\epsilon$ make the update more reliable?</li>
+</ul>
+<h2 data-bid="b50" id="exercises">Exercises</h2>
+<h3 data-bid="b51" id="exercise-1-one-reinforce-step-on-a-3-action-policy">Exercise 1 - One REINFORCE step on a 3-action policy</h3>
+<p data-bid="b52">A policy over three actions has current probabilities $p(A)=0.5$, $p(B)=0.3$, $p(C)=0.2$. You sample action <strong>C</strong> and receive reward $R = 4$. Take the log-probability of C, compute the gradient of $\log p(C)$ with respect to the raw parameter for C (treat the probability itself as the parameter, so $\frac{d}{dp_C}\log p_C = 1/p_C$), form the REINFORCE estimator, and explain in which direction $p_C$ moves.</p>
+<details><summary>Show solution</summary>
+
+The log-probability of the sampled action is $\log p(C) = \log 0.2 \approx -1.6094$. Its gradient with respect to the probability parameter is $\frac{d}{dp_C}\log p_C = \frac{1}{p_C} = \frac{1}{0.2} = 5$.
+
+The REINFORCE estimator is reward times log-gradient: $R \times \frac{1}{p_C} = 4 \times 5 = 20$. Since we take a *gradient ascent* step ($\theta \leftarrow \theta + \alpha \cdot \text{estimate}$) and the estimate $20$ is positive, $p_C$ moves *up* - we increase the probability of the action that just earned reward $4$.
+
+Note the $1/p_C = 5$ factor: because C was a low-probability action, its log-gradient is large, so the update is aggressive - REINFORCE naturally pushes harder on rare, rewarding actions. This same $1/p$ comes straight from Chapter 10's derivative of $\log p$, and it is also a source of high variance when $p_C$ is tiny, which is exactly why baselines and clipping exist.
+
+</details>
+
+<h3 data-bid="b53" id="exercise-2-baseline-invariance-numerically">Exercise 2 - Baseline invariance, numerically</h3>
+<p data-bid="b54">For a single state with actions $\{A,B\}$, exactly two outcomes. Policy probabilities: $p(A) = 0.7$, $p(B) = 0.3$. Show numerically that subtracting a constant baseline $b = 5$ does not change the <em>expected</em> value of the log-derivative-times-reward term, i.e. verify $\mathbb{E}[\nabla_\theta\log\pi\, b] = 0$ concretely.</p>
+<details><summary>Show solution</summary>
+
+Model the raw parameter as the probability itself, so $\nabla \log p(A) = 1/0.7 \approx 1.4286$ and $\nabla\log p(B) = 1/0.3 \approx 3.3333$, except with a *minus* sign convention for the branch (the score has the property that the probability-weighted sum is zero). Concretely, the key identity is
+
+$$\sum_a \pi(a)\,\nabla\log\pi(a) = \sum_a \pi(a)\cdot\frac{1}{\pi(a)}\cdot(\pm 1) = \sum_a (\pm 1) = +1 - 1 = 0.$$
+
+So with a constant baseline $b$,
+
+$$\mathbb{E}[\nabla\log\pi \cdot b] = b\sum_a \pi(a)\nabla\log\pi(a) = b \times 0 = 0.$$
+
+Numerically: $0.7 \times (1/0.7) - 0.3\times(1/0.3) = 1 - 1 = 0$, and multiplying by $b=5$ still gives $0$. Therefore subtracting any constant baseline shifts the gradient estimate sample-by-sample but leaves its *expectation* identical - the estimator stays unbiased while its variance drops.
+
+</details>
+
+<h3 data-bid="b55" id="exercise-3-conceptual-why-ppos-clip-is-a-bias-variance-tradeoff-chapter-16">Exercise 3 - Conceptual: why PPO's clip is a bias-variance tradeoff (Chapter 16)</h3>
+<p data-bid="b56">Explain why deliberately clipping the PPO objective - refusing to reward pushing an action's probability ratio beyond $1+\epsilon$ - counts as introducing <em>bias</em> into the gradient, and why a practitioner would still prefer it over the unbiased REINFORCE gradient.</p>
+<details><summary>Show solution</summary>
+
+Unbiased REINFORCE would keep increasing the advantage-weighted gradient in proportion to how far the new-to-old probability ratio $r_t(\theta)$ has grown - so if an action had a large positive advantage, the update would keep rewarding raising its probability essentially without bound within the step. PPO's clip flattens the objective once $r_t(\theta) > 1+\epsilon$, so the gradient it follows is *not* the true policy gradient - the expected value of the clipped-gradient direction diverges from the true $\nabla_\theta J$ wherever clipping is active. That divergence from the true gradient is precisely what "bias" means here.
+
+But the true (unbiased) gradient has a fatal practical flaw: a single large step can move the policy so far that the data used to estimate the gradient no longer represents the current policy, invalidating the estimate and often collapsing performance - a huge-variance, high-variance-of-outcomes failure. Clipping accepts a small, controlled, *known-direction* bias in exchange for a large reduction in variance and in catastrophic-update risk, which is exactly Chapter 16's bias-variance tradeoff: you voluntarily trade a little bias for a lot less variance, yielding lower total error and far more stable training over many small steps. The `min` in the objective ensures the clip only ever *removes* an attempted update, never manufactures a spurious one - you never do worse than the unclipped value, you just don't get carried away.
+
+</details>
+
+<h2 data-bid="b57" id="why-this-matters-in-ai-and-in-everyday-life">Why This Matters - In AI and In Everyday Life</h2>
+<p data-bid="b58"><strong>In AI / machine learning:</strong></p>
+<ul>
+<li data-bid="b59"><strong>RLHF alignment of chat models</strong>: every major instruction-following and helpfulness-trained LLM is fine-tuned with a PPO-style policy gradient against a Bradley-Terry reward model, with a KL penalty to the pretrained policy - this chapter's full pipeline, running at frontier scale.</li>
+<li data-bid="b60"><strong>Reasoning and agentic models</strong>: training models to solve multi-step problems where only the final answer gets a reward uses exactly the return-weighted log-policy gradient (with advantage baselines) derived here; the scarcity of the reward signal is why variance reduction matters so much.</li>
+<li data-bid="b61"><strong>Game-playing and robotics</strong>: AlphaZero-style methods and robot locomotion policies combine policy gradients or closely related actor-critic variants with value baselines, relying on the unbiasedness from Chapter 24 and the variance control from Chapter 7 to learn from noisy outcomes.</li>
+<li data-bid="b62"><strong>Direct preference optimization and reward-model research</strong>: newer preference-tuning methods are reframings of the same Bradley-Terry / KL-regularized objective, all standing on this chapter's log-derivative and advantage machinery.</li>
+</ul>
+<p data-bid="b63"><strong>In everyday, non-AI life:</strong></p>
+<ul>
+<li data-bid="b64"><strong>Learning a physical skill by trial and feedback</strong>: you don't get a diagram of the "correct" tennis swing - you swing, observe whether the ball went in, and adjust the tendencies that paid off, which is literally reward-weighted behavior updating.</li>
+<li data-bid="b65"><strong>A/B testing what messaging works</strong>: running a campaign, measuring conversions as the reward, and shifting future effort toward the variants that performed better - advantage-style feedback driving a policy over time.</li>
+</ul>
+<h2 data-bid="b66" id="whats-next">What's next</h2>
+<p data-bid="b67">Chapter 31 turns to the objective at the heart of the <em>other</em> half of modern generative modeling - <strong>Variational Inference and the ELBO</strong> - showing how to fit latent-variable models like VAEs by maximizing a single tractable bound on an intractable likelihood, picking up exactly where Chapter 23's EM loop and this chapter's reward-and-optimize mindset leave off.</p>
+    </div>
+    <div class="navfooter">
+      <span><a href="29_transformers_attention_statistics.html">&larr; Previous chapter</a></span>
+      <span><a href="31_variational_inference_elbo.html">Next chapter &rarr;</a></span>
+    </div>
+  </div>
+  <div class="pane-right">
+    <h4>Figures in this chapter</h4>
+    <div id="railContent"></div>
+  </div>
+</div>
+
+<!-- floating selection toolbar -->
+<div id="selToolbar">
+  <button data-color="yellow" title="Mark interesting">🟡</button>
+  <button data-color="green" title="Mark understood">🟢</button>
+  <button data-color="red" title="Mark confusing">🔴</button>
+  <button data-color="blue" title="Mark to review later">🔵</button>
+  <button id="btnAddNote" title="Highlight + add a note">📝</button>
+</div>
+
+<!-- note edit popup -->
+<div id="notePopup">
+  <textarea placeholder="Write a note to yourself..."></textarea>
+  <div class="row">
+    <button class="danger" id="btnDeleteHl">Remove highlight</button>
+    <div>
+      <button id="btnCloseNote">Close</button>
+      <button class="primary" id="btnSaveNote">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- notes side panel -->
+<div id="notesOverlay"></div>
+<div id="notesPanel">
+  <div class="header">
+    <b>My Notes - this page</b>
+    <button class="iconbtn" id="btnCloseNotesPanel">✕</button>
+  </div>
+  <div class="list" id="notesList"></div>
+  <div class="footer">
+    <button id="btnExportNotes">⬇ Export all notes</button>
+    <button id="btnImportNotes">⬆ Import notes</button>
+    <input type="file" id="importFile" accept="application/json" style="display:none;">
+  </div>
+</div>
+
+<script src="../assets/app.js"></script>
+</body>
+</html>

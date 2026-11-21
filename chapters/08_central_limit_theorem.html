@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 8: The Central Limit Theorem - The Secret Engine of Statistics</title>
+<link rel="stylesheet" href="../assets/app.css">
+<script>
+window.MathJax = { tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']], processEscapes: true } };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+</head>
+<body data-chapter="08_central_limit_theorem">
+<div class="topbar">
+  <div class="left">
+    <button class="iconbtn hamburger" id="btnSidebarToggle">☰</button>
+    <a href="../index.html">Statistics for AI</a>
+  </div>
+  <div class="right">
+    <button class="iconbtn" id="btnNotesPanel">📒 My Notes</button>
+  </div>
+</div>
+<div id="sidebarOverlay"></div>
+<div class="layout">
+  <nav class="sidebar" id="sidebar">
+    <input type="text" id="sidebarFilter" placeholder="Filter chapters...">
+<details open><summary>Orientation</summary><ul>
+<li class="" data-title="chapter 0: how to use this book, and the math notation you'll see"><a href="00_how_to_use_this_book.html">Chapter 0: How to Use This Book, and the Math Notation You'll See</a></li>
+</ul></details>
+<details open><summary>Part I - Describing the World</summary><ul>
+<li class="" data-title="chapter 1: data, populations, and samples - thinking like a statistician"><a href="01_data_populations_samples.html">Chapter 1: Data, Populations, and Samples - Thinking Like a Statistician</a></li>
+<li class="" data-title="chapter 2: describing data - center, spread, and shape"><a href="02_descriptive_statistics.html">Chapter 2: Describing Data - Center, Spread, and Shape</a></li>
+<li class="" data-title="chapter 3: probability foundations - events, rules, and conditioning"><a href="03_probability_foundations.html">Chapter 3: Probability Foundations - Events, Rules, and Conditioning</a></li>
+<li class="" data-title="chapter 4: bayes' theorem - updating beliefs with evidence"><a href="04_bayes_theorem.html">Chapter 4: Bayes' Theorem - Updating Beliefs With Evidence</a></li>
+<li class="" data-title="chapter 5: random variables and discrete distributions"><a href="05_random_variables_discrete.html">Chapter 5: Random Variables and Discrete Distributions</a></li>
+<li class="" data-title="chapter 6: continuous distributions and the normal distribution"><a href="06_continuous_distributions.html">Chapter 6: Continuous Distributions and the Normal Distribution</a></li>
+<li class="" data-title="chapter 7: expectation, variance, covariance, and correlation"><a href="07_expectation_variance_covariance.html">Chapter 7: Expectation, Variance, Covariance, and Correlation</a></li>
+<li class="current" data-title="chapter 8: the central limit theorem - the secret engine of statistics"><a href="08_central_limit_theorem.html">Chapter 8: The Central Limit Theorem - The Secret Engine of Statistics</a></li>
+</ul></details>
+<details open><summary>Part II - Inferring From Data</summary><ul>
+<li class="" data-title="chapter 9: sampling and estimation"><a href="09_sampling_and_estimation.html">Chapter 9: Sampling and Estimation</a></li>
+<li class="" data-title="chapter 10: maximum likelihood estimation"><a href="10_maximum_likelihood_estimation.html">Chapter 10: Maximum Likelihood Estimation</a></li>
+<li class="" data-title="chapter 11: confidence intervals"><a href="11_confidence_intervals.html">Chapter 11: Confidence Intervals</a></li>
+<li class="" data-title="chapter 12: hypothesis testing and p-values"><a href="12_hypothesis_testing.html">Chapter 12: Hypothesis Testing and p-values</a></li>
+<li class="" data-title="chapter 13: t-tests, chi-square, and anova"><a href="13_ttests_chisquare_anova.html">Chapter 13: t-tests, Chi-square, and ANOVA</a></li>
+<li class="" data-title="chapter 14: correlation and simple linear regression"><a href="14_simple_linear_regression.html">Chapter 14: Correlation and Simple Linear Regression</a></li>
+<li class="" data-title="chapter 15: multiple regression, r², and overfitting"><a href="15_multiple_regression.html">Chapter 15: Multiple Regression, R², and Overfitting</a></li>
+</ul></details>
+<details open><summary>Part III - The Bridge Into Machine Learning</summary><ul>
+<li class="" data-title="chapter 16: bias-variance tradeoff, cross-validation, and regularization"><a href="16_bias_variance_regularization.html">Chapter 16: Bias-Variance Tradeoff, Cross-Validation, and Regularization</a></li>
+<li class="" data-title="chapter 17: bayesian statistics in depth"><a href="17_bayesian_statistics.html">Chapter 17: Bayesian Statistics in Depth</a></li>
+<li class="" data-title="chapter 18: resampling - bootstrap and permutation tests"><a href="18_resampling_methods.html">Chapter 18: Resampling - Bootstrap and Permutation Tests</a></li>
+<li class="" data-title="chapter 19: linear algebra essentials for statistics and ml"><a href="19_linear_algebra_essentials.html">Chapter 19: Linear Algebra Essentials for Statistics and ML</a></li>
+<li class="" data-title="chapter 20: multivariate statistics - covariance matrices and pca"><a href="20_multivariate_pca.html">Chapter 20: Multivariate Statistics - Covariance Matrices and PCA</a></li>
+</ul></details>
+<details open><summary>Part IV - The Statistics Inside Modern AI</summary><ul>
+<li class="" data-title="chapter 21: information theory - entropy, cross-entropy, and kl divergence"><a href="21_information_theory.html">Chapter 21: Information Theory - Entropy, Cross-Entropy, and KL Divergence</a></li>
+<li class="" data-title="chapter 22: statistical learning theory - why generalization works at all"><a href="22_statistical_learning_theory.html">Chapter 22: Statistical Learning Theory - Why Generalization Works At All</a></li>
+<li class="" data-title="chapter 23: probabilistic models and latent variables (mixtures, em)"><a href="23_latent_variable_models.html">Chapter 23: Probabilistic Models and Latent Variables (Mixtures, EM)</a></li>
+<li class="" data-title="chapter 24: markov chains and monte carlo methods"><a href="24_markov_chains_monte_carlo.html">Chapter 24: Markov Chains and Monte Carlo Methods</a></li>
+<li class="" data-title="chapter 25: the statistics hiding inside neural networks"><a href="25_statistics_in_neural_networks.html">Chapter 25: The Statistics Hiding Inside Neural Networks</a></li>
+<li class="" data-title="chapter 26: where to go next"><a href="26_where_to_go_next.html">Chapter 26: Where to Go Next</a></li>
+</ul></details>
+<details open><summary>Part V - The Statistical Frontier of Modern AI</summary><ul>
+<li class="" data-title="chapter 27: the statistical frontier - how modern ai actually uses these ideas today"><a href="27_frontier_ai_statistics.html">Chapter 27: The Statistical Frontier - How Modern AI Actually Uses These Ideas Today</a></li>
+</ul></details>
+<details open><summary>Part VI - Advanced AI Algorithms: The Statistical Engine Room</summary><ul>
+<li class="" data-title="chapter 28: diffusion models and score matching - statistics as generation"><a href="28_diffusion_models_score_matching.html">Chapter 28: Diffusion Models and Score Matching - Statistics as Generation</a></li>
+<li class="" data-title="chapter 29: transformers and attention - statistics you can calculate (almost) by hand"><a href="29_transformers_attention_statistics.html">Chapter 29: Transformers and Attention - Statistics You Can Calculate (Almost) by Hand</a></li>
+<li class="" data-title="chapter 30: reinforcement learning and policy gradients - statistics that learn from rewards"><a href="30_reinforcement_learning_policy_gradients.html">Chapter 30: Reinforcement Learning and Policy Gradients - Statistics That Learn From Rewards</a></li>
+<li class="" data-title="chapter 31: variational inference and the elbo - approximate bayes at scale"><a href="31_variational_inference_elbo.html">Chapter 31: Variational Inference and the ELBO - Approximate Bayes at Scale</a></li>
+<li class="" data-title="chapter 32: contrastive learning and infonce - statistics that learns embeddings"><a href="32_contrastive_learning_infonce.html">Chapter 32: Contrastive Learning and InfoNCE - Statistics That Learns Embeddings</a></li>
+<li class="" data-title="chapter 33: causal inference and do-calculus - when correlation is not enough"><a href="33_causal_inference_do_calculus.html">Chapter 33: Causal Inference and Do-Calculus - When Correlation Is Not Enough</a></li>
+<li class="" data-title="chapter 34: graphical models and message passing - statistics as graphs"><a href="34_graphical_models_message_passing.html">Chapter 34: Graphical Models and Message Passing - Statistics as Graphs</a></li>
+<li class="" data-title="chapter 35: optimization, generalization, and double descent - why big models work"><a href="35_optimization_generalization_double_descent.html">Chapter 35: Optimization, Generalization, and Double Descent - Why Big Models Work</a></li>
+<li class="" data-title="chapter 36: time series and modern sequence models - statistics over time"><a href="36_time_series_sequence_models.html">Chapter 36: Time Series and Modern Sequence Models - Statistics Over Time</a></li>
+</ul></details>
+<details open><summary>Part VII - Aligning AI With Human Preferences: The Statistics of RLHF</summary><ul>
+<li class="" data-title="chapter 37: preference data and reward modeling - statistics from human judgments"><a href="37_preference_data_reward_modeling.html">Chapter 37: Preference Data and Reward Modeling - Statistics From Human Judgments</a></li>
+<li class="" data-title="chapter 38: rlhf, dpo, and preference optimization - turning preferences into a loss function"><a href="38_dpo_and_preference_optimization.html">Chapter 38: RLHF, DPO, and Preference Optimization - Turning Preferences Into a Loss Function</a></li>
+<li class="" data-title="chapter 39: reinforcement learning with verifiable rewards - and how reasoning models are trained"><a href="39_rl_verifiable_rewards_reasoning.html">Chapter 39: Reinforcement Learning With Verifiable Rewards - and How Reasoning Models Are Trained</a></li>
+</ul></details>
+  </nav>
+  <div class="pane-left">
+    <div class="article" id="article">
+<h1 id="chapter-8-the-central-limit-theorem-the-secret-engine-of-statistics">Chapter 8: The Central Limit Theorem - The Secret Engine of Statistics</h1>
+<h2 data-bid="b1" id="the-idea-this-chapter-builds-toward">The idea this chapter builds toward</h2>
+<p data-bid="b2">Here it is, stated plainly: <strong>if you take the average of a large enough number of independent random values - no matter what distribution those individual values came from - that average will be approximately Normally distributed.</strong> This single fact (the <strong>Central Limit Theorem</strong>, or <strong>CLT</strong>) is why the Normal distribution from Chapter 6 shows up so relentlessly, and it is the mathematical justification for nearly every confidence interval and hypothesis test you'll learn in Chapters 9-13. Once you've internalized this chapter, those later chapters stop looking like a list of arbitrary rules and start looking like consequences of one idea, applied repeatedly.</p>
+<blockquote data-bid="b3">
+<p data-bid="b4"><strong>Intuition, in one breath:</strong> Average enough independent random things and the average forgets where it came from - it always comes out bell-shaped, with spread shrinking as the square root of the sample size.</p>
+</blockquote>
+<h2 data-bid="b5" id="stating-it-more-precisely">Stating it more precisely</h2>
+<p data-bid="b6">Suppose you have $n$ independent observations $X_1, X_2, \ldots, X_n$, each drawn from <em>the same</em> distribution (any distribution - skewed, lumpy, uniform, whatever - as long as it has a finite mean $\mu$ and variance $\sigma^2$). Define the sample mean $\bar{X} = \frac{1}{n}\sum X_i$. The CLT says that as $n$ grows large:</p>
+<p data-bid="b7">$$\bar{X} \approx N\left(\mu, \frac{\sigma^2}{n}\right)$$</p>
+<p data-bid="b8">Two separate claims are packed into this:
+1. <strong>The shape becomes Normal</strong> - regardless of the original distribution's shape, even if it's heavily skewed or even bimodal (two humps).
+2. <strong>The spread shrinks as $1/\sqrt{n}$</strong> - specifically, the standard deviation of $\bar{X}$ (called the <strong>standard error</strong>) is $\frac{\sigma}{\sqrt{n}}$. This is why you saw, back in Chapter 1's code, the sample-mean histograms getting narrower and narrower as sample size grew from 5 to 30 to 200 - that shrinkage follows this exact $\frac{\sigma}{\sqrt n}$ formula.</p>
+<h2 data-bid="b9" id="why-does-averaging-make-things-more-normal-the-real-intuition">Why does averaging make things <em>more</em> Normal? (the real intuition)</h2>
+<p data-bid="b10">Here's the non-rigorous but genuinely correct intuition. Imagine you're averaging several independent random values, each of which might be unusually high or unusually low purely by chance. For the <em>average</em> to end up far from the true mean, you'd need <em>most</em> of those random values to happen to be unusually high (or unusually low) <em>at the same time</em> - and the more values you're averaging, the less likely that coordinated coincidence becomes, because each value's randomness is independent of the others. Extreme values pulling in <em>opposite</em> directions tend to cancel out in the average, while only "most values moderately agree in direction" produces an extreme average - and there are vastly more ways for values to roughly balance out near the center than there are ways for them to all conspire in the same extreme direction. This "many ways to end up near the middle, few ways to end up in the tails" structure is exactly what produces a bell shape, regardless of what the original per-value distribution looked like. This is also why outcomes influenced by many small independent causes (height, measurement noise, IQ, accumulated rounding error) tend to look Normal in nature even when no individual cause is Normally distributed.</p>
+<h2 data-bid="b11" id="the-backstory-from-de-moivres-lucky-accident-to-a-universal-law">The backstory - from de Moivre's lucky accident to a universal law</h2>
+<p data-bid="b12">You already met the seed of this theorem in Chapter 6: de Moivre's 1733 discovery that Binomial probabilities, for large $n$, collapse into a bell-curve shape. For a long time this was treated as a quirky fact about the specific Binomial distribution, not a universal law. <strong>Pierre-Simon Laplace</strong>, around 1810, made the crucial generalizing leap: he showed that the <em>same</em> bell-curve-emerges-from-averaging phenomenon happens not just for Binomial sums, but for sums of essentially <em>any</em> independent random quantities with finite variance - a dramatically more powerful and surprising claim, because it says the <em>individual</em> ingredients being summed can look like almost anything (skewed, lumpy, bounded, whatever), and the sum/average still converges to the one universal Gaussian shape. This explains why the CLT felt almost magical to the mathematicians who proved its full generality later (notably Aleksandr Lyapunov in 1901, who nailed down precise technical conditions under which it holds) - it is a genuinely rare thing in mathematics for wildly different starting ingredients to all funnel toward one identical destination shape.</p>
+<p data-bid="b13">The name "Central Limit Theorem" itself is comparatively recent - coined by the Hungarian/German mathematician <strong>George Pólya</strong> in 1920, where "central" refers to the theorem's <em>central importance</em> to probability theory, not (as people sometimes assume) to the "center" of a distribution. Pólya's naming stuck precisely because, by the 1920s, statisticians had realized this single theorem was the load-bearing wall underneath nearly the entire edifice of inferential statistics being built around it (confidence intervals, hypothesis tests) - which is exactly the role it's playing for you in this book, three chapters before you formally meet those tools.</p>
+<h2 data-bid="b14" id="why-large-enough-n-and-what-that-means-practically">Why "large enough n" and what that means practically</h2>
+<p data-bid="b15">The CLT is an asymptotic statement (true in the <em>limit</em> as $n \to \infty$), but in practice it kicks in surprisingly fast. Rule of thumb often cited: $n \ge 30$ is "usually enough" for the sample mean to look convincingly Normal, <em>unless</em> the original distribution is extremely skewed or has very heavy tails, in which case you need larger $n$. If the original distribution is <em>already</em> Normal, then $\bar{X}$ is <em>exactly</em> Normal for any $n$, even $n=2$ - no "large enough" needed at all, because averaging Normal variables always produces another Normal variable exactly (a special property of the Normal distribution, not shared by most distributions).</p>
+<h3 data-bid="b16" id="reconstructing-it-yourself-deriving-xmathplaceholder21x-instead-of-just-quoting-it">Reconstructing it yourself - deriving $\sigma/\sqrt n$ instead of just quoting it</h3>
+<p data-bid="b17">This chapter has been using the standard error formula $SE = \sigma/\sqrt n$ without actually deriving it - let's fix that, using only Chapter 7's variance rules. <strong>If your first guess is "averaging $n$ things should shrink the variance by a factor of $n$" - close, but watch exactly where the square root sneaks in.</strong></p>
+<p data-bid="b18">Write the sample mean as a sum: $\bar X = \frac{1}{n}(X_1+X_2+\cdots+X_n)$, where each $X_i$ is an independent draw from the population (variance $\sigma^2$ each). Two facts from Chapter 7 do all the work:</p>
+<ol>
+<li data-bid="b19"><strong>Variance of a sum of independent variables adds</strong>: $\text{Var}(X_1+\cdots+X_n) = \text{Var}(X_1)+\cdots+\text{Var}(X_n) = n\sigma^2$ (this itself follows from the covariance shortcut above - expand $\text{Var}(X+Y) = \text{Cov}(X+Y,X+Y)$ using the same bilinear expansion trick, and every cross term $\text{Cov}(X_i,X_j)$ for $i\ne j$ vanishes exactly because independent variables have zero covariance, leaving only the matching variance terms).</li>
+<li data-bid="b20"><strong>Variance scales with the square of a constant multiplier</strong>: $\text{Var}(aX) = a^2\text{Var}(X)$ (already in this book's toolkit from Chapter 7).</li>
+</ol>
+<p data-bid="b21">Combine them directly:</p>
+<p data-bid="b22">$$\text{Var}(\bar X) = \text{Var}\left(\frac{1}{n}\sum_{i=1}^n X_i\right) = \frac{1}{n^2}\text{Var}\left(\sum_{i=1}^n X_i\right) = \frac{1}{n^2}(n\sigma^2) = \frac{\sigma^2}{n}$$</p>
+<p data-bid="b23">Take the square root to get back to a standard deviation (the natural, same-units measure of spread) and you have it exactly: $SE = \sqrt{\text{Var}(\bar X)} = \frac{\sigma}{\sqrt n}$. <strong>The square root isn't a mysterious empirical fact - it's the direct, mechanical consequence of variances adding linearly while standard deviations don't</strong>, which is also exactly why "4x the data to halve your uncertainty" (Chapter 8's headline practical consequence) is unavoidable: you need to quadruple $n$ to quadruple $n\sigma^2$'s reduction effect inside that square root before the standard error itself is cut in half.</p>
+<h2 data-bid="b24" id="why-this-matters-the-clt-is-the-hidden-justification-behind">Why this matters: the CLT is the hidden justification behind...</h2>
+<ul>
+<li data-bid="b25"><strong>Confidence intervals</strong> (Chapter 11): built by assuming $\bar{X}$ is approximately Normal, then using the 68-95-99.7 rule (Chapter 6) around it.</li>
+<li data-bid="b26"><strong>Hypothesis testing / p-values</strong> (Chapter 12): the entire logic of "how surprising is this sample mean if the null hypothesis were true" depends on knowing the Normal-ish shape and spread ($\sigma/\sqrt n$) of the sampling distribution of the mean.</li>
+<li data-bid="b27"><strong>Why larger samples give tighter, more trustworthy estimates</strong>: directly from the $\sigma/\sqrt{n}$ shrinkage - to cut your uncertainty in half, you need <strong>4x</strong> the data, not 2x (because of the square root), a fact with real budget/time implications whenever you're deciding how much data to collect for an experiment or how large a validation set needs to be to trust a measured accuracy.</li>
+<li data-bid="b28"><strong>Why averaging predictions from multiple models (ensembling) reduces variance</strong>: an ensemble's prediction is itself an average of several (hopefully semi-independent) models' outputs - the exact same $1/\sqrt{n}$-type variance reduction applies, which is part of why techniques like bagging and random forests work.</li>
+</ul>
+<h2 data-bid="b29" id="a-worked-numeric-sanity-check">A worked numeric sanity check</h2>
+<p data-bid="b30">Suppose a strongly right-skewed distribution (like the income example in Chapter 2) has true mean $\mu = 50$ and true standard deviation $\sigma = 40$ (individual incomes vary a lot and skew high). If you average a sample of $n=100$ such incomes, the CLT predicts:</p>
+<p data-bid="b31">$$\bar{X} \approx N\left(50, \frac{40^2}{100}\right) = N(50, 16) \implies \text{standard error} = \sqrt{16} = 4$$</p>
+<p data-bid="b32">So even though any <em>single</em> income might be wildly off from 50 (the underlying distribution is skewed with $\sigma=40$), the <em>average</em> of 100 incomes should reliably land within about $\pm 8$ (2 standard errors) of 50 - a dramatically tighter and more Normal-looking quantity than the raw data, <em>despite the raw data being badly skewed</em>. This is the CLT's power in one sentence: averaging tames skew.</p>
+<div class="labcard">
+<div class="labkicker">Live - watch any population shape become a bell curve</div>
+<div class="labrow">
+  <select id="ch08_shape">
+    <option value="uniform">Uniform (flat)</option>
+    <option value="exponential" selected>Exponential (heavily skewed)</option>
+    <option value="bimodal">Bimodal (two humps)</option>
+  </select>
+</div>
+<div class="labcontrols">
+  <div class="labctrl"><label>Sample size (n) <b id="ch08_n_label">5</b></label><input type="range" id="ch08_n" min="1" max="200" value="5"></div>
+  <div class="labctrl"><label>Samples to draw <b id="ch08_reps_label">2000</b></label><input type="range" id="ch08_reps" min="100" max="5000" step="100" value="2000"></div>
+</div>
+<div class="labrow"><button class="labbtn" id="ch08_run">Run simulation</button></div>
+<div class="labcanvas-wrap"><canvas id="ch08_pop" width="820" height="140"></canvas></div>
+<div class="labcanvas-wrap" style="margin-top:12px;"><canvas id="ch08_canvas" width="820" height="240"></canvas></div>
+<p data-bid="b33" class="labnote">Top: the population's own shape (deliberately not bell-shaped). Bottom: the distribution of the sample mean. Try n=1 first (it just replays the raw population), then push n to 30, 50, 200.</p>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  var SL = window.StatsLab;
+  function samplePop(shape){
+    var r = Math.random();
+    if(shape==='uniform') return Math.random()*10;
+    if(shape==='exponential') return -Math.log(1-Math.random())*3;
+    if(shape==='bimodal') return r<0.5 ? SL.randNormal(2,1) : SL.randNormal(8,1);
+  }
+  function popRange(shape){
+    if(shape==='uniform') return [0,10];
+    if(shape==='exponential') return [0,25];
+    if(shape==='bimodal') return [-2,12];
+  }
+  function drawPopShape(){
+    var shape = document.getElementById('ch08_shape').value;
+    var data = []; for(var i=0;i<20000;i++) data.push(samplePop(shape));
+    var range = popRange(shape);
+    var bins = SL.histogram(data, 50, range);
+    var maxC = Math.max.apply(null, bins.map(function(b){return b[1];}));
+    var plot = SL.makePlot(document.getElementById('ch08_pop'), {l:50,r:20,t:10,b:28});
+    plot.setDomain(range,[0,maxC*1.15]); plot.clear(); plot.axes('value','');
+    plot.bars(bins.map(function(b){return [b[0],b[1]];}), SL.colors.border, 0.95);
+  }
+  function runSim(){
+    var shape = document.getElementById('ch08_shape').value;
+    var n = parseInt(document.getElementById('ch08_n').value);
+    var reps = parseInt(document.getElementById('ch08_reps').value);
+    var sampleMeans = [];
+    for(var r=0;r<reps;r++){
+      var s=0; for(var i=0;i<n;i++) s += samplePop(shape);
+      sampleMeans.push(s/n);
+    }
+    var lo = Math.min.apply(null,sampleMeans), hi = Math.max.apply(null,sampleMeans);
+    var bins = SL.histogram(sampleMeans, 40, [lo,hi]);
+    var maxC = Math.max.apply(null, bins.map(function(b){return b[1];}));
+    var plot = SL.makePlot(document.getElementById('ch08_canvas'));
+    plot.setDomain([lo,hi],[0,maxC*1.15]); plot.clear(); plot.axes('sample mean','frequency');
+    plot.bars(bins.map(function(b){return [b[0],b[1]];}), SL.colors.accent, 0.9);
+  }
+  document.getElementById('ch08_shape').addEventListener('change', function(){ drawPopShape(); runSim(); });
+  document.getElementById('ch08_n').addEventListener('input', function(e){ document.getElementById('ch08_n_label').textContent = e.target.value; });
+  document.getElementById('ch08_reps').addEventListener('input', function(e){ document.getElementById('ch08_reps_label').textContent = e.target.value; });
+  document.getElementById('ch08_run').addEventListener('click', runSim);
+  drawPopShape(); runSim();
+});
+</script>
+
+<h2 data-bid="b34" id="more-real-world-examples-of-the-clt-in-action">More real-world examples of the CLT in action</h2>
+<ul>
+<li data-bid="b35"><strong>Polling/elections</strong>: a poll of 1,000 randomly selected voters produces a sample proportion that is approximately Normally distributed around the true population proportion, <em>regardless</em> of how the underlying individual opinions are "distributed" (opinions aren't numeric/Normal at all - but the sample proportion, an average of many 0/1 votes, still obeys the CLT) - this is the direct justification for the "margin of error" reported alongside every poll.</li>
+<li data-bid="b36"><strong>Manufacturing</strong>: the average weight of items in a box of 24 cereal boxes is far more tightly controlled (lower variance) than any single box's weight, even if individual box weights vary quite a bit - exactly why bulk/batch quality control measures often look at batch averages rather than single-unit measurements.</li>
+<li data-bid="b37"><strong>Casinos</strong>: a single hand of blackjack is highly random, but a casino's <em>average</em> profit per hand across millions of hands per year is extremely stable and predictable - the house edge (a small negative expected value per hand, Chapter 7's expectation concept) combined with the CLT's shrinking standard error over huge $n$ is literally the entire business model of a casino.</li>
+<li data-bid="b38"><strong>ML model evaluation</strong>: your measured test-set accuracy is itself a sample proportion (average of many 0/1 correct/incorrect outcomes) - the CLT is exactly why a larger test set gives you a tighter, more trustworthy estimate of true model performance, a point we'll make numerically precise in Chapter 11.</li>
+</ul>
+<h2 data-bid="b39" id="figures">Figures</h2>
+<img class="has-rail" data-figid="f1" alt="Starting from a heavily right-skewed exponential population, the distribution of the sample mean becomes an increasingly clean bell curve as sample size n grows from 1 to 100." src="../images/ch08_central_limit_theorem_fig1.png" /><p data-bid="b40" class="img-caption has-rail" data-figid="f1"><em>Starting from a heavily right-skewed exponential population, the distribution of the sample mean becomes an increasingly clean bell curve as sample size n grows from 1 to 100.</em></p>
+<h2 data-bid="b41" id="run-it-yourself">Run it yourself</h2>
+<p data-bid="b42"><code>book/code/ch08_central_limit_theorem.py</code> starts from a deliberately <em>not</em> Normal population (a heavily right-skewed exponential-like distribution), then draws thousands of samples at increasing sample sizes (n=1, 5, 30, 100) and plots the resulting distribution of sample means at each size. Watch the shape morph from clearly skewed (n=1, which is literally just the raw population) into an increasingly clean, narrow bell curve - visual, undeniable proof of the CLT in action, using a distribution that starts as far from "Normal" as reasonably possible.</p>
+<p data-bid="b43"re><code class="language-bash">python book/code/ch08_central_limit_theorem.py
+</code></pre>
+<h2 data-bid="b44" id="why-this-matters-in-ai-and-in-everyday-life">Why This Matters - In AI and In Everyday Life</h2>
+<p data-bid="b45"><strong>In AI / machine learning:</strong></p>
+<ul>
+<li data-bid="b46"><strong>Trusting a validation accuracy number</strong>: a larger validation/test set gives a tighter, more trustworthy estimate of true model performance, directly because of the CLT's shrinking standard error.</li>
+<li data-bid="b47"><strong>Ensembling</strong>: averaging predictions from several semi-independent models reduces variance for the same $1/\sqrt n$ reason the sample mean's spread shrinks -- the statistical justification behind bagging and random forests.</li>
+<li data-bid="b48"><strong>Minibatch gradient noise is CLT-shaped</strong>: the gradient estimated from a minibatch of $B$ examples is an average of $B$ per-example gradients, so its noise is approximately Normal with standard error shrinking as $\frac{1}{\sqrt B}$ -- this is why larger batches give smoother, more reliable updates and any learning-rate-to-batch-size scaling rule is grounded in the CLT.</li>
+<li data-bid="b49"><strong>Benchmark leaderboard scores demand CLT-aware evaluation</strong>: an LLM's reported pass@k or exact-match score on an eval set is a sample mean of 0/1 outcomes, so the $\frac{1}{\sqrt n}$ standard error dictates how many eval examples are needed before two models' scores are genuinely separable -- the exact reason serious model cards report confidence intervals rather than bare numbers.</li>
+</ul>
+<p data-bid="b50"><strong>In everyday, non-AI life:</strong></p>
+<ul>
+<li data-bid="b51"><strong>Casinos</strong>: a single hand of blackjack is wildly random, but a casino's profit <em>averaged</em> over millions of hands per year is remarkably stable and predictable -- the entire business model rests on the CLT.</li>
+<li data-bid="b52"><strong>Manufacturing batch averages</strong>: the average weight of a 24-pack of cereal boxes is far more tightly controlled than any single box's weight, which is why quality control often checks batch averages.</li>
+</ul>
+<h2 data-bid="b53" id="worked-example-by-hand-larger">Worked example - by hand, larger</h2>
+<p data-bid="b54">Suppose a model's per-example loss is a 0/1 incorrect/correct indicator, so each example contributes a Bernoulli value with true error rate $p = 0.2$. The mean of a single example is $\mu = p = 0.2$, and its variance is $\sigma^2 = p(1-p) = 0.2 \times 0.8 = 0.16$, so $\sigma = 0.4$. Suppose a validation set has $n = 100$ examples, and we look at the sample error rate $\bar{X}$ (the average of 100 Bernoulli values).</p>
+<p data-bid="b55">The CLT predicts the standard error: $SE = \frac{\sigma}{\sqrt{n}} = \frac{0.4}{\sqrt{100}} = \frac{0.4}{10} = 0.04$. So the measured error rate is approximately $N(0.2, 0.04^2)$, meaning a standard deviation of 0.04, or 4 percentage points.</p>
+<p data-bid="b56">Now interpret. Two standard errors is $2 \times 0.04 = 0.08$, so about 95% of the time the measured error rate should land within $[0.2 - 0.08, 0.2 + 0.08] = [0.12, 0.28]$. To tighten this, apply the "4x data to halve uncertainty" rule: to cut the standard error from 0.04 to 0.02, we need four times the data, $n = 400$. Check: $SE = \frac{0.4}{\sqrt{400}} = \frac{0.4}{20} = 0.02$. ✓.</p>
+<p data-bid="b57">Finally, note this holds even though the per-example values are wildly non-Normal - they are 0s and 1s, a lumpy two-point distribution. The CLT says the <em>average</em> still looks bell-shaped, which is why a test-set accuracy number can be treated with the Normal machinery at all.</p>
+<p data-bid="b58"><strong>Your measured accuracy or error rate is an average of many independent 0/1 outcomes, so it wobbles like a bell curve with a spread you can predict in advance - and shrinking that wobble costs four times the data per halving.</strong></p>
+<h2 data-bid="b59" id="check-your-understanding">Check your understanding</h2>
+<ul>
+<li data-bid="b60">Why does the standard error use $\sqrt{n}$ in the denominator instead of just $n$ - what would change about the "4x data to halve uncertainty" fact if it were $n$ instead of $\sqrt{n}$?</li>
+<li data-bid="b61">If the original population is already perfectly Normal, do you need the CLT at all to say $\bar{X}$ is Normal? Why or why not?</li>
+<li data-bid="b62">In your own words, why does averaging independent random values tend to cancel out extremes rather than amplify them?</li>
+</ul>
+<h2 data-bid="b63" id="exercises">Exercises</h2>
+<h3 data-bid="b64" id="exercise-1-standard-error-by-hand">Exercise 1 - Standard error by hand</h3>
+<p data-bid="b65">A population has $\sigma = 30$. Compute the standard error of the sample mean for $n = 25$ and for $n = 100$.</p>
+<details><summary>Show solution</summary>
+
+For $n=25$: $SE = \frac{30}{\sqrt{25}} = \frac{30}{5} = 6$. For $n=100$: $SE = \frac{30}{10} = 3$. Quadrupling $n$ from 25 to 100 halved the standard error from 6 to 3 - the direct consequence of the $\sqrt{n}$ in the denominator, which is why uncertainty shrinks so slowly with added data.
+
+</details>
+
+<h3 data-bid="b66" id="exercise-2-how-much-data-to-halve-the-error">Exercise 2 - How much data to halve the error?</h3>
+<p data-bid="b67">A validation estimate currently has a standard error of 0.05. How many times more samples would you need to shrink it to 0.025?</p>
+<details><summary>Show solution</summary>
+
+Since $SE \propto \frac{1}{\sqrt{n}}$, halving $SE$ requires quadrupling $n$. So you need $4\times$ the current number of samples. Going from 0.05 to 0.025 doubles the precision, which costs four times the data - an unavoidable budget consequence of the CLT's square root.
+
+</details>
+
+<h3 data-bid="b68" id="exercise-3-conceptual-why-test-set-size-is-a-budget-decision">Exercise 3 - Conceptual: why test-set size is a budget decision</h3>
+<p data-bid="b69">Explain why a 100-example test set is usually too small to distinguish two models whose true accuracies differ by 1 percentage point, using the standard error.</p>
+<details><summary>Show solution</summary>
+
+For a proportion near $p \approx 0.9$, $\sigma = \sqrt{p(1-p)} = \sqrt{0.09} = 0.3$, so with $n=100$ the standard error is $\frac{0.3}{10} = 0.03$, i.e. about 3 percentage points. A 1-percentage-point true difference is well inside one standard error - the noise in the estimate swamps the signal. To resolve a 1-point gap you need a test set large enough that the standard error is comfortably smaller than the difference, typically thousands of examples. This is why ML papers evaluate on large held-out sets and why the CLT is a practical budgeting tool, not just theory.
+
+</details>
+
+<h2 data-bid="b70" id="whats-next">What's next</h2>
+<p data-bid="b71">With the CLT in hand, Chapter 9 formally defines what an <strong>estimator</strong> is, what makes one "good" (bias, variance, consistency), and connects the sample mean's known behavior (from this chapter) to the general machinery of statistical estimation - the direct prerequisite for confidence intervals and hypothesis testing.</p>
+    </div>
+    <div class="navfooter">
+      <span><a href="07_expectation_variance_covariance.html">&larr; Previous chapter</a></span>
+      <span><a href="09_sampling_and_estimation.html">Next chapter &rarr;</a></span>
+    </div>
+  </div>
+  <div class="pane-right">
+    <h4>Figures in this chapter</h4>
+    <div id="railContent"></div>
+  </div>
+</div>
+
+<!-- floating selection toolbar -->
+<div id="selToolbar">
+  <button data-color="yellow" title="Mark interesting">🟡</button>
+  <button data-color="green" title="Mark understood">🟢</button>
+  <button data-color="red" title="Mark confusing">🔴</button>
+  <button data-color="blue" title="Mark to review later">🔵</button>
+  <button id="btnAddNote" title="Highlight + add a note">📝</button>
+</div>
+
+<!-- note edit popup -->
+<div id="notePopup">
+  <textarea placeholder="Write a note to yourself..."></textarea>
+  <div class="row">
+    <button class="danger" id="btnDeleteHl">Remove highlight</button>
+    <div>
+      <button id="btnCloseNote">Close</button>
+      <button class="primary" id="btnSaveNote">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- notes side panel -->
+<div id="notesOverlay"></div>
+<div id="notesPanel">
+  <div class="header">
+    <b>My Notes - this page</b>
+    <button class="iconbtn" id="btnCloseNotesPanel">✕</button>
+  </div>
+  <div class="list" id="notesList"></div>
+  <div class="footer">
+    <button id="btnExportNotes">⬇ Export all notes</button>
+    <button id="btnImportNotes">⬆ Import notes</button>
+    <input type="file" id="importFile" accept="application/json" style="display:none;">
+  </div>
+</div>
+
+<script src="../assets/app.js"></script>
+</body>
+</html>

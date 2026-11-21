@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 18: Resampling - Bootstrap and Permutation Tests</title>
+<link rel="stylesheet" href="../assets/app.css">
+<script>
+window.MathJax = { tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']], processEscapes: true } };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+</head>
+<body data-chapter="18_resampling_methods">
+<div class="topbar">
+  <div class="left">
+    <button class="iconbtn hamburger" id="btnSidebarToggle">☰</button>
+    <a href="../index.html">Statistics for AI</a>
+  </div>
+  <div class="right">
+    <button class="iconbtn" id="btnNotesPanel">📒 My Notes</button>
+  </div>
+</div>
+<div id="sidebarOverlay"></div>
+<div class="layout">
+  <nav class="sidebar" id="sidebar">
+    <input type="text" id="sidebarFilter" placeholder="Filter chapters...">
+<details open><summary>Orientation</summary><ul>
+<li class="" data-title="chapter 0: how to use this book, and the math notation you'll see"><a href="00_how_to_use_this_book.html">Chapter 0: How to Use This Book, and the Math Notation You'll See</a></li>
+</ul></details>
+<details open><summary>Part I - Describing the World</summary><ul>
+<li class="" data-title="chapter 1: data, populations, and samples - thinking like a statistician"><a href="01_data_populations_samples.html">Chapter 1: Data, Populations, and Samples - Thinking Like a Statistician</a></li>
+<li class="" data-title="chapter 2: describing data - center, spread, and shape"><a href="02_descriptive_statistics.html">Chapter 2: Describing Data - Center, Spread, and Shape</a></li>
+<li class="" data-title="chapter 3: probability foundations - events, rules, and conditioning"><a href="03_probability_foundations.html">Chapter 3: Probability Foundations - Events, Rules, and Conditioning</a></li>
+<li class="" data-title="chapter 4: bayes' theorem - updating beliefs with evidence"><a href="04_bayes_theorem.html">Chapter 4: Bayes' Theorem - Updating Beliefs With Evidence</a></li>
+<li class="" data-title="chapter 5: random variables and discrete distributions"><a href="05_random_variables_discrete.html">Chapter 5: Random Variables and Discrete Distributions</a></li>
+<li class="" data-title="chapter 6: continuous distributions and the normal distribution"><a href="06_continuous_distributions.html">Chapter 6: Continuous Distributions and the Normal Distribution</a></li>
+<li class="" data-title="chapter 7: expectation, variance, covariance, and correlation"><a href="07_expectation_variance_covariance.html">Chapter 7: Expectation, Variance, Covariance, and Correlation</a></li>
+<li class="" data-title="chapter 8: the central limit theorem - the secret engine of statistics"><a href="08_central_limit_theorem.html">Chapter 8: The Central Limit Theorem - The Secret Engine of Statistics</a></li>
+</ul></details>
+<details open><summary>Part II - Inferring From Data</summary><ul>
+<li class="" data-title="chapter 9: sampling and estimation"><a href="09_sampling_and_estimation.html">Chapter 9: Sampling and Estimation</a></li>
+<li class="" data-title="chapter 10: maximum likelihood estimation"><a href="10_maximum_likelihood_estimation.html">Chapter 10: Maximum Likelihood Estimation</a></li>
+<li class="" data-title="chapter 11: confidence intervals"><a href="11_confidence_intervals.html">Chapter 11: Confidence Intervals</a></li>
+<li class="" data-title="chapter 12: hypothesis testing and p-values"><a href="12_hypothesis_testing.html">Chapter 12: Hypothesis Testing and p-values</a></li>
+<li class="" data-title="chapter 13: t-tests, chi-square, and anova"><a href="13_ttests_chisquare_anova.html">Chapter 13: t-tests, Chi-square, and ANOVA</a></li>
+<li class="" data-title="chapter 14: correlation and simple linear regression"><a href="14_simple_linear_regression.html">Chapter 14: Correlation and Simple Linear Regression</a></li>
+<li class="" data-title="chapter 15: multiple regression, r², and overfitting"><a href="15_multiple_regression.html">Chapter 15: Multiple Regression, R², and Overfitting</a></li>
+</ul></details>
+<details open><summary>Part III - The Bridge Into Machine Learning</summary><ul>
+<li class="" data-title="chapter 16: bias-variance tradeoff, cross-validation, and regularization"><a href="16_bias_variance_regularization.html">Chapter 16: Bias-Variance Tradeoff, Cross-Validation, and Regularization</a></li>
+<li class="" data-title="chapter 17: bayesian statistics in depth"><a href="17_bayesian_statistics.html">Chapter 17: Bayesian Statistics in Depth</a></li>
+<li class="current" data-title="chapter 18: resampling - bootstrap and permutation tests"><a href="18_resampling_methods.html">Chapter 18: Resampling - Bootstrap and Permutation Tests</a></li>
+<li class="" data-title="chapter 19: linear algebra essentials for statistics and ml"><a href="19_linear_algebra_essentials.html">Chapter 19: Linear Algebra Essentials for Statistics and ML</a></li>
+<li class="" data-title="chapter 20: multivariate statistics - covariance matrices and pca"><a href="20_multivariate_pca.html">Chapter 20: Multivariate Statistics - Covariance Matrices and PCA</a></li>
+</ul></details>
+<details open><summary>Part IV - The Statistics Inside Modern AI</summary><ul>
+<li class="" data-title="chapter 21: information theory - entropy, cross-entropy, and kl divergence"><a href="21_information_theory.html">Chapter 21: Information Theory - Entropy, Cross-Entropy, and KL Divergence</a></li>
+<li class="" data-title="chapter 22: statistical learning theory - why generalization works at all"><a href="22_statistical_learning_theory.html">Chapter 22: Statistical Learning Theory - Why Generalization Works At All</a></li>
+<li class="" data-title="chapter 23: probabilistic models and latent variables (mixtures, em)"><a href="23_latent_variable_models.html">Chapter 23: Probabilistic Models and Latent Variables (Mixtures, EM)</a></li>
+<li class="" data-title="chapter 24: markov chains and monte carlo methods"><a href="24_markov_chains_monte_carlo.html">Chapter 24: Markov Chains and Monte Carlo Methods</a></li>
+<li class="" data-title="chapter 25: the statistics hiding inside neural networks"><a href="25_statistics_in_neural_networks.html">Chapter 25: The Statistics Hiding Inside Neural Networks</a></li>
+<li class="" data-title="chapter 26: where to go next"><a href="26_where_to_go_next.html">Chapter 26: Where to Go Next</a></li>
+</ul></details>
+<details open><summary>Part V - The Statistical Frontier of Modern AI</summary><ul>
+<li class="" data-title="chapter 27: the statistical frontier - how modern ai actually uses these ideas today"><a href="27_frontier_ai_statistics.html">Chapter 27: The Statistical Frontier - How Modern AI Actually Uses These Ideas Today</a></li>
+</ul></details>
+<details open><summary>Part VI - Advanced AI Algorithms: The Statistical Engine Room</summary><ul>
+<li class="" data-title="chapter 28: diffusion models and score matching - statistics as generation"><a href="28_diffusion_models_score_matching.html">Chapter 28: Diffusion Models and Score Matching - Statistics as Generation</a></li>
+<li class="" data-title="chapter 29: transformers and attention - statistics you can calculate (almost) by hand"><a href="29_transformers_attention_statistics.html">Chapter 29: Transformers and Attention - Statistics You Can Calculate (Almost) by Hand</a></li>
+<li class="" data-title="chapter 30: reinforcement learning and policy gradients - statistics that learn from rewards"><a href="30_reinforcement_learning_policy_gradients.html">Chapter 30: Reinforcement Learning and Policy Gradients - Statistics That Learn From Rewards</a></li>
+<li class="" data-title="chapter 31: variational inference and the elbo - approximate bayes at scale"><a href="31_variational_inference_elbo.html">Chapter 31: Variational Inference and the ELBO - Approximate Bayes at Scale</a></li>
+<li class="" data-title="chapter 32: contrastive learning and infonce - statistics that learns embeddings"><a href="32_contrastive_learning_infonce.html">Chapter 32: Contrastive Learning and InfoNCE - Statistics That Learns Embeddings</a></li>
+<li class="" data-title="chapter 33: causal inference and do-calculus - when correlation is not enough"><a href="33_causal_inference_do_calculus.html">Chapter 33: Causal Inference and Do-Calculus - When Correlation Is Not Enough</a></li>
+<li class="" data-title="chapter 34: graphical models and message passing - statistics as graphs"><a href="34_graphical_models_message_passing.html">Chapter 34: Graphical Models and Message Passing - Statistics as Graphs</a></li>
+<li class="" data-title="chapter 35: optimization, generalization, and double descent - why big models work"><a href="35_optimization_generalization_double_descent.html">Chapter 35: Optimization, Generalization, and Double Descent - Why Big Models Work</a></li>
+<li class="" data-title="chapter 36: time series and modern sequence models - statistics over time"><a href="36_time_series_sequence_models.html">Chapter 36: Time Series and Modern Sequence Models - Statistics Over Time</a></li>
+</ul></details>
+<details open><summary>Part VII - Aligning AI With Human Preferences: The Statistics of RLHF</summary><ul>
+<li class="" data-title="chapter 37: preference data and reward modeling - statistics from human judgments"><a href="37_preference_data_reward_modeling.html">Chapter 37: Preference Data and Reward Modeling - Statistics From Human Judgments</a></li>
+<li class="" data-title="chapter 38: rlhf, dpo, and preference optimization - turning preferences into a loss function"><a href="38_dpo_and_preference_optimization.html">Chapter 38: RLHF, DPO, and Preference Optimization - Turning Preferences Into a Loss Function</a></li>
+<li class="" data-title="chapter 39: reinforcement learning with verifiable rewards - and how reasoning models are trained"><a href="39_rl_verifiable_rewards_reasoning.html">Chapter 39: Reinforcement Learning With Verifiable Rewards - and How Reasoning Models Are Trained</a></li>
+</ul></details>
+  </nav>
+  <div class="pane-left">
+    <div class="article" id="article">
+<h1 id="chapter-18-resampling-bootstrap-and-permutation-tests">Chapter 18: Resampling - Bootstrap and Permutation Tests</h1>
+<h2 data-bid="b1" id="the-idea-this-chapter-builds-toward">The idea this chapter builds toward</h2>
+<p data-bid="b2">Chapters 11-13's confidence intervals and hypothesis tests leaned on known formulas (standard error $=\sigma/\sqrt n$, t-distributions, chi-square distributions) that depend on specific distributional assumptions (Normality, independence, known sample-size behavior). <strong>Resampling methods</strong> sidestep needing those formulas at all: instead of deriving a sampling distribution mathematically, you <em>simulate</em> it directly from your own data, repeatedly, by a computer. This chapter gives you two such methods - the <strong>bootstrap</strong> (for building confidence intervals around almost any statistic) and <strong>permutation tests</strong> (for hypothesis testing without distributional assumptions) - both of which became practical only once computers made brute-force repeated resampling cheap, making this one of the more recent major ideas in this book's timeline.</p>
+<blockquote data-bid="b3">
+<p data-bid="b4"><strong>Intuition, in one breath:</strong> instead of trusting a formula about how your statistic would jump around if you could re-run the whole study, you just re-run it thousands of times on shuffled, resampled versions of the data you already have - and watch how much it jumps.</p>
+</blockquote>
+<h2 data-bid="b5" id="the-bootstrap-the-core-trick-explained-from-first-principles">The bootstrap - the core trick, explained from first principles</h2>
+<p data-bid="b6">Here's the conceptual leap, and it's worth sitting with because it initially sounds almost like cheating: you don't have access to the true population (Chapter 1's whole problem), so you can't draw new samples from it to see how your statistic (say, the median) would vary from sample to sample. The bootstrap's trick: <strong>treat your one actual sample as a stand-in for the population</strong>, and draw new "fake" samples <em>from it</em>, <strong>with replacement</strong>, of the same size as your original sample. Because your sample is itself (hopefully) a reasonably representative slice of the real population, resampling from it mimics - imperfectly, but often remarkably well - what would happen if you could actually draw fresh samples from the true population.</p>
+<h3 data-bid="b7" id="why-with-replacement-specifically">Why "with replacement" specifically?</h3>
+<p data-bid="b8">If you resampled <em>without</em> replacement at the same size $n$ as your original sample, you'd just get back the exact same sample every single time (same $n$ items, no replacement, from a pool of exactly $n$ items - there's only one way to do that). Sampling <em>with replacement</em> means each "fake" resample can include some original data points multiple times and omit others entirely - introducing exactly the kind of sample-to-sample variability that a real repeated-sampling-from-the-population process would also produce, letting you empirically observe how your statistic fluctuates.</p>
+<h3 data-bid="b9" id="the-procedure-step-by-step">The procedure, step by step</h3>
+<ol>
+<li data-bid="b10">From your original sample of size $n$, draw a new sample of size $n$, <strong>with replacement</strong> (some original points repeat, some are left out).</li>
+<li data-bid="b11">Compute your statistic of interest (mean, median, correlation, a regression coefficient - anything) on this resampled "bootstrap sample."</li>
+<li data-bid="b12">Repeat steps 1-2 many times (typically 1,000-10,000 times), building up a whole distribution of the statistic across all these bootstrap resamples.</li>
+<li data-bid="b13">This distribution of bootstrap statistics <em>is</em> your empirical approximation of the statistic's sampling distribution - directly usable to build a confidence interval (e.g., take the 2.5th and 97.5th percentiles of the bootstrap distribution for a 95% interval - called the <strong>percentile method</strong>), with no formula for standard error ever required.</li>
+</ol>
+<h3 data-bid="b14" id="why-this-is-especially-useful-beyond-the-mean">Why this is especially useful beyond the mean</h3>
+<p data-bid="b15">Chapter 11's confidence interval formula worked specifically for the mean, leaning on the CLT. But what if you want a confidence interval for the <strong>median</strong>, or for a <strong>correlation coefficient</strong>, or for the <strong>ratio of two medians</strong> - statistics with no clean, universally-agreed-upon standard-error formula (or one that requires strong, possibly-wrong distributional assumptions)? The bootstrap handles <em>any</em> statistic identically, with the same simple resample-and-recompute procedure - this generality, not raw statistical power, is its primary appeal.</p>
+<h3 data-bid="b16" id="reconstructing-it-yourself-a-surprising-exact-fact-hiding-inside-with-replacement">Reconstructing it yourself - a surprising, exact fact hiding inside "with replacement"</h3>
+<p data-bid="b17">Here's a genuinely pretty question worth working out directly: when you draw a bootstrap resample of size $n$ with replacement from your original $n$ data points, what fraction of the <em>original</em> points end up <strong>never chosen at all</strong> in a given resample? <strong>If your guess is "roughly a third are left out" - that's a startlingly good guess; let's see exactly why, and why that specific fraction isn't a coincidence.</strong></p>
+<p data-bid="b18">For any single original data point, the probability it is <em>not</em> picked on one specific draw is $\frac{n-1}{n} = 1-\frac1n$ (there are $n$ equally likely points to draw, and $n-1$ of them aren't this one). Since the $n$ draws making up a resample are independent (with-replacement sampling, by design), the probability this same point is missed on <em>every single one</em> of the $n$ draws is:</p>
+<p data-bid="b19">$$P(\text{point never chosen}) = \left(1-\frac1n\right)^n$$</p>
+<p data-bid="b20">Recognize this? It's the exact same limit expression from Chapter 5's Poisson derivation and Chapter 0's compound-interest aside, just evaluated at a fixed ratio instead of taken to a limit at a fixed $\lambda$. As $n$ grows large, $\left(1-\frac1n\right)^n \to e^{-1} \approx 0.368$. <strong>About 36.8% of the original data points are excluded from any given bootstrap resample - meaning about 63.2% are included (some of them more than once, to fill the remaining slots).</strong> This isn't just a cute fact: it's the exact mathematical justification for <strong>out-of-bag error estimation</strong> in random forests and bagged ensembles (Chapter 16's ensembling idea, operationalized) - since roughly a third of the training data is excluded from any one bootstrap-trained tree, that excluded third serves as a free, built-in held-out test set for evaluating that specific tree, without needing a separate validation split at all.</p>
+<h2 data-bid="b21" id="the-backstory-bradley-efron-names-and-formalizes-an-old-gambling-adjacent-idea">The backstory - Bradley Efron names and formalizes an old gambling-adjacent idea</h2>
+<p data-bid="b22"><strong>Bradley Efron</strong> introduced the bootstrap formally in a 1979 paper, explicitly naming it after the phrase "pull yourself up by your bootstraps" - an idiom for accomplishing something seemingly impossible using only what you already have on hand (originally a sarcastic, physically-impossible image, used here in a knowingly self-deprecating way to describe a method that sounds almost too good to be true: estimating a sampling distribution's spread without any new data or any distributional formula). Efron's genuinely sharp insight was recognizing that a specific family of older, more narrowly-scoped resampling techniques (notably Quenouille and Tukey's earlier "jackknife" method, which works by systematically leaving out one observation at a time rather than resampling with replacement) could be generalized into one clean, universal, and remarkably broadly-applicable procedure - and that the then-newly-cheap availability of computing power made running thousands of resamples for <em>any</em> dataset entirely practical for the first time, unlocking a method whose core logic had arguably existed in pieces for decades but had never been computationally affordable enough to use routinely.</p>
+<h2 data-bid="b23" id="permutation-tests-hypothesis-testing-by-shuffling-labels">Permutation tests - hypothesis testing by shuffling labels</h2>
+<p data-bid="b24">Where the bootstrap builds confidence intervals, <strong>permutation tests</strong> answer a hypothesis-testing question (Chapter 12) with a similarly simulation-based, assumption-light approach. Suppose you're testing whether two groups (e.g., a treatment and control group) have genuinely different means. The null hypothesis is that group <em>labels are meaningless</em> - that treatment and control come from the same underlying distribution, and any observed difference is just due to which data points randomly happened to land in which group.</p>
+<p data-bid="b25"><strong>The trick</strong>: if the null hypothesis is true, the group labels really are arbitrary - so you can randomly <strong>shuffle</strong> (permute) which data points are labeled "treatment" vs "control," recompute the difference in group means for this shuffled/fake labeling, and repeat this shuffling thousands of times. This builds up an empirical distribution of "what differences in means look like when the labels are meaningless" - directly from your actual data, with zero distributional assumptions. Your p-value is then simply: <em>what fraction of these shuffled, label-meaningless differences were as extreme as (or more extreme than) the difference you actually observed in the real, correctly-labeled data?</em> If your real observed difference is far more extreme than almost all the shuffled versions, that's strong evidence the group labels genuinely matter.</p>
+<p data-bid="b26">This method traces back conceptually to <strong>Ronald Fisher</strong> himself (the same Fisher from Chapters 9, 10, and 13) in the 1930s, who described permutation-based reasoning as the logically "exact" foundation underlying his more commonly-used parametric tests (like the t-test) - but doing it by hand for even modest sample sizes was computationally prohibitive before computers (the number of possible permutations explodes combinatorially with sample size, e.g. splitting just 20 subjects into two groups of 10 already has over 184,000 distinct permutations) - another example, alongside the bootstrap and MCMC (Chapters 17 and 24), of an idea that existed in theory long before computers made it practically usable.</p>
+<h2 data-bid="b27" id="worked-example-conceptually">Worked example, conceptually</h2>
+<p data-bid="b28">Two groups of website visitors: 15 saw design A, converting at particular rates; 15 saw design B. Observed difference in conversion rate: 4 percentage points, in B's favor. A permutation test would: combine all 30 visitors' outcomes into one pool, repeatedly reshuffle which 15 get relabeled "A" and which 15 get relabeled "B" (ignoring the true original labels), and recompute the fake "difference" each time. If only, say, 2% of these 10,000 random reshufflings produce a fake difference as large as the real observed 4 points, your permutation p-value is 0.02 - strong evidence the real design difference isn't just random noise in who happened to land in which group.</p>
+<h2 data-bid="b29" id="worked-example-by-hand-larger">Worked example - by hand, larger</h2>
+<p data-bid="b30">Let's actually build a bootstrap distribution by hand, small enough to fully enumerate. Suppose a tiny dataset of model inference latencies (in milliseconds) on 5 examples: $[2, 4, 4, 6, 9]$. The sample mean is $\bar x = \frac{2+4+4+6+9}{5} = 25/5 = 5$. We want a bootstrap standard error for the mean, so we resample with replacement and recompute.</p>
+<p data-bid="b31">Rather than 10,000 resamples, consider all the <em>distinct bootstrap resamples up to our small n</em>. Because the original values cluster ($4$ appears twice), let's trace a few concrete resamples and their means:</p>
+<ul>
+<li data-bid="b32">Resample $[2,2,4,6,9]$: mean $= 23/5 = 4.6$.</li>
+<li data-bid="b33">Resample $[4,4,4,4,9]$: mean $= 25/5 = 5.0$.</li>
+<li data-bid="b34">Resample $[2,6,6,9,9]$: mean $= 32/5 = 6.4$.</li>
+<li data-bid="b35">Resample $[2,2,2,2,2]$: mean $= 2.0$ (possible! every draw happened to land on the index holding value 2).</li>
+<li data-bid="b36">Resample $[9,9,9,9,9]$: mean $= 9.0$ (equally possible, though very unlikely: probability $(1/5)^5 = 1/3125 \approx 0.00032$).</li>
+</ul>
+<p data-bid="b37">Notice how the bootstrap means spread both <em>below</em> the smallest imaginable formula-based behavior and <em>above</em>: the resample means range from $2.0$ to $9.0$, a much wider spread than the original data's range of $2$-$9$ would naively suggest for an average. That widening is the method working - it's reconstructing, from a single 5-point sample, a plausible spread of what the mean could have been. The bootstrap standard error is the standard deviation (Chapter 2's formula) of that whole collection of resample means; with enough resamples it stabilizes to roughly $s/\sqrt n$ here, where $s$ is the sample SD, but the point is you <em>measured</em> it without deriving anything.</p>
+<p data-bid="b38">Now a permutation-test version on the same kind of small data. Two model variants, each tested on 3 inputs. Variant A scores: $[8, 9, 7]$ (mean $8$). Variant B scores: $[10, 12, 8]$ (mean $10$). Observed difference $= 10 - 8 = 2$ in B's favor. Under the null (labels meaningless), we pool all six values $[7,8,8,9,10,12]$ and consider every way to split them into two groups of 3. There are $\binom{6}{3} = 20$ such splits. The most extreme split in B's favor is $\{10,12,8\}$... wait - that's exactly the observed one, giving difference $2$. The <em>most</em> extreme possible is B getting the three largest $\{10,12,9\}$ vs A getting $\{7,8,8\}$: difference $\frac{31}{3} - \frac{23}{3} = \frac{8}{3} \approx 2.67$. Count how many of the 20 splits give a difference $\geq 2$: only the two symmetric extremes, giving a permutation p-value of roughly $2/20 = 0.1$ - weak evidence, since with only 3 and 3 the test simply can't resolve small effects. <strong>This "too few permutations to be conclusive" pinch is exactly why permutation tests were impractical by hand and needed computers.</strong></p>
+<p data-bid="b39"><strong>Takeaway: both methods manufacture a whole distribution of "what could have happened" from the data you already have - the bootstrap by resampling, the permutation test by relabeling - and you read your answer off that simulated spread instead of a formula.</strong></p>
+<h2 data-bid="b40" id="figures">Figures</h2>
+<img class="has-rail" data-figid="f1" alt="The bootstrap distribution of the sample median, built from 10,000 resamples with replacement, with the 95% percentile-based confidence interval marked." src="../images/ch18_resampling_methods_fig1.png" /><p data-bid="b41" class="img-caption has-rail" data-figid="f1"><em>The bootstrap distribution of the sample median, built from 10,000 resamples with replacement, with the 95% percentile-based confidence interval marked.</em></p>
+<img class="has-rail" data-figid="f2" alt="A permutation test's null distribution (differences in conversion rate under randomly shuffled group labels), with the real observed difference marked in red." src="../images/ch18_resampling_methods_fig2.png" /><p data-bid="b42" class="img-caption has-rail" data-figid="f2"><em>A permutation test's null distribution (differences in conversion rate under randomly shuffled group labels), with the real observed difference marked in red.</em></p>
+<h2 data-bid="b43" id="run-it-yourself">Run it yourself</h2>
+<p data-bid="b44"><code>book/code/ch18_resampling_methods.py</code> builds a bootstrap confidence interval for the <strong>median</strong> of a skewed dataset (a statistic with no simple textbook standard-error formula) and compares it to a naive Normal-approximation interval to show where they diverge, then runs a full permutation test on a two-group conversion-rate comparison, visualizing the simulated null distribution of shuffled differences against the real observed difference.</p>
+<p data-bid="b45"re><code class="language-bash">python book/code/ch18_resampling_methods.py
+</code></pre>
+<h2 data-bid="b46" id="why-this-matters-in-ai-and-in-everyday-life">Why This Matters - In AI and In Everyday Life</h2>
+<p data-bid="b47"><strong>In AI / machine learning:</strong></p>
+<ul>
+<li data-bid="b48"><strong>Bootstrap confidence intervals for any ML metric</strong>: when there's no clean textbook formula for a metric's uncertainty (e.g. an F1 score or a custom business metric), bootstrapping the test set is the standard practical fix used in real ML evaluation.</li>
+<li data-bid="b49"><strong>Permutation-based feature importance</strong>: a standard, assumption-light way to measure how much a feature matters to a trained model is to permute (shuffle) that feature's values and see how much performance drops -- literally this chapter's permutation-test logic repurposed.</li>
+<li data-bid="b50"><strong>Out-of-bag error in random forests and gradient boosting</strong>: because each tree trains on a bootstrap resample that excludes roughly 36.8% of the data, those excluded points form a free held-out set for estimating that tree's error - the $\left(1-\frac1n\right)^n \to e^{-1}$ fact from this chapter is the reason the trick works at all.</li>
+<li data-bid="b51"><strong>Bootstrap-based uncertainty in LLM and diffusion evaluation</strong>: benchmark scores for generative models are increasingly reported with bootstrap confidence intervals over the test set, precisely because metrics like pass@k or human-preference win rates have no tidy sampling formula and the samples are small.</li>
+</ul>
+<p data-bid="b52"><strong>In everyday, non-AI life:</strong></p>
+<ul>
+<li data-bid="b53"><strong>Estimating uncertainty in a small-sample medical or industrial study</strong>: when you only have a handful of measurements and no clean formula applies, bootstrapping lets you still get a defensible confidence interval.</li>
+<li data-bid="b54"><strong>Testing whether a process change actually helped</strong>, using only the limited before/after data a small factory or clinic actually has, rather than assuming a textbook distribution that may not fit.</li>
+</ul>
+<h2 data-bid="b55" id="check-your-understanding">Check your understanding</h2>
+<ul>
+<li data-bid="b56">Why does resampling <em>with</em> replacement (not without) introduce the variability needed to approximate a sampling distribution?</li>
+<li data-bid="b57">In your own words, explain what the "null world" looks like in a permutation test, and why shuffling labels simulates it directly.</li>
+<li data-bid="b58">For what kind of statistic would you reach for the bootstrap instead of a classical formula-based confidence interval, and why?</li>
+</ul>
+<h2 data-bid="b59" id="exercises">Exercises</h2>
+<h3 data-bid="b60" id="exercise-1-bootstrap-the-median-by-hand">Exercise 1 - Bootstrap the median by hand</h3>
+<p data-bid="b61">Dataset of 5 response times: $[1, 3, 3, 8, 20]$. The sample median is $3$. List three distinct bootstrap resamples and their medians, then explain why you'd expect the bootstrap median distribution here to be lumpy (not smooth).</p>
+<details><summary>Show solution</summary>
+
+Example resamples (with replacement, size 5):
+
+- $[1,1,3,8,20]$: sorted $[1,1,3,8,20]$, median $= 3$.
+- $[3,3,3,3,20]$: sorted $[3,3,3,3,20]$, median $= 3$.
+- $[1,3,8,8,20]$: sorted $[1,3,8,8,20]$, median $= 8$.
+- $[1,1,1,3,3]$: sorted $[1,1,1,3,3]$, median $= 1$.
+
+The medians cluster hard on the value $3$ because $3$ appears twice in the original data, so it gets drawn often and is frequently the middle value. That makes the bootstrap distribution **lumpy** - it can only ever take values equal to the original data points (medians of resamples are always one of the observed values), so you get spikes rather than a smooth curve. With 5 points the lumps are very visible; with hundreds of points they smooth out. This is exactly why the bootstrap still works for the median even though no clean standard-error formula exists: the method doesn't care how lumpy the underlying statistic's behavior is.
+
+</details>
+
+<h3 data-bid="b62" id="exercise-2-permutation-test-with-numbers">Exercise 2 - Permutation test with numbers</h3>
+<p data-bid="b63">Two ad campaigns: A gets clicks from 4 of 8 users, B gets clicks from 7 of 8. Observed difference in click rate $= \frac{7}{8} - \frac{4}{8} = 0.375$. Under the null, all 11 clickers are pooled across 16 users. If the most extreme possible shuffled split gave a difference of $\frac{8}{8} - \frac{3}{8} = 0.625$, and a quick simulation found only 1.4% of shuffles matched or beat the observed $0.375$, what is the p-value and what would you conclude?</p>
+<details><summary>Show solution</summary>
+
+The permutation p-value is the fraction of null (shuffled) differences at least as extreme as the observed $0.375$. The simulation says **1.4%**, so $p \approx 0.014$.
+
+Under the usual 5% threshold, this is significant: the observed gap is larger than almost all the "labels don't matter" shuffles, so we reject the null and conclude the campaign difference is unlikely to be pure random assignment. Note the p-value here carries *no distributional assumption* - no Normal, no t-distribution - it's read straight off the simulated null distribution, which is the entire selling point of the permutation approach over a textbook two-proportion test.
+
+</details>
+
+<h3 data-bid="b64" id="exercise-3-conceptual-bootstrap-vs-permutation-which-and-why">Exercise 3 - Conceptual: bootstrap vs. permutation, which and why</h3>
+<p data-bid="b65">You want a 95% confidence interval for the ratio of two groups' medians in a small study. Would you use the bootstrap or a permutation test, and why is the other one the wrong tool for this question?</p>
+<details><summary>Show solution</summary>
+
+Use the **bootstrap**. A confidence interval is a statement about the *spread of an estimate* - "if I redrew my data, how much would this ratio move around?" - which is exactly what resampling-with-replacement reconstructs. It also handles messy statistics like a ratio of medians that have no clean standard-error formula, which is the bootstrap's central advantage.
+
+A **permutation test** answers a hypothesis-testing question - "is there any difference at all between the groups?" - by simulating the null of meaningless labels. It produces a p-value, not a confidence interval, so it's the wrong tool here. The crisp rule: estimating uncertainty and interval-building $\to$ bootstrap; testing whether groups differ $\to$ permutation.
+
+</details>
+
+<h2 data-bid="b66" id="whats-next">What's next</h2>
+<p data-bid="b67">Chapter 19 takes a short but essential detour into <strong>linear algebra</strong> - vectors, matrices, and the geometric intuition behind them - which you'll need as genuine prerequisite vocabulary for multivariate statistics (Chapter 20), the compact matrix form of multiple regression promised back in Chapter 15, and essentially all of modern machine learning notation from here onward.</p>
+    </div>
+    <div class="navfooter">
+      <span><a href="17_bayesian_statistics.html">&larr; Previous chapter</a></span>
+      <span><a href="19_linear_algebra_essentials.html">Next chapter &rarr;</a></span>
+    </div>
+  </div>
+  <div class="pane-right">
+    <h4>Figures in this chapter</h4>
+    <div id="railContent"></div>
+  </div>
+</div>
+
+<!-- floating selection toolbar -->
+<div id="selToolbar">
+  <button data-color="yellow" title="Mark interesting">🟡</button>
+  <button data-color="green" title="Mark understood">🟢</button>
+  <button data-color="red" title="Mark confusing">🔴</button>
+  <button data-color="blue" title="Mark to review later">🔵</button>
+  <button id="btnAddNote" title="Highlight + add a note">📝</button>
+</div>
+
+<!-- note edit popup -->
+<div id="notePopup">
+  <textarea placeholder="Write a note to yourself..."></textarea>
+  <div class="row">
+    <button class="danger" id="btnDeleteHl">Remove highlight</button>
+    <div>
+      <button id="btnCloseNote">Close</button>
+      <button class="primary" id="btnSaveNote">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- notes side panel -->
+<div id="notesOverlay"></div>
+<div id="notesPanel">
+  <div class="header">
+    <b>My Notes - this page</b>
+    <button class="iconbtn" id="btnCloseNotesPanel">✕</button>
+  </div>
+  <div class="list" id="notesList"></div>
+  <div class="footer">
+    <button id="btnExportNotes">⬇ Export all notes</button>
+    <button id="btnImportNotes">⬆ Import notes</button>
+    <input type="file" id="importFile" accept="application/json" style="display:none;">
+  </div>
+</div>
+
+<script src="../assets/app.js"></script>
+</body>
+</html>
