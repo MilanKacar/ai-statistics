@@ -5,8 +5,11 @@ on:
     branches: [main, master]
   workflow_dispatch:
 
+# Permissions required by the official GitHub Pages deploy actions.
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
 
 # Only one deploy at a time; newer pushes cancel older in-progress runs.
 concurrency:
@@ -14,7 +17,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build-and-publish:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repository
@@ -31,12 +34,21 @@ jobs:
       - name: Build the static site from the Markdown chapters
         run: python book/code/_build_site.py
 
-      - name: Publish the built site to the gh-pages branch
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload the built site as the Pages artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./book/site
-          publish_branch: gh-pages
-          force_orphan: true
-          user_name: "github-actions[bot]"
-          user_email: "github-actions[bot]@users.noreply.github.com"
+          path: book/site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
