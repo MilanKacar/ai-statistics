@@ -67,11 +67,13 @@ def restore_math(html_body, placeholders):
 # (part title, inclusive range of chapter-number prefixes)
 PARTS = [
     ("Orientation", range(0, 1)),
-    ("Part I — Describing the World", range(1, 9)),
-    ("Part II — Inferring From Data", range(9, 16)),
-    ("Part III — The Bridge Into Machine Learning", range(16, 21)),
-    ("Part IV — The Statistics Inside Modern AI", range(21, 27)),
-    ("Part V — The Statistical Frontier of Modern AI", range(27, 28)),
+    ("Part I - Describing the World", range(1, 9)),
+    ("Part II - Inferring From Data", range(9, 16)),
+    ("Part III - The Bridge Into Machine Learning", range(16, 21)),
+    ("Part IV - The Statistics Inside Modern AI", range(21, 27)),
+    ("Part V - The Statistical Frontier of Modern AI", range(27, 28)),
+    ("Part VI - Advanced AI Algorithms: The Statistical Engine Room", range(28, 37)),
+    ("Part VII - Aligning AI With Human Preferences: The Statistics of RLHF", range(37, 40)),
 ]
 
 PAGE_SHELL = """<!doctype html>
@@ -142,7 +144,7 @@ window.MathJax = {{ tex: {{ inlineMath: [['$','$']], displayMath: [['$$','$$']],
 <div id="notesOverlay"></div>
 <div id="notesPanel">
   <div class="header">
-    <b>My Notes — this page</b>
+    <b>My Notes - this page</b>
     <button class="iconbtn" id="btnCloseNotesPanel">✕</button>
   </div>
   <div class="list" id="notesList"></div>
@@ -232,6 +234,11 @@ def build():
     os.makedirs(os.path.join(SITE_DIR, "chapters"))
     shutil.copytree(IMAGES_DIR, os.path.join(SITE_DIR, "images"))
     shutil.copytree(ASSETS_DIR, os.path.join(SITE_DIR, "assets"))
+    # Tell GitHub Pages to serve the files as-is instead of running them
+    # through Jekyll (which would otherwise skip files/folders beginning
+    # with an underscore). Harmless when serving locally.
+    with open(os.path.join(SITE_DIR, ".nojekyll"), "w", encoding="utf-8") as f:
+        f.write("")
 
     md_files = sorted(f for f in os.listdir(CHAPTERS_DIR) if f.endswith(".md"))
 
@@ -278,11 +285,11 @@ def build():
     # Landing page uses the exact same shell (sidebar, rail, notes panel),
     # just with a welcome blurb as the article body and no figures.
     welcome_body = """
-<h1>Statistics for AI — A Book From Zero to Deep Learning Foundations</h1>
+<h1>Statistics for AI - A Book From Zero to Deep Learning Foundations</h1>
 <p data-bid="idx1">Pick any chapter from the sidebar on the left to start reading. Many chapters have a
-live, interactive module built right into the text wherever a concept benefits from it — drag a slider and
+live, interactive module built right into the text wherever a concept benefits from it - drag a slider and
 watch the math recompute. Select any text to highlight it or leave yourself a note (saved locally in this
-browser) — click the 📒 My Notes button any time to review everything you've marked.</p>
+browser) - click the 📒 My Notes button any time to review everything you've marked.</p>
 <p data-bid="idx2">New here? Start with <b>Chapter 0</b> at the top of the sidebar.</p>
 """
     sidebar_parts = build_sidebar(titles, md_files, current_fname=None, chapter_href_prefix="chapters/")
